@@ -7,7 +7,7 @@
  * Author: Chun Gao
  */
 
-package support;
+package com.datastax.support;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

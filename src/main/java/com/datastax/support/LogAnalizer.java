@@ -6,7 +6,7 @@
  * Author: Chun Gao
  */
 
-package support
+package com.datastax.support;
 
 public class LogAnalizer {
 }
