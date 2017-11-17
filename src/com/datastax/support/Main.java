@@ -1,4 +1,13 @@
-package sample;
+
+/*
+ * Copyright (c)
+ *
+ * Date: 17/11/2017.
+ *
+ * Author: Chun Gao
+ */
+
+package support;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +27,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        System.out.println("1");
         launch(args);
     }
 }
