@@ -4,7 +4,7 @@
  *
  * Date: 17/11/2017.
  *
- * Author: Mike Zhang
+ * Author: Chun Gao & Mike Zhang
  */
 
 package com.datastax.support;
