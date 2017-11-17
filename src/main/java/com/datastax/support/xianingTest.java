@@ -12,5 +12,5 @@ package com.datastax.support;
  * Created by tongjixianing on 17/11/2017.
  */
 public class xianingTest {
-    int count = 0;
+    int count = 2;
 }
