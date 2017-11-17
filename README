@@ -1,9 +1,31 @@
 TO DO:
 
-1.nodetool info: heap memory, uptime
+1.General topology:
 
-2.tpstats: dropped messages, blocked messages
+ 1.1.Cluster name: Total number of nodes,  OS version(if supported), aws_instance_type(determine storage type)
+  -> DC name(Workloadtype, number of tokens): number of nodes, rack_map
+  -> each node:
+      - ip address, hostname, dse version(cassandra version), "user.timezone" : "America/New_York","java.version" : "1.8.0_77" ,workload type, machine memory,num_procs, used cpu
 
-3.netstats: read repair attempted & blocked
 
-4.system.log: GC, local pauses, hinted
+
+2.status
+
+Each node:
+3.info: heap memory, uptime
+
+4.tpstats: dropped messages, blocked messages
+
+5.netstats: read repair attempted & blocked
+
+6.cfstats: large partitions(> 256mb) for each table, tombstones(> 0) for each table, Maximum live cells per slice for each table
+
+7.describecluster: for each node Schema versions: UNREACHABLE nodes
+
+8.system.log:
+  (categirzed by date)
+GC latency , local pauses, hinted handoff,discarded prepared statements(top 10),large batches(top10),dropped messages, tombstone warnings(top10), large partitions(top 10)
+
+
+
+
