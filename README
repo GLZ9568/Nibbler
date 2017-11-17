@@ -7,5 +7,3 @@ TO DO:
 3.netstats: read repair attempted & blocked
 
 4.system.log: GC, local pauses, hinted
-
-5.cassandra.yaml
