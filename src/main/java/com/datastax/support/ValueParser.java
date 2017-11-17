@@ -10,7 +10,11 @@ package com.datastax.support;
 
 /**
  * Created by Chun Gao on 17/11/17
+ *
+ * Reads the nibbler.conf file for catagory/parameter/information
+ * and parse the values to analyzer
  */
 
-public class LogAnalizer {
+public class ValueParser {
+
 }
