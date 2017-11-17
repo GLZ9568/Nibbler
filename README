@@ -1,2 +1,9 @@
 TO DO:
 
+1.nodetool info: heap memory, uptime
+
+2.tpstats: dropped messages, blocked messages
+
+3.netstats: read repair attempted & blocked
+
+4.system.log: GC, local pauses, hinted

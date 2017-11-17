@@ -1,3 +1,7 @@
 <component name="CopyrightManager">
-  <settings default="CGCR" />
+  <settings default="NibblerCR">
+    <module2copyright>
+      <element module="All" copyright="NibblerCR" />
+    </module2copyright>
+  </settings>
 </component>
