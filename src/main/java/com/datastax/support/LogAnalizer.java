@@ -3,7 +3,7 @@
  *
  * Date: 17/11/2017.
  *
- * Author: Chun Gao
+ * Author: Chun Gao & Mike Zhang
  */
 
 package com.datastax.support;
