@@ -8,6 +8,8 @@
 
 package com.datastax.support;
 
+import java.util.Properties;
+
 /**
  * Created by Chun Gao on 17/11/17
  *
@@ -15,6 +17,9 @@ package com.datastax.support;
  * and parse the values to analyzer
  */
 
-public class ValueParser {
+public class ConfParser {
 
+    private static final String confFileName = "nibbler.conf";
+
+    private Properties prop = new Properties();
 }

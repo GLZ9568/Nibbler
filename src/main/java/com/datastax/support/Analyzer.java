@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public interface Analyzer {
 
     // get value from valueparser
-    public void getValues(ValueParser vp);
+    public void getValues(ConfParser vp);
 
     // read a single file
     public void readFile(FileReader fr);
