@@ -44,7 +44,6 @@ public class NibTest {
             ff.readFiles(linDir);
         }
         files = ff.getFiles();
-        logger.debug("Number of Files Read: " + files.size());
     }
 
     public void printFilesPath() {
@@ -53,9 +52,21 @@ public class NibTest {
         }
     }
 
+    public void printFilesName() {
+        for (File file : files) {
+            logger.debug(file.getName());
+        }
+    }
+
+    public void printNumberofFiles() {
+        logger.debug("Number of Files Read: " + files.size());
+    }
+
     public static void main(String[] args) {
         NibTest nt = new NibTest();
         nt.initiate();
+        nt.printNumberofFiles();
         nt.printFilesPath();
+        nt.printFilesName();
     }
 }
