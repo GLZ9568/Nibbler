@@ -13,6 +13,7 @@ import javafx.application.Application;
 
 /**
  * Created by Mike Zhang on 23/11/2017.
+ * Nibbler Main Class
  */
 
 public class Nibbler {
