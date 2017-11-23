@@ -38,7 +38,7 @@ public class NibTest {
         files = new ArrayList<File>();
         if (OSChecker.isWindows()) {
             logger.debug("Reading From: " + winDir + "\\");
-            System.out.println(ff.readFiles(winDir));
+            ff.readFiles(winDir);
         } else {
             logger.debug("Reading From: " + linDir + "/");
             ff.readFiles(linDir);
