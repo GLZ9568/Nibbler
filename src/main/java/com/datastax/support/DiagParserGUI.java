@@ -1,9 +1,10 @@
 /*
  * Copyright (c)
  *
- * Date: 17/11/2017.
+ * Date: 23/11/2017
  *
  * Author: Chun Gao & Mike Zhang
+ *
  */
 
 package com.datastax.support;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class Main extends Application {
+public class DiagParserGUI extends Application {
     private final Label labelSelectedDirectory = new Label();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
@@ -134,7 +135,7 @@ public class Main extends Application {
         return anchorpane;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         launch(args);
-    }
+    }*/
 }
