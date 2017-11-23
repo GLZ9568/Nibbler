@@ -22,4 +22,6 @@ public class ConfParser {
     private static final String confFileName = "nibbler.conf";
 
     private Properties prop = new Properties();
+
+
 }
