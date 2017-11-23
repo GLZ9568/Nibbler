@@ -24,8 +24,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
+
+/**
+ * Created by Mike Zhang on 23/11/17
+ *
+ * Main GUI Class
+ *
+ */
 
 public class DiagParserGUI extends Application {
     private final Label labelSelectedDirectory = new Label();
