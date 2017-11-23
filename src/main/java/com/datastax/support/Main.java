@@ -29,7 +29,6 @@ import java.io.File;
 public class Main extends Application {
     private final Label labelSelectedDirectory = new Label();
     private String diagpath;
-    private TitledPane tp = new TitledPane();
     private AnchorPane anchorpane = new AnchorPane();
 
     @Override
@@ -37,7 +36,7 @@ public class Main extends Application {
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         BorderPane border = new BorderPane();
-        tp.setExpanded(false);
+
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
         border.setCenter(addAnchorPane());
@@ -103,7 +102,10 @@ public class Main extends Application {
         }
     }
 
+    //*** call the analyser interface here****///
     private void displayAnalysisResult() {
+        TitledPane tp = new TitledPane();
+        tp.setExpanded(false);
         tp.setPrefSize(1024, 20);
         tp.setText("nodetool status");
         Text t = new Text();
