@@ -134,8 +134,4 @@ public class DiagParserGUI extends Application {
         //anchorpane.getChildren().addAll(tp);
         return anchorpane;
     }
-
-    /*public static void main(String[] args) {
-        launch(args);
-    }*/
 }
