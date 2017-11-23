@@ -78,6 +78,10 @@ public class DiagParserGUI extends Application {
 
             public void handle(ActionEvent event) {
                 if (diagpath != null) {
+                    ///first parse the input files//
+                    startParsing();
+
+                    ///display the analysis result///
                     displayAnalysisResult();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -107,6 +111,11 @@ public class DiagParserGUI extends Application {
             labelSelectedDirectory.setText("Diag path: " + selectedDirectory.getAbsolutePath());
             diagpath = selectedDirectory.getAbsolutePath();
         }
+    }
+
+    private void startParsing(){
+
+
     }
 
     //*** call the analyser interface here****///
