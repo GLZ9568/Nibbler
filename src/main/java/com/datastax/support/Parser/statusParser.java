@@ -7,11 +7,10 @@
  *
  */
 
-package com.datastax.support;
+package com.datastax.support.Parser;
 
+import com.datastax.support.Util.FileFactory;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 
 public class statusParser {
 
-    TextArea generateNodeStatusOutput(FileFactory ff)
+    public TextArea generateNodeStatusOutput(FileFactory ff)
 
     {
         TextArea t = new TextArea();

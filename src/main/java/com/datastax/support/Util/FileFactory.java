@@ -1,13 +1,13 @@
 /*
  * Copyright (c)
  *
- * Date: 19/11/2017
+ * Date: 24/11/2017
  *
  * Author: Chun Gao & Mike Zhang
  *
  */
 
-package com.datastax.support;
+package com.datastax.support.Util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

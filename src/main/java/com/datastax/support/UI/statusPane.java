@@ -9,9 +9,9 @@
 
 package com.datastax.support.UI;
 
-import com.datastax.support.FileFactory;
+import com.datastax.support.Util.FileFactory;
 import javafx.scene.control.TitledPane;
-import javafx.scene.text.Text;
+import com.datastax.support.Parser.statusParser;
 
 /**
  * Created by Mike Zhang on 24/11/2017.
