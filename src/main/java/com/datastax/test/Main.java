@@ -1,16 +1,15 @@
 /*
  * Copyright (c)
  *
- * Date: 17/11/2017.
+ * Date: 24/11/2017
  *
  * Author: Chun Gao & Mike Zhang
+ *
  */
 
-package com.datastax.support;
+package com.datastax.test;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;

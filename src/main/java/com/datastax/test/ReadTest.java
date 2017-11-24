@@ -10,33 +10,35 @@
 package com.datastax.test;
 
 import com.datastax.support.FileFactory;
-import com.datastax.support.OSChecker;
+import com.datastax.support.Util.Inspector;
+import com.datastax.support.Nibbler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * Created by Chun Gao on 23/11/2017
  */
 
-public class NibTest {
+public class ReadTest extends Nibbler{
 
-    private static final Logger logger = LogManager.getLogger(NibTest.class);
+    protected static final Logger logger = LogManager.getLogger(ReadTest.class);
 
     private final String testDir = "39114";
     //private final String testDir = "test";
     private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2017_AP\\" + testDir);
     private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/2017_AP/" + testDir);
 
-    private FileFactory ff;
-    private ArrayList<File> files;
+    protected FileFactory ff;
+    protected ArrayList<File> files;
 
     public void initiate() {
         ff = new FileFactory();
         files = new ArrayList<File>();
-        if (OSChecker.isWindows()) {
+        if (Inspector.foundWindowsOS()) {
             logger.debug("Reading From: " + winDir + "\\");
             ff.readFiles(winDir);
         } else {
@@ -62,11 +64,24 @@ public class NibTest {
         logger.debug("Number of Files Read: " + files.size());
     }
 
+    public void printFilesIP() {
+        for (File file : files) {
+            if (Inspector.foundIPAddress(file.getPath())) {
+                logger.debug("Found IP in: " + file.getPath());
+            } else {
+                logger.debug("NOT Found IP in: " + file.getPath());
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        NibTest nt = new NibTest();
+        ReadTest nt = new ReadTest();
         nt.initiate();
         nt.printNumberofFiles();
         nt.printFilesPath();
         nt.printFilesName();
+        nt.printFilesIP();
+
+        //launch(args);
     }
 }
