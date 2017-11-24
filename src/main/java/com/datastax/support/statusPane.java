@@ -10,6 +10,7 @@
 package com.datastax.support;
 
 import javafx.scene.control.TitledPane;
+import javafx.scene.text.Text;
 
 /**
  * Created by Mike Zhang on 24/11/2017.
@@ -23,7 +24,11 @@ public class statusPane {
     {
        TitledPane tp = new TitledPane();
 
-       return tp;
+        tp.setExpanded(false);
+        tp.setPrefSize(1024, 700);
+        tp.setText("nodetool status");
+        tp.setContent(new statusParser().generateNodeStatusOutput(ff));
+        return tp;
 
     }
 
