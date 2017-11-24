@@ -9,8 +9,9 @@
 
 package com.datastax.support.UI;
 
-import com.datastax.support.FileFactory;
+import com.datastax.support.Util.FileFactory;
 import javafx.scene.control.TitledPane;
+import com.datastax.support.Parser.statusParser;
 
 /**
  * Created by Mike Zhang on 24/11/2017.
@@ -24,7 +25,11 @@ public class statusPane {
     {
        TitledPane tp = new TitledPane();
 
-       return tp;
+        tp.setExpanded(false);
+        tp.setPrefSize(1024, 700);
+        tp.setText("nodetool status");
+        tp.setContent(new statusParser().generateNodeStatusOutput(ff));
+        return tp;
 
     }
 

@@ -9,7 +9,7 @@
 
 package com.datastax.test;
 
-import com.datastax.support.FileFactory;
+import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Nibbler;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Created by Chun Gao on 23/11/2017

@@ -14,19 +14,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+
+import com.datastax.support.Util.FileFactory;
 
 /**
  * Created by Mike Zhang on 23/11/17
@@ -35,7 +32,7 @@ import java.io.File;
  */
 
 public class DiagParserGUI extends Application {
-    private final Label labelSelectedDirectory = new Label();
+    private final TextField labelSelectedDirectory = new TextField();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
     private FileFactory ff = new FileFactory();
@@ -72,8 +69,9 @@ public class DiagParserGUI extends Application {
         btnOpenDirectoryChooser.setPrefSize(200, 20);
         Button buttonAnalyzed = new Button("Start Analyzing");
         buttonAnalyzed.setPrefSize(200, 20);
+        labelSelectedDirectory.setPrefSize(700,20);
+        labelSelectedDirectory.setStyle("-fx-background-color: #336699; -fx-text-inner-color: red;");
         btnOpenDirectoryChooser.setOnAction(new EventHandler<ActionEvent>() {
-
             public void handle(ActionEvent event) {
                 openDiagDirectory(primaryStage);
             }
@@ -109,9 +107,11 @@ public class DiagParserGUI extends Application {
                 directoryChooser.showDialog(primaryStage);
 
         if (selectedDirectory == null) {
+
             labelSelectedDirectory.setText("No Directory selected");
             diagpath = null;
         } else {
+
             labelSelectedDirectory.setText("Diag path: " + selectedDirectory.getAbsolutePath());
             diagpath = selectedDirectory.getAbsolutePath();
         }
@@ -129,19 +129,27 @@ public class DiagParserGUI extends Application {
 
         else {
 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("");
+            alert.setContentText("No Valid Diag files!");
+            alert.showAndWait();
+
         }
     }
 
     //*** call the analyser interface here****///
     private void displayAnalysisResult() {
-        TitledPane tp = new TitledPane();
+       /* TitledPane tp = new TitledPane();
         tp.setExpanded(false);
         tp.setPrefSize(1024, 20);
         tp.setText("nodetool status");
         Text t = new Text();
         t.setText("This is a text sample");
-        tp.setContent(t);
-        anchorpane.getChildren().addAll(tp);
+        tp.setContent(t);*/
+
+
+        anchorpane.getChildren().addAll(statuspane);
     }
 
     private AnchorPane addAnchorPane() {
