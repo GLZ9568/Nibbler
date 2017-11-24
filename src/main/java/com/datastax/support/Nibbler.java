@@ -9,18 +9,16 @@
 
 package com.datastax.support;
 
-import javafx.application.Application;
+import com.datastax.support.UI.DiagParserGUI;
 
 /**
  * Created by Mike Zhang on 23/11/2017.
  * Nibbler Main Class
  */
 
-public class Nibbler {
+public class Nibbler extends DiagParserGUI {
 
     public static void main(String[] args) {
-
-        Application.launch(DiagParserGUI.class,args);
-
+        launch(args);
     }
 }

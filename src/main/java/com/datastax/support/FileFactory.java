@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * Created by Chun Gao on 19/11/2017
  * <p>
- * Extract values defined by nibller.conf from files
+ * Extract values defined by nibbler.conf from files
  */
 
 public class FileFactory {
@@ -35,7 +35,6 @@ public class FileFactory {
                 if (entry.isDirectory()) {
                     readFiles(entry);
                 } else {
-                    logger.debug(" file: " + entry.getName());
                     files.add(entry);
                 }
             }

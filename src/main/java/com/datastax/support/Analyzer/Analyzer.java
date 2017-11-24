@@ -1,12 +1,15 @@
 /*
  * Copyright (c)
  *
- * Date: 17/11/2017.
+ * Date: 24/11/2017
  *
  * Author: Chun Gao & Mike Zhang
+ *
  */
 
-package com.datastax.support;
+package com.datastax.support.Analyzer;
+
+import com.datastax.support.ConfParser;
 
 import java.io.FileReader;
 import java.util.ArrayList;

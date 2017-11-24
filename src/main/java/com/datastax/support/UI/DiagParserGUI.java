@@ -1,13 +1,13 @@
 /*
  * Copyright (c)
  *
- * Date: 23/11/2017
+ * Date: 24/11/2017
  *
  * Author: Chun Gao & Mike Zhang
  *
  */
 
-package com.datastax.support;
+package com.datastax.support.UI;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -22,13 +22,13 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 
 /**
  * Created by Mike Zhang on 23/11/17
- *
+ * <p>
  * Main GUI Class
- *
  */
 
 public class DiagParserGUI extends Application {

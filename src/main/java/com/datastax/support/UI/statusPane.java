@@ -7,8 +7,9 @@
  *
  */
 
-package com.datastax.support;
+package com.datastax.support.UI;
 
+import com.datastax.support.FileFactory;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
 
