@@ -21,6 +21,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -37,6 +38,9 @@ public class DiagParserGUI extends Application {
     private final Label labelSelectedDirectory = new Label();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
+    private FileFactory ff = new FileFactory();
+
+    private TitledPane statuspane;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -78,6 +82,10 @@ public class DiagParserGUI extends Application {
 
             public void handle(ActionEvent event) {
                 if (diagpath != null) {
+                    ///first parse the input files//
+                    startParsing();
+
+                    ///display the analysis result///
                     displayAnalysisResult();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -106,6 +114,21 @@ public class DiagParserGUI extends Application {
         } else {
             labelSelectedDirectory.setText("Diag path: " + selectedDirectory.getAbsolutePath());
             diagpath = selectedDirectory.getAbsolutePath();
+        }
+    }
+
+    private void startParsing(){
+
+
+        boolean b = ff.readFiles(new File(diagpath));
+
+        if (b)
+        {
+            statuspane= new statusPane().createstatusPane(ff);
+        }
+
+        else {
+
         }
     }
 
