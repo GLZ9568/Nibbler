@@ -10,6 +10,8 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.ConfFileParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.AbstractMap;
@@ -20,7 +22,9 @@ import java.util.Map;
  * Created by Chun Gao on 24/11/2017
  */
 
-public class ParseTest extends ReadTest {
+public class ParseTest extends Test {
+
+    private static final Logger logger = LogManager.getLogger(ParseTest.class);
 
     private final String cassandra_ymal = "cassandra.yaml";
     private final String seeds = "-seeds";
