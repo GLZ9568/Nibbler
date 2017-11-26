@@ -33,8 +33,8 @@ public class ConfFileParser {
     private ArrayList<File> cassandraYamlFiles;
     private ArrayList<NibProperties> cassandraYamlProperties;
 
-    private ArrayList<File> agentaddressYamlFiles;
-    private ArrayList<NibProperties> agentaddressYamlProperties;
+    private ArrayList<File> addressYamlFiles;
+    private ArrayList<NibProperties> addressYamlProperties;
 
     private ArrayList<File> dseYamlFiles;
     private ArrayList<NibProperties> dseYamlProperties;
@@ -44,8 +44,8 @@ public class ConfFileParser {
         cassandraYamlFiles = new ArrayList<File>();
         cassandraYamlProperties = new ArrayList<NibProperties>();
 
-        agentaddressYamlFiles = new ArrayList<File>();
-        agentaddressYamlProperties = new ArrayList<NibProperties>();
+        addressYamlFiles = new ArrayList<File>();
+        addressYamlProperties = new ArrayList<NibProperties>();
 
         dseYamlFiles = new ArrayList<File>();
         dseYamlProperties = new ArrayList<NibProperties>();
@@ -54,48 +54,28 @@ public class ConfFileParser {
             if (isCassandraYaml(file)) {
                 cassandraYamlFiles.add(file);
             } else if (isAgentAddressYaml(file)) {
-                agentaddressYamlFiles.add(file);
+                addressYamlFiles.add(file);
             } else if (isDSEYaml(file)) {
                 dseYamlFiles.add(file);
             }
         }
 
         if (!cassandraYamlFiles.isEmpty()) {
-            parseCassandraYamlProperties(cassandraYamlFiles);
+            cassandraYamlProperties = extractProperties(cassandraYamlFiles);
         } else {
             logger.error("Did not find any " + StrFactory.cassandra_yaml + " files.");
         }
 
-        if (!agentaddressYamlFiles.isEmpty()) {
-            parseAgentAddressYaml(agentaddressYamlFiles);
+        if (!addressYamlFiles.isEmpty()) {
+            addressYamlProperties = extractProperties(addressYamlFiles);
         } else {
             logger.error("Did not find any " + StrFactory.address_yaml + " files.");
         }
 
         if (!dseYamlFiles.isEmpty()) {
-            parseDSEYaml(dseYamlFiles);
+            dseYamlProperties = extractProperties(dseYamlFiles);
         } else {
             logger.error("Did not find any " + StrFactory.dse_yaml + " files.");
-        }
-    }
-
-    public void parseCassandraYamlProperties(ArrayList<File> files) {
-        cassandraYamlProperties = extractProperties(files);
-    }
-
-    public ArrayList<NibProperties> getCassandraYamlProperties() {
-        return cassandraYamlProperties;
-    }
-
-    public void parseAgentAddressYaml(ArrayList<File> files) {
-        for (File file : files) {
-            logger.debug("Found " + file.getName() + " at path: " + file.getPath());
-        }
-    }
-
-    public void parseDSEYaml(ArrayList<File> files) {
-        for (File file : files) {
-            logger.debug("Found " + file.getName() + " at path: " + file.getPath());
         }
     }
 
@@ -103,12 +83,24 @@ public class ConfFileParser {
         return file.getPath().contains(StrFactory.cassandra_yaml);
     }
 
+    public ArrayList<NibProperties> getCassandraYamlProperties() {
+        return cassandraYamlProperties;
+    }
+
     public boolean isAgentAddressYaml (File file) {
         return file.getPath().contains(StrFactory.address_yaml);
     }
 
+    public ArrayList<NibProperties> getAddressYamlProperties() {
+        return addressYamlProperties;
+    }
+
     public boolean isDSEYaml (File file) {
         return file.getPath().contains(StrFactory.dse_yaml);
+    }
+
+    public ArrayList<NibProperties> getDSEYamlProperties() {
+        return dseYamlProperties;
     }
 
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {

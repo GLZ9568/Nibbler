@@ -27,15 +27,27 @@ public class ParseTest extends Test{
 
     private ConfFileParser fileParser;
     private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
+    private ArrayList<NibProperties> addressYamlProperties = new ArrayList<NibProperties>();
+    private ArrayList<NibProperties> dseYamlProperties = new ArrayList<NibProperties>();
 
     public void parseFiles() {
         fileParser = new ConfFileParser();
         fileParser.parse(files);
         cassandraYamlProperties = fileParser.getCassandraYamlProperties();
+        addressYamlProperties = fileParser.getAddressYamlProperties();
+        dseYamlProperties = fileParser.getDSEYamlProperties();
     }
 
     public ArrayList<NibProperties> getCassandraYamlProperties () {
         return cassandraYamlProperties;
+    }
+
+    public ArrayList<NibProperties> getAddressYamlProperties () {
+        return addressYamlProperties;
+    }
+
+    public ArrayList<NibProperties> getDSEYamlProperties () {
+        return dseYamlProperties;
     }
 
     public static void main (String[] args) {
@@ -43,11 +55,27 @@ public class ParseTest extends Test{
         pt.initiate();
         pt.parseFiles();
 
-        NibProperties properties = pt.getCassandraYamlProperties().get(0);
+        NibProperties cassandraYamlProperties = pt.getCassandraYamlProperties().get(0);
+        NibProperties addressYamlProperties = pt.getAddressYamlProperties().get(0);
+        NibProperties dseYamlProperties = pt.getDSEYamlProperties().get(0);
 
-        for (Object key : properties.keySet()){
+        for (Object key : addressYamlProperties.keySet()){
+            for (NibProperties props : pt.getAddressYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
+
+        for (Object key : cassandraYamlProperties.keySet()){
             for (NibProperties props : pt.getCassandraYamlProperties()){
-                logger.debug("node " + props.get(StrFactory.file_id) + " - " + key.toString() + ": " + props.get(key));
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
+
+        for (Object key : dseYamlProperties.keySet()){
+            for (NibProperties props : pt.getDSEYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
             }
             logger.debug("");
         }
