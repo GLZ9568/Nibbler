@@ -1,7 +1,7 @@
 /*
  * Copyright (c)
  *
- * Date: 24/11/2017
+ * Date: 25/11/2017
  *
  * Author: Chun Gao & Mike Zhang
  *
@@ -10,48 +10,46 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.ConfFileParser;
+import com.datastax.support.Util.NibProperties;
+import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
- * Created by Chun Gao on 24/11/2017
+ * Created by Chun Gao on 25/11/2017
  */
 
-public class ParseTest extends Test {
+public class ParseTest extends Test{
 
     private static final Logger logger = LogManager.getLogger(ParseTest.class);
 
-    private final String cassandra_ymal = "cassandra.yaml";
-    private final String seeds = "-seeds";
-    private final String cluster_name = "cluster_name";
-    private final String num_tokens = "num_tokens";
-    private final String none_exist = "none_exist";
+    private ConfFileParser fileParser;
+    private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
 
-    //private ArrayList<ConfFileParser> confFiles = new ArrayList<ConfFileParser>();
+    public void parseFiles() {
+        fileParser = new ConfFileParser();
+        fileParser.parse(files);
+        cassandraYamlProperties = fileParser.getCassandraYamlProperties();
+    }
 
-    public void parse() {
-        for (File file : files) {
-            if (file.getName().contains(cassandra_ymal)) {
-                logger.debug("Found cassandra.yaml: " + file.getPath());
-                ConfFileParser cfp = new ConfFileParser();
-                cfp.parse(file);
-                logger.debug("cluster_name: " + cfp.getProperties().getProperty(cluster_name));
-                logger.debug("seeds: " + cfp.getProperties().getProperty(seeds));
-                logger.debug("num_tokens: " + cfp.getProperties().getProperty(num_tokens));
-                logger.debug("none_exist: " + cfp.getProperties().getProperty(none_exist));
-            }
-        }
+    public ArrayList<NibProperties> getCassandraYamlProperties () {
+        return cassandraYamlProperties;
     }
 
     public static void main (String[] args) {
         ParseTest pt = new ParseTest();
         pt.initiate();
-        pt.parse();
+        pt.parseFiles();
 
+        NibProperties properties = pt.getCassandraYamlProperties().get(0);
+
+        for (Object key : properties.keySet()){
+            for (NibProperties props : pt.getCassandraYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
     }
 }
