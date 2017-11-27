@@ -1,7 +1,7 @@
 /*
  * Copyright (c)
  *
- * Date: 24/11/2017
+ * Date: 25/11/2017
  *
  * Author: Chun Gao & Mike Zhang
  *
@@ -10,44 +10,74 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.ConfFileParser;
+import com.datastax.support.Util.NibProperties;
+import com.datastax.support.Util.StrFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
- * Created by Chun Gao on 24/11/2017
+ * Created by Chun Gao on 25/11/2017
  */
 
-public class ParseTest extends ReadTest {
+public class ParseTest extends Test{
 
-    private final String cassandra_ymal = "cassandra.yaml";
-    private final String seeds = "-seeds";
-    private final String cluster_name = "cluster_name";
-    private final String num_tokens = "num_tokens";
-    private final String none_exist = "none_exist";
+    private static final Logger logger = LogManager.getLogger(ParseTest.class);
 
-    //private ArrayList<ConfFileParser> confFiles = new ArrayList<ConfFileParser>();
+    private ConfFileParser fileParser;
+    private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
+    private ArrayList<NibProperties> addressYamlProperties = new ArrayList<NibProperties>();
+    private ArrayList<NibProperties> dseYamlProperties = new ArrayList<NibProperties>();
 
-    public void parse() {
-        for (File file : files) {
-            if (file.getName().contains(cassandra_ymal)) {
-                logger.debug("Found cassandra.yaml: " + file.getPath());
-                ConfFileParser cfp = new ConfFileParser();
-                cfp.parse(file);
-                logger.debug("cluster_name: " + cfp.getProperties().getProperty(cluster_name));
-                logger.debug("seeds: " + cfp.getProperties().getProperty(seeds));
-                logger.debug("num_tokens: " + cfp.getProperties().getProperty(num_tokens));
-                logger.debug("none_exist: " + cfp.getProperties().getProperty(none_exist));
-            }
-        }
+    public void parseFiles() {
+        fileParser = new ConfFileParser();
+        fileParser.parse(files);
+        cassandraYamlProperties = fileParser.getCassandraYamlProperties();
+        addressYamlProperties = fileParser.getAddressYamlProperties();
+        dseYamlProperties = fileParser.getDSEYamlProperties();
+    }
+
+    public ArrayList<NibProperties> getCassandraYamlProperties () {
+        return cassandraYamlProperties;
+    }
+
+    public ArrayList<NibProperties> getAddressYamlProperties () {
+        return addressYamlProperties;
+    }
+
+    public ArrayList<NibProperties> getDSEYamlProperties () {
+        return dseYamlProperties;
     }
 
     public static void main (String[] args) {
         ParseTest pt = new ParseTest();
         pt.initiate();
-        pt.parse();
+        pt.parseFiles();
 
+        NibProperties cassandraYamlProperties = pt.getCassandraYamlProperties().get(0);
+        NibProperties addressYamlProperties = pt.getAddressYamlProperties().get(0);
+        NibProperties dseYamlProperties = pt.getDSEYamlProperties().get(0);
+
+        for (Object key : addressYamlProperties.keySet()){
+            for (NibProperties props : pt.getAddressYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
+
+        for (Object key : cassandraYamlProperties.keySet()){
+            for (NibProperties props : pt.getCassandraYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
+
+        for (Object key : dseYamlProperties.keySet()){
+            for (NibProperties props : pt.getDSEYamlProperties()){
+                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
     }
 }

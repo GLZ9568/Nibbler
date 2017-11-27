@@ -22,30 +22,9 @@ import java.util.ArrayList;
  * Created by Chun Gao on 23/11/2017
  */
 
-public class ReadTest extends Nibbler{
+public class ReadTest extends Test{
 
-    protected static final Logger logger = LogManager.getLogger(ReadTest.class);
-
-    private final String testDir = "39114";
-    //private final String testDir = "test";
-    private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2017_AP\\" + testDir);
-    private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/2017_AP/" + testDir);
-
-    protected FileFactory ff;
-    protected ArrayList<File> files;
-
-    public void initiate() {
-        ff = new FileFactory();
-        files = new ArrayList<File>();
-        if (Inspector.foundWindowsOS()) {
-            logger.debug("Reading From: " + winDir + "\\");
-            ff.readFiles(winDir);
-        } else {
-            logger.debug("Reading From: " + linDir + "/");
-            ff.readFiles(linDir);
-        }
-        files = ff.getFiles();
-    }
+    private static final Logger logger = LogManager.getLogger(ReadTest.class);
 
     public void printFilesPath() {
         for (File file : files) {

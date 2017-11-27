@@ -33,12 +33,19 @@ public final class Inspector {
     public static boolean foundIPAddress(String path) {
         Pattern pattern = Pattern.compile(IP_PATTERN);
         Matcher matcher = pattern.matcher(path);
-        logger.debug("group count: " + matcher.groupCount());
         while (matcher.find()) {
-            logger.debug("group: " + matcher.group());
             return true;
         }
-        logger.debug("find " + matcher.find());
         return false;
+    }
+
+    public static String getIPAddress(String path) {
+        String ip = "";
+        Pattern pattern = Pattern.compile(IP_PATTERN);
+        Matcher matcher = pattern.matcher(path);
+        while (matcher.find()) {
+            ip = matcher.group(0);
+        }
+        return ip;
     }
 }

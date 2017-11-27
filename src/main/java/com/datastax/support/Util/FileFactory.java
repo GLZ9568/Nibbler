@@ -26,9 +26,6 @@ public class FileFactory {
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
     private ArrayList<File> files = new ArrayList<File>();
 
-    public FileFactory() {
-    }
-
     public boolean readFiles(final File directory) {
         try {
             for (final File entry : directory.listFiles()) {
