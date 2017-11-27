@@ -11,10 +11,6 @@
         <option name="version" value="" />
       </options>
     </properties>
-    <root id="root">
-      <element id="archive" name="Nibbler.jar">
-        <element id="module-output" name="Nibbler" />
-      </element>
-    </root>
+    <root id="root" />
   </artifact>
 </component>
