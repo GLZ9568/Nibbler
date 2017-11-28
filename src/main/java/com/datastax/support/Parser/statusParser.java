@@ -31,6 +31,7 @@ public class statusParser {
         TextArea t = new TextArea();
         File statusfile;
         ArrayList<File> filelist = ff.getFiles();
+        boolean isvalidstatusoutput = false;
         for (int i =0; i < filelist.size();++i)
         {
             statusfile = filelist.get(i);
@@ -45,8 +46,11 @@ public class statusParser {
                     String str = new String(data, "UTF-8");
                     t.setText(str);
                     //t.setPrefSize(1024,768);
-                    if (str.contains("Datacenter:"))
+                    if (str.contains("Datacenter:")){
+                        isvalidstatusoutput = true;
                         break;
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -54,6 +58,12 @@ public class statusParser {
             }
 
         }
+
+        if (!isvalidstatusoutput)
+        {
+            t.setText("No Valid nodetool status collected!!");
+        }
+
         return t;
 
     }
