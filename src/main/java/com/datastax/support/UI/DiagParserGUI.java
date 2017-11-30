@@ -35,8 +35,7 @@ public class DiagParserGUI extends Application {
     private final TextField labelSelectedDirectory = new TextField();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
-    private FileFactory ff = new FileFactory();
-
+    private FileFactory ff;
     private TitledPane statuspane;
 
     @Override
@@ -67,9 +66,9 @@ public class DiagParserGUI extends Application {
         Button btnOpenDirectoryChooser = new Button();
         btnOpenDirectoryChooser.setText("Open Diag Directory");
         btnOpenDirectoryChooser.setPrefSize(200, 20);
-        Button buttonAnalyzed = new Button("Start Analyzing");
+        final Button buttonAnalyzed = new Button("Start Analyzing");
         buttonAnalyzed.setPrefSize(200, 20);
-        labelSelectedDirectory.setPrefSize(700,20);
+        labelSelectedDirectory.setPrefSize(700, 20);
         labelSelectedDirectory.setStyle("-fx-background-color: #336699; -fx-text-inner-color: red;");
         btnOpenDirectoryChooser.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -80,11 +79,14 @@ public class DiagParserGUI extends Application {
 
             public void handle(ActionEvent event) {
                 if (diagpath != null) {
+
+                    anchorpane.getChildren().removeAll(statuspane);
                     ///first parse the input files//
                     startParsing();
-
+                    buttonAnalyzed.setDisable(true);
                     ///display the analysis result///
                     displayAnalysisResult();
+                    buttonAnalyzed.setDisable(false);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Warning!");
@@ -117,17 +119,14 @@ public class DiagParserGUI extends Application {
         }
     }
 
-    private void startParsing(){
+    private void startParsing() {
 
-
+        ff = new FileFactory();
         boolean b = ff.readFiles(new File(diagpath));
 
-        if (b)
-        {
-            statuspane= new statusPane().createstatusPane(ff);
-        }
-
-        else {
+        if (b) {
+            statuspane = new statusPane().createstatusPane(ff);
+        } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning!");
@@ -150,6 +149,7 @@ public class DiagParserGUI extends Application {
 
 
         anchorpane.getChildren().addAll(statuspane);
+
     }
 
     private AnchorPane addAnchorPane() {
