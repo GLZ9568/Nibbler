@@ -29,6 +29,7 @@ public class ParseTest extends Test{
     private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
     private ArrayList<NibProperties> addressYamlProperties = new ArrayList<NibProperties>();
     private ArrayList<NibProperties> dseYamlProperties = new ArrayList<NibProperties>();
+    private ArrayList<NibProperties> clusterConfProperties = new ArrayList<NibProperties>();
 
     public void parseFiles() {
         fileParser = new ConfFileParser();
@@ -36,6 +37,7 @@ public class ParseTest extends Test{
         cassandraYamlProperties = fileParser.getCassandraYamlProperties();
         addressYamlProperties = fileParser.getAddressYamlProperties();
         dseYamlProperties = fileParser.getDSEYamlProperties();
+        clusterConfProperties = fileParser.getClusterConfProperties();
     }
 
     public ArrayList<NibProperties> getCassandraYamlProperties () {
@@ -50,6 +52,8 @@ public class ParseTest extends Test{
         return dseYamlProperties;
     }
 
+    public ArrayList<NibProperties> getClusterConfProperties () {return clusterConfProperties; }
+
     public static void main (String[] args) {
         ParseTest pt = new ParseTest();
         pt.initiate();
@@ -58,6 +62,7 @@ public class ParseTest extends Test{
         NibProperties cassandraYamlProperties = pt.getCassandraYamlProperties().get(0);
         NibProperties addressYamlProperties = pt.getAddressYamlProperties().get(0);
         NibProperties dseYamlProperties = pt.getDSEYamlProperties().get(0);
+        NibProperties clusterConfProperties = pt.getClusterConfProperties().get(0);
 
         for (Object key : addressYamlProperties.keySet()){
             for (NibProperties props : pt.getAddressYamlProperties()){
@@ -78,6 +83,12 @@ public class ParseTest extends Test{
                 logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
             }
             logger.debug("");
+        }
+
+        for (Object key : clusterConfProperties.keySet()) {
+            for (NibProperties props : pt.getClusterConfProperties()) {
+                logger.debug("opscenter " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
+            }
         }
     }
 }

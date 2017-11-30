@@ -13,5 +13,6 @@ package com.datastax.support.Parser;
  * Created by Chun Gao on 24/11/2017
  */
 
-public class DiagFileParser {
+public class NodeToolFileParser {
+
 }
