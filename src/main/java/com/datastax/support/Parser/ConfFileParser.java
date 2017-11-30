@@ -39,6 +39,12 @@ public class ConfFileParser {
     private ArrayList<File> dseYamlFiles;
     private ArrayList<NibProperties> dseYamlProperties;
 
+    private ArrayList<File> confFiles;
+    private ArrayList<NibProperties> confProperties;
+
+    private ArrayList<File> clusterConfFiles;
+    private ArrayList<NibProperties> clusterConfProperties;
+
     public void parse(ArrayList<File> files) {
 
         cassandraYamlFiles = new ArrayList<File>();
@@ -50,6 +56,13 @@ public class ConfFileParser {
         dseYamlFiles = new ArrayList<File>();
         dseYamlProperties = new ArrayList<NibProperties>();
 
+        confFiles = new ArrayList<File>();
+
+        clusterConfFiles = new ArrayList<File>();
+        clusterConfProperties = new ArrayList<NibProperties>();
+
+        ArrayList<String> clusterName = new ArrayList<String>();
+
         for (File file : files) {
             if (isCassandraYaml(file)) {
                 cassandraYamlFiles.add(file);
@@ -57,11 +70,19 @@ public class ConfFileParser {
                 addressYamlFiles.add(file);
             } else if (isDSEYaml(file)) {
                 dseYamlFiles.add(file);
+            } else if (isConfFile(file)) {
+                confFiles.add(file);
             }
         }
 
         if (!cassandraYamlFiles.isEmpty()) {
             cassandraYamlProperties = extractProperties(cassandraYamlFiles);
+            for (NibProperties properties : cassandraYamlProperties) {
+                String cn = properties.get(StrFactory.cluster_name).toString();
+                if (!clusterName.contains(cn)) {
+                    clusterName.add(cn);
+                }
+            }
         } else {
             logger.error("Did not find any " + StrFactory.cassandra_yaml + " files.");
         }
@@ -77,10 +98,23 @@ public class ConfFileParser {
         } else {
             logger.error("Did not find any " + StrFactory.dse_yaml + " files.");
         }
+
+        //here we check cluster names to match the clustername.conf file name - to be finished
+        if (!confFiles.isEmpty()) {
+            for (File file : confFiles) {
+                if (isClusterConfFile(file, clusterName)) {
+                    clusterConfFiles.add(file);
+                }
+            }
+        }
+
+        if (!clusterConfFiles.isEmpty()) {
+            clusterConfProperties = extractProperties(clusterConfFiles);
+        }
     }
 
     public boolean isCassandraYaml (File file) {
-        return file.getPath().contains(StrFactory.cassandra_yaml);
+        return file.getName().contains(StrFactory.cassandra_yaml);
     }
 
     public ArrayList<NibProperties> getCassandraYamlProperties() {
@@ -88,7 +122,7 @@ public class ConfFileParser {
     }
 
     public boolean isAgentAddressYaml (File file) {
-        return file.getPath().contains(StrFactory.address_yaml);
+        return file.getName().contains(StrFactory.address_yaml);
     }
 
     public ArrayList<NibProperties> getAddressYamlProperties() {
@@ -101,6 +135,23 @@ public class ConfFileParser {
 
     public ArrayList<NibProperties> getDSEYamlProperties() {
         return dseYamlProperties;
+    }
+
+    public boolean isConfFile (File file) {
+        return file.getName().endsWith(StrFactory.conf_surffix);
+    }
+
+    public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
+        for (String cname : cluster_name) {
+            if (file.getName().contains(cname)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<NibProperties> getClusterConfProperties () {
+        return clusterConfProperties;
     }
 
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {
@@ -132,8 +183,11 @@ public class ConfFileParser {
     private String setID (File file) {
         if (Inspector.foundIPAddress(file.getPath())) {
             return Inspector.getIPAddress(file.getPath());
-        } else {
-            return "TODO: to be implemented";
+        } else if (Inspector.foundOpsCenter(file.getPath())) {
+            return StrFactory.opscenterd;
+        }
+        else {
+            return "Cannot find file ID information";
         }
     }
 }

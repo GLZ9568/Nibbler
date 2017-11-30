@@ -48,4 +48,11 @@ public final class Inspector {
         }
         return ip;
     }
+
+    public static boolean foundOpsCenter (String path) {
+        if (path.contains(StrFactory.opscenterd)) {
+            return true;
+        }
+        return false;
+    }
 }
