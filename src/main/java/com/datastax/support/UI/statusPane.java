@@ -26,6 +26,7 @@ public class statusPane {
        TitledPane tp = new TitledPane();
 
         tp.setExpanded(false);
+        tp.setStyle( "-fx-font-family: Courier New");
         tp.setPrefSize(1024, 700);
         tp.setText("nodetool status");
         tp.setContent(new statusParser().generateNodeStatusOutput(ff));
