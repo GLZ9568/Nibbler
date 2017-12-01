@@ -29,7 +29,7 @@ public class FileFactory {
     public boolean readFiles(final File directory) {
         try {
             for (final File entry : directory.listFiles()) {
-                logger.debug("Processing File: " + entry.getAbsolutePath());
+                //logger.debug("Processing File: " + entry.getAbsolutePath());
                 if (entry.isDirectory()) {
                     readFiles(entry);
                 } else {

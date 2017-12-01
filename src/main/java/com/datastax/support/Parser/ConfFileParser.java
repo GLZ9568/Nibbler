@@ -72,7 +72,6 @@ public class ConfFileParser {
                 dseYamlFiles.add(file);
             } else if (isConfFile(file)) {
                 confFiles.add(file);
-                logger.debug("Found Conf File: " + file.getAbsolutePath());
             }
         }
 
@@ -143,8 +142,8 @@ public class ConfFileParser {
     }
 
     public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
-        for (String cname : cluster_name) {
-            if (file.getName().replace("_", "").contains(cname)) {
+        for (String cn : cluster_name) {
+            if (file.getName().replaceAll("[^A-Za-z0-9]+", "").contains(cn.replaceAll("[^A-Za-z0-9]+", ""))) {
                 return true;
             }
         }

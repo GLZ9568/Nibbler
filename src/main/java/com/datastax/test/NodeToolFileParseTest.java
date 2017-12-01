@@ -28,7 +28,7 @@ public class NodeToolFileParseTest extends Test{
     public static void main (String[] args) {
         NodeToolFileParseTest ntfpt = new NodeToolFileParseTest();
         ntfpt.initiate();
-        //ntfpt.();
+        ntfpt.parseFiles();
     }
 
 }
