@@ -173,8 +173,8 @@ public class ConfFileParser {
                 logger.error(fnfe);
             } catch (IOException ioe) {
                 logger.error(ioe);
-            } catch (NullPointerException e) {
-                logger.error(e);
+            } catch (NullPointerException npe) {
+                logger.error(npe);
             }
         }
         return propertiesArrayList;
