@@ -29,6 +29,7 @@ public class FileFactory {
     public boolean readFiles(final File directory) {
         try {
             for (final File entry : directory.listFiles()) {
+                logger.debug("Processing File: " + entry.getAbsolutePath());
                 if (entry.isDirectory()) {
                     readFiles(entry);
                 } else {
@@ -36,7 +37,7 @@ public class FileFactory {
                 }
             }
         } catch (NullPointerException npe) {
-            logger.error(directory + " Does Not Exist");
+            logger.error(npe);
             return false;
         }
         return true;

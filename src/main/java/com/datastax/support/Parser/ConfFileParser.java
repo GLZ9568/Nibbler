@@ -72,6 +72,7 @@ public class ConfFileParser {
                 dseYamlFiles.add(file);
             } else if (isConfFile(file)) {
                 confFiles.add(file);
+                logger.debug("Found Conf File: " + file.getAbsolutePath());
             }
         }
 
@@ -130,7 +131,7 @@ public class ConfFileParser {
     }
 
     public boolean isDSEYaml (File file) {
-        return file.getPath().contains(StrFactory.dse_yaml);
+        return file.getAbsolutePath().contains(StrFactory.dse_yaml);
     }
 
     public ArrayList<NibProperties> getDSEYamlProperties() {
@@ -143,7 +144,7 @@ public class ConfFileParser {
 
     public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
         for (String cname : cluster_name) {
-            if (file.getName().contains(cname)) {
+            if (file.getName().replace("_", "").contains(cname)) {
                 return true;
             }
         }
@@ -164,9 +165,9 @@ public class ConfFileParser {
             try {
                 FileInputStream input = new FileInputStream(file);
                 properties.load(input);
-                id = setID(file);
+                id = Inspector.getFileID(file);
                 properties.put(StrFactory.file_id, id);
-                properties.put(StrFactory.file_path, file.getPath());
+                properties.put(StrFactory.file_path, file.getAbsolutePath());
                 properties.put(StrFactory.file_name, file.getName());
                 propertiesArrayList.add(properties);
             } catch (FileNotFoundException fnfe) {
@@ -178,16 +179,5 @@ public class ConfFileParser {
             }
         }
         return propertiesArrayList;
-    }
-
-    private String setID (File file) {
-        if (Inspector.foundIPAddress(file.getPath())) {
-            return Inspector.getIPAddress(file.getPath());
-        } else if (Inspector.foundOpsCenter(file.getPath())) {
-            return StrFactory.opscenterd;
-        }
-        else {
-            return "Cannot find file ID information";
-        }
     }
 }

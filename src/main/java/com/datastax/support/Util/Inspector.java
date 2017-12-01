@@ -13,6 +13,9 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,9 +52,33 @@ public final class Inspector {
         return ip;
     }
 
+    public static String getFileID (File file) {
+        if (foundIPAddress(file.getAbsolutePath())) {
+            return getIPAddress(file.getAbsolutePath());
+        } else if (foundOpsCenter(file.getAbsolutePath())) {
+            return StrFactory.opscenterd;
+        } else {
+            return "Cannot find file ID information";
+        }
+    }
+
     public static boolean foundOpsCenter (String path) {
         if (path.contains(StrFactory.opscenterd)) {
             return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidNodetoolStatusFile (File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNext()) {
+                if(scanner.nextLine().contains(StrFactory.datacenter)) {
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException fnfe) {
+            logger.error(fnfe);
         }
         return false;
     }
