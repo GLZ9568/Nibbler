@@ -29,7 +29,7 @@ public class NibProperties extends Properties {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         while (scanner.hasNext()) {
-            output.write(scanner.nextLine().replaceAll("[ -]","").replace("\"", "").getBytes());
+            output.write(scanner.nextLine().replaceAll("[ -]", "").getBytes());
             output.write("\n".getBytes());
         }
 

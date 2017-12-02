@@ -28,7 +28,7 @@ public class ReadTest extends Test{
 
     public void printFilesPath() {
         for (File file : files) {
-            logger.debug(file.getPath());
+            logger.debug(file.getAbsolutePath());
         }
     }
 
@@ -44,10 +44,10 @@ public class ReadTest extends Test{
 
     public void printFilesIP() {
         for (File file : files) {
-            if (Inspector.foundIPAddress(file.getPath())) {
-                logger.debug("Found IP in: " + file.getPath());
+            if (Inspector.foundIPAddress(file.getAbsolutePath())) {
+                logger.debug("Found IP in: " + file.getAbsolutePath());
             } else {
-                logger.debug("NOT Found IP in: " + file.getPath());
+                logger.debug("NOT Found IP in: " + file.getAbsolutePath());
             }
         }
     }

@@ -30,6 +30,7 @@ public class StrFactory {
     public static String ismachine_infoexist = "ismachine_infoexist";
 
     // file names
+    // conf file names
     public static final String cassandra_yaml = "cassandra.yaml";
     public static final String address_yaml = "address.yaml";
     public static final String dse_yaml = "dse.yaml";
@@ -47,4 +48,31 @@ public class StrFactory {
     public static final String num_tokens = "num_tokens";
 
     // agentaddress.yaml configurations
+
+    // nodetool output
+    public static final String nodetool = "nodetool";
+    public static final String cfstats = "ctstats";
+    public static final String compactionhistory = "compactionhistory";
+    public static final String compactionstats = "compactionstats";
+    public static final String describecluster = "describecluster";
+    public static final String getcompactionthroughput = "getcompactionthroughput";
+    public static final String getstreamthroughput = "getstreamthroughput";
+    public static final String gossipinfo = "gossipinfo";
+    public static final String info = "info";
+    public static final String netstats = "netstats";
+    public static final String proxyhistograms = "proxyhistograms";
+    public static final String ring = "ring";
+    public static final String status = "status";
+    public static final String statusbinary = "statusbinary";
+    public static final String statusthrift = "statusthrift";
+    public static final String tpstats = "tpstats";
+    public static final String version = "version";
+
+    public static final String datacenter = "Datacenter";
+
+    // dsetool output
+
+    // ntp output
+
+    // os output
 }
