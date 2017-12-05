@@ -71,8 +71,8 @@ public class ClusterInfoParser {
                     JSONParser jsonParser = new JSONParser();
                     cluster_info_obj = (JSONObject) jsonParser.parse(reader);
                     cluster_info_obj.put(StrFactory.iscluster_infoexist,true);
-                    cluster_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    cluster_info_obj.put(StrFactory.file_name, filename.getName());
+                    cluster_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    cluster_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -90,8 +90,8 @@ public class ClusterInfoParser {
                     node_info_obj = (JSONObject) jsonParser.parse(reader);
                    // node_info_obj.put(StrFactory.file_id, setID(filename.getAbsolutePath()));
                     node_info_obj.put(StrFactory.isnode_infoexist,true);
-                    node_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    node_info_obj.put(StrFactory.file_name, filename.getName());
+                    node_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    node_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
 
                 } catch (IOException e) {
@@ -112,9 +112,9 @@ public class ClusterInfoParser {
                    // String str = cpu_info_obj.get("id").toString();
 
                     cpu_info_obj.put(StrFactory.iscpuexist,true);
-                    cpu_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    cpu_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    cpu_info_obj.put(StrFactory.file_name, filename.getName());
+                    cpu_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    cpu_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    cpu_info_obj.put(StrFactory.FILE_NAME, filename.getName());
                     cpu_obj_list.add(cpu_info_obj);
 
                 } catch (IOException e) {
@@ -137,9 +137,9 @@ public class ClusterInfoParser {
 
 
                     java_system_properties_obj.put(StrFactory.isjava_system_propertiesexist,true);
-                    java_system_properties_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.file_name, filename.getName());
+                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
 
                 } catch (IOException e) {
@@ -161,9 +161,9 @@ public class ClusterInfoParser {
                     // String str = cpu_info_obj.get("id").toString();
 
                     machine_info_obj.put(StrFactory.ismachine_infoexist,true);
-                    machine_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    machine_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    machine_info_obj.put(StrFactory.file_name, filename.getName());
+                    machine_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    machine_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    machine_info_obj.put(StrFactory.FILE_NAME, filename.getName());
                     machine_info_obj_list.add(machine_info_obj);
 
                 } catch (IOException e) {
@@ -187,9 +187,9 @@ public class ClusterInfoParser {
                     fis.close();
                     String str = new String(data, "UTF-8");
 
-                    ntptime_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    ntptime_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    ntptime_obj.put(StrFactory.file_name, filename.getName());
+                    ntptime_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    ntptime_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    ntptime_obj.put(StrFactory.FILE_NAME, filename.getName());
                     ntptime_obj.put(StrFactory.ntptime_content,str);
                     ntptime_obj_list.add(ntptime_obj);
 
