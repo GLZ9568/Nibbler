@@ -14,6 +14,7 @@ import com.datastax.support.Util.NibProperties;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
@@ -38,57 +39,41 @@ public class ConfFileParseTest extends Test{
         addressYamlProperties = confFileParser.getAddressYamlProperties();
         dseYamlProperties = confFileParser.getDSEYamlProperties();
         clusterConfProperties = confFileParser.getClusterConfProperties();
-    }
 
-    public ArrayList<NibProperties> getCassandraYamlProperties () {
-        return cassandraYamlProperties;
-    }
+        for (Object key : addressYamlProperties.get(0).keySet()){
+            for (NibProperties props : addressYamlProperties){
+                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
 
-    public ArrayList<NibProperties> getAddressYamlProperties () {
-        return addressYamlProperties;
-    }
+        for (Object key : cassandraYamlProperties.get(0).keySet()){
+            for (NibProperties props : cassandraYamlProperties){
+                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
 
-    public ArrayList<NibProperties> getDSEYamlProperties () {
-        return dseYamlProperties;
-    }
+        for (Object key : dseYamlProperties.get(0).keySet()){
+            for (NibProperties props : dseYamlProperties){
+                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+            }
+            logger.debug("");
+        }
 
-    public ArrayList<NibProperties> getClusterConfProperties () {return clusterConfProperties; }
+        for (Object key : clusterConfProperties.get(0).keySet()) {
+            for (NibProperties props : clusterConfProperties) {
+                logger.debug("opscenter " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+            }
+        }
+
+    }
 
     public static void main (String[] args) {
         ConfFileParseTest cfpt = new ConfFileParseTest();
         cfpt.initiate();
         cfpt.parseFiles();
 
-        NibProperties cassandraYamlProperties = cfpt.getCassandraYamlProperties().get(0);
-        NibProperties addressYamlProperties = cfpt.getAddressYamlProperties().get(0);
-        NibProperties dseYamlProperties = cfpt.getDSEYamlProperties().get(0);
-        NibProperties clusterConfProperties = cfpt.getClusterConfProperties().get(0);
 
-        for (Object key : addressYamlProperties.keySet()){
-            for (NibProperties props : cfpt.getAddressYamlProperties()){
-                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
-            }
-            logger.debug("");
-        }
-
-        for (Object key : cassandraYamlProperties.keySet()){
-            for (NibProperties props : cfpt.getCassandraYamlProperties()){
-                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
-            }
-            logger.debug("");
-        }
-
-        for (Object key : dseYamlProperties.keySet()){
-            for (NibProperties props : cfpt.getDSEYamlProperties()){
-                logger.debug("node " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
-            }
-            logger.debug("");
-        }
-
-        for (Object key : clusterConfProperties.keySet()) {
-            for (NibProperties props : cfpt.getClusterConfProperties()) {
-                logger.debug("opscenter " + props.get(StrFactory.file_id) + " - " + props.get(StrFactory.file_name) + " - " + key.toString() + ": " + props.get(key));
-            }
-        }
     }
 }
