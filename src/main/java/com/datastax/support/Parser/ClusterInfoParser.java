@@ -14,7 +14,7 @@ import com.datastax.support.Util.NibProperties;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.*;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import java.io.File;
@@ -38,7 +38,10 @@ public class ClusterInfoParser {
     private ArrayList<JSONObject> cpu_obj_list;
     private ArrayList<JSONObject> java_system_properties_obj_list;
     private ArrayList<JSONObject> machine_info_obj_list;
-  /*  private boolean iscluster_infoexist = false;
+    private ArrayList<NibProperties> dsetool_ring_obj_list;
+    private ArrayList<JSONObject> ntptime_obj_list;
+
+/*  private boolean iscluster_infoexist = false;
     private boolean isnode_infoexist = false;
     private boolean iscpuexist = false;
     private boolean isjava_system_propertiesexist = false;
@@ -53,6 +56,10 @@ public class ClusterInfoParser {
         cluster_info_obj.put(StrFactory.iscluster_infoexist,false);
         node_info_obj = new JSONObject();
         node_info_obj.put(StrFactory.isnode_infoexist,false);
+        cpu_obj_list = new ArrayList<JSONObject>();
+        java_system_properties_obj_list =  new ArrayList<JSONObject>();
+        machine_info_obj_list =  new ArrayList<JSONObject>();
+        ntptime_obj_list = new ArrayList<JSONObject>();
 
         for (int i =0; i < filelist.size();++i)
         {
@@ -103,6 +110,8 @@ public class ClusterInfoParser {
                     JSONObject cpu_info_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                    // String str = cpu_info_obj.get("id").toString();
+
+                    cpu_info_obj.put(StrFactory.iscpuexist,true);
                     cpu_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
                     cpu_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
                     cpu_info_obj.put(StrFactory.file_name, filename.getName());
@@ -114,7 +123,7 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
             if(filename.getName().contains(StrFactory.java_system_properties))
@@ -125,6 +134,9 @@ public class ClusterInfoParser {
                     JSONObject java_system_properties_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
+
+
+                    java_system_properties_obj.put(StrFactory.isjava_system_propertiesexist,true);
                     java_system_properties_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(StrFactory.file_path, filename.getAbsolutePath());
                     java_system_properties_obj.put(StrFactory.file_name, filename.getName());
@@ -136,7 +148,7 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
             if(filename.getName().contains(StrFactory.machine_info))
@@ -147,6 +159,8 @@ public class ClusterInfoParser {
                     JSONObject machine_info_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
+
+                    machine_info_obj.put(StrFactory.ismachine_infoexist,true);
                     machine_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
                     machine_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
                     machine_info_obj.put(StrFactory.file_name, filename.getName());
@@ -158,13 +172,14 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
             if(filename.getName().contains(StrFactory.ntptime))
             {
                 try {
 
+                    JSONObject ntptime_obj = new JSONObject();
                     FileInputStream  fis = new FileInputStream(filename);
                     byte[] data = new byte[(int) filename.length()];
 
@@ -172,11 +187,16 @@ public class ClusterInfoParser {
                     fis.close();
                     String str = new String(data, "UTF-8");
 
+                    ntptime_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
+                    ntptime_obj.put(StrFactory.file_path, filename.getAbsolutePath());
+                    ntptime_obj.put(StrFactory.file_name, filename.getName());
+                    ntptime_obj.put(StrFactory.ntptime_content,str);
+                    ntptime_obj_list.add(ntptime_obj);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                //isnode_infoexist = true;
             }
 
 
@@ -219,7 +239,22 @@ public class ClusterInfoParser {
         return machine_info_obj_list;
     }
 
-   /* public boolean isIscluster_infoexist() {
+    public ArrayList<JSONObject> getCpu_obj_list() {
+        return cpu_obj_list;
+    }
+
+    public ArrayList<JSONObject> getJava_system_properties_obj_list() {
+        return java_system_properties_obj_list;
+    }
+
+    public ArrayList<JSONObject> getMachine_info_obj_list() {
+        return machine_info_obj_list;
+    }
+
+    public ArrayList<JSONObject> getNtptime_list() {
+        return ntptime_obj_list;
+    }
+    /* public boolean isIscluster_infoexist() {
         return iscluster_infoexist;
     }
 

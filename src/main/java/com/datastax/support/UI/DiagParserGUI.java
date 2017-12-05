@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -33,16 +34,21 @@ import com.datastax.support.Util.FileFactory;
 
 public class DiagParserGUI extends Application {
     private final TextField labelSelectedDirectory = new TextField();
+    private BorderPane border = new BorderPane();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
+    private GridPane grid = new GridPane();
     private FileFactory ff;
-    private TitledPane statuspane;
+    private TitledPane statuspane = new TitledPane();
+    private TitledPane dsetoolringpane = new TitledPane();
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        BorderPane border = new BorderPane();
+
 
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
@@ -80,7 +86,14 @@ public class DiagParserGUI extends Application {
             public void handle(ActionEvent event) {
                 if (diagpath != null) {
 
-                    anchorpane.getChildren().removeAll(statuspane);
+                    ///refresh the output
+                    //anchorpane.getChildren().clear();
+
+                    statuspane.setExpanded(false);
+                    dsetoolringpane.setExpanded(false);
+                    border.getChildren().remove(anchorpane);
+
+                    anchorpane.getChildren().removeAll(grid);
                     ///first parse the input files//
                     startParsing();
                     buttonAnalyzed.setDisable(true);
@@ -125,7 +138,8 @@ public class DiagParserGUI extends Application {
         boolean b = ff.readFiles(new File(diagpath));
 
         if (b) {
-            statuspane = new statusPane().createstatusPane(ff);
+            statuspane = new StatusPane().createstatusPane(ff);
+            dsetoolringpane =  new DsetoolRingPane().createDsetoolRingPane(ff);
         } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -146,10 +160,14 @@ public class DiagParserGUI extends Application {
         Text t = new Text();
         t.setText("This is a text sample");
         tp.setContent(t);*/
+        border.setCenter(addAnchorPane());
+        grid.getChildren().removeAll(statuspane,dsetoolringpane);
 
-
-        anchorpane.getChildren().addAll(statuspane);
-
+        grid.add(statuspane,0,0);
+        grid.add(dsetoolringpane,0,1);
+        anchorpane.getChildren().add(grid);
+        //anchorpane.getChildren().add(statuspane);
+       // anchorpane.getChildren().add(dsetoolringpane);
     }
 
     private AnchorPane addAnchorPane() {
@@ -169,6 +187,7 @@ public class DiagParserGUI extends Application {
         // AnchorPane.setRightAnchor(hb, 5.0);
         // AnchorPane.setTopAnchor(grid, 10.0);
         //anchorpane.getChildren().addAll(tp);
+
         return anchorpane;
     }
 }

@@ -21,9 +21,9 @@ import java.util.ArrayList;
  * Created by Chun Gao on 25/11/2017
  */
 
-public class ConfFileParseTest extends Test{
+public class ConfFileParserTest extends Test{
 
-    private static final Logger logger = LogManager.getLogger(ConfFileParseTest.class);
+    private static final Logger logger = LogManager.getLogger(ConfFileParserTest.class);
 
     private ConfFileParser confFileParser;
     private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
@@ -55,7 +55,7 @@ public class ConfFileParseTest extends Test{
     public ArrayList<NibProperties> getClusterConfProperties () {return clusterConfProperties; }
 
     public static void main (String[] args) {
-        ConfFileParseTest cfpt = new ConfFileParseTest();
+        ConfFileParserTest cfpt = new ConfFileParserTest();
         cfpt.initiate();
         cfpt.parseFiles();
 

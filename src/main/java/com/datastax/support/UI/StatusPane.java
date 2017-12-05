@@ -19,15 +19,17 @@ import com.datastax.support.Parser.statusParser;
  * create status pane based on the result from statusParser
  */
 
-public class statusPane {
+public class StatusPane {
 
     TitledPane createstatusPane(FileFactory ff)
     {
        TitledPane tp = new TitledPane();
 
         tp.setExpanded(false);
+        tp.setPrefWidth(1024);
+        //tp.setMinHeight(768);
         tp.setStyle( "-fx-font-family: Courier New");
-        tp.setPrefSize(1024, 700);
+        //tp.setPrefSize(1024, 10);
         tp.setText("nodetool status");
         tp.setContent(new statusParser().generateNodeStatusOutput(ff));
         return tp;

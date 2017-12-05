@@ -7,7 +7,20 @@ TO DO:
   -> each node(node_info.json):
       - ip address, hostname, dse version(cassandra version), "user.timezone" : "America/New_York"(java_system_properties.json),"java.version" : "1.8.0_77" (java_system_properties.json),workload type, ntp status(ntptime),machine memory(machine-info.json),num_procs, used cpu(cpu.json)
 
+ntp_gettime() returns code 5 (ERROR)
 
+ntpstat
+exit status: 1
+
+stdout:
+unsynchronised
+  time server re-starting
+   polling server every 8 s
+
+
+ntp_gettime() returns code 0 (OK)
+
+synchronised to NTP server
 
 2.status
 
