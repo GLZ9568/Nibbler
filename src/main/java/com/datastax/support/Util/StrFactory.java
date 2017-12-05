@@ -27,24 +27,20 @@ public class StrFactory {
     public static final String FILE_PATH = "file_path";
     public static final String OPSCENTERD = "opscenterd";
 
-    public static String iscluster_infoexist = "iscluster_infoexist";
-    public static String isnode_infoexist = "isnode_infoexist";
-    public static String iscpuexist = "iscpuexist";
-    public static String isjava_system_propertiesexist = "isjava_system_propertiesexist";
-    public static String ismachine_infoexist = "ismachine_infoexist";
-    public static String ntptime_content = "ntptime_content";
+    public static final String ISCLUSTER_INFOEXIST = "iscluster_infoexist";
+    public static final String ISNODE_INFOEXIST = "isnode_infoexist";
+    public static final String ISCPUEXIST = "iscpuexist";
+    public static final String ISJAVA_SYSTEM_PROPERTIESEXIST = "isjava_system_propertiesexist";
+    public static final String ISMACHINE_INFOEXIST = "ismachine_infoexist";
+    public static final String NTPTIME_CONTENT = "ntptime_content";
     // file names
-    // conf file names
-    public static final String cassandra_yaml = "cassandra.yaml";
-    public static final String address_yaml = "address.yaml";
-    public static final String dse_yaml = "dse.yaml";
-    public static final String conf_surffix = ".conf";
-    public static final String cluster_info = "cluster_info.json";
-    public static final String node_info = "node_info.json";
-    public static final String cpu = "cpu.json";
-    public static final String java_system_properties = "java_system_properties.json";
-    public static final String machine_info = "machine-info.json";
-    public static final String ntptime = "ntptime";
+    // conf file names;
+    public static final String CLUSTER_INFO = "cluster_info.json";
+    public static final String NODE_INFO = "node_info.json";
+    public static final String CPU = "cpu.json";
+    public static final String JAVA_SYSTEM_PROPERTIES = "java_system_properties.json";
+    public static final String MACHINE_INFO = "machine-info.json";
+    public static final String NTPTIME = "ntptime";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";

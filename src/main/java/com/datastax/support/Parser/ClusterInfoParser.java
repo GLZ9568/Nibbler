@@ -22,8 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Mike Zhang on 30/11/2017.
@@ -53,9 +51,9 @@ public class ClusterInfoParser {
         ArrayList<File> filelist = ff.getFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
-        cluster_info_obj.put(StrFactory.iscluster_infoexist,false);
+        cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,false);
         node_info_obj = new JSONObject();
-        node_info_obj.put(StrFactory.isnode_infoexist,false);
+        node_info_obj.put(StrFactory.ISNODE_INFOEXIST,false);
         cpu_obj_list = new ArrayList<JSONObject>();
         java_system_properties_obj_list =  new ArrayList<JSONObject>();
         machine_info_obj_list =  new ArrayList<JSONObject>();
@@ -64,13 +62,13 @@ public class ClusterInfoParser {
         for (int i =0; i < filelist.size();++i)
         {
             filename = filelist.get(i);
-            if(filename.getName().contains(StrFactory.cluster_info))
+            if(filename.getName().contains(StrFactory.CLUSTER_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     cluster_info_obj = (JSONObject) jsonParser.parse(reader);
-                    cluster_info_obj.put(StrFactory.iscluster_infoexist,true);
+                    cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,true);
                     cluster_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     cluster_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
@@ -82,14 +80,14 @@ public class ClusterInfoParser {
                 }
                 //iscluster_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.node_info))
+            if(filename.getName().contains(StrFactory.NODE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     node_info_obj = (JSONObject) jsonParser.parse(reader);
                    // node_info_obj.put(StrFactory.file_id, setID(filename.getAbsolutePath()));
-                    node_info_obj.put(StrFactory.isnode_infoexist,true);
+                    node_info_obj.put(StrFactory.ISNODE_INFOEXIST,true);
                     node_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     node_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
@@ -102,7 +100,7 @@ public class ClusterInfoParser {
                 }
                 //isnode_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.cpu))
+            if(filename.getName().contains(StrFactory.CPU))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -111,7 +109,7 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                    // String str = cpu_info_obj.get("id").toString();
 
-                    cpu_info_obj.put(StrFactory.iscpuexist,true);
+                    cpu_info_obj.put(StrFactory.ISCPUEXIST,true);
                     cpu_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     cpu_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     cpu_info_obj.put(StrFactory.FILE_NAME, filename.getName());
@@ -126,7 +124,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.java_system_properties))
+            if(filename.getName().contains(StrFactory.JAVA_SYSTEM_PROPERTIES))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -136,7 +134,7 @@ public class ClusterInfoParser {
                     // String str = cpu_info_obj.get("id").toString();
 
 
-                    java_system_properties_obj.put(StrFactory.isjava_system_propertiesexist,true);
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,true);
                     java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
@@ -151,7 +149,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.machine_info))
+            if(filename.getName().contains(StrFactory.MACHINE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -160,7 +158,7 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
 
-                    machine_info_obj.put(StrFactory.ismachine_infoexist,true);
+                    machine_info_obj.put(StrFactory.ISMACHINE_INFOEXIST,true);
                     machine_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     machine_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     machine_info_obj.put(StrFactory.FILE_NAME, filename.getName());
@@ -175,7 +173,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.ntptime))
+            if(filename.getName().contains(StrFactory.NTPTIME))
             {
                 try {
 
@@ -190,7 +188,7 @@ public class ClusterInfoParser {
                     ntptime_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     ntptime_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     ntptime_obj.put(StrFactory.FILE_NAME, filename.getName());
-                    ntptime_obj.put(StrFactory.ntptime_content,str);
+                    ntptime_obj.put(StrFactory.NTPTIME_CONTENT,str);
                     ntptime_obj_list.add(ntptime_obj);
 
                 } catch (IOException e) {
