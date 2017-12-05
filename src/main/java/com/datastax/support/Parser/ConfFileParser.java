@@ -78,25 +78,25 @@ public class ConfFileParser {
         if (!cassandraYamlFiles.isEmpty()) {
             cassandraYamlProperties = extractProperties(cassandraYamlFiles);
             for (NibProperties properties : cassandraYamlProperties) {
-                String cn = properties.get(StrFactory.cluster_name).toString();
+                String cn = properties.get(StrFactory.CLUSTER_NAME).toString();
                 if (!clusterName.contains(cn)) {
                     clusterName.add(cn);
                 }
             }
         } else {
-            logger.error("Did not find any " + StrFactory.cassandra_yaml + " files.");
+            logger.error("Did not find any " + StrFactory.CASSANDRA_YAML + " files.");
         }
 
         if (!addressYamlFiles.isEmpty()) {
             addressYamlProperties = extractProperties(addressYamlFiles);
         } else {
-            logger.error("Did not find any " + StrFactory.address_yaml + " files.");
+            logger.error("Did not find any " + StrFactory.ADDRESS_YAML + " files.");
         }
 
         if (!dseYamlFiles.isEmpty()) {
             dseYamlProperties = extractProperties(dseYamlFiles);
         } else {
-            logger.error("Did not find any " + StrFactory.dse_yaml + " files.");
+            logger.error("Did not find any " + StrFactory.DSE_YAML + " files.");
         }
 
         //here we check cluster names to match the clustername.conf file name - to be finished
@@ -114,7 +114,7 @@ public class ConfFileParser {
     }
 
     public boolean isCassandraYaml (File file) {
-        return file.getName().contains(StrFactory.cassandra_yaml);
+        return file.getName().contains(StrFactory.CASSANDRA_YAML);
     }
 
     public ArrayList<NibProperties> getCassandraYamlProperties() {
@@ -122,7 +122,7 @@ public class ConfFileParser {
     }
 
     public boolean isAgentAddressYaml (File file) {
-        return file.getName().contains(StrFactory.address_yaml);
+        return file.getName().contains(StrFactory.ADDRESS_YAML);
     }
 
     public ArrayList<NibProperties> getAddressYamlProperties() {
@@ -130,7 +130,7 @@ public class ConfFileParser {
     }
 
     public boolean isDSEYaml (File file) {
-        return file.getAbsolutePath().contains(StrFactory.dse_yaml);
+        return file.getAbsolutePath().contains(StrFactory.DSE_YAML);
     }
 
     public ArrayList<NibProperties> getDSEYamlProperties() {
@@ -138,7 +138,7 @@ public class ConfFileParser {
     }
 
     public boolean isConfFile (File file) {
-        return file.getName().endsWith(StrFactory.conf_surffix);
+        return file.getName().endsWith(StrFactory.CONF_SURFFIX);
     }
 
     public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
@@ -165,9 +165,9 @@ public class ConfFileParser {
                 FileInputStream input = new FileInputStream(file);
                 properties.load(input);
                 id = Inspector.getFileID(file);
-                properties.put(StrFactory.file_id, id);
-                properties.put(StrFactory.file_path, file.getAbsolutePath());
-                properties.put(StrFactory.file_name, file.getName());
+                properties.put(StrFactory.FILE_ID, id);
+                properties.put(StrFactory.FILE_PATH, file.getAbsolutePath());
+                properties.put(StrFactory.FILE_NAME, file.getName());
                 propertiesArrayList.add(properties);
             } catch (FileNotFoundException fnfe) {
                 logger.error(fnfe);

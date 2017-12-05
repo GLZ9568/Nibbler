@@ -56,30 +56,20 @@ public final class Inspector {
         if (foundIPAddress(file.getAbsolutePath())) {
             return getIPAddress(file.getAbsolutePath());
         } else if (foundOpsCenter(file.getAbsolutePath())) {
-            return StrFactory.opscenterd;
+            return StrFactory.OPSCENTERD;
         } else {
             return "Cannot find file ID information";
         }
     }
 
     public static boolean foundOpsCenter (String path) {
-        if (path.contains(StrFactory.opscenterd)) {
+        if (path.contains(StrFactory.OPSCENTERD)) {
             return true;
         }
         return false;
     }
 
-    public static boolean isValidNodetoolStatusFile (File file) {
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNext()) {
-                if(scanner.nextLine().contains(StrFactory.datacenter)) {
-                    return true;
-                }
-            }
-        } catch (FileNotFoundException fnfe) {
-            logger.error(fnfe);
-        }
-        return false;
+    public static String[] splitBySpace (String input) {
+        return input.split("\\s+");
     }
 }
