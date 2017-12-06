@@ -14,7 +14,7 @@ import com.datastax.support.Util.NibProperties;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.*;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import java.io.File;
@@ -22,8 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Mike Zhang on 30/11/2017.
@@ -38,7 +36,10 @@ public class ClusterInfoParser {
     private ArrayList<JSONObject> cpu_obj_list;
     private ArrayList<JSONObject> java_system_properties_obj_list;
     private ArrayList<JSONObject> machine_info_obj_list;
-  /*  private boolean iscluster_infoexist = false;
+    private ArrayList<NibProperties> dsetool_ring_obj_list;
+    private ArrayList<JSONObject> ntptime_obj_list;
+
+/*  private boolean iscluster_infoexist = false;
     private boolean isnode_infoexist = false;
     private boolean iscpuexist = false;
     private boolean isjava_system_propertiesexist = false;
@@ -50,22 +51,26 @@ public class ClusterInfoParser {
         ArrayList<File> filelist = ff.getFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
-        cluster_info_obj.put(StrFactory.iscluster_infoexist,false);
+        cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,false);
         node_info_obj = new JSONObject();
-        node_info_obj.put(StrFactory.isnode_infoexist,false);
+        node_info_obj.put(StrFactory.ISNODE_INFOEXIST,false);
+        cpu_obj_list = new ArrayList<JSONObject>();
+        java_system_properties_obj_list =  new ArrayList<JSONObject>();
+        machine_info_obj_list =  new ArrayList<JSONObject>();
+        ntptime_obj_list = new ArrayList<JSONObject>();
 
         for (int i =0; i < filelist.size();++i)
         {
             filename = filelist.get(i);
-            if(filename.getName().contains(StrFactory.cluster_info))
+            if(filename.getName().contains(StrFactory.CLUSTER_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     cluster_info_obj = (JSONObject) jsonParser.parse(reader);
-                    cluster_info_obj.put(StrFactory.iscluster_infoexist,true);
-                    cluster_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    cluster_info_obj.put(StrFactory.file_name, filename.getName());
+                    cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,true);
+                    cluster_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    cluster_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -75,16 +80,16 @@ public class ClusterInfoParser {
                 }
                 //iscluster_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.node_info))
+            if(filename.getName().contains(StrFactory.NODE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     node_info_obj = (JSONObject) jsonParser.parse(reader);
                    // node_info_obj.put(StrFactory.file_id, setID(filename.getAbsolutePath()));
-                    node_info_obj.put(StrFactory.isnode_infoexist,true);
-                    node_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    node_info_obj.put(StrFactory.file_name, filename.getName());
+                    node_info_obj.put(StrFactory.ISNODE_INFOEXIST,true);
+                    node_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    node_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
 
                 } catch (IOException e) {
@@ -95,7 +100,7 @@ public class ClusterInfoParser {
                 }
                 //isnode_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.cpu))
+            if(filename.getName().contains(StrFactory.CPU))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -103,9 +108,11 @@ public class ClusterInfoParser {
                     JSONObject cpu_info_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                    // String str = cpu_info_obj.get("id").toString();
-                    cpu_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    cpu_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    cpu_info_obj.put(StrFactory.file_name, filename.getName());
+
+                    cpu_info_obj.put(StrFactory.ISCPUEXIST,true);
+                    cpu_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    cpu_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    cpu_info_obj.put(StrFactory.FILE_NAME, filename.getName());
                     cpu_obj_list.add(cpu_info_obj);
 
                 } catch (IOException e) {
@@ -114,10 +121,10 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
-            if(filename.getName().contains(StrFactory.java_system_properties))
+            if(filename.getName().contains(StrFactory.JAVA_SYSTEM_PROPERTIES))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -125,9 +132,12 @@ public class ClusterInfoParser {
                     JSONObject java_system_properties_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
-                    java_system_properties_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.file_name, filename.getName());
+
+
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,true);
+                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
 
                 } catch (IOException e) {
@@ -136,10 +146,10 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
-            if(filename.getName().contains(StrFactory.machine_info))
+            if(filename.getName().contains(StrFactory.MACHINE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -147,9 +157,11 @@ public class ClusterInfoParser {
                     JSONObject machine_info_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
-                    machine_info_obj.put(StrFactory.file_id, setIP(filename.getAbsolutePath()));
-                    machine_info_obj.put(StrFactory.file_path, filename.getAbsolutePath());
-                    machine_info_obj.put(StrFactory.file_name, filename.getName());
+
+                    machine_info_obj.put(StrFactory.ISMACHINE_INFOEXIST,true);
+                    machine_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    machine_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    machine_info_obj.put(StrFactory.FILE_NAME, filename.getName());
                     machine_info_obj_list.add(machine_info_obj);
 
                 } catch (IOException e) {
@@ -158,13 +170,14 @@ public class ClusterInfoParser {
                 catch (ParseException p){
                     p.printStackTrace();
                 }
-                //isnode_infoexist = true;
+
             }
 
-            if(filename.getName().contains(StrFactory.ntptime))
+            if(filename.getName().contains(StrFactory.NTPTIME))
             {
                 try {
 
+                    JSONObject ntptime_obj = new JSONObject();
                     FileInputStream  fis = new FileInputStream(filename);
                     byte[] data = new byte[(int) filename.length()];
 
@@ -172,11 +185,16 @@ public class ClusterInfoParser {
                     fis.close();
                     String str = new String(data, "UTF-8");
 
+                    ntptime_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    ntptime_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    ntptime_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    ntptime_obj.put(StrFactory.NTPTIME_CONTENT,str);
+                    ntptime_obj_list.add(ntptime_obj);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                //isnode_infoexist = true;
             }
 
 
@@ -219,7 +237,22 @@ public class ClusterInfoParser {
         return machine_info_obj_list;
     }
 
-   /* public boolean isIscluster_infoexist() {
+    public ArrayList<JSONObject> getCpu_obj_list() {
+        return cpu_obj_list;
+    }
+
+    public ArrayList<JSONObject> getJava_system_properties_obj_list() {
+        return java_system_properties_obj_list;
+    }
+
+    public ArrayList<JSONObject> getMachine_info_obj_list() {
+        return machine_info_obj_list;
+    }
+
+    public ArrayList<JSONObject> getNtptime_list() {
+        return ntptime_obj_list;
+    }
+    /* public boolean isIscluster_infoexist() {
         return iscluster_infoexist;
     }
 

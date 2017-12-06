@@ -27,7 +27,20 @@ public class StrFactory {
     public static final String FILE_PATH = "file_path";
     public static final String OPSCENTERD = "opscenterd";
 
-    // conf file names
+    public static final String ISCLUSTER_INFOEXIST = "iscluster_infoexist";
+    public static final String ISNODE_INFOEXIST = "isnode_infoexist";
+    public static final String ISCPUEXIST = "iscpuexist";
+    public static final String ISJAVA_SYSTEM_PROPERTIESEXIST = "isjava_system_propertiesexist";
+    public static final String ISMACHINE_INFOEXIST = "ismachine_infoexist";
+    public static final String NTPTIME_CONTENT = "ntptime_content";
+    // file names
+    // conf file names;
+    public static final String CLUSTER_INFO = "cluster_info.json";
+    public static final String NODE_INFO = "node_info.json";
+    public static final String CPU = "cpu.json";
+    public static final String JAVA_SYSTEM_PROPERTIES = "java_system_properties.json";
+    public static final String MACHINE_INFO = "machine-info.json";
+    public static final String NTPTIME = "ntptime";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";
