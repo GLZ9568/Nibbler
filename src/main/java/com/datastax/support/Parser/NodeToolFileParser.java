@@ -20,7 +20,6 @@ import org.json.simple.JSONObject;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.io.File;
-import java.util.HashMap;
 import java.util.Scanner;
 
 /**

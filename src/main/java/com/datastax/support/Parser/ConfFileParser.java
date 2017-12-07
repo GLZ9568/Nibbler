@@ -99,7 +99,6 @@ public class ConfFileParser {
             logger.error("Did not find any " + StrFactory.DSE_YAML + " files.");
         }
 
-        //here we check cluster names to match the clustername.conf file name - to be finished
         if (!confFiles.isEmpty()) {
             for (File file : confFiles) {
                 if (isClusterConfFile(file, clusterName)) {
