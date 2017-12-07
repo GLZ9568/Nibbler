@@ -3,9 +3,9 @@ TO DO:
 1.General Cluster info:
 
  1.1.Cluster name: Total number of nodes(cluster_info.json),  OS version(if supported, cluster_info.jso), aws_instance_type(determine storage type,cluster_info.jso)
-  -> DC name(Workloadtype, number of tokens): number of nodes, rack_map(cluster_info.jso)
+  -> DC name(Workloadtype, number of tokens): number of nodes(nodetool_status), rack_map(cluster_info.jso)
   -> each node(node_info.json):
-      - ip address, hostname, dse version(cassandra version), "user.timezone" : "America/New_York"(java_system_properties.json),"java.version" : "1.8.0_77" (java_system_properties.json),workload type, ntp status(ntptime),machine memory(machine-info.json),num_procs, used cpu(cpu.json)
+      - ip address, hostname, dse version(cassandra version), "user.timezone" : "America/New_York"(java_system_properties.json),"java.version" : "1.8.0_77" (java_system_properties.json),workload type(dsetool_ring), ntp status(ntptime),machine memory(machine-info.json),num_procs, used cpu(cpu.json)
 
 ntp_gettime() returns code 5 (ERROR)
 
@@ -35,9 +35,20 @@ Each node:
 
 7.describecluster: for each node Schema versions: UNREACHABLE nodes
 
+
+
 8.system.log:
   (categirzed by date)
 GC latency , local pauses, hinted handoff,discarded prepared statements(top 10),large batches(top10),dropped messages, tombstone warnings(top10), large partitions(top 10)
+
+
+9. cassandra.yaml:
+
+compare seed-list
+
+conncurent writer
+
+timeout
 
 
 
