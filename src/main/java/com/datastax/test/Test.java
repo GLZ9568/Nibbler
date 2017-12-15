@@ -29,8 +29,8 @@ public class Test extends Nibbler {
     //private final String testDir = "38949";
     //private final String testDir = "test";
     private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2017_AP\\" + testDir);
-    private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/2017_AP/" + testDir);
-    //private final File linDir = new File ("/Users/cgao/Downloads/prod_tax-diagnostics-2017_11_24_00_23_20_UTC");
+   // private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/2017_AP/" + testDir);
+    private final File linDir = new File ("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC");
 
     protected FileFactory fileFactory;
     protected ArrayList<File> files;

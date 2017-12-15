@@ -9,6 +9,7 @@
 
 package com.datastax.test;
 
+import com.datastax.support.ConfAnalyzer.ClusterInfoAnalyzer;
 import com.datastax.support.Parser.ClusterInfoParser;
 import com.datastax.support.Util.FileFactory;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +32,11 @@ public class ClusterInfoParserTest {
 
         if (b)
         {
+            ClusterInfoAnalyzer cia =  new ClusterInfoAnalyzer();
+
+            cia.generateNodeStatusOutput(ff);
+
+            /*
             ClusterInfoParser cip = new ClusterInfoParser(ff);
             //logger.debug(cip.getCluster_info_obj().toString());
             //logger.debug(cip.getNode_info_obj().toString());
@@ -54,6 +60,7 @@ public class ClusterInfoParserTest {
 
 
             }
+            */
         }
     }
 }

@@ -42,6 +42,8 @@ public class DiagParserGUI extends Application {
     private TitledPane statuspane = new TitledPane();
     private TitledPane dsetoolringpane = new TitledPane();
 
+    private TitledPane clusterinfopane = new TitledPane();
+
 
 
     @Override
@@ -91,6 +93,7 @@ public class DiagParserGUI extends Application {
 
                     statuspane.setExpanded(false);
                     dsetoolringpane.setExpanded(false);
+                    clusterinfopane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     anchorpane.getChildren().removeAll(grid);
@@ -140,6 +143,7 @@ public class DiagParserGUI extends Application {
         if (b) {
             statuspane = new StatusPane().createstatusPane(ff);
             dsetoolringpane =  new DsetoolRingPane().createDsetoolRingPane(ff);
+            clusterinfopane = new ClusterinfoPane().createClusterInfoPane(ff);
         } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -163,8 +167,9 @@ public class DiagParserGUI extends Application {
         border.setCenter(addAnchorPane());
         grid.getChildren().removeAll(statuspane,dsetoolringpane);
 
-        grid.add(statuspane,0,0);
-        grid.add(dsetoolringpane,0,1);
+        grid.add(statuspane,0,1);
+        grid.add(dsetoolringpane,0,2);
+        grid.add(clusterinfopane,0,0);
         anchorpane.getChildren().add(grid);
         //anchorpane.getChildren().add(statuspane);
        // anchorpane.getChildren().add(dsetoolringpane);

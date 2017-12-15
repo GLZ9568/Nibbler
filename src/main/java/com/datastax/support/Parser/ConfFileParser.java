@@ -45,6 +45,8 @@ public class ConfFileParser {
     private ArrayList<File> clusterConfFiles;
     private ArrayList<NibProperties> clusterConfProperties;
 
+    private ArrayList<String> clusterName;
+
     public void parse(ArrayList<File> files) {
 
         cassandraYamlFiles = new ArrayList<File>();
@@ -61,7 +63,7 @@ public class ConfFileParser {
         clusterConfFiles = new ArrayList<File>();
         clusterConfProperties = new ArrayList<NibProperties>();
 
-        ArrayList<String> clusterName = new ArrayList<String>();
+        clusterName = new ArrayList<String>();
 
         for (File file : files) {
             if (isCassandraYaml(file)) {
@@ -152,6 +154,8 @@ public class ConfFileParser {
     public ArrayList<NibProperties> getClusterConfProperties () {
         return clusterConfProperties;
     }
+
+    public ArrayList<String> getClusterName() {return clusterName;}
 
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {
         ArrayList<NibProperties> propertiesArrayList = new ArrayList<NibProperties>();
