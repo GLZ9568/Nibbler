@@ -10,7 +10,6 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.NodeToolFileParser;
-import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +40,12 @@ public class NodeToolFileParseTest extends Test{
         for (Object ja : dcArray) {
             JSONObject tmp = (JSONObject) ja;
             logger.debug("DC: " + tmp.get(StrFactory.DATACENTER));
+            JSONArray ja1 =  (JSONArray)tmp.get(StrFactory.NODES);
+            for(Object ja2 :ja1)
+            {
+                JSONObject tmp1 = (JSONObject) ja2;
+                logger.debug("node: " + tmp1.get(StrFactory.ADDRESS));
+            }
         }
     }
 

@@ -37,6 +37,8 @@ public class StrFactory {
     public static final String ISJAVA_SYSTEM_PROPERTIESEXIST = "isjava_system_propertiesexist";
     public static final String ISMACHINE_INFOEXIST = "ismachine_infoexist";
     public static final String NTPTIME_CONTENT = "ntptime_content";
+    public static final String NTPTIME_STAUS = "ntptime_status";
+    public static final String NTPTIME_OFFSET = "ntptime_offset";
     // file names
     // conf file names;
     public static final String CLUSTER_INFO = "cluster_info.json";

@@ -177,21 +177,16 @@ public class ClusterInfoParser {
             {
                 try {
 
-                    JSONObject ntptime_obj = new JSONObject();
-                    FileInputStream  fis = new FileInputStream(filename);
-                    byte[] data = new byte[(int) filename.length()];
+                    NtpInfoParser ntpInfoParser =  new NtpInfoParser();
 
-                    fis.read(data);
-                    fis.close();
-                    String str = new String(data, "UTF-8");
+                    JSONObject ntptime_obj = ntpInfoParser.parse(filename);
 
                     ntptime_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     ntptime_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     ntptime_obj.put(StrFactory.FILE_NAME, filename.getName());
-                    ntptime_obj.put(StrFactory.NTPTIME_CONTENT,str);
                     ntptime_obj_list.add(ntptime_obj);
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

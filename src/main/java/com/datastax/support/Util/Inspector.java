@@ -73,7 +73,12 @@ public final class Inspector {
         return input.split("\\s+");
     }
 
-    public static String[] splitByColon (String input) {
+    public static String[] splitByComma (String input) {
+        return input.split(",");
+    }
+
+    public static String[] splitByColon(String input){
+
         return input.split(":");
     }
 }
