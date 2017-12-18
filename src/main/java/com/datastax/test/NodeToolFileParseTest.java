@@ -10,6 +10,7 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.NodeToolFileParser;
+import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +22,7 @@ import org.json.simple.JSONObject;
  */
 
 public class NodeToolFileParseTest extends Test{
+
     private static final Logger logger = LogManager.getLogger(NodeToolFileParseTest.class);
 
     private JSONObject nodetoolStatusJSON = new JSONObject();
@@ -29,14 +31,13 @@ public class NodeToolFileParseTest extends Test{
         NodeToolFileParser nodeToolFileParser = new NodeToolFileParser();
         nodeToolFileParser.parse(files);
         nodetoolStatusJSON = nodeToolFileParser.getNodetoolStatusJSON();
-        logger.debug(nodetoolStatusJSON);
     }
 
     public void readNodetoolStatusJSON() {
-        logger.debug(nodetoolStatusJSON);
+        logger.debug("Nodetool Status JSON: " + nodetoolStatusJSON);
         logger.debug(nodetoolStatusJSON.get(StrFactory.STATUS));
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(StrFactory.STATUS);
-        logger.debug("JSONArray Size: " + dcArray.size());
+        logger.debug("Number of DCs: " + dcArray.size());
         for (Object ja : dcArray) {
             JSONObject tmp = (JSONObject) ja;
             logger.debug("DC: " + tmp.get(StrFactory.DATACENTER));
@@ -49,5 +50,4 @@ public class NodeToolFileParseTest extends Test{
         ntfpt.parseFiles();
         ntfpt.readNodetoolStatusJSON();
     }
-
 }

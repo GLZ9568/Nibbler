@@ -72,4 +72,8 @@ public final class Inspector {
     public static String[] splitBySpace (String input) {
         return input.split("\\s+");
     }
+
+    public static String[] splitByColon (String input) {
+        return input.split(":");
+    }
 }
