@@ -26,6 +26,10 @@ public class StrFactory {
     public static final String FILE_NAME = "file_name";
     public static final String FILE_PATH = "file_path";
     public static final String OPSCENTERD = "opscenterd";
+    public static final String KEYSPACE = "Keyspace";
+    public static final String KEYSPACES = "Keyspaces";
+    public static final String TABLE = "Table";
+    public static final String TABLES = "Tables";
 
     public static final String ISCLUSTER_INFOEXIST = "iscluster_infoexist";
     public static final String ISNODE_INFOEXIST = "isnode_infoexist";
@@ -62,7 +66,7 @@ public class StrFactory {
 
     // nodetool output
     public static final String NODETOOL = "nodetool";
-    public static final String CTSTATS = "ctstats";
+    public static final String CFSTATS = "cfstats";
     public static final String COMPACTIONHISTORY = "compactionhistory";
     public static final String COMPACTIONSTATS = "compactionstats";
     public static final String DESCRIBECLUSTER = "describecluster";
