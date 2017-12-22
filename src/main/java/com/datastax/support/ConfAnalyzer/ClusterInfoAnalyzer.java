@@ -207,7 +207,7 @@ public class ClusterInfoAnalyzer {
 
         clusterinfotext += "####Node Configuration Details(group by datacenters)####\n";
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(StrFactory.STATUS);
-        logger.debug("JSONArray Size: " + dcArray.size());
+        //logger.debug("JSONArray Size: " + dcArray.size());
         for (Object dc : dcArray) {
             JSONObject tmpdcvar = (JSONObject) dc;
             //logger.debug("DC: " + tmpdcvar.get(StrFactory.DATACENTER));

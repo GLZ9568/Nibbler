@@ -35,6 +35,11 @@ public class StrFactory {
     public static final String NTPTIME_CONTENT = "ntptime_content";
     public static final String NTPTIME_STAUS = "ntptime_status";
     public static final String NTPTIME_OFFSET = "ntptime_offset";
+    public static final String INFO_GENERATION = "info_generation";
+    public static final String INFO_UPTIME = "info_uptime";
+    public static final String INFO_TOTALHEAP = "info_totalheap";
+    public static final String INFO_USEDHEAP = "info_usedheap";
+    public static final String INFO_OFFHEAP = "info_usedheap";
     // file names
     // conf file names;
     public static final String CLUSTER_INFO = "cluster_info.json";

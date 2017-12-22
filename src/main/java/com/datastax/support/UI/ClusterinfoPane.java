@@ -29,7 +29,7 @@ public class ClusterinfoPane {
         //tp.setMinHeight(768);
         tp.setStyle( "-fx-font-family: Courier New");
         //tp.setPrefSize(1024, 10);
-        tp.setText("Cluster Information Summary");
+        tp.setText("Cluster Configuration Summary");
         tp.setContent(new ClusterInfoAnalyzer().generateNodeStatusOutput(ff));
         return tp;
 
