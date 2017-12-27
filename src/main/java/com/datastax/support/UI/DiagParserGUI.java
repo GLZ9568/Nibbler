@@ -41,16 +41,15 @@ public class DiagParserGUI extends Application {
     private FileFactory ff;
     private TitledPane statuspane = new TitledPane();
     private TitledPane dsetoolringpane = new TitledPane();
-
     private TitledPane clusterinfopane = new TitledPane();
+    private TitledPane infopane = new TitledPane();
+
 
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-
-
 
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
@@ -94,6 +93,7 @@ public class DiagParserGUI extends Application {
                     statuspane.setExpanded(false);
                     dsetoolringpane.setExpanded(false);
                     clusterinfopane.setExpanded(false);
+                    infopane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     anchorpane.getChildren().removeAll(grid);
@@ -144,6 +144,7 @@ public class DiagParserGUI extends Application {
             statuspane = new StatusPane().createstatusPane(ff);
             dsetoolringpane =  new DsetoolRingPane().createDsetoolRingPane(ff);
             clusterinfopane = new ClusterinfoPane().createClusterInfoPane(ff);
+            infopane = new NotoolInfoPane().createinfoPane(ff);
         } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -165,11 +166,12 @@ public class DiagParserGUI extends Application {
         t.setText("This is a text sample");
         tp.setContent(t);*/
         border.setCenter(addAnchorPane());
-        grid.getChildren().removeAll(statuspane,dsetoolringpane);
+        grid.getChildren().removeAll(clusterinfopane,statuspane,dsetoolringpane,infopane);
 
+        grid.add(clusterinfopane,0,0);
         grid.add(statuspane,0,1);
         grid.add(dsetoolringpane,0,2);
-        grid.add(clusterinfopane,0,0);
+        grid.add(infopane,0,3);
         anchorpane.getChildren().add(grid);
         //anchorpane.getChildren().add(statuspane);
        // anchorpane.getChildren().add(dsetoolringpane);

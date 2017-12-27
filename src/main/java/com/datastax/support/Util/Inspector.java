@@ -111,4 +111,15 @@ public final class Inspector {
         }
         return String.format("%02d mins %02d seconds", minutes, seconds);
     }
+
+    public static String generatedotline(int length)
+    {
+        String dotinestr =  new String();
+
+        for (int i=0; i< length; ++i)
+        {
+            dotinestr+="-";
+        }
+        return dotinestr;
+    }
 }
