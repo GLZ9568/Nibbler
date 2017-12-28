@@ -38,22 +38,21 @@ public class CfstatsFileParser {
 
     /**
      {
+     "file_id":"13.57.154.111","file_name":"cfstats","file_path":"./nodes/13.57.154.111/nodetool/cfstats",
      "Keyspaces":
         [
-            {"Keyspace":"k1","Read Count":"0",...
+            {"Keyspace":"registry","Read Count":"0",...
             "Tables":
                 [
-                    {"Table":"t1","Local write latency":"NaN ms",...},
-                    {"Table":"t2","Local write latency":"NaN ms",...}
+                    {"Table":"image_labels","SSTable count":"0","Space used (live)":"0",...},
                 ],
             },
-            {"Keyspace":"k2","Read Count":"0",...
+            {"Keyspace":"csr","Read Count":"0",...
             "Tables":
                 [
-                    {"Table":"t3","Local write latency":"NaN ms",...}
-                    {"Table":"t4","Local write latency":"NaN ms",...}
+                    {"Table":"configuration_registration","SSTable count":"3","Space used (live)":"27983",...},
                 ],
-            }
+            },
         ]
      }
      **/
@@ -72,6 +71,10 @@ public class CfstatsFileParser {
 
                 boolean isKeyspaceData = false;
                 boolean isTableData = false;
+
+                nodetoolStatusJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
+                nodetoolStatusJSON.put(StrFactory.FILE_NAME, file.getName());
+                nodetoolStatusJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);

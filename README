@@ -35,21 +35,14 @@ Each node:
 
 7.describecluster: for each node Schema versions: UNREACHABLE nodes
 
-
-
 8.system.log:
   (categirzed by date)
 GC latency , local pauses, hinted handoff,discarded prepared statements(top 10),large batches(top10),dropped messages, tombstone warnings(top10), large partitions(top 10)
 
-
-9. cassandra.yaml:
+9.cassandra.yaml:
 
 compare seed-list
 
 conncurent writer
 
 timeout
-
-
-
-

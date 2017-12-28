@@ -40,7 +40,6 @@ public class ConfFileParser {
     private ArrayList<NibProperties> dseYamlProperties;
 
     private ArrayList<File> confFiles;
-    private ArrayList<NibProperties> confProperties;
 
     private ArrayList<File> clusterConfFiles;
     private ArrayList<NibProperties> clusterConfProperties;

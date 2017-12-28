@@ -64,13 +64,14 @@ public class StrFactory {
     public static final String CFSTATS = "cfstats";
     public static final String COMPACTIONHISTORY = "compactionhistory";
     public static final String COMPACTIONSTATS = "compactionstats";
-    public static final String DESCRIBECLUSTER = "describecluster";
     public static final String GETCOMPACTIONTHROUGHPUT = "getcompactionthroughput";
     public static final String GETSTREAMTHROUGHPUT = "getstreamthroughput";
     public static final String GOSSIPINFO = "gossipinfo";
     public static final String INFO = "info";
     public static final String NETSTATS = "netstats";
     public static final String PROXYHISTOGRAMS = "proxyhistograms";
+
+    public static final String DSETOOL = "dsetool";
     public static final String RING = "ring";
 
     public static final String STATUS = "status";
@@ -92,10 +93,24 @@ public class StrFactory {
     public static final String DM = "DM";
     public static final ArrayList<String> NODESTATUS = new ArrayList<String>(Arrays.asList(UN, UL, UJ, UM, DN, DL, DJ, DM));
 
+    public static final String TPSTATS = "tpstats";
+    public static final String POOL_NAME = "Pool Name";
+    public static final String ACTIVE = "Active";
+    public static final String PENDING = "Pending";
+    public static final String COMPLETED = "Completed";
+    public static final String BLOCKED = "Blocked";
+    public static final String ALL_TIME_BLOCKED = "All time blocked";
+    public static final ArrayList<String> TPSTATS_POOL = new ArrayList<String>(Arrays.asList(POOL_NAME, ACTIVE, PENDING, COMPLETED, BLOCKED, ALL_TIME_BLOCKED));
+    public static final String MESSAGE_TYPE = "Message type";
+    public static final String DROPPED = "Dropped";
+    public static final ArrayList<String> TPSTATS_MSG = new ArrayList<String>(Arrays.asList(MESSAGE_TYPE, DROPPED));
+
+    public static final String DESCRIBECLUSTER = "describecluster";
+    public static final String CLUSTER_INFORMATION = "Cluster Inforamtion";
+    public static final String SCHEMA_VERSIONS = "Schema versions";
 
     public static final String STATUSBINARY = "statusbinary";
     public static final String STATUSTHRIFT = "statusthrift";
-    public static final String TPSTATS = "tpstats";
     public static final String VERSION = "version";
 
 
