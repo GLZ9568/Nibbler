@@ -11,6 +11,7 @@ package com.datastax.support.UI;
 
 import com.datastax.support.ConfAnalyzer.*;
 import com.datastax.support.Util.FileFactory;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 
 /**
@@ -19,7 +20,7 @@ import javafx.scene.control.TitledPane;
 
 public class ClusterinfoPane {
 
-
+    private String cluster_info_report;
     TitledPane createClusterInfoPane(FileFactory ff)
     {
         TitledPane tp = new TitledPane();
@@ -30,8 +31,14 @@ public class ClusterinfoPane {
         tp.setStyle( "-fx-font-family: Courier New");
         //tp.setPrefSize(1024, 10);
         tp.setText("Cluster Configuration Summary");
-        tp.setContent(new ClusterInfoAnalyzer().generateNodeStatusOutput(ff));
+        TextArea cluster_info_area = new ClusterInfoAnalyzer().generateNodeStatusOutput(ff);
+        tp.setContent(cluster_info_area);
+        cluster_info_report = cluster_info_area.getText();
         return tp;
 
+    }
+
+    public String getCluster_info_report() {
+        return cluster_info_report;
     }
 }

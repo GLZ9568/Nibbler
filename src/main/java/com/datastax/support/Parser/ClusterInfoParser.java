@@ -52,9 +52,9 @@ public class ClusterInfoParser {
         ArrayList<File> filelist = ff.getFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
-        cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,false);
+        cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,"false");
         node_info_obj = new JSONObject();
-        node_info_obj.put(StrFactory.ISNODE_INFOEXIST,false);
+        node_info_obj.put(StrFactory.ISNODE_INFOEXIST,"false");
         cpu_obj_list = new ArrayList<JSONObject>();
         java_system_properties_obj_list =  new ArrayList<JSONObject>();
         machine_info_obj_list =  new ArrayList<JSONObject>();
@@ -70,7 +70,7 @@ public class ClusterInfoParser {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     cluster_info_obj = (JSONObject) jsonParser.parse(reader);
-                    cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,true);
+                    cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,"true");
                     cluster_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     cluster_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 
@@ -89,7 +89,7 @@ public class ClusterInfoParser {
                     JSONParser jsonParser = new JSONParser();
                     node_info_obj = (JSONObject) jsonParser.parse(reader);
                    // node_info_obj.put(StrFactory.file_id, setID(filename.getAbsolutePath()));
-                    node_info_obj.put(StrFactory.ISNODE_INFOEXIST,true);
+                    node_info_obj.put(StrFactory.ISNODE_INFOEXIST,"true");
                     node_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     node_info_obj.put(StrFactory.FILE_NAME, filename.getName());
 

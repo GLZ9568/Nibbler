@@ -106,29 +106,50 @@ public class ClusterInfoAnalyzer {
         }
 
         ////2. get number of DCs
+        if(cip.getCluster_info_obj().get(StrFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        {
+            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
 
-        clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
 
+            ///3. get number of nodes:
 
-        ///3. get number of nodes:
+            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count")+ "\n";
 
-        clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count")+ "\n";
+            ///4. get instance types
 
-        ///4. get instance types
+            JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
 
-        JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
-
-        /// If it is not AWS instances, instance_types will be null
-        if (instance_types !=null) {
-            clusterinfotext += "Instance Types: \n";
-            for (int i = 0; i < instance_types.size(); ++i) {
-                if(instance_types.get(i) !=null)
-                    clusterinfotext += "  - " + instance_types.get(i).toString() +"(" +StrFactory.aws_instance.get(instance_types.get(i).toString())+")"+ "\n";
+            /// If it is not AWS instances, instance_types will be null
+            if (instance_types !=null) {
+                clusterinfotext += "Instance Types: \n";
+                for (int i = 0; i < instance_types.size(); ++i) {
+                    if(instance_types.get(i) !=null)
+                        clusterinfotext += "  - " + instance_types.get(i).toString() +"(" +StrFactory.aws_instance.get(instance_types.get(i).toString())+")"+ "\n";
+                }
             }
+
+            JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
+            clusterinfotext +="Cluster OS Version: \n";
+
+            for (int i=0; i< cluster_os.size();++i)
+            {
+                clusterinfotext += "  - " + cluster_os.get(i).toString() + "\n";
+            }
+            clusterinfotext += "\n";
+
+            clusterinfotext += "#### Cluster Rack Topology #### \n";
+
+            String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
+            Arrays.sort(rack_map_arrary);
+
+            for(int i=0; i< rack_map_arrary.length; ++i)
+            {
+                clusterinfotext +=rack_map_arrary[i]+"\n";
+            }
+            clusterinfotext += "\n";
         }
 
-        JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
-        clusterinfotext +="Cluster OS Version: \n";
+
 
         /*
         *   "linux",
@@ -153,23 +174,8 @@ public class ClusterInfoAnalyzer {
 
         *
         * */
-        for (int i=0; i< cluster_os.size();++i)
-        {
-            clusterinfotext += "  - " + cluster_os.get(i).toString() + "\n";
-        }
-        clusterinfotext += "\n";
 
-        clusterinfotext += "#### Cluster Rack Topology #### \n";
 
-        String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
-        Arrays.sort(rack_map_arrary);
-
-        for(int i=0; i< rack_map_arrary.length; ++i)
-        {
-            clusterinfotext +=rack_map_arrary[i]+"\n";
-        }
-
-        clusterinfotext += "\n";
         //clusterinfotext += cip.getCluster_info_obj().get("rack_map") + "\n";
 
        // logger.info(clusterinfotext);
@@ -260,36 +266,40 @@ public class ClusterInfoAnalyzer {
                 String file_id= tempnodevar.get(StrFactory.ADDRESS).toString();
 
                 clusterinfotext += "====== "+tempnodevar.get(StrFactory.ADDRESS).toString()+" ======"+"\n";
-                JSONObject node_obj = (JSONObject) cip.getNode_info_obj().get(file_id);
+                JSONObject node_obj = null;
 
-                String[] node_version_array = Inspector.splitByComma(node_obj.get("node_version").toString());
-                String dse_version = new String();
-                clusterinfotext += "DSE(Cassandra) Version: ";
-                for(int i=0; i< node_version_array.length;++i)
-                {
-                    if(node_version_array[i].contains("dse")) {
-                        clusterinfotext += node_version_array[i].replaceAll("[{|}]", "") + ",";
+                if(cip.getNode_info_obj().get(StrFactory.ISNODE_INFOEXIST).equals("true"))
+                     node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
 
-                        /// add and filter duplicate dse versions
-                        dse_version_set.add(node_version_array[i].replaceAll("[{|}]", ""));
+                if(node_obj !=null) {
 
-                        ////assign dse_version for later supported OS version check
+                    String[] node_version_array = Inspector.splitByComma(node_obj.get("node_version").toString());
+                    String dse_version = new String();
+                    clusterinfotext += "DSE(Cassandra) Version: ";
+                    for (int i = 0; i < node_version_array.length; ++i) {
+                        if (node_version_array[i].contains("dse")) {
+                            clusterinfotext += node_version_array[i].replaceAll("[{|}]", "") + ",";
 
-                        String dse_version_tmp = node_version_array[i].replaceAll("[{|}]", "");
-                        String[] split_str = Inspector.splitByColon(dse_version_tmp);
-                        dse_version = split_str[1].replaceAll("\"","");
+                            /// add and filter duplicate dse versions
+                            dse_version_set.add(node_version_array[i].replaceAll("[{|}]", ""));
 
+                            ////assign dse_version for later supported OS version check
+
+                            String dse_version_tmp = node_version_array[i].replaceAll("[{|}]", "");
+                            String[] split_str = Inspector.splitByColon(dse_version_tmp);
+                            dse_version = split_str[1].replaceAll("\"", "");
+
+                        }
                     }
-                }
-                for(int i=0; i< node_version_array.length;++i)
-                {
-                    if(node_version_array[i].contains("cassandra"))
-                        clusterinfotext += node_version_array[i].replaceAll("[{|}]", "");
-                }
-                clusterinfotext += "\n";
-                clusterinfotext += "Hostname: " + node_obj.get("hostname") + "\n";
+                    for (int i = 0; i < node_version_array.length; ++i) {
+                        if (node_version_array[i].contains("cassandra"))
+                            clusterinfotext += node_version_array[i].replaceAll("[{|}]", "");
+                    }
+                    clusterinfotext += "\n";
+                    clusterinfotext += "Hostname: " + node_obj.get("hostname") + "\n";
 
-                clusterinfotext += "Number of vCPUs: " + node_obj.get("num_procs") + "\n";
+                    clusterinfotext += "Number of vCPUs: " + node_obj.get("num_procs") + "\n";
+
 
                 /////get and check OS version if supported////
 
@@ -336,7 +346,7 @@ public class ClusterInfoAnalyzer {
 
                     }
                 }
-
+                }
                 ///get java version and node timezone
 
                 for(Object java_sys_obj: cip.getJava_system_properties_obj_list())

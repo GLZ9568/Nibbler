@@ -10,6 +10,7 @@
 package com.datastax.support.UI;
 
 import com.datastax.support.Util.FileFactory;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import com.datastax.support.Parser.statusParser;
 
@@ -21,6 +22,8 @@ import com.datastax.support.Parser.statusParser;
 
 public class StatusPane {
 
+    private String status_report;
+
     TitledPane createstatusPane(FileFactory ff)
     {
        TitledPane tp = new TitledPane();
@@ -31,9 +34,14 @@ public class StatusPane {
         tp.setStyle( "-fx-font-family: Courier New");
         //tp.setPrefSize(1024, 10);
         tp.setText("nodetool status");
-        tp.setContent(new statusParser().generateNodeStatusOutput(ff));
+        TextArea status_area = new statusParser().generateNodeStatusOutput(ff);
+        tp.setContent(status_area);
+        status_report = status_area.getText();
         return tp;
 
     }
 
+    public String getStatus_report() {
+        return status_report;
+    }
 }
