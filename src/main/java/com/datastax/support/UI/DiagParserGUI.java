@@ -45,6 +45,7 @@ public class DiagParserGUI extends Application {
     private BorderPane border = new BorderPane();
     private String diagpath;
     private AnchorPane anchorpane = new AnchorPane();
+    private ScrollPane scrollpane = new ScrollPane();
     private GridPane grid = new GridPane();
     private FileFactory ff;
     private TitledPane statuspane = new TitledPane();
@@ -65,7 +66,8 @@ public class DiagParserGUI extends Application {
 
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
-        border.setCenter(addAnchorPane());
+        //border.setCenter(addAnchorPane());
+        border.setCenter(addScrollPane());
         primaryStage.setTitle("Diag Parser");
         //primaryStage.setScene(new Scene(root, 1024,768));
         primaryStage.setScene(new Scene(border, 1024, 768));
@@ -108,7 +110,10 @@ public class DiagParserGUI extends Application {
                     infopane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
+                    //border.getChildren().remove(scrollpane);
+
                     anchorpane.getChildren().removeAll(grid);
+                    //scrollpane..removeAll(grid);
                     ///first parse the input files//
                     startParsing();
                     buttonAnalyzed.setDisable(true);
@@ -152,7 +157,7 @@ public class DiagParserGUI extends Application {
                         cluster_info_file_writer.close();
 
                         TextArea textArea = new TextArea("Analysis Reports saved to " + current_file_path
-                                +"\n"+ "Report files: status.out dse_ring.out nodetool_info.out cluster_info.out");
+                                +"\n\n"+ "Report files: status.out dse_ring.out nodetool_info.out cluster_info.out");
                         textArea.setEditable(false);
                         textArea.setWrapText(true);
                         GridPane gridPane = new GridPane();
@@ -242,7 +247,8 @@ public class DiagParserGUI extends Application {
         Text t = new Text();
         t.setText("This is a text sample");
         tp.setContent(t);*/
-        border.setCenter(addAnchorPane());
+        //border.setCenter(addAnchorPane());
+        border.setCenter(addScrollPane());
         grid.getChildren().removeAll(clusterinfopane,statuspane,dsetoolringpane,infopane);
 
         grid.add(clusterinfopane,0,0);
@@ -273,5 +279,11 @@ public class DiagParserGUI extends Application {
         //anchorpane.getChildren().addAll(tp);
 
         return anchorpane;
+    }
+
+    private ScrollPane addScrollPane() {
+
+        scrollpane.setContent(anchorpane);
+        return scrollpane;
     }
 }
