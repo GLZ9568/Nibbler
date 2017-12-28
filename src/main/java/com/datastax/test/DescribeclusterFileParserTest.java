@@ -10,6 +10,7 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.DescribeclusterFileParser;
+import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
