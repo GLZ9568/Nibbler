@@ -16,6 +16,9 @@ import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -23,6 +26,8 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Mike Zhang on 2/12/2017.
@@ -31,13 +36,16 @@ import java.util.Arrays;
 public class ClusterInfoAnalyzer {
 
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
-
+    private boolean is_mul_cluster_name = false;
+    private boolean is_diff_java_version = false;
+    boolean is_diff_dse_version = false;
+    boolean is_unsupported_os = false;
     public TextArea generateNodeStatusOutput(FileFactory ff)
 
     {
 
         TextArea t = new TextArea();
-
+        TextFlow flow = new TextFlow();
         ClusterInfoParser cip = new ClusterInfoParser(ff);
         JSONObject nodetoolStatusJSON = new JSONObject();
 
@@ -47,13 +55,13 @@ public class ClusterInfoAnalyzer {
 
         String clusterinfotext = new String();
 
-        String clusterinfoheader =  new String();
+        String clusterinfo_warning_header =  new String("#### WARNING: ####\n");
 
         String cluster_name_dff_msg_warning = "Multiple Clusternames detected in cassandra.yamls!!! \n";
+        String java_version_dff_msg_warning = "Different Java versions in DC: ";
+        String dse_version_dff_msg_warning = "Different DSE versions in DC:  ";
 
-        String java_version_dff_msg_warning = "Different Java versions in single DC!!! \n";
 
-        String dse_version_dff_msg_warning = "Different DSE versions in single DC!!!! \n";
 
         ///cluster general info///
 
@@ -75,11 +83,12 @@ public class ClusterInfoAnalyzer {
 
         ArrayList<String> clustername = cfp.getClusterName();
 
-        clusterinfotext +="####Cluster Configuration Overview#### \n";
+        clusterinfotext +="#### Cluster Configuration Overview #### \n";
         ////1. get cluster name
         if(clustername.size()>1)
         {
-            clusterinfoheader +=cluster_name_dff_msg_warning;
+            clusterinfo_warning_header +=cluster_name_dff_msg_warning;
+            is_mul_cluster_name=true;
             String tmp = new String();
             for(int i=0; i< clustername.size();++i)
             {
@@ -93,52 +102,80 @@ public class ClusterInfoAnalyzer {
         if(clustername.size()==1)
         {
 
-            clusterinfotext +="cluster name: " + clustername.get(0) + "\n";
+            clusterinfotext +="Cluster Name: " + clustername.get(0) + "\n";
         }
 
         ////2. get number of DCs
+        if(cip.getCluster_info_obj().get(StrFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        {
+            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
 
-        clusterinfotext += "number of data centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
 
+            ///3. get number of nodes:
 
-        ///3. get number of nodes:
+            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count")+ "\n";
 
-        clusterinfotext += "number of nodes: " + cip.getCluster_info_obj().get("node_count")+ "\n";
+            ///4. get instance types
 
-        ///4. get instance types
+            JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
 
-        JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
+            /// If it is not AWS instances, instance_types will be null
+            if (instance_types !=null) {
+                clusterinfotext += "Instance Types: \n";
+                for (int i = 0; i < instance_types.size(); ++i) {
+                    if(instance_types.get(i) !=null)
+                        clusterinfotext += "  - " + instance_types.get(i).toString() +"(" +StrFactory.aws_instance.get(instance_types.get(i).toString())+")"+ "\n";
+                }
+            }
 
-        /// If it is not AWS instances, instance_types will be null
-        if (instance_types !=null) {
-            clusterinfotext += "instance types: ";
-            for (int i = 0; i < instance_types.size(); ++i) {
-                if(instance_types.get(i) !=null)
-                    clusterinfotext +=  instance_types.get(i).toString() + ", ";
+            JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
+            clusterinfotext +="Cluster OS Version: \n";
+
+            for (int i=0; i< cluster_os.size();++i)
+            {
+                clusterinfotext += "  - " + cluster_os.get(i).toString() + "\n";
+            }
+            clusterinfotext += "\n";
+
+            clusterinfotext += "#### Cluster Rack Topology #### \n";
+
+            String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
+            Arrays.sort(rack_map_arrary);
+
+            for(int i=0; i< rack_map_arrary.length; ++i)
+            {
+                clusterinfotext +=rack_map_arrary[i]+"\n";
             }
             clusterinfotext += "\n";
         }
 
-        JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
-        clusterinfotext +="cluster OS version: ";
-        for (int i=0; i< cluster_os.size();++i)
-        {
-            clusterinfotext += cluster_os.get(i).toString() + ", ";
-        }
-        clusterinfotext += "\n";
-        clusterinfotext += "\n";
 
-        clusterinfotext += "####Cluster Rack Topology#### \n";
 
-        String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
-        Arrays.sort(rack_map_arrary);
+        /*
+        *   "linux",
+            null,
+            "NAME=\"Red",
+            "amd64"
 
-        for(int i=0; i< rack_map_arrary.length; ++i)
-        {
-            clusterinfotext +=rack_map_arrary[i]+"\n";
-        }
+            "linux",
+            "CentOS Linux",
+            "7.2.1511",
+            "amd64"
 
-        clusterinfotext += "\n";
+            "linux",
+            null,
+            "3.10.0-514.16.1.el7.x86_64",
+            "amd64"
+
+            "linux",
+            "Red Hat Enterprise Linux Server",
+            "6.9",
+            "amd64"
+
+        *
+        * */
+
+
         //clusterinfotext += cip.getCluster_info_obj().get("rack_map") + "\n";
 
        // logger.info(clusterinfotext);
@@ -205,15 +242,21 @@ public class ClusterInfoAnalyzer {
         * */
 
 
-        clusterinfotext += "####Node Configuration Details(group by datacenters)####\n";
+        clusterinfotext += "#### Node Configuration Details(group by datacenters) ####\n";
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(StrFactory.STATUS);
-        logger.debug("JSONArray Size: " + dcArray.size());
+        //logger.debug("JSONArray Size: " + dcArray.size());
         for (Object dc : dcArray) {
             JSONObject tmpdcvar = (JSONObject) dc;
             //logger.debug("DC: " + tmpdcvar.get(StrFactory.DATACENTER));
-            clusterinfotext += ">>>Datacenter: " + tmpdcvar.get(StrFactory.DATACENTER)+ "<<<<\n";
+            String dotlinestr = Inspector.generatedotline(19+ tmpdcvar.get(StrFactory.DATACENTER).toString().length())+"\n";
+            clusterinfotext += dotlinestr+
+                    ">>>Datacenter: " + tmpdcvar.get(StrFactory.DATACENTER)+ "<<<<\n" + dotlinestr;
 
             JSONArray nodesarrary =  (JSONArray)tmpdcvar.get(StrFactory.NODES);
+
+            Set<String> dse_version_set = new HashSet<String>();
+            Set<String> java_version_set = new HashSet<String>();
+            Set<String> un_supported_os_msg_set = new HashSet<String>();
             for(Object node :nodesarrary)
             {
                 JSONObject tempnodevar = (JSONObject) node;
@@ -223,25 +266,87 @@ public class ClusterInfoAnalyzer {
                 String file_id= tempnodevar.get(StrFactory.ADDRESS).toString();
 
                 clusterinfotext += "====== "+tempnodevar.get(StrFactory.ADDRESS).toString()+" ======"+"\n";
-                JSONObject node_obj = (JSONObject) cip.getNode_info_obj().get(file_id);
+                JSONObject node_obj = null;
 
-                String[] node_version_array = Inspector.splitByComma(node_obj.get("node_version").toString());
-                clusterinfotext += "DSE(Cassandra) version: ";
-                for(int i=0; i< node_version_array.length;++i)
+                if(cip.getNode_info_obj().get(StrFactory.ISNODE_INFOEXIST).equals("true"))
+                     node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+
+                if(node_obj !=null) {
+
+                    String[] node_version_array = Inspector.splitByComma(node_obj.get("node_version").toString());
+                    String dse_version = new String();
+                    clusterinfotext += "DSE(Cassandra) Version: ";
+                    for (int i = 0; i < node_version_array.length; ++i) {
+                        if (node_version_array[i].contains("dse")) {
+                            clusterinfotext += node_version_array[i].replaceAll("[{|}]", "") + ",";
+
+                            /// add and filter duplicate dse versions
+                            dse_version_set.add(node_version_array[i].replaceAll("[{|}]", ""));
+
+                            ////assign dse_version for later supported OS version check
+
+                            String dse_version_tmp = node_version_array[i].replaceAll("[{|}]", "");
+                            String[] split_str = Inspector.splitByColon(dse_version_tmp);
+                            dse_version = split_str[1].replaceAll("\"", "");
+
+                        }
+                    }
+                    for (int i = 0; i < node_version_array.length; ++i) {
+                        if (node_version_array[i].contains("cassandra"))
+                            clusterinfotext += node_version_array[i].replaceAll("[{|}]", "");
+                    }
+                    clusterinfotext += "\n";
+                    clusterinfotext += "Hostname: " + node_obj.get("hostname") + "\n";
+
+                    clusterinfotext += "Number of vCPUs: " + node_obj.get("num_procs") + "\n";
+
+
+                /////get and check OS version if supported////
+
+                for(Object os_info_obj: cip.getOs_info_obj_list())
                 {
-                    if(node_version_array[i].contains("dse"))
-                      clusterinfotext += node_version_array[i].replaceAll("[{|}]", "")+ ",";
-                }
-                for(int i=0; i< node_version_array.length;++i)
-                {
-                    if(node_version_array[i].contains("cassandra"))
-                        clusterinfotext += node_version_array[i].replaceAll("[{|}]", "");
-                }
-                clusterinfotext += "\n";
-                clusterinfotext += "hostname: " + node_obj.get("hostname") + "\n";
+                    /*
+                      "sub_os" : "CentOS Linux",
+                      "os_version" : "7.2.1511"
+                    * */
+                    JSONObject os_info_obj_tmp = (JSONObject) os_info_obj;
+                    if(os_info_obj_tmp.get("file_id").equals(file_id))
+                    {
+                        if(os_info_obj_tmp.get("sub_os")!=null) {
+                            String os_name = os_info_obj_tmp.get("sub_os").toString().replaceAll("\"", "");
+                            String os_version = os_info_obj_tmp.get("os_version").toString().replaceAll("\"", "");
+                        /*
+                        String dse_subversion = dse_version.substring(0,2);
+                        String supported_os_str = StrFactory.supported_os.get(dse_subversion);
+                        String[] supported_os_array = Inspector.
+                                splitByComma(StrFactory.supported_os.get(dse_subversion).toLowerCase());
+                        */
+                            // clusterinfotext += "OS version: " + os_name + " "+ os_version + "\n";
 
-                clusterinfotext += "number of vCPUs: " + node_obj.get("num_procs") + "\n";
+                            String os_check_msg = check_os(os_name, os_version, dse_version, file_id);
 
+                            if (os_check_msg.length() != 0) {
+                                String unsupported_msg_str =
+                                        "Unsupported OS " + "in DC: " +
+                                                tmpdcvar.get(StrFactory.DATACENTER).toString() +"("
+                                                + os_name + " " + os_version + " for " + dse_version +")"+ "!!!!"
+                                                + " Please check "+ StrFactory.supported_platform_url+"\n";
+                                clusterinfotext += "OS Version: " + os_name + " " + os_version +
+                                        "(unsupported os: " + os_name + " " + os_version + " for " + dse_version + ")" + "\n";
+                                un_supported_os_msg_set.add(unsupported_msg_str);
+                            } else {
+                                clusterinfotext += "OS Version: " + os_name + " " + os_version + "\n";
+                            }
+                        }
+
+                        else{
+                            String os_version = os_info_obj_tmp.get("os_version").toString().replaceAll("\"", "");
+                            clusterinfotext += "OS Version: " + os_version + "\n";
+                        }
+
+                    }
+                }
+                }
                 ///get java version and node timezone
 
                 for(Object java_sys_obj: cip.getJava_system_properties_obj_list())
@@ -250,10 +355,13 @@ public class ClusterInfoAnalyzer {
 
                     if(java_sys_obj_tmp.get("file_id").equals(file_id))
                     {
-                        clusterinfotext += "java version: " +java_sys_obj_tmp.get("java.vendor").toString()+ " "
+                        clusterinfotext += "Java Version: " +java_sys_obj_tmp.get("java.vendor").toString()+ " "
                                 +java_sys_obj_tmp.get("java.version").toString() + "\n";
 
-                        clusterinfotext += "timezone: " +java_sys_obj_tmp.get("user.timezone").toString()+ "\n";
+                        java_version_set.add(java_sys_obj_tmp.get("java.vendor").toString()+ " "
+                                +java_sys_obj_tmp.get("java.version").toString());
+
+                        clusterinfotext += "Timezone: " +java_sys_obj_tmp.get("user.timezone").toString()+ "\n";
                     }
 
                 }
@@ -266,7 +374,7 @@ public class ClusterInfoAnalyzer {
 
                     if(sysmem_obj_tmp.get("file_id").equals(file_id))
                     {
-                        clusterinfotext += "machine memory: " +sysmem_obj_tmp.get("memory").toString()+ "mb" + "\n";
+                        clusterinfotext += "Machine Memory: " +sysmem_obj_tmp.get("memory").toString()+ "mb" + "\n";
 
                     }
 
@@ -282,14 +390,21 @@ public class ClusterInfoAnalyzer {
                     {
                         if(ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS)!=null) {
                             if (ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString().contains("down"))
-                                clusterinfotext += "NTP status: " + ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString() + "\n";
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString() + "\n";
                         }
                         if(ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS)!=null) {
                             if (ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString().contains("running"))
                                 if(ntp_obj_tmp.get(StrFactory.NTPTIME_OFFSET)!=null) {
-                                    clusterinfotext += "NTP status: " + ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString() +
+                                    clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString() +
                                             ntp_obj_tmp.get(StrFactory.NTPTIME_OFFSET).toString() + "\n";
                                 }
+                        }
+                        if(ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS)!=null)
+                        {
+                            if (ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString().toLowerCase().contains("exception"))
+                            {
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(StrFactory.NTPTIME_STAUS).toString() + "\n";
+                            }
                         }
                     }
 
@@ -303,7 +418,7 @@ public class ClusterInfoAnalyzer {
 
                     if(cpu_obj_tmp.get("file_id").equals(file_id))
                     {
-                       clusterinfotext += "cpu usage: " + "user: " + cpu_obj_tmp.get("%user")+ ", "
+                       clusterinfotext += "CPU Usage: " + "user: " + cpu_obj_tmp.get("%user")+ ", "
                                + "system: " + cpu_obj_tmp.get("%system")+", " + "iowait: "+
                                cpu_obj_tmp.get("%iowait")+", "+ "idle: " + cpu_obj_tmp.get("%idle") + "\n";
                     }
@@ -312,6 +427,40 @@ public class ClusterInfoAnalyzer {
 
                 clusterinfotext +="\n";
 
+            }
+            if(dse_version_set.size()>1)
+            {
+                String dse_version_str = new String();
+                for (String str : dse_version_set)
+                {
+                    dse_version_str+=str+",";
+                }
+                clusterinfo_warning_header+= dse_version_dff_msg_warning +
+                        tmpdcvar.get(StrFactory.DATACENTER).toString() +"("+dse_version_str.substring(0,dse_version_str.length()-1)+")"+ "!!!!\n";
+                is_diff_dse_version = true;
+            }
+
+            if(java_version_set.size()>1)
+            {
+                String java_version_str = new String();
+                for (String str : java_version_set)
+                {
+                    java_version_str+=str+",";
+                }
+                clusterinfo_warning_header+= java_version_dff_msg_warning +
+                        tmpdcvar.get(StrFactory.DATACENTER).toString()+ "("+java_version_str.substring(0,java_version_str.length()-1)+")" +
+                        "!!!!\n";
+                is_diff_java_version = true;
+            }
+
+            if(un_supported_os_msg_set.size()>0)
+            {
+                logger.info("un_supported_os_msg_set is not empty!!!");
+                for(String str : un_supported_os_msg_set)
+                {
+                    clusterinfo_warning_header+= str;
+                }
+                is_unsupported_os = true;
             }
 
         }
@@ -371,10 +520,274 @@ public class ClusterInfoAnalyzer {
             }
             */
 
-        t.setText(clusterinfotext);
-        t.setPrefWidth(1024);
-        t.setMinHeight(450);
+        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os)
+        {
+            clusterinfo_warning_header += "\n";
+            //t.setText(clusterinfo_warning_header);
+            t.setText(clusterinfo_warning_header+clusterinfotext);
+            t.setPrefWidth(1024);
+            t.setMinHeight(450);
+            //t.setScrollTop(0);
+           /// flow.setLineSpacing(0);
+
+            //flow.getChildren().addAll(t1,t2);
+        }
+        else {
+            t.setText(clusterinfotext);
+            t.setPrefWidth(1024);
+            t.setMinHeight(450);
+            //flow.getChildren().addAll(t);
+        }
         return t;
 
     }
+
+    public String check_os(String os_name, String os_version, String dse_version, String file_id)
+    {
+
+        String clusterinfo_warning_header = new String("");
+        String dse_subversion = dse_version.substring(0,3);
+        //String supported_os_str = StrFactory.supported_os.get(dse_subversion);
+
+        if(dse_version.equals("5.0.0")||
+                dse_version.equals("5.0.1") ||dse_version.equals("4.8.0")||dse_version.equals("4.8.1")
+                ||dse_version.equals("4.8.2")||dse_version.equals("4.8.3")||dse_version.equals("4.8.4")
+                ||dse_version.equals("4.8.5")||dse_version.equals("4.8.6")||dse_version.equals("4.8.7")
+                ||dse_version.equals("4.8.8")||dse_version.equals("4.8.9")||dse_version.equals("4.8.10")
+                ||dse_version.equals("4.8.11"))
+        {
+
+            String[] supported_os_array = Inspector.
+                    splitByComma(StrFactory.supported_os.get(dse_version).toLowerCase());
+            if(os_name!=null)
+            {
+                if(os_name.toLowerCase().contains("centos"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("centos"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("red hat"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("red hat"))
+                        {
+                            String version = Inspector.splitBySpace(str)[4];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("ubuntu"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("ubuntu"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("suse"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("suse"))
+                        {
+                            String version = Inspector.splitBySpace(str)[3];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("debian"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("debian"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+                else
+                {
+                    clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                }
+
+
+            }
+        }
+        else //if(dse_subversion.equals("5.1"))
+        {
+
+            logger.info("dse version is: " +  dse_version + " dse sub version is: " + dse_subversion);
+            String[] supported_os_array = Inspector.
+                    splitByComma(StrFactory.supported_os.get(dse_subversion).toLowerCase());
+
+            if(os_name!=null)
+            {
+                if(os_name.toLowerCase().contains("centos"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("centos"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("red hat"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("red hat"))
+                        {
+                            String version = Inspector.splitBySpace(str)[4];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("ubuntu"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("ubuntu"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("suse"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("suse"))
+                        {
+                            String version = Inspector.splitBySpace(str)[3];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+
+                else if(os_name.toLowerCase().contains("debian"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("debian"))
+                        {
+                            String version = Inspector.splitBySpace(str)[1];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
+                else
+                {
+                    clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                }
+
+
+            }
+        }
+
+        return clusterinfo_warning_header;
+    }
+
 }

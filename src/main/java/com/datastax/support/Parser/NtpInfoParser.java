@@ -79,7 +79,7 @@ public class NtpInfoParser {
                 else if(currentLine.toLowerCase().contains("exception"))
                 {
                     String[] splitLine = Inspector.splitByColon(currentLine);
-                    ntpInfoJSON.put(StrFactory.NTPTIME_STAUS, splitLine[0]);
+                    ntpInfoJSON.put(StrFactory.NTPTIME_STAUS, splitLine[0] + ": " + splitLine[3]);
                 }
 
 
