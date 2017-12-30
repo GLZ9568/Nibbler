@@ -70,6 +70,7 @@ public class StrFactory {
     public static final String SEEDS = "seeds";
     public static final String CLUSTER_NAME = "cluster_name";
     public static final String NUM_TOKENS = "num_tokens";
+    public static final String SNITCH = "endpoint_snitch";
 
     // agentaddress.yaml configurations
 

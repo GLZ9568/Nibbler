@@ -136,7 +136,7 @@ public class DiagParserGUI extends Application {
                         else {
                             current_file_path=  current_file_path_tmp.substring(0,current_file_path_tmp.lastIndexOf("/") + 1);
                         }
-                        //logger.info("save status file report to: " + current_file_path + "status.out");
+                        logger.info("save status file report to: " + current_file_path + "status.out");
                         status_file = new File(current_file_path + "status.out");
                         dsetool_ring_file = new File(current_file_path + "dse_ring.out");
                         nodetool_info_file = new File(current_file_path + "nodetool_info.out");

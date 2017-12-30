@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,6 +39,7 @@ public class ClusterInfoAnalyzer {
 
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
     private boolean is_mul_cluster_name = false;
+    private boolean is_mul_snitch_name = false;
     private boolean is_diff_java_version = false;
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
@@ -63,6 +65,7 @@ public class ClusterInfoAnalyzer {
         String clusterinfo_warning_header =  new String("#### WARNING: ####\n");
 
         String cluster_name_dff_msg_warning = "Multiple Clusternames detected in cassandra.yamls!!! \n";
+        String snitch_name_dff_msg_warning = "Multiple Snitch types detected in cassandra.yamls!!! \n";
         String java_version_dff_msg_warning = "Different Java versions in DC: ";
         String dse_version_dff_msg_warning = "Different DSE versions in DC:  ";
 
@@ -87,6 +90,7 @@ public class ClusterInfoAnalyzer {
         cfp.parse(ff.getFiles());
 
         ArrayList<String> clustername = cfp.getClusterName();
+        ArrayList<String> snitch = cfp.getSnitch_list();
 
         clusterinfotext +="#### Cluster Configuration Overview #### \n";
         ////1. get cluster name
@@ -111,15 +115,38 @@ public class ClusterInfoAnalyzer {
         }
 
         ////2. get number of DCs
+        if(cip.getCluster_info_obj().get(StrFactory.ISCLUSTER_INFOEXIST).equals("true")) {
+            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count") + "\n";
+
+
+            ///3. get number of nodes: ////
+
+            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count") + "\n";
+        }
+            /// get snitch ////
+
+            if(snitch.size()>1)
+            {
+                clusterinfo_warning_header +=snitch_name_dff_msg_warning;
+                is_mul_snitch_name=true;
+                String tmp = new String();
+                for(int i=0; i< snitch.size();++i)
+                {
+                    tmp +=snitch.get(i)+",";
+
+                }
+
+                clusterinfotext +="Snitch: " + tmp +"\n";
+            }
+
+            if(snitch.size()==1)
+            {
+
+                clusterinfotext +="Snitch: " + snitch.get(0) + "\n";
+            }
+
         if(cip.getCluster_info_obj().get(StrFactory.ISCLUSTER_INFOEXIST).equals("true"))
         {
-            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
-
-
-            ///3. get number of nodes:
-
-            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count")+ "\n";
-
             ///4. get instance types
 
             JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
@@ -352,15 +379,18 @@ public class ClusterInfoAnalyzer {
                 {
                     JSONObject java_sys_obj_tmp = (JSONObject) java_sys_obj;
 
-                    if(java_sys_obj_tmp.get("file_id").equals(file_id))
-                    {
-                        clusterinfotext += "Java Version: " +java_sys_obj_tmp.get("java.vendor").toString()+ " "
-                                +java_sys_obj_tmp.get("java.version").toString() + "\n";
+                    if(java_sys_obj_tmp.get("file_id").equals(file_id)) {
 
-                        java_version_set.add(java_sys_obj_tmp.get("java.vendor").toString()+ " "
-                                +java_sys_obj_tmp.get("java.version").toString());
+                        if (java_sys_obj_tmp.get(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST).toString().equals("true"))
+                        {
+                            clusterinfotext += "Java Version: " + java_sys_obj_tmp.get("java.vendor").toString() + " "
+                                    + java_sys_obj_tmp.get("java.version").toString() + "\n";
 
-                        clusterinfotext += "Timezone: " +java_sys_obj_tmp.get("user.timezone").toString()+ "\n";
+                            java_version_set.add(java_sys_obj_tmp.get("java.vendor").toString() + " "
+                                    + java_sys_obj_tmp.get("java.version").toString());
+
+                            clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString() + "\n";
+                        }
                     }
 
                 }
@@ -417,9 +447,16 @@ public class ClusterInfoAnalyzer {
 
                     if(cpu_obj_tmp.get("file_id").equals(file_id))
                     {
-                       clusterinfotext += "CPU Usage: " + "user: " + cpu_obj_tmp.get("%user")+ ", "
-                               + "system: " + cpu_obj_tmp.get("%system")+", " + "iowait: "+
-                               cpu_obj_tmp.get("%iowait")+", "+ "idle: " + cpu_obj_tmp.get("%idle") + "\n";
+                       clusterinfotext += "CPU Usage: " + "user: " +
+                               String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%user").toString()))
+                               + ", "
+                               + "system: " +  String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%system").toString()))
+
+                               +", " + "iowait: "+
+                               String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%iowait").toString()))
+
+                               +", "+ "idle: " +
+                               String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%idle").toString())) + "\n";
                     }
 
                 }
