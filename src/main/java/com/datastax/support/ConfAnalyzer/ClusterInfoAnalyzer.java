@@ -461,7 +461,6 @@ public class ClusterInfoAnalyzer {
 
                 }
 
-                //clusterinfotext +="\n";
 
                 /////get disk info ////
                 clusterinfotext +="Storage Configuration:\n";
@@ -535,9 +534,13 @@ public class ClusterInfoAnalyzer {
                     }
                 }
 
+                /// add line afer each node info ///
+
+                clusterinfotext +="\n";
             }
 
-
+            ///add line after each DC info ///
+            clusterinfotext +="\n";
 
 
             if(commitlog_data_dir_set.size()>0)
