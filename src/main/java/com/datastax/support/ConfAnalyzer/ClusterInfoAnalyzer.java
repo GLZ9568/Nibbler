@@ -11,6 +11,7 @@ package com.datastax.support.ConfAnalyzer;
 
 import com.datastax.support.Parser.ClusterInfoParser;
 import com.datastax.support.Parser.ConfFileParser;
+import com.datastax.support.Parser.DiskSpaceParser;
 import com.datastax.support.Parser.NodetoolStatusParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
@@ -40,6 +41,8 @@ public class ClusterInfoAnalyzer {
     private boolean is_diff_java_version = false;
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
+    boolean is_commitlog_dir_same_with_datadir = false;
+
     public TextArea generateNodeStatusOutput(FileFactory ff)
 
     {
@@ -47,6 +50,8 @@ public class ClusterInfoAnalyzer {
         TextArea t = new TextArea();
         TextFlow flow = new TextFlow();
         ClusterInfoParser cip = new ClusterInfoParser(ff);
+        DiskSpaceParser dsp = new DiskSpaceParser();
+        dsp.parse(ff.getFiles());
         JSONObject nodetoolStatusJSON = new JSONObject();
 
         NodetoolStatusParser nodetoolStatusParser = new NodetoolStatusParser();
@@ -148,6 +153,9 @@ public class ClusterInfoAnalyzer {
             }
             clusterinfotext += "\n";
         }
+        else{
+            clusterinfotext += "\n";
+        }
 
 
 
@@ -217,15 +225,6 @@ public class ClusterInfoAnalyzer {
          },
          *
          *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         *
          * */
         ///get each node info////
 
@@ -257,6 +256,7 @@ public class ClusterInfoAnalyzer {
             Set<String> dse_version_set = new HashSet<String>();
             Set<String> java_version_set = new HashSet<String>();
             Set<String> un_supported_os_msg_set = new HashSet<String>();
+            Set<String> commitlog_data_dir_set = new HashSet<String>();
             for(Object node :nodesarrary)
             {
                 JSONObject tempnodevar = (JSONObject) node;
@@ -322,26 +322,25 @@ public class ClusterInfoAnalyzer {
                                 splitByComma(StrFactory.supported_os.get(dse_subversion).toLowerCase());
                         */
                             // clusterinfotext += "OS version: " + os_name + " "+ os_version + "\n";
+                            if (dse_version != null && dse_version.length() != 0) {
+                                String os_check_msg = check_os(os_name, os_version, dse_version, file_id);
 
-                            String os_check_msg = check_os(os_name, os_version, dse_version, file_id);
-
-                            if (os_check_msg.length() != 0) {
-                                String unsupported_msg_str =
-                                        "Unsupported OS " + "in DC: " +
-                                                tmpdcvar.get(StrFactory.DATACENTER).toString() +"("
-                                                + os_name + " " + os_version + " for " + dse_version +")"+ "!!!!"
-                                                + " Please check "+ StrFactory.supported_platform_url+"\n";
-                                clusterinfotext += "OS Version: " + os_name + " " + os_version +
-                                        "(unsupported os: " + os_name + " " + os_version + " for " + dse_version + ")" + "\n";
-                                un_supported_os_msg_set.add(unsupported_msg_str);
+                                if (os_check_msg.length() != 0) {
+                                    String unsupported_msg_str =
+                                            "Unsupported OS " + "in DC: " +
+                                                    tmpdcvar.get(StrFactory.DATACENTER).toString() + "("
+                                                    + os_name + " " + os_version + " for DSE " + dse_version + ")" + "!!!!"
+                                                    + " Please check " + StrFactory.supported_platform_url + "\n";
+                                    clusterinfotext += "OS Version: " + os_name + " " + os_version +
+                                            "(unsupported os: " + os_name + " " + os_version + " for DSE " + dse_version + ")" + "\n";
+                                    un_supported_os_msg_set.add(unsupported_msg_str);
+                                } else {
+                                    clusterinfotext += "OS Version: " + os_name + " " + os_version + "\n";
+                                }
                             } else {
-                                clusterinfotext += "OS Version: " + os_name + " " + os_version + "\n";
+                                 os_version = os_info_obj_tmp.get("os_version").toString().replaceAll("\"", "");
+                                clusterinfotext += "OS Version: " + os_version + "\n";
                             }
-                        }
-
-                        else{
-                            String os_version = os_info_obj_tmp.get("os_version").toString().replaceAll("\"", "");
-                            clusterinfotext += "OS Version: " + os_version + "\n";
                         }
 
                     }
@@ -425,9 +424,93 @@ public class ClusterInfoAnalyzer {
 
                 }
 
-                clusterinfotext +="\n";
+                //clusterinfotext +="\n";
+
+                /////get disk info ////
+                clusterinfotext +="Storage Configuration:\n";
+                String commitlog_dir = new String();
+                for(Object disk_obj_tmp : dsp.getDisk_space_obj_list())
+                {
+                    JSONObject disk_obj = (JSONObject)disk_obj_tmp;
+                    if(disk_obj.get(StrFactory.FILE_ID).equals(file_id)) {
+                        JSONArray disk_list = (JSONArray) disk_obj.get(StrFactory.DISK_SPACE_USAGE);
+                        JSONObject node_info_obj = (JSONObject) cip.getNode_info_obj().get(file_id);
+                        if (node_info_obj != null) {
+                            JSONObject partitions_info = (JSONObject) node_info_obj.get("partitions");
+                            if (partitions_info.get("commitlog") != null) {
+                                commitlog_dir = partitions_info.get("commitlog").toString().trim().
+                                        replaceAll("[{|}]", "").replaceAll("\"", "")
+                                        .replaceAll(",", "");
+
+                                logger.info("get commitlog dir from node_info is: " + commitlog_dir);
+
+                                ///get commitlog disk device////
+
+                                for (Object each_disk_tmp : disk_list) {
+                                    JSONObject each_disk_obj = (JSONObject) each_disk_tmp;
+                                    if (each_disk_obj.get(StrFactory.DISK_NAME).toString().equals(commitlog_dir)) {
+                                        clusterinfotext += " - commitlog disk device: \n"
+                                                + "   - " + commitlog_dir
+                                                + " (total space(GB): " + each_disk_obj.get(StrFactory.TOTAL_SPACE).toString()
+                                                + ", used space(GB): " + each_disk_obj.get(StrFactory.USED_SPACE).toString() + ")\n";
+                                    }
+                                }
+                            }
+                            ////get data disk devices///
+
+
+                            JSONArray data_dirs = (JSONArray) partitions_info.get("data");
+                            if (data_dirs != null) {
+                                clusterinfotext += " - data disk devices: \n";
+                                for (Object each_disk_tmp : disk_list) {
+                                    JSONObject each_disk_obj = (JSONObject) each_disk_tmp;
+
+                                    for (Object each_data_dir_tmp : data_dirs) {
+
+                                        String each_data_dir = each_data_dir_tmp.toString();
+                                        if (each_data_dir.trim().replaceAll("[{|}]", "")
+                                                .replaceAll("\"", "")
+                                                .replaceAll(",", "").equals(each_disk_obj.get(StrFactory.DISK_NAME))) {
+                                            clusterinfotext += "   - " + each_disk_obj.get(StrFactory.DISK_NAME)
+                                                    + " (total space(GB): " + each_disk_obj.get(StrFactory.TOTAL_SPACE).toString()
+                                                    + ", used space(GB): " + each_disk_obj.get(StrFactory.USED_SPACE).toString() + ")\n";
+
+                                            //check if commitlog dir is the same with data dir
+                                            if(commitlog_dir.equals(each_disk_obj.get(StrFactory.DISK_NAME).toString()))
+                                            {
+                                                commitlog_data_dir_set.add(commitlog_dir);
+                                                int start = clusterinfotext.lastIndexOf("Storage Configuration:\n");
+                                                String clusterinfotext_before_start = clusterinfotext.substring(0,start);
+                                                clusterinfotext_before_start += "Storage Configuration(!!WARNING!!: Commitlog " +
+                                                        "and data directory are on the same disk device: "+commitlog_dir+"):\n";
+                                                String clusterinfotext_after_start = clusterinfotext.
+                                                        substring(start+new String("Storage Configuration:\n").length());
+                                                clusterinfotext = clusterinfotext_before_start + clusterinfotext_after_start;
+
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
 
             }
+
+
+
+
+            if(commitlog_data_dir_set.size()>0)
+            {
+                clusterinfo_warning_header+= "Commitlog directory is on the same disk device with data directory in DC: " +
+                        tmpdcvar.get(StrFactory.DATACENTER).toString() +
+                        "(Device name is: "+commitlog_data_dir_set.toArray()[0].toString()+")"+ "!!!!\n";
+                is_commitlog_dir_same_with_datadir = true;
+            }
+
             if(dse_version_set.size()>1)
             {
                 String dse_version_str = new String();
@@ -520,7 +603,7 @@ public class ClusterInfoAnalyzer {
             }
             */
 
-        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os)
+        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os||is_commitlog_dir_same_with_datadir)
         {
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
@@ -546,7 +629,16 @@ public class ClusterInfoAnalyzer {
     {
 
         String clusterinfo_warning_header = new String("");
-        String dse_subversion = dse_version.substring(0,3);
+        String dse_subversion =  new String();
+        try
+        {
+         dse_subversion = dse_version.substring(0,3);
+        }
+        catch(StringIndexOutOfBoundsException e)
+        {
+            logger.info("!!!dse_subversion exception!!! dse version is: "+ dse_version +"ip is: "+ file_id);
+        }
+
         //String supported_os_str = StrFactory.supported_os.get(dse_subversion);
 
         if(dse_version.equals("5.0.0")||
@@ -576,7 +668,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -596,7 +688,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -616,7 +708,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -636,7 +728,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -656,13 +748,13 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
                 else
                 {
-                    clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                    clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                             ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                 }
 
@@ -693,7 +785,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -713,7 +805,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -733,7 +825,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -753,7 +845,7 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
@@ -773,13 +865,13 @@ public class ClusterInfoAnalyzer {
                     }
                     if(check==0)
                     {
-                        clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
                 else
                 {
-                    clusterinfo_warning_header+="Unsupported OS Version for " + dse_version + " " +
+                    clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
                             ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                 }
 

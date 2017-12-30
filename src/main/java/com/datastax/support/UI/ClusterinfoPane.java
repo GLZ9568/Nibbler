@@ -31,9 +31,19 @@ public class ClusterinfoPane {
         tp.setStyle( "-fx-font-family: Courier New");
         //tp.setPrefSize(1024, 10);
         tp.setText("Cluster Configuration Summary");
+        try {
         TextArea cluster_info_area = new ClusterInfoAnalyzer().generateNodeStatusOutput(ff);
         tp.setContent(cluster_info_area);
         cluster_info_report = cluster_info_area.getText();
+        }catch(Exception e)
+        {
+            TextArea cluster_info_area = new TextArea();
+            cluster_info_area.setText("Exception happened when retrieving cluster configuration information!!!");
+            tp.setContent(cluster_info_area);
+            cluster_info_report = cluster_info_area.getText();
+            e.printStackTrace();
+            return tp;
+        }
         return tp;
 
     }

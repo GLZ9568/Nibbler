@@ -135,7 +135,6 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
 
-
                     java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,true);
                     java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
