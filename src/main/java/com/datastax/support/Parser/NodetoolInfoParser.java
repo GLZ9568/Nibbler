@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 public class NodetoolInfoParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusParser.class);
+    private static Logger logger = LogManager.getLogger(NodetoolInfoParser.class);
 
     private JSONObject nodetoolInfoJSON;
     private ArrayList<JSONObject> info_obj_list;

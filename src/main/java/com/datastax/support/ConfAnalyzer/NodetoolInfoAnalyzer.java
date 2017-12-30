@@ -10,7 +10,8 @@
 package com.datastax.support.ConfAnalyzer;
 
 import com.datastax.support.Parser.NodetoolInfoParser;
-import com.datastax.support.Parser.NodetoolStatusParser;
+import com.datastax.support.Parser.NodetoolStatusFileParser;
+import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
@@ -32,7 +33,7 @@ import java.util.Set;
 public class NodetoolInfoAnalyzer {
 
 
-    private static final Logger logger = LogManager.getLogger(FileFactory.class);
+    private static final Logger logger = LogManager.getLogger(NodetoolInfoAnalyzer.class);
     private boolean is_diff_heap_size = false;
 
     public TextArea generateNodeStatusOutput(FileFactory ff) {
@@ -44,7 +45,7 @@ public class NodetoolInfoAnalyzer {
         String nodetool_info_warning_text = new String("#### WARNING: ####\n");
         String nodetool_info_text =  new String("");
         JSONObject nodetoolStatusJSON = new JSONObject();
-        NodetoolStatusParser nodetoolStatusParser = new NodetoolStatusParser();
+        NodetoolStatusFileParser nodetoolStatusParser = new NodetoolStatusFileParser();
 
         nodetoolStatusParser.parse(ff.getFiles());
         nodetoolStatusJSON = nodetoolStatusParser.getNodetoolStatusJSON();

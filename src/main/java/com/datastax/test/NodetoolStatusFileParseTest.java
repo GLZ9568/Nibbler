@@ -9,7 +9,7 @@
 
 package com.datastax.test;
 
-import com.datastax.support.Parser.NodetoolStatusParser;
+import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,16 +20,16 @@ import org.json.simple.JSONObject;
  * Created by Chun Gao on 30/11/17
  */
 
-public class NodeToolFileParseTest extends Test{
+public class NodetoolStatusFileParseTest extends Test{
 
-    private static final Logger logger = LogManager.getLogger(NodeToolFileParseTest.class);
+    private static final Logger logger = LogManager.getLogger(NodetoolStatusFileParseTest.class);
 
     private JSONObject nodetoolStatusJSON = new JSONObject();
 
     public void parseFiles() {
-        NodetoolStatusParser nodeToolFileParser = new NodetoolStatusParser();
-        nodeToolFileParser.parse(files);
-        nodetoolStatusJSON = nodeToolFileParser.getNodetoolStatusJSON();
+        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser();
+        nodetoolStatusFileParser.parse(files);
+        nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
     }
 
     public void readNodetoolStatusJSON() {
@@ -50,7 +50,7 @@ public class NodeToolFileParseTest extends Test{
     }
 
     public static void main (String[] args) {
-        NodeToolFileParseTest ntfpt = new NodeToolFileParseTest();
+        NodetoolStatusFileParseTest ntfpt = new NodetoolStatusFileParseTest();
         ntfpt.initiate();
         ntfpt.parseFiles();
         ntfpt.readNodetoolStatusJSON();
