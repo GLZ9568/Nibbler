@@ -481,8 +481,8 @@ public class ClusterInfoAnalyzer {
                                                 commitlog_data_dir_set.add(commitlog_dir);
                                                 int start = clusterinfotext.lastIndexOf("Storage Configuration:\n");
                                                 String clusterinfotext_before_start = clusterinfotext.substring(0,start);
-                                                clusterinfotext_before_start += "Storage Configuration(!!WARNING!!: Commitlog " +
-                                                        "and data directory are on the same disk device: "+commitlog_dir+"):\n";
+                                                clusterinfotext_before_start += "Storage Configuration(!!!WARNING!!! Commitlog " +
+                                                        "and data directory are on the same disk device - "+commitlog_dir+"):\n";
                                                 String clusterinfotext_after_start = clusterinfotext.
                                                         substring(start+new String("Storage Configuration:\n").length());
                                                 clusterinfotext = clusterinfotext_before_start + clusterinfotext_after_start;

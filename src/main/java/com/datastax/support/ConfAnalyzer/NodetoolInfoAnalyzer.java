@@ -10,8 +10,7 @@
 package com.datastax.support.ConfAnalyzer;
 
 import com.datastax.support.Parser.NodetoolInfoParser;
-import com.datastax.support.Parser.NodetoolStatusFileParser;
-import com.datastax.support.Parser.NodetoolStatusFileParser;
+import com.datastax.support.Parser.NodetoolStatusParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
@@ -21,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +43,7 @@ public class NodetoolInfoAnalyzer {
         String nodetool_info_warning_text = new String("#### WARNING: ####\n");
         String nodetool_info_text =  new String("");
         JSONObject nodetoolStatusJSON = new JSONObject();
-        NodetoolStatusFileParser nodetoolStatusParser = new NodetoolStatusFileParser();
+        NodetoolStatusParser nodetoolStatusParser = new NodetoolStatusParser();
 
         nodetoolStatusParser.parse(ff.getFiles());
         nodetoolStatusJSON = nodetoolStatusParser.getNodetoolStatusJSON();

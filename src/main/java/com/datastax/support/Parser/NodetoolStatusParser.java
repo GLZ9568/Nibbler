@@ -26,9 +26,9 @@ import java.util.Scanner;
  * Created by Chun Gao on 24/11/2017
  */
 
-public class NodetoolStatusFileParser {
+public class NodetoolStatusParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
+    private static Logger logger = LogManager.getLogger(NodetoolStatusParser.class);
 
     private JSONObject nodetoolStatusJSON;
     private JSONArray nodeJSONArray;

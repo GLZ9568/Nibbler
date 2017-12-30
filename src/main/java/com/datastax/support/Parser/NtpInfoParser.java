@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class NtpInfoParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
+    private static Logger logger = LogManager.getLogger(NodetoolStatusParser.class);
 
     private JSONObject ntpInfoJSON;
 
