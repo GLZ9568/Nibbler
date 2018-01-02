@@ -79,9 +79,9 @@ public class ConfFileParser {
         if (!cassandraYamlFiles.isEmpty()) {
             cassandraYamlProperties = extractProperties(cassandraYamlFiles);
             for (NibProperties properties : cassandraYamlProperties) {
-                String cn = properties.get(StrFactory.CLUSTER_NAME).toString();
-                if (!clusterName.contains(cn)) {
-                    clusterName.add(cn);
+                String clasterName = properties.get(StrFactory.CLUSTER_NAME).toString();
+                if (!clusterName.contains(clasterName)) {
+                    clusterName.add(clasterName);
                 }
             }
         } else {

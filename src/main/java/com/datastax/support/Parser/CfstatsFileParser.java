@@ -27,7 +27,7 @@ import java.util.Scanner;
 
 public class CfstatsFileParser {
 
-    private static Logger logger = LogManager.getLogger(CfstatsFileParser.class);
+    private static final Logger logger = LogManager.getLogger(CfstatsFileParser.class);
 
     private ArrayList<JSONObject> nodetoolCfstats;
     private JSONObject nodetoolStatusJSON;

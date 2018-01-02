@@ -30,6 +30,10 @@ public class NodetoolInfoParser {
     private JSONObject nodetoolInfoJSON;
     private ArrayList<JSONObject> info_obj_list;
 
+    public NodetoolInfoParser(ArrayList<File> files) {
+        parse(files);
+    }
+
     /**
      Generation No          : 1513232422
      Uptime (seconds)       : 67018
@@ -38,41 +42,47 @@ public class NodetoolInfoParser {
 
      **/
 
-
     /**
-     * {"info":
-     * [
-     * {"nodes":
-     * [
-     * {
-     * Generation No          : 1513907549,
-     * Uptime (seconds)       : 18447,
-     * Heap Memory (MB)       : 5164.60 / 8192.00,
-     * Off Heap Memory (MB)   : 388.21,
-     * Data Center            : DC3
-     * file_id : ip_address
-     * }
-     * ],
-     * "Datacenter":"DC3"},
-     * {"nodes":
-     * [
-     * {
-     * {
-     * Generation No          : 1513907549,
-     * Uptime (seconds)       : 18447,
-     * Heap Memory (MB)       : 5164.60 / 8192.00,
-     * Off Heap Memory (MB)   : 388.21,
-     * Data Center            : DC3
-     * file_id : ip_address
-     * }
-     * }
-     * {
-     * ],
-     * "Datacenter":"DC5"}
-     * ]
-     * }
+     {"info":
+        [
+            {"nodes":
+                [
+                    {Generation No : 1513907549,
+     Uptime (seconds)       : 18447,
+     Heap Memory (MB)       : 5164.60 / 8192.00,
+     Off Heap Memory (MB)   : 388.21,
+     Data Center            : DC3
+     file_id : ip_address
+     }
+     ],
+     "Datacenter":"DC3"},
+     {"nodes":
+     [
+     {
+     {
+     Generation No          : 1513907549,
+     Uptime (seconds)       : 18447,
+     Heap Memory (MB)       : 5164.60 / 8192.00,
+     Off Heap Memory (MB)   : 388.21,
+     Data Center            : DC3
+     file_id : ip_address
+     }
+     }
+     {
+     ],
+     "Datacenter":"DC5"}
+     ]
+     }
+
+     {
+     "info_uptime":" 17016(04 hours 43 mins 36 seconds)",
+     "info_generation":" 1511385969(Thu Nov 23 08:26:09 AEDT 2017)",
+     "file_id":"13.57.154.111",
+     "info_totalheap":" 49152.00",
+     "info_usedheap":" 142.27"
+     }
      **/
-    public ArrayList<JSONObject> parse(ArrayList<File> files) {
+    public void parse(ArrayList<File> files) {
         info_obj_list = new ArrayList<JSONObject>();
         for (File file : files) {
             if (file.getName().equals(StrFactory.INFO)) {
@@ -87,18 +97,16 @@ public class NodetoolInfoParser {
                             String[] splitLine = Inspector.splitByColon(currentLine);
                             nodetoolInfoJSON.put(StrFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
                             logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
-
                         }
 
                         if (currentLine.toLowerCase().contains("uptime")) {
-
                             String[] splitLine = Inspector.splitByColon(currentLine);
 
-                            nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()))+ ")");
+                            //nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()))+ ")");
+                            nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1].trim());
                             // logger.info("NTP status current line: " + currentLine);
                             //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
                             logger.info("Uptime: " + splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim())) + ")");
-
                         }
                         if (currentLine.toLowerCase().contains("heap memory") && !currentLine.toLowerCase().contains("off heap")) {
                             //logger.info("Offset current line: " + currentLine);
@@ -115,8 +123,6 @@ public class NodetoolInfoParser {
                             nodetoolInfoJSON.put(StrFactory.INFO_OFFHEAP, splitLine[1]);
                             logger.info("Off Heap Memory: " + splitLine[1]);
                         }
-
-
                     }
                     logger.info("node ip: " + setIP(file.getAbsolutePath()));
                     nodetoolInfoJSON.put(StrFactory.FILE_ID, setIP(file.getAbsolutePath()));
@@ -125,15 +131,11 @@ public class NodetoolInfoParser {
                     logger.debug(fnfe);
                 }
             }
-
         }
-
-        return info_obj_list;
     }
 
-
-    public JSONObject getNodetoolStatusJSON() {
-        return this.nodetoolInfoJSON;
+    public ArrayList<JSONObject> getNodetoolInfoJSONList() {
+        return this.info_obj_list;
     }
 
     private String setIP(String filepath) {

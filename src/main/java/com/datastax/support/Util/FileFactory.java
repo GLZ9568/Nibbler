@@ -24,16 +24,15 @@ import java.util.ArrayList;
 public class FileFactory {
 
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
-    private ArrayList<File> files = new ArrayList<File>();
+    private ArrayList<File> allFiles = new ArrayList<File>();
 
     public boolean readFiles(final File directory) {
         try {
             for (final File entry : directory.listFiles()) {
-                //logger.debug("Processing File: " + entry.getAbsolutePath());
                 if (entry.isDirectory()) {
                     readFiles(entry);
                 } else {
-                    files.add(entry);
+                    allFiles.add(entry);
                 }
             }
         } catch (NullPointerException npe) {
@@ -43,7 +42,7 @@ public class FileFactory {
         return true;
     }
 
-    public ArrayList<File> getFiles() {
-        return files;
+    public ArrayList<File> getAllFiles() {
+        return allFiles;
     }
 }

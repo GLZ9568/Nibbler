@@ -34,27 +34,22 @@ public class DsetoolRingFileParser {
     private JSONArray dsetoolRingJSONArray;
     private JSONObject nodeJSON;
 
+    public DsetoolRingFileParser(ArrayList<File> files) {
+        parse(files);
+    }
+
     /**
      {"file_id":"34.239.74.78","file_name":"ring","file_path":"./nodes/34.239.74.78/dsetool/ring",
-     "status":
+     "ring":
         [
-            {"nodes":
-                [
-                    {"Rack":"1d","stat":"UN","Load":"509.83 MB","Address":"34.239.74.78","Host ID":"d9703f05-6e22-46e2-979b-b72d9fba3a0a","Owns":"?","Tokens":"256"},
-                    {"Rack":"1c","stat":"UN","Load":"326.13 MB","Address":"34.195.101.2","Host ID":"3250f313-af2f-4499-a3ec-3952c8be8c73","Owns":"?","Tokens":"256"},
-                    {"Rack":"1e","stat":"UN","Load":"358.83 MB","Address":"34.238.217.214","Host ID":"97a3bce3-bacf-4277-a1b2-54312a0fed87","Owns":"?","Tokens":"256"}
-                ],
-            "Datacenter":"us-east-1"
-            },
-            {"nodes":
-                [
-                    {"Rack":"1c","stat":"UN","Load":"795.63 MB","Address":"13.57.154.111","Host ID":"f82ff87f-f036-413b-b432-161f9da47e10","Owns":"?","Tokens":"256"},
-                    {"Rack":"1a","stat":"UN","Load":"1.01 GB","Address":"52.9.233.65","Host ID":"801ddb04-649c-440c-845d-247f672854e6","Owns":"?","Tokens":"256"},
-                    {"Rack":"1a","stat":"UN","Load":"629.17 MB","Address":"13.57.164.148","Host ID":"21d79763-cbcc-4a7b-a012-491a11e9422f","Owns":"?","Tokens":"256"}
-                ],
-            "Datacenter":"us-west-1"
-            }
-        ]
+            {"Status":"Up","Rack":"1c","Load":"795.63 MB","Address":"13.57.154.111","VNodes":"256","State":"Normal","Owns":"14.29%","DC":"us-west-1","Workload":"Cassandra"},
+            {"Status":"Up","Rack":"1a","Load":"629.17 MB","Address":"13.57.164.148","VNodes":"256","State":"Normal","Owns":"17.02%","DC":"us-west-1","Workload":"Cassandra"},
+            {"Status":"Up","Rack":"1c","Load":"326.13 MB","Address":"34.195.101.2","VNodes":"256","State":"Normal","Owns":"16.25%","DC":"us-east-1","Workload":"Cassandra"},
+            {"Status":"Up","Rack":"1e","Load":"358.83 MB","Address":"34.238.217.214","VNodes":"256","State":"Normal","Owns":"17.82%","DC":"us-east-1","Workload":"Cassandra"},
+            {"Status":"Up","Rack":"1d","Load":"509.83 MB","Address":"34.239.74.78","VNodes":"256","State":"Normal","Owns":"17.84%","DC":"us-east-1","Workload":"Cassandra"},
+            {"Status":"Up","Rack":"1a","Load":"1.01 GB","Address":"52.9.233.65","VNodes":"256","State":"Normal","Owns":"16.77%","DC":"us-west-1","Workload":"Cassandra"}
+        ],
+     "file_name":"ring","file_id":"13.57.154.111"
      }
      **/
     public void parse (ArrayList<File> files) {
@@ -109,6 +104,16 @@ public class DsetoolRingFileParser {
                 }
             }
         }
+    }
+
+    public JSONObject initiatePadding(ArrayList<String> keys, int pad) {
+        JSONObject padding = new JSONObject();
+
+        for (String key : keys) {
+            padding.put(key, key.length() + pad);
+        }
+
+        return padding;
     }
 
     public JSONObject getDsetoolRingJSON() {

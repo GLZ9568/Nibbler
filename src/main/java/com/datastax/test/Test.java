@@ -45,7 +45,7 @@ public class Test extends Nibbler {
             logger.debug("Reading From: " + linDir + "/");
             fileFactory.readFiles(linDir);
         }
-        files = fileFactory.getFiles();
+        files = fileFactory.getAllFiles();
     }
 
     @Override

@@ -16,8 +16,6 @@ import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
 import javafx.scene.control.TextArea;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,8 +47,7 @@ public class ClusterInfoAnalyzer {
         ClusterInfoParser cip = new ClusterInfoParser(ff);
         JSONObject nodetoolStatusJSON = new JSONObject();
 
-        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser();
-        nodetoolStatusFileParser.parse(ff.getFiles());
+        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
         nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
 
         String clusterinfotext = new String();
@@ -79,7 +76,7 @@ public class ClusterInfoAnalyzer {
 
         ConfFileParser cfp = new ConfFileParser();
 
-        cfp.parse(ff.getFiles());
+        cfp.parse(ff.getAllFiles());
 
         ArrayList<String> clustername = cfp.getClusterName();
 

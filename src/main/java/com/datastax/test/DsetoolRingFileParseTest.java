@@ -24,8 +24,7 @@ public class DsetoolRingFileParseTest extends Test {
     private static final Logger logger = LogManager.getLogger(DsetoolRingFileParseTest.class);
 
     public void parseFiles() {
-        DsetoolRingFileParser dsetoolRingFileParser = new DsetoolRingFileParser();
-        dsetoolRingFileParser.parse(files);
+        DsetoolRingFileParser dsetoolRingFileParser = new DsetoolRingFileParser(files);
         JSONObject dsetoolRingJSON = dsetoolRingFileParser.getDsetoolRingJSON();
         logger.debug("Dsetool Ring Detials: " + dsetoolRingJSON.get(StrFactory.NODE) + " - " + dsetoolRingJSON.get(StrFactory.FILE_NAME) + " - " + dsetoolRingJSON.get(StrFactory.FILE_PATH));
         logger.debug("Dsetool Ring Output: " + dsetoolRingJSON);

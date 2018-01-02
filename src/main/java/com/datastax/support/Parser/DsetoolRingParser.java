@@ -28,7 +28,7 @@ public class DsetoolRingParser {
     {
         TextArea t = new TextArea();
         File dsetoolringfile;
-        ArrayList<File> filelist = ff.getFiles();
+        ArrayList<File> filelist = ff.getAllFiles();
         boolean isvalidringoutput = false;
         for (int i =0; i < filelist.size();++i)
         {

@@ -27,8 +27,7 @@ public class NodetoolStatusFileParseTest extends Test{
     private JSONObject nodetoolStatusJSON = new JSONObject();
 
     public void parseFiles() {
-        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser();
-        nodetoolStatusFileParser.parse(files);
+        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(files);
         nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
     }
 

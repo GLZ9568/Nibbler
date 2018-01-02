@@ -18,7 +18,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class ClusterInfoParser {
 
     public ClusterInfoParser(FileFactory ff) {
 
-        ArrayList<File> filelist = ff.getFiles();
+        ArrayList<File> filelist = ff.getAllFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
         cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,"false");
@@ -225,10 +224,10 @@ public class ClusterInfoParser {
     {
         return null;
     }
+
     public JSONObject getCluster_info_obj() {
         //FileReader reader = new FileReader(ff.getFiles());
        //
-
         return cluster_info_obj;
     }
 
