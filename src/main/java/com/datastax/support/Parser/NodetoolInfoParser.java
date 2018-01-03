@@ -95,8 +95,8 @@ public class NodetoolInfoParser {
                         String currentLine = scanner.nextLine();
                         if (currentLine.toLowerCase().contains("generation no")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
-                            logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
+                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
+                            logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
                         }
 
                         if (currentLine.toLowerCase().contains("uptime")) {
@@ -106,7 +106,7 @@ public class NodetoolInfoParser {
                             //nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim());
                             // logger.info("NTP status current line: " + currentLine);
                             //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
-                            logger.info("Uptime: " + splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()),true) + ")");
+                            logger.info("Uptime: " + splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()), true) + ")");
                         }
                         if (currentLine.toLowerCase().contains("heap memory") && !currentLine.toLowerCase().contains("off heap")) {
                             //logger.info("Offset current line: " + currentLine);

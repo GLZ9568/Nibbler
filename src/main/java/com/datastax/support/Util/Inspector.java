@@ -85,8 +85,7 @@ public final class Inspector {
         return input.split("/");
     }
 
-    public static String epochtoDate(String input)
-    {
+    public static String epochToDate(String input) {
         long epoch = Long.parseLong(input);
         Date generation = new Date(epoch * 1000L);
         return generation.toString();
@@ -100,24 +99,26 @@ public final class Inspector {
             minutes %= 60;
             if( hours >= 24) {
                 int days = hours / 24;
-                if(fullformat)
-                    return String.format("%d days %02d hours %02d minutes %02d seconds", days,hours%24, minutes, seconds);
-             else
-                return String.format("%dd %02dh %02dm %02ds", days,hours%24, minutes, seconds);
+                if(fullformat) {
+                    return String.format("%d days %02d hours %02d days %02d seconds", days, hours % 24, minutes, seconds);
+                } else {
+                    return String.format("%dd %02dh %02dm %02ds", days, hours % 24, minutes, seconds);
+                }
             }
-            if(fullformat)
-                String.format("%02d hours %02d minutes %02d seconds", hours, minutes, seconds);
-            else
-            return String.format("%02dh %02dm %02ds", hours, minutes, seconds);
+            if(fullformat) {
+                return String.format("%02d hours %02d minutes %02d seconds", hours, minutes, seconds);
+            } else {
+                return String.format("%02dh %02dm %02ds", hours, minutes, seconds);
+            }
         }
-        if(fullformat)
+        if(fullformat) {
             return String.format("%02d minutes %02d seconds", minutes, seconds);
-        else
-        return String.format("%02dm %02ds", minutes, seconds);
+        } else {
+            return String.format("%02dm %02ds", minutes, seconds);
+        }
     }
 
-    public static String generatedotline(int length)
-    {
+    public static String generateDotline(int length) {
         String dotinestr =  new String();
 
         for (int i=0; i< length; ++i) {
