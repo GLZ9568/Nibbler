@@ -17,6 +17,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -27,6 +31,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -70,6 +75,12 @@ public class DiagParserGUI extends Application {
         border.setCenter(addScrollPane());
         primaryStage.setTitle("Diag Parser");
         //primaryStage.setScene(new Scene(root, 1024,768));
+        //primaryStage.setMaxWidth(768);
+       // primaryStage.setMinHeight(1024);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        logger.info("screen height is: "+ screenSize.getHeight());
+        logger.info("screen width is: "+ screenSize.getWidth());
         primaryStage.setScene(new Scene(border, 1024, 768));
         primaryStage.show();
     }
@@ -119,6 +130,7 @@ public class DiagParserGUI extends Application {
                     buttonAnalyzed.setDisable(true);
                     ///display the analysis result///
                     displayAnalysisResult();
+
                     buttonAnalyzed.setDisable(false);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     try {

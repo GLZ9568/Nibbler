@@ -64,13 +64,11 @@ public class NodetoolInfoAnalyzer {
 
                 for (JSONObject nodetool_info_obj: info_obj_list)
                 {
-
                     //// node ip//////
-                    if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString()))
-
-                    {
+                    if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())) {
                         logger.debug("node: " + file_id);
                         nodetool_info_text+= "====== " + file_id + " =======\n";
+                        //nodetool_info_text+= "Uptime: " + Inspector.secToTime(Integer.valueOf(nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()))+ "\n";
                         nodetool_info_text+= "Uptime: " + nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()+ "\n";
                         nodetool_info_text+= "Total Heap: " + nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).toString()+ "mb\n";
                         nodetool_info_text+= "Used Heap: " + nodetool_info_obj.get(ValFactory.INFO_USEDHEAP).toString()+ "mb\n";
@@ -78,10 +76,7 @@ public class NodetoolInfoAnalyzer {
                         nodetool_info_text+= "Gossip Generation: " + nodetool_info_obj.get(ValFactory.INFO_GENERATION).toString()+ "\n\n";
                         heap_size_set.add(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).toString().trim()+"mb");
                     }
-
-
                 }
-
             }
             if(heap_size_set.size()>1)
             {
@@ -94,8 +89,6 @@ public class NodetoolInfoAnalyzer {
                 nodetool_info_warning_text += "Different heap sizes in DC: "+
                         tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+heap_str.substring(0,heap_str.length()-1)+")"+ "!!!!\n";
             }
-
-
         }
 
         if(is_diff_heap_size)
@@ -104,8 +97,7 @@ public class NodetoolInfoAnalyzer {
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             t.setPrefWidth(1024);
             t.setMinHeight(450);
-        }
-        else {
+        } else {
 
             t.setText(nodetool_info_text);
             t.setPrefWidth(1024);
@@ -114,5 +106,4 @@ public class NodetoolInfoAnalyzer {
 
         return t;
     }
-
 }

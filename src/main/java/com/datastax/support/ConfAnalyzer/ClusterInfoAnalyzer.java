@@ -37,6 +37,7 @@ public class ClusterInfoAnalyzer {
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
     private boolean is_mul_cluster_name = false;
     private boolean is_mul_snitch_name = false;
+    private boolean is_mul_seeds_list = false;
     private boolean is_diff_java_version = false;
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
@@ -62,6 +63,7 @@ public class ClusterInfoAnalyzer {
 
         String cluster_name_dff_msg_warning = "Multiple Clusternames detected in cassandra.yamls!!! \n";
         String snitch_name_dff_msg_warning = "Multiple Snitch types detected in cassandra.yamls!!! \n";
+        String seeds_list_dff_msg_warning = "Multiple seeds lists detected in cassandra.yamls!!! \n";
         String java_version_dff_msg_warning = "Different Java versions in DC: ";
         String dse_version_dff_msg_warning = "Different DSE versions in DC:  ";
 
@@ -87,6 +89,7 @@ public class ClusterInfoAnalyzer {
 
         ArrayList<String> clustername = cfp.getClusterName();
         ArrayList<String> snitch = cfp.getSnitch_list();
+        //Set<String> seeds = cfp.getSeeds_list();
 
         clusterinfotext +="#### Cluster Configuration Overview #### \n";
         ////1. get cluster name

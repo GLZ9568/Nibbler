@@ -102,8 +102,8 @@ public class NodetoolInfoParser {
                         if (currentLine.toLowerCase().contains("uptime")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
 
-                            //nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()))+ ")");
-                            nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim());
+                            nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()),true)+ ")");
+                            //nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim());
                             // logger.info("NTP status current line: " + currentLine);
                             //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
                             logger.info("Uptime: " + splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()), true) + ")");
