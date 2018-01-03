@@ -80,6 +80,7 @@ public class DiagParserGUI extends Application {
         //primaryStage.setMaxWidth(768);
        // primaryStage.setMinHeight(1024);
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screen_height =  visualBounds.getHeight() ;
         double screen_width = visualBounds.getWidth();

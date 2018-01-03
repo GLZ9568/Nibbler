@@ -649,7 +649,8 @@ public class ClusterInfoAnalyzer {
         {
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
-            t.setStyle("-fx-font-size: 13pt");
+
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfo_warning_header+clusterinfotext);
             t.setPrefWidth(1024);
             t.setMinHeight(450);
@@ -659,7 +660,7 @@ public class ClusterInfoAnalyzer {
             //flow.getChildren().addAll(t1,t2);
         }
         else {
-            t.setStyle("-fx-font-size: 13pt");
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfotext);
             t.setPrefWidth(1024);
             t.setMinHeight(450);

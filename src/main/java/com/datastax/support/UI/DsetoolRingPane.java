@@ -43,6 +43,7 @@ public class DsetoolRingPane {
         //tp.setPrefSize(1024, 10);
         tp.setText("dsetool ring");
         TextArea ring_area = new DsetoolRingParser().generateDsetoolRingOutput(ff);
+        //ring_area.setStyle("-fx-font-family: Courier New");
         tp.setContent(ring_area);
         ring_report = ring_area.getText();
         return tp;

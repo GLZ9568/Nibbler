@@ -44,6 +44,7 @@ public class StatusPane {
         //tp.setPrefSize(1024, 10);
         tp.setText("nodetool status");
         TextArea status_area = new statusParser().generateNodeStatusOutput(ff);
+        //status_area.setStyle("-fx-font-family: Courier New");
         tp.setContent(status_area);
         status_report = status_area.getText();
         return tp;
