@@ -71,7 +71,7 @@ public class NodetoolInfoAnalyzer {
                     {
                         logger.debug("node: " + file_id);
                         nodetool_info_text+= "====== " + file_id + " =======\n";
-                        nodetool_info_text+= "Uptime: " + Inspector.secToTime((Integer) nodetool_info_obj.get(ValFactory.INFO_UPTIME))+ "\n";
+                        nodetool_info_text+= "Uptime: " + nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()+ "\n";
                         nodetool_info_text+= "Total Heap: " + nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).toString()+ "mb\n";
                         nodetool_info_text+= "Used Heap: " + nodetool_info_obj.get(ValFactory.INFO_USEDHEAP).toString()+ "mb\n";
                         nodetool_info_text+= "Off Heap: " + nodetool_info_obj.get(ValFactory.INFO_OFFHEAP).toString()+ "mb\n";
