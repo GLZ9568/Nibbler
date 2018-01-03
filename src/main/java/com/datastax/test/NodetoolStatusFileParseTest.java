@@ -10,7 +10,7 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.NodetoolStatusFileParser;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -33,17 +33,17 @@ public class NodetoolStatusFileParseTest extends Test{
 
     public void readNodetoolStatusJSON() {
         logger.debug("Nodetool Status JSON: " + nodetoolStatusJSON);
-        logger.debug(nodetoolStatusJSON.get(StrFactory.STATUS));
-        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(StrFactory.STATUS);
+        logger.debug(nodetoolStatusJSON.get(ValFactory.STATUS));
+        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         logger.debug("Number of DCs: " + dcArray.size());
         for (Object ja : dcArray) {
             JSONObject tmp = (JSONObject) ja;
-            logger.debug("DC: " + tmp.get(StrFactory.DATACENTER));
-            JSONArray ja1 =  (JSONArray)tmp.get(StrFactory.NODES);
+            logger.debug("DC: " + tmp.get(ValFactory.DATACENTER));
+            JSONArray ja1 =  (JSONArray)tmp.get(ValFactory.NODES);
             for(Object ja2 :ja1)
             {
                 JSONObject tmp1 = (JSONObject) ja2;
-                logger.debug("node: " + tmp1.get(StrFactory.ADDRESS));
+                logger.debug("node: " + tmp1.get(ValFactory.ADDRESS));
             }
         }
     }

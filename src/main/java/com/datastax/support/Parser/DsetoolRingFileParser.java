@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -58,12 +58,12 @@ public class DsetoolRingFileParser {
         boolean valid = false;
 
         for (File file : files) {
-            if (file.getAbsolutePath().contains(StrFactory.DSETOOL) && file.getName().equals(StrFactory.RING) && !valid) {
+            if (file.getAbsolutePath().contains(ValFactory.DSETOOL) && file.getName().equals(ValFactory.RING) && !valid) {
                 dsetoolRingJSONArray = new JSONArray();
 
-                dsetoolRingJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                dsetoolRingJSON.put(StrFactory.FILE_NAME, file.getName());
-                dsetoolRingJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
+                dsetoolRingJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                dsetoolRingJSON.put(ValFactory.FILE_NAME, file.getName());
+                dsetoolRingJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);
@@ -73,7 +73,7 @@ public class DsetoolRingFileParser {
                     while (scanner.hasNextLine()) {
                         ArrayList<String> splitLine = new ArrayList<String>(Arrays.asList(Inspector.splitBySpace(scanner.nextLine())));
                         if (splitLine.size() == 9) {
-                            if (splitLine.get(0).toLowerCase().equals(StrFactory.ADDRESS.toLowerCase()) && !valid) {
+                            if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && !valid) {
                                 valid = true;
                                 keys = splitLine;
                             }
@@ -98,7 +98,7 @@ public class DsetoolRingFileParser {
                             }
                         }
                     }
-                    dsetoolRingJSON.put(StrFactory.RING, dsetoolRingJSONArray);
+                    dsetoolRingJSON.put(ValFactory.RING, dsetoolRingJSONArray);
                 } catch (FileNotFoundException fnfe) {
                     logger.debug(fnfe);
                 }

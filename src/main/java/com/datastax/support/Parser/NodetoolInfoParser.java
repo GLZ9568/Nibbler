@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -85,7 +85,7 @@ public class NodetoolInfoParser {
     public void parse(ArrayList<File> files) {
         info_obj_list = new ArrayList<JSONObject>();
         for (File file : files) {
-            if (file.getName().equals(StrFactory.INFO)) {
+            if (file.getName().equals(ValFactory.INFO)) {
                 //logger.info("nodetool info file_name: " + file.getName());
                 nodetoolInfoJSON = new JSONObject();
 
@@ -95,7 +95,7 @@ public class NodetoolInfoParser {
                         String currentLine = scanner.nextLine();
                         if (currentLine.toLowerCase().contains("generation no")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(StrFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
+                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
                             logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
                         }
 
@@ -103,7 +103,7 @@ public class NodetoolInfoParser {
                             String[] splitLine = Inspector.splitByColon(currentLine);
 
                             //nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()))+ ")");
-                            nodetoolInfoJSON.put(StrFactory.INFO_UPTIME, splitLine[1].trim());
+                            nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim());
                             // logger.info("NTP status current line: " + currentLine);
                             //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
                             logger.info("Uptime: " + splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim())) + ")");
@@ -114,18 +114,18 @@ public class NodetoolInfoParser {
 
                             String[] splitLine1 = Inspector.splitBySlash(splitLine[1]);
                             //Arrays.sort(splitLine);
-                            nodetoolInfoJSON.put(StrFactory.INFO_USEDHEAP, splitLine1[0]);
-                            nodetoolInfoJSON.put(StrFactory.INFO_TOTALHEAP, splitLine1[1]);
+                            nodetoolInfoJSON.put(ValFactory.INFO_USEDHEAP, splitLine1[0]);
+                            nodetoolInfoJSON.put(ValFactory.INFO_TOTALHEAP, splitLine1[1]);
                             logger.info("Heap Memory: " + splitLine1[0] + "/" + splitLine1[1]);
                         }
                         if (currentLine.toLowerCase().contains("off heap memory")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(StrFactory.INFO_OFFHEAP, splitLine[1]);
+                            nodetoolInfoJSON.put(ValFactory.INFO_OFFHEAP, splitLine[1]);
                             logger.info("Off Heap Memory: " + splitLine[1]);
                         }
                     }
                     logger.info("node ip: " + setIP(file.getAbsolutePath()));
-                    nodetoolInfoJSON.put(StrFactory.FILE_ID, setIP(file.getAbsolutePath()));
+                    nodetoolInfoJSON.put(ValFactory.FILE_ID, setIP(file.getAbsolutePath()));
                     info_obj_list.add(nodetoolInfoJSON);
                 } catch (FileNotFoundException fnfe) {
                     logger.debug(fnfe);

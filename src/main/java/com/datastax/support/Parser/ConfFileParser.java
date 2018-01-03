@@ -11,7 +11,7 @@ package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.NibProperties;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -81,8 +81,8 @@ public class ConfFileParser {
         if (!cassandraYamlFiles.isEmpty()) {
             cassandraYamlProperties = extractProperties(cassandraYamlFiles);
             for (NibProperties properties : cassandraYamlProperties) {
-                String clasterName = properties.get(StrFactory.CLUSTER_NAME).toString();
-                String snitch_str = properties.get(StrFactory.SNITCH).toString();
+                String clasterName = properties.get(ValFactory.CLUSTER_NAME).toString();
+                String snitch_str = properties.get(ValFactory.SNITCH).toString();
                 if (!clusterName.contains(clasterName)) {
                     clusterName.add(clasterName);
                 }
@@ -91,19 +91,19 @@ public class ConfFileParser {
                 }
             }
         } else {
-            logger.error("Did not find any " + StrFactory.CASSANDRA_YAML + " files.");
+            logger.error("Did not find any " + ValFactory.CASSANDRA_YAML + " files.");
         }
 
         if (!addressYamlFiles.isEmpty()) {
             addressYamlProperties = extractProperties(addressYamlFiles);
         } else {
-            logger.error("Did not find any " + StrFactory.ADDRESS_YAML + " files.");
+            logger.error("Did not find any " + ValFactory.ADDRESS_YAML + " files.");
         }
 
         if (!dseYamlFiles.isEmpty()) {
             dseYamlProperties = extractProperties(dseYamlFiles);
         } else {
-            logger.error("Did not find any " + StrFactory.DSE_YAML + " files.");
+            logger.error("Did not find any " + ValFactory.DSE_YAML + " files.");
         }
 
         if (!confFiles.isEmpty()) {
@@ -120,7 +120,7 @@ public class ConfFileParser {
     }
 
     public boolean isCassandraYaml (File file) {
-        return file.getName().contains(StrFactory.CASSANDRA_YAML);
+        return file.getName().contains(ValFactory.CASSANDRA_YAML);
     }
 
     public ArrayList<NibProperties> getCassandraYamlProperties() {
@@ -128,7 +128,7 @@ public class ConfFileParser {
     }
 
     public boolean isAgentAddressYaml (File file) {
-        return file.getName().contains(StrFactory.ADDRESS_YAML);
+        return file.getName().contains(ValFactory.ADDRESS_YAML);
     }
 
     public ArrayList<NibProperties> getAddressYamlProperties() {
@@ -136,7 +136,7 @@ public class ConfFileParser {
     }
 
     public boolean isDSEYaml (File file) {
-        return file.getAbsolutePath().contains(StrFactory.DSE_YAML);
+        return file.getAbsolutePath().contains(ValFactory.DSE_YAML);
     }
 
     public ArrayList<NibProperties> getDSEYamlProperties() {
@@ -144,7 +144,7 @@ public class ConfFileParser {
     }
 
     public boolean isConfFile (File file) {
-        return file.getName().endsWith(StrFactory.CONF_SURFFIX);
+        return file.getName().endsWith(ValFactory.CONF_SURFFIX);
     }
 
     public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
@@ -177,9 +177,9 @@ public class ConfFileParser {
                 FileInputStream input = new FileInputStream(file);
                 properties.load(input);
                 id = Inspector.getFileID(file);
-                properties.put(StrFactory.FILE_ID, id);
-                properties.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                properties.put(StrFactory.FILE_NAME, file.getName());
+                properties.put(ValFactory.FILE_ID, id);
+                properties.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                properties.put(ValFactory.FILE_NAME, file.getName());
                 propertiesArrayList.add(properties);
             } catch (FileNotFoundException fnfe) {
                 logger.error(fnfe);

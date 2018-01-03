@@ -10,7 +10,7 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.DescribeclusterFileParser;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -31,7 +31,7 @@ public class DescribeclusterFileParserTest extends Test {
         ArrayList<JSONObject> describeclusterJSONs = describeclusterFileParser.getDescribeclusterJSONs();
         logger.debug("Number of Describecluster JSONs: " + describeclusterJSONs.size());
         for(JSONObject describeclusterJSON : describeclusterJSONs) {
-            logger.debug("Describecluster JSON Detials: " + describeclusterJSON.get(StrFactory.FILE_ID) + " - " + describeclusterJSON.get(StrFactory.FILE_NAME) + " - " + describeclusterJSON.get(StrFactory.FILE_PATH));
+            logger.debug("Describecluster JSON Detials: " + describeclusterJSON.get(ValFactory.FILE_ID) + " - " + describeclusterJSON.get(ValFactory.FILE_NAME) + " - " + describeclusterJSON.get(ValFactory.FILE_PATH));
             if(describeclusterJSONs.indexOf(describeclusterJSON) == 0) {
                 logger.debug("First Describecluster Output: " + describeclusterJSON);
             }

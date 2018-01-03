@@ -11,10 +11,9 @@ package com.datastax.test;
 
 import com.datastax.support.Parser.ConfFileParser;
 import com.datastax.support.Util.NibProperties;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
@@ -42,28 +41,28 @@ public class ConfFileParseTest extends Test{
 
         for (Object key : addressYamlProperties.get(0).keySet()){
             for (NibProperties props : addressYamlProperties){
-                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+                logger.debug("node " + props.get(ValFactory.FILE_ID) + " - " + props.get(ValFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
             }
             logger.debug("");
         }
 
         for (Object key : cassandraYamlProperties.get(0).keySet()){
             for (NibProperties props : cassandraYamlProperties){
-                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+                logger.debug("node " + props.get(ValFactory.FILE_ID) + " - " + props.get(ValFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
             }
             logger.debug("");
         }
 
         for (Object key : dseYamlProperties.get(0).keySet()){
             for (NibProperties props : dseYamlProperties){
-                logger.debug("node " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+                logger.debug("node " + props.get(ValFactory.FILE_ID) + " - " + props.get(ValFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
             }
             logger.debug("");
         }
 
         for (Object key : clusterConfProperties.get(0).keySet()) {
             for (NibProperties props : clusterConfProperties) {
-                logger.debug("opscenter " + props.get(StrFactory.FILE_ID) + " - " + props.get(StrFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
+                logger.debug("opscenter " + props.get(ValFactory.FILE_ID) + " - " + props.get(ValFactory.FILE_NAME) + " - " + key.toString() + ": " + props.get(key));
             }
         }
 

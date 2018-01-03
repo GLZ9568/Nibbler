@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -60,7 +60,7 @@ public class CfstatsFileParser {
         nodetoolCfstats = new ArrayList<JSONObject>();
 
         for (File file : files) {
-            if (file.getAbsolutePath().contains(StrFactory.NODETOOL) && file.getName().equals(StrFactory.CFSTATS)) {
+            if (file.getAbsolutePath().contains(ValFactory.NODETOOL) && file.getName().equals(ValFactory.CFSTATS)) {
 
                 nodetoolStatusJSON = new JSONObject();
                 keyspaceArray = new JSONArray();
@@ -72,9 +72,9 @@ public class CfstatsFileParser {
                 boolean isKeyspaceData = false;
                 boolean isTableData = false;
 
-                nodetoolStatusJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                nodetoolStatusJSON.put(StrFactory.FILE_NAME, file.getName());
-                nodetoolStatusJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
+                nodetoolStatusJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                nodetoolStatusJSON.put(ValFactory.FILE_NAME, file.getName());
+                nodetoolStatusJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);
@@ -87,7 +87,7 @@ public class CfstatsFileParser {
                             String value = splitLine[1];
 
                             if(!isKeyspaceData && !isTableData) {
-                                if(key.trim().toLowerCase().equals(StrFactory.KEYSPACE.toLowerCase())) {
+                                if(key.trim().toLowerCase().equals(ValFactory.KEYSPACE.toLowerCase())) {
                                     isKeyspaceData = true;
                                     isTableData = false;
                                     keyspaceJSON.put(key.trim(), value.trim());
@@ -95,25 +95,25 @@ public class CfstatsFileParser {
                                     nodetoolStatusJSON.put(key.trim(), value.trim());
                                 }
                             } else if (isKeyspaceData && !isTableData){
-                                if(key.trim().toLowerCase().equals(StrFactory.TABLE.toLowerCase())) {
+                                if(key.trim().toLowerCase().equals(ValFactory.TABLE.toLowerCase())) {
                                     isTableData = true;
                                     tableJSON.put(key.trim(), value.trim());
                                 } else {
                                     keyspaceJSON.put(key.trim(), value.trim());
                                 }
                             } else if (isKeyspaceData && isTableData) {
-                                if (key.trim().toLowerCase().equals(StrFactory.TABLE.toLowerCase())) {
+                                if (key.trim().toLowerCase().equals(ValFactory.TABLE.toLowerCase())) {
                                     if (!tableJSON.isEmpty()) {
                                         tableArray.add(tableJSON);
                                         tableJSON = new JSONObject();
                                     }
                                     tableJSON.put(key.trim(), value.trim());
-                                } else if (key.trim().toLowerCase().equals(StrFactory.KEYSPACE.toLowerCase())) {
+                                } else if (key.trim().toLowerCase().equals(ValFactory.KEYSPACE.toLowerCase())) {
                                     isKeyspaceData = true;
                                     isTableData = false;
                                     tableArray.add(tableJSON);
                                     tableJSON = new JSONObject();
-                                    keyspaceJSON.put(StrFactory.TABLES, tableArray);
+                                    keyspaceJSON.put(ValFactory.TABLES, tableArray);
                                     tableArray = new JSONArray();
                                     keyspaceArray.add(keyspaceJSON);
                                     keyspaceJSON = new JSONObject();
@@ -126,10 +126,10 @@ public class CfstatsFileParser {
                     }
 
                     tableArray.add(tableJSON);
-                    keyspaceJSON.put(StrFactory.TABLES, tableArray);
+                    keyspaceJSON.put(ValFactory.TABLES, tableArray);
                     keyspaceArray.add(keyspaceJSON);
 
-                    nodetoolStatusJSON.put(StrFactory.KEYSPACES, keyspaceArray);
+                    nodetoolStatusJSON.put(ValFactory.KEYSPACES, keyspaceArray);
                     nodetoolCfstats.add(nodetoolStatusJSON);
 
                 } catch (FileNotFoundException fnfe) {

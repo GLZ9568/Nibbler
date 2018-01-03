@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created by Chun Gao on 26/11/2017
  */
 
-public class StrFactory {
+public class ValFactory {
 
     // values
     public static final int PAD = 2;

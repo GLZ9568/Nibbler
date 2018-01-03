@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -69,14 +69,14 @@ public class NodetoolStatusFileParser {
         boolean valid = false;
 
         for (File file : files) {
-            if (file.getAbsolutePath().contains(StrFactory.NODETOOL) && file.getName().equals(StrFactory.STATUS) && !valid) {
+            if (file.getAbsolutePath().contains(ValFactory.NODETOOL) && file.getName().equals(ValFactory.STATUS) && !valid) {
 
                 JSONArray nodeArray = new JSONArray();
-                JSONObject padding = initiatePadding(StrFactory.PAD);
+                JSONObject padding = initiatePadding(ValFactory.PAD);
 
-                nodetoolStatusJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                nodetoolStatusJSON.put(StrFactory.FILE_NAME, file.getName());
-                nodetoolStatusJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
+                nodetoolStatusJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                nodetoolStatusJSON.put(ValFactory.FILE_NAME, file.getName());
+                nodetoolStatusJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);
@@ -85,44 +85,44 @@ public class NodetoolStatusFileParser {
                     while (scanner.hasNextLine()) {
                         String currentLine = scanner.nextLine();
                         String[] splitLine = Inspector.splitBySpace(currentLine);
-                        if (currentLine.toLowerCase().contains(StrFactory.DATACENTER.toLowerCase())) {
+                        if (currentLine.toLowerCase().contains(ValFactory.DATACENTER.toLowerCase())) {
                             if(!nodeArray.isEmpty()) {
-                                dcInfo.put(StrFactory.NODES, nodeArray);
-                                dcInfo.put(StrFactory.PADDING, padding);
+                                dcInfo.put(ValFactory.NODES, nodeArray);
+                                dcInfo.put(ValFactory.PADDING, padding);
                                 nodeJSONArray.add(dcInfo);
                                 dcInfo = new JSONObject();
                             }
                             valid = true;
 
-                            dcInfo.put(StrFactory.DATACENTER, Inspector.splitBySpace(currentLine)[1]);
+                            dcInfo.put(ValFactory.DATACENTER, Inspector.splitBySpace(currentLine)[1]);
 
                             nodeArray = new JSONArray();
-                            padding = initiatePadding(StrFactory.PAD);
+                            padding = initiatePadding(ValFactory.PAD);
                         }
-                        if (StrFactory.NODESTATUS.contains(splitLine[0])) {
+                        if (ValFactory.NODESTATUS.contains(splitLine[0])) {
                             JSONObject nodeInfo = new JSONObject();
-                            nodeInfo.put(StrFactory.UD, splitLine[0]);
-                            padding.put(StrFactory.UD, (Integer) padding.get(StrFactory.UD) > splitLine[0].length() + StrFactory.PAD ? padding.get(StrFactory.UD) : splitLine[0].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.ADDRESS, splitLine[1]);
-                            padding.put(StrFactory.ADDRESS, (Integer) padding.get(StrFactory.ADDRESS) > splitLine[1].length() + StrFactory.PAD ? padding.get(StrFactory.ADDRESS) : splitLine[1].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.LOAD, splitLine[2] + " " + splitLine[3]);
-                            padding.put(StrFactory.LOAD, (Integer) padding.get(StrFactory.LOAD) > splitLine[2].length() + 1 + splitLine[3].length() + StrFactory.PAD ? padding.get(StrFactory.LOAD) : splitLine[2].length() + 1 + splitLine[3].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.TOKENS, splitLine[4]);
-                            padding.put(StrFactory.TOKENS, (Integer) padding.get(StrFactory.TOKENS) > splitLine[4].length() + StrFactory.PAD ? padding.get(StrFactory.TOKENS) : splitLine[4].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.OWNS, splitLine[5]);
-                            padding.put(StrFactory.OWNS, (Integer) padding.get(StrFactory.OWNS) > splitLine[5].length() + StrFactory.PAD ? padding.get(StrFactory.OWNS) : splitLine[5].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.HOST_ID, splitLine[6]);
-                            padding.put(StrFactory.HOST_ID, (Integer) padding.get(StrFactory.HOST_ID) > splitLine[6].length() + StrFactory.PAD ? padding.get(StrFactory.HOST_ID) : splitLine[6].length() + StrFactory.PAD);
-                            nodeInfo.put(StrFactory.RACK, splitLine[7]);
-                            padding.put(StrFactory.RACK, (Integer) padding.get(StrFactory.RACK) > splitLine[7].length() + StrFactory.PAD ? padding.get(StrFactory.RACK) : splitLine[7].length() + StrFactory.PAD);
+                            nodeInfo.put(ValFactory.UD, splitLine[0]);
+                            padding.put(ValFactory.UD, (Integer) padding.get(ValFactory.UD) > splitLine[0].length() + ValFactory.PAD ? padding.get(ValFactory.UD) : splitLine[0].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.ADDRESS, splitLine[1]);
+                            padding.put(ValFactory.ADDRESS, (Integer) padding.get(ValFactory.ADDRESS) > splitLine[1].length() + ValFactory.PAD ? padding.get(ValFactory.ADDRESS) : splitLine[1].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.LOAD, splitLine[2] + " " + splitLine[3]);
+                            padding.put(ValFactory.LOAD, (Integer) padding.get(ValFactory.LOAD) > splitLine[2].length() + 1 + splitLine[3].length() + ValFactory.PAD ? padding.get(ValFactory.LOAD) : splitLine[2].length() + 1 + splitLine[3].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.TOKENS, splitLine[4]);
+                            padding.put(ValFactory.TOKENS, (Integer) padding.get(ValFactory.TOKENS) > splitLine[4].length() + ValFactory.PAD ? padding.get(ValFactory.TOKENS) : splitLine[4].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.OWNS, splitLine[5]);
+                            padding.put(ValFactory.OWNS, (Integer) padding.get(ValFactory.OWNS) > splitLine[5].length() + ValFactory.PAD ? padding.get(ValFactory.OWNS) : splitLine[5].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.HOST_ID, splitLine[6]);
+                            padding.put(ValFactory.HOST_ID, (Integer) padding.get(ValFactory.HOST_ID) > splitLine[6].length() + ValFactory.PAD ? padding.get(ValFactory.HOST_ID) : splitLine[6].length() + ValFactory.PAD);
+                            nodeInfo.put(ValFactory.RACK, splitLine[7]);
+                            padding.put(ValFactory.RACK, (Integer) padding.get(ValFactory.RACK) > splitLine[7].length() + ValFactory.PAD ? padding.get(ValFactory.RACK) : splitLine[7].length() + ValFactory.PAD);
 
                             nodeArray.add(nodeInfo);
                         }
                     }
-                    dcInfo.put(StrFactory.NODES, nodeArray);
-                    dcInfo.put(StrFactory.PADDING, padding);
+                    dcInfo.put(ValFactory.NODES, nodeArray);
+                    dcInfo.put(ValFactory.PADDING, padding);
                     nodeJSONArray.add(dcInfo);
-                    nodetoolStatusJSON.put(StrFactory.STATUS, nodeJSONArray);
+                    nodetoolStatusJSON.put(ValFactory.STATUS, nodeJSONArray);
                 } catch (FileNotFoundException fnfe) {
                     logger.debug(fnfe);
                 }
@@ -133,7 +133,7 @@ public class NodetoolStatusFileParser {
     public JSONObject initiatePadding(int pad) {
         JSONObject padding = new JSONObject();
 
-        for (String key : StrFactory.NODETOOLTATUS) {
+        for (String key : ValFactory.NODETOOLTATUS) {
             padding.put(key, key.length() + pad);
         }
 

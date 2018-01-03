@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +36,7 @@ public class NodetoolInfoFileParser {
         nodetoolInfoProperties = new ArrayList<Properties>();
 
         for (File file : files) {
-            if(file.getAbsolutePath().contains(StrFactory.NODETOOL) && file.getName().equals(StrFactory.INFO)) {
+            if(file.getAbsolutePath().contains(ValFactory.NODETOOL) && file.getName().equals(ValFactory.INFO)) {
                 Properties properties = new Properties();
 
                 try {
@@ -49,9 +49,9 @@ public class NodetoolInfoFileParser {
                         }
                     }
                     String id = Inspector.getFileID(file);
-                    properties.put(StrFactory.FILE_ID, id);
-                    properties.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                    properties.put(StrFactory.FILE_NAME, file.getName());
+                    properties.put(ValFactory.FILE_ID, id);
+                    properties.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                    properties.put(ValFactory.FILE_NAME, file.getName());
                 } catch (FileNotFoundException fnfe) {
                     logger.error(fnfe);
                 }

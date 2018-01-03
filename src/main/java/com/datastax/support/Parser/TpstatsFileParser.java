@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -56,13 +56,13 @@ public class TpstatsFileParser {
          **/
 
         for (File file : files) {
-            if (file.getAbsolutePath().contains(StrFactory.TPSTATS)) {
+            if (file.getAbsolutePath().contains(ValFactory.TPSTATS)) {
                 tpstatsJSON = new JSONObject();
                 tpstatsArray = new JSONArray();
 
-                tpstatsJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                tpstatsJSON.put(StrFactory.FILE_NAME, file.getName());
-                tpstatsJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
+                tpstatsJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                tpstatsJSON.put(ValFactory.FILE_NAME, file.getName());
+                tpstatsJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);
@@ -72,18 +72,18 @@ public class TpstatsFileParser {
                         if (values.size() == 6) {
                             valueJSON = new JSONObject();
                             for (int i=0; i<values.size(); i++) {
-                                valueJSON.put(StrFactory.TPSTATS_POOL.get(i), values.get(i));
+                                valueJSON.put(ValFactory.TPSTATS_POOL.get(i), values.get(i));
                             }
                             tpstatsArray.add(valueJSON);
                         } else if (values.size() == 2) {
                             valueJSON = new JSONObject();
                             for(int i=0; i<values.size(); i++) {
-                                valueJSON.put(StrFactory.TPSTATS_MSG.get(i), values.get(i));
+                                valueJSON.put(ValFactory.TPSTATS_MSG.get(i), values.get(i));
                             }
                             tpstatsArray.add(valueJSON);
                         }
                     }
-                    tpstatsJSON.put(StrFactory.TPSTATS, tpstatsArray);
+                    tpstatsJSON.put(ValFactory.TPSTATS, tpstatsArray);
                     tpstatsJSONs.add(tpstatsJSON);
                 } catch (FileNotFoundException fnfe) {
                     logger.error(fnfe);

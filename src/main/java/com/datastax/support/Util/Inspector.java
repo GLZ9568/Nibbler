@@ -14,10 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import java.util.Date;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +56,14 @@ public final class Inspector {
         if (foundIPAddress(file.getAbsolutePath())) {
             return getIPAddress(file.getAbsolutePath());
         } else if (foundOpsCenter(file.getAbsolutePath())) {
-            return StrFactory.OPSCENTERD;
+            return ValFactory.OPSCENTERD;
         } else {
             return "Cannot find file ID information";
         }
     }
 
     public static boolean foundOpsCenter (String path) {
-        if (path.contains(StrFactory.OPSCENTERD)) {
+        if (path.contains(ValFactory.OPSCENTERD)) {
             return true;
         }
         return false;

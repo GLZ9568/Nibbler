@@ -10,7 +10,7 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.DsetoolRingFileParser;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ public class DsetoolRingFileParseTest extends Test {
     public void parseFiles() {
         DsetoolRingFileParser dsetoolRingFileParser = new DsetoolRingFileParser(files);
         JSONObject dsetoolRingJSON = dsetoolRingFileParser.getDsetoolRingJSON();
-        logger.debug("Dsetool Ring Detials: " + dsetoolRingJSON.get(StrFactory.NODE) + " - " + dsetoolRingJSON.get(StrFactory.FILE_NAME) + " - " + dsetoolRingJSON.get(StrFactory.FILE_PATH));
+        logger.debug("Dsetool Ring Detials: " + dsetoolRingJSON.get(ValFactory.NODE) + " - " + dsetoolRingJSON.get(ValFactory.FILE_NAME) + " - " + dsetoolRingJSON.get(ValFactory.FILE_PATH));
         logger.debug("Dsetool Ring Output: " + dsetoolRingJSON);
     }
 
