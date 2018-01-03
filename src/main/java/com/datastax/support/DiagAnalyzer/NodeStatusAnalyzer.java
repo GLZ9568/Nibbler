@@ -74,8 +74,8 @@ public class NodeStatusAnalyzer extends Analyzer {
 
             for (Properties properties : nodetoolInfoProperties) {
                 if (properties.get(ValFactory.DATA_CENTER).toString().equals(datacenter.get(ValFactory.DATACENTER).toString())) {
-                    nodetoolInfoPadding.put(ValFactory.UPTIME, nodetoolInfoPadding.get(ValFactory.UPTIME) > Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString())).length() + ValFactory.PAD
-                            ? nodetoolInfoPadding.get(ValFactory.UPTIME) : Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString())).length() + ValFactory.PAD);
+                    nodetoolInfoPadding.put(ValFactory.UPTIME, nodetoolInfoPadding.get(ValFactory.UPTIME) > Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()),false).length() + ValFactory.PAD
+                            ? nodetoolInfoPadding.get(ValFactory.UPTIME) : Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()),false).length() + ValFactory.PAD);
                 }
             }
 
@@ -108,7 +108,7 @@ public class NodeStatusAnalyzer extends Analyzer {
                             if (properties.get(ValFactory.ID).toString().equals(statusNode.get(ValFactory.HOST_ID))) {
                                 found = true;
                                 nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s",
-                                        Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString())).toString());
+                                        Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()),false).toString());
                             }
                         }
                         if (!found) {

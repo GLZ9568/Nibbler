@@ -92,7 +92,7 @@ public final class Inspector {
         return generation.toString();
     }
 
-    public static String secToTime(int sec) {
+    public static String secToTime(int sec, boolean fullformat) {
         int seconds = sec % 60;
         int minutes = sec / 60;
         if (minutes >= 60) {
@@ -100,10 +100,19 @@ public final class Inspector {
             minutes %= 60;
             if( hours >= 24) {
                 int days = hours / 24;
+                if(fullformat)
+                    return String.format("%d days %02d hours %02d minutes %02d seconds", days,hours%24, minutes, seconds);
+             else
                 return String.format("%dd %02dh %02dm %02ds", days,hours%24, minutes, seconds);
             }
+            if(fullformat)
+                String.format("%02d hours %02d minutes %02d seconds", hours, minutes, seconds);
+            else
             return String.format("%02dh %02dm %02ds", hours, minutes, seconds);
         }
+        if(fullformat)
+            return String.format("%02d minutes %02d seconds", minutes, seconds);
+        else
         return String.format("%02dm %02ds", minutes, seconds);
     }
 

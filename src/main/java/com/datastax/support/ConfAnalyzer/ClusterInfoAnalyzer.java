@@ -89,7 +89,7 @@ public class ClusterInfoAnalyzer {
 
         ArrayList<String> clustername = cfp.getClusterName();
         ArrayList<String> snitch = cfp.getSnitch_list();
-        Set<String> seeds = cfp.getSeeds_list();
+        //Set<String> seeds = cfp.getSeeds_list();
 
         clusterinfotext +="#### Cluster Configuration Overview #### \n";
         ////1. get cluster name
