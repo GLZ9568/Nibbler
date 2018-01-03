@@ -12,7 +12,7 @@ package com.datastax.support.ConfAnalyzer;
 import com.datastax.support.Parser.ClusterInfoParser;
 import com.datastax.support.Parser.ConfFileParser;
 import com.datastax.support.Parser.DiskSpaceParser;
-import com.datastax.support.Parser.NodetoolStatusParser;
+import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.StrFactory;
@@ -50,7 +50,7 @@ public class ClusterInfoAnalyzer {
         TextFlow flow = new TextFlow();
         ClusterInfoParser cip = new ClusterInfoParser(ff);
         DiskSpaceParser dsp = new DiskSpaceParser();
-        dsp.parse(ff.getFiles());
+        dsp.parse(ff.getAllFiles());
         JSONObject nodetoolStatusJSON = new JSONObject();
 
         NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
