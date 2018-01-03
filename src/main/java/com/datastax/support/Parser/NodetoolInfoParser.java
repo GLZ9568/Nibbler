@@ -95,8 +95,8 @@ public class NodetoolInfoParser {
                         String currentLine = scanner.nextLine();
                         if (currentLine.toLowerCase().contains("generation no")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
-                            logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochtoDate(splitLine[1].trim()) + ")");
+                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
+                            logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
                         }
 
                         if (currentLine.toLowerCase().contains("uptime")) {

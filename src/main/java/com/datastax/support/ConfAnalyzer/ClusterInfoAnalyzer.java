@@ -274,7 +274,7 @@ public class ClusterInfoAnalyzer {
         for (Object dc : dcArray) {
             JSONObject tmpdcvar = (JSONObject) dc;
             //logger.debug("DC: " + tmpdcvar.get(StrFactory.DATACENTER));
-            String dotlinestr = Inspector.generatedotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
+            String dotlinestr = Inspector.generateDotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
             clusterinfotext += dotlinestr+
                     ">>>Datacenter: " + tmpdcvar.get(ValFactory.DATACENTER)+ "<<<<\n" + dotlinestr;
 

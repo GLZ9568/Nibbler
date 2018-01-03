@@ -85,8 +85,7 @@ public final class Inspector {
         return input.split("/");
     }
 
-    public static String epochtoDate(String input)
-    {
+    public static String epochToDate(String input) {
         long epoch = Long.parseLong(input);
         Date generation = new Date(epoch * 1000L);
         return generation.toString();
@@ -119,8 +118,7 @@ public final class Inspector {
         }
     }
 
-    public static String generatedotline(int length)
-    {
+    public static String generateDotline(int length) {
         String dotinestr =  new String();
 
         for (int i=0; i< length; ++i) {

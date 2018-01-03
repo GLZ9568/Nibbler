@@ -52,7 +52,7 @@ public class NodetoolInfoAnalyzer {
             logger.debug("DC: " + tmpdcvar.get(ValFactory.DATACENTER));
             Set<String> heap_size_set = new HashSet<String>();
             /////group by DC name///
-            String dotlinestr = Inspector.generatedotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
+            String dotlinestr = Inspector.generateDotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
             nodetool_info_text+=dotlinestr +
                     ">>>Datacenter: "+ tmpdcvar.get(ValFactory.DATACENTER).toString()+"<<<<\n"+
                     dotlinestr;
@@ -62,8 +62,7 @@ public class NodetoolInfoAnalyzer {
 
                 String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
 
-                for (JSONObject nodetool_info_obj: info_obj_list)
-                {
+                for (JSONObject nodetool_info_obj: info_obj_list) {
                     //// node ip//////
                     if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())) {
                         logger.debug("node: " + file_id);
@@ -78,8 +77,7 @@ public class NodetoolInfoAnalyzer {
                     }
                 }
             }
-            if(heap_size_set.size()>1)
-            {
+            if(heap_size_set.size()>1) {
                 is_diff_heap_size = true;
                 String heap_str = new String();
                 for(String str : heap_size_set)
@@ -91,8 +89,7 @@ public class NodetoolInfoAnalyzer {
             }
         }
 
-        if(is_diff_heap_size)
-        {
+        if(is_diff_heap_size) {
             nodetool_info_warning_text +="\n";
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             t.setPrefWidth(1024);
