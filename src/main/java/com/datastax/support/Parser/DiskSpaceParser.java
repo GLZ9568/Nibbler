@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class DiskSpaceParser {
 
-    private static final Logger logger = LogManager.getLogger(FileFactory.class);
+    private static final Logger logger = LogManager.getLogger(DiskSpaceParser.class);
 
     private JSONObject disk_space_obj;
 

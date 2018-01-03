@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class ClusterInfoParser {
 
-    private static final Logger logger = LogManager.getLogger(FileFactory.class);
+    private static final Logger logger = LogManager.getLogger(ClusterInfoParser.class);
 
     private JSONObject cluster_info_obj;
     private JSONObject node_info_obj;

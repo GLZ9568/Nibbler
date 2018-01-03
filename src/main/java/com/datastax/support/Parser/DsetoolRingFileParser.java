@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 public class DsetoolRingFileParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
+    private static Logger logger = LogManager.getLogger(DsetoolRingFileParser.class);
 
     private JSONObject dsetoolRingJSON;
     private JSONArray dsetoolRingJSONArray;
