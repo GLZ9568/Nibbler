@@ -34,7 +34,7 @@ import java.util.Set;
 
 public class ClusterInfoAnalyzer {
 
-    private static final Logger logger = LogManager.getLogger(FileFactory.class);
+    private static final Logger logger = LogManager.getLogger(ClusterInfoAnalyzer.class);
     private boolean is_mul_cluster_name = false;
     private boolean is_mul_snitch_name = false;
     private boolean is_mul_seeds_list = false;
