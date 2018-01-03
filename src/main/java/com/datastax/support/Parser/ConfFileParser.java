@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Chun Gao on 17/11/17
@@ -43,7 +45,7 @@ public class ConfFileParser {
 
     private ArrayList<String> clusterName;
     private ArrayList<String> snitch_list;
-
+    private Set<String> seeds_list;
     public void parse(ArrayList<File> files) {
 
         cassandraYamlFiles = new ArrayList<File>();
@@ -63,6 +65,8 @@ public class ConfFileParser {
         clusterName = new ArrayList<String>();
 
         snitch_list = new ArrayList<String>();
+
+        seeds_list =  new HashSet<String>();
         for (File file : files) {
             if (isCassandraYaml(file)) {
                 cassandraYamlFiles.add(file);
@@ -80,12 +84,14 @@ public class ConfFileParser {
             for (NibProperties properties : cassandraYamlProperties) {
                 String cn = properties.get(StrFactory.CLUSTER_NAME).toString();
                 String snitch_str = properties.get(StrFactory.SNITCH).toString();
+                String seed_str = properties.get(StrFactory.SEEDS).toString().replaceAll("\"","");
                 if (!clusterName.contains(cn)) {
                     clusterName.add(cn);
                 }
                 if (!snitch_list.contains(snitch_str)) {
                     snitch_list.add(snitch_str);
                 }
+                seeds_list.add(seed_str);
             }
         } else {
             logger.error("Did not find any " + StrFactory.CASSANDRA_YAML + " files.");
@@ -161,6 +167,10 @@ public class ConfFileParser {
 
     public ArrayList<String> getSnitch_list() {
         return snitch_list;
+    }
+
+    public Set<String> getSeeds_list() {
+        return seeds_list;
     }
 
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {
