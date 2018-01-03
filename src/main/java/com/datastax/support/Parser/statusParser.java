@@ -62,9 +62,10 @@ public class statusParser {
 
         if (!isvalidstatusoutput)
         {
+            t.setStyle("-fx-font-size: 13pt");
             t.setText("No Valid nodetool status collected!!");
         }
-
+        t.setStyle("-fx-font-size: 13pt");
         return t;
 
     }

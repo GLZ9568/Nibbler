@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,11 +79,16 @@ public class DiagParserGUI extends Application {
         //primaryStage.setScene(new Scene(root, 1024,768));
         //primaryStage.setMaxWidth(768);
        // primaryStage.setMinHeight(1024);
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        logger.info("screen height is: "+ screenSize.getHeight());
-        logger.info("screen width is: "+ screenSize.getWidth());
-        primaryStage.setScene(new Scene(border, 1024, 768));
+        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        double screen_height =  visualBounds.getHeight() ;
+        double screen_width = visualBounds.getWidth();
+        logger.info("screen height is: "+ screen_height);
+        logger.info("screen width is: "+ screen_width);
+        primaryStage.setMaxHeight(screen_height*0.8);
+        primaryStage.setMinWidth(screen_width*0.7);
+        primaryStage.setMaxWidth(screen_width*0.7);
+        primaryStage.setScene(new Scene(border, screen_width*0.7, screen_height*0.8));
         primaryStage.show();
     }
 

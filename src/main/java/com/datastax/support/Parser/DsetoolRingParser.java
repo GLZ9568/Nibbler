@@ -61,9 +61,10 @@ public class DsetoolRingParser {
 
         if (!isvalidringoutput)
         {
+            t.setStyle("-fx-font-size: 13pt");
             t.setText("No Valid dsetool ring collected!!");
         }
-
+        t.setStyle("-fx-font-size: 13pt");
         return t;
 
     }
