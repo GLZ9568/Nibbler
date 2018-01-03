@@ -11,7 +11,7 @@ package com.datastax.support.Parser;
 
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Created by Mike Zhang on 28/12/2017.
@@ -54,7 +53,7 @@ public class DiskSpaceParser {
 
 
         for (File file : files) {
-            if (file.getName().equals(StrFactory.DISK_SPACE))
+            if (file.getName().equals(ValFactory.DISK_SPACE))
             {
                 diskJSONArray = new JSONArray();
                 try {
@@ -90,17 +89,17 @@ public class DiskSpaceParser {
                             free_disk_space = Double.valueOf(Inspector.splitByColon(str1)[1].trim().
                                     replaceAll("[{|}]", "").replaceAll("\"",""));
                             total_disk_space =  used_disk_space + free_disk_space;
-                            disk_info_obj.put(StrFactory.TOTAL_SPACE,String.format("%.2f",total_disk_space));
-                            disk_info_obj.put(StrFactory.USED_SPACE,String.format("%.2f",used_disk_space));
-                            disk_info_obj.put(StrFactory.DISK_NAME,disk_name_used.replaceAll("\\\\",""));
+                            disk_info_obj.put(ValFactory.TOTAL_SPACE,String.format("%.2f",total_disk_space));
+                            disk_info_obj.put(ValFactory.USED_SPACE,String.format("%.2f",used_disk_space));
+                            disk_info_obj.put(ValFactory.DISK_NAME,disk_name_used.replaceAll("\\\\",""));
                             //disk_space_obj.put(StrFactory.FILE_ID,setIP(file.getAbsolutePath()));
                         }
 
                     }
                     diskJSONArray.add(disk_info_obj);
                 }
-                disk_info_obj_bynode.put(StrFactory.DISK_SPACE_USAGE,diskJSONArray);
-                disk_info_obj_bynode.put(StrFactory.FILE_ID,setIP(file.getAbsolutePath()));
+                disk_info_obj_bynode.put(ValFactory.DISK_SPACE_USAGE,diskJSONArray);
+                disk_info_obj_bynode.put(ValFactory.FILE_ID,setIP(file.getAbsolutePath()));
                 logger.info("disk space info: " + disk_info_obj_bynode.toString());
                 disk_space_obj_list.add(disk_info_obj_bynode);
                 } catch (FileNotFoundException e) {

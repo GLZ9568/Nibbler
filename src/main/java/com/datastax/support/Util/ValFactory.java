@@ -17,7 +17,10 @@ import java.util.HashMap;
  * Created by Chun Gao on 26/11/2017
  */
 
-public class StrFactory {
+public class ValFactory {
+
+    // values
+    public static final int PAD = 2;
 
     // common
     public static final String NONE_EXIST = "none_exist";
@@ -31,6 +34,7 @@ public class StrFactory {
     public static final String KEYSPACES = "Keyspaces";
     public static final String TABLE = "Table";
     public static final String TABLES = "Tables";
+    public static final String PADDING = "Padding";
 
     public static final String ISCLUSTER_INFOEXIST = "iscluster_infoexist";
     public static final String ISNODE_INFOEXIST = "isnode_infoexist";
@@ -43,6 +47,9 @@ public class StrFactory {
     public static final String INFO_GENERATION = "info_generation";
     public static final String INFO_DATACENTER = "Data Center";
     public static final String INFO_UPTIME = "info_uptime";
+    public static final String UPTIME = "Uptime";
+    public static final String UPTIME_SECONDS = "Uptime (seconds)";
+    public static final String ID = "ID";
     public static final String INFO_TOTALHEAP = "info_totalheap";
     public static final String INFO_USEDHEAP = "info_usedheap";
     public static final String INFO_OFFHEAP = "info_usedheap";
@@ -88,10 +95,14 @@ public class StrFactory {
 
     public static final String DSETOOL = "dsetool";
     public static final String RING = "ring";
+    public static final String DC = "DC";
+    public static final String WORKLOAD = "Workload";
 
     public static final String STATUS = "status";
-    public static final String STAT = "stat";
+    public static final String UD = "U/D";
+    public static final String STATa = "Stat";
     public static final String DATACENTER = "Datacenter";
+    public static final String DATA_CENTER = "Data Center";
     public static final String ADDRESS = "Address";
     public static final String LOAD = "Load";
     public static final String TOKENS = "Tokens";
@@ -107,6 +118,7 @@ public class StrFactory {
     public static final String DJ = "DJ";
     public static final String DM = "DM";
     public static final ArrayList<String> NODESTATUS = new ArrayList<String>(Arrays.asList(UN, UL, UJ, UM, DN, DL, DJ, DM));
+    public static final ArrayList<String> NODETOOLTATUS = new ArrayList<String>(Arrays.asList(UD, ADDRESS, RACK, TOKENS, LOAD, OWNS, HOST_ID));
 
     public static final String TPSTATS = "tpstats";
     public static final String POOL_NAME = "Pool Name";

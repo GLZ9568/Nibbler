@@ -14,10 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import java.util.Date;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,14 +56,14 @@ public final class Inspector {
         if (foundIPAddress(file.getAbsolutePath())) {
             return getIPAddress(file.getAbsolutePath());
         } else if (foundOpsCenter(file.getAbsolutePath())) {
-            return StrFactory.OPSCENTERD;
+            return ValFactory.OPSCENTERD;
         } else {
             return "Cannot find file ID information";
         }
     }
 
     public static boolean foundOpsCenter (String path) {
-        if (path.contains(StrFactory.OPSCENTERD)) {
+        if (path.contains(ValFactory.OPSCENTERD)) {
             return true;
         }
         return false;
@@ -80,12 +78,10 @@ public final class Inspector {
     }
 
     public static String[] splitByColon(String input){
-
         return input.split(":");
     }
 
     public static String[] splitBySlash(String input){
-
         return input.split("/");
     }
 
@@ -94,7 +90,6 @@ public final class Inspector {
         long epoch = Long.parseLong(input);
         Date generation = new Date(epoch * 1000L);
         return generation.toString();
-
     }
 
     public static String secToTime(int sec) {
@@ -105,19 +100,18 @@ public final class Inspector {
             minutes %= 60;
             if( hours >= 24) {
                 int days = hours / 24;
-                return String.format("%d days %02d hours %02d mins %02d seconds", days,hours%24, minutes, seconds);
+                return String.format("%dd %02dh %02dm %02ds", days,hours%24, minutes, seconds);
             }
-            return String.format("%02d hours %02d mins %02d seconds", hours, minutes, seconds);
+            return String.format("%02dh %02dm %02ds", hours, minutes, seconds);
         }
-        return String.format("%02d mins %02d seconds", minutes, seconds);
+        return String.format("%02dm %02ds", minutes, seconds);
     }
 
     public static String generatedotline(int length)
     {
         String dotinestr =  new String();
 
-        for (int i=0; i< length; ++i)
-        {
+        for (int i=0; i< length; ++i) {
             dotinestr+="-";
         }
         return dotinestr;

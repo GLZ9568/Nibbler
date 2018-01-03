@@ -11,7 +11,7 @@ package com.datastax.support.Parser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.NibProperties;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -46,12 +46,12 @@ public class ClusterInfoParser {
 
     public ClusterInfoParser(FileFactory ff) {
 
-        ArrayList<File> filelist = ff.getFiles();
+        ArrayList<File> filelist = ff.getAllFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
-        cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,"false");
+        cluster_info_obj.put(ValFactory.ISCLUSTER_INFOEXIST,"false");
         node_info_obj = new JSONObject();
-        node_info_obj.put(StrFactory.ISNODE_INFOEXIST,"false");
+        node_info_obj.put(ValFactory.ISNODE_INFOEXIST,"false");
         cpu_obj_list = new ArrayList<JSONObject>();
         java_system_properties_obj_list =  new ArrayList<JSONObject>();
         machine_info_obj_list =  new ArrayList<JSONObject>();
@@ -61,15 +61,15 @@ public class ClusterInfoParser {
         for (int i =0; i < filelist.size();++i)
         {
             filename = filelist.get(i);
-            if(filename.getName().contains(StrFactory.CLUSTER_INFO))
+            if(filename.getName().contains(ValFactory.CLUSTER_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     cluster_info_obj = (JSONObject) jsonParser.parse(reader);
-                    cluster_info_obj.put(StrFactory.ISCLUSTER_INFOEXIST,"true");
-                    cluster_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    cluster_info_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    cluster_info_obj.put(ValFactory.ISCLUSTER_INFOEXIST,"true");
+                    cluster_info_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    cluster_info_obj.put(ValFactory.FILE_NAME, filename.getName());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -79,16 +79,16 @@ public class ClusterInfoParser {
                 }
                 //iscluster_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.NODE_INFO))
+            if(filename.getName().contains(ValFactory.NODE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     node_info_obj = (JSONObject) jsonParser.parse(reader);
                    // node_info_obj.put(StrFactory.file_id, setID(filename.getAbsolutePath()));
-                    node_info_obj.put(StrFactory.ISNODE_INFOEXIST,"true");
-                    node_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    node_info_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    node_info_obj.put(ValFactory.ISNODE_INFOEXIST,"true");
+                    node_info_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    node_info_obj.put(ValFactory.FILE_NAME, filename.getName());
 
 
                 } catch (IOException e) {
@@ -99,7 +99,7 @@ public class ClusterInfoParser {
                 }
                 //isnode_infoexist = true;
             }
-            if(filename.getName().contains(StrFactory.CPU))
+            if(filename.getName().contains(ValFactory.CPU))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -108,10 +108,10 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                    // String str = cpu_info_obj.get("id").toString();
 
-                    cpu_info_obj.put(StrFactory.ISCPUEXIST,true);
-                    cpu_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    cpu_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    cpu_info_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    cpu_info_obj.put(ValFactory.ISCPUEXIST,true);
+                    cpu_info_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    cpu_info_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    cpu_info_obj.put(ValFactory.FILE_NAME, filename.getName());
                     cpu_obj_list.add(cpu_info_obj);
 
                 } catch (IOException e) {
@@ -123,7 +123,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.JAVA_SYSTEM_PROPERTIES))
+            if(filename.getName().contains(ValFactory.JAVA_SYSTEM_PROPERTIES))
             {
                 JSONObject java_system_properties_obj =  new JSONObject();
 
@@ -134,17 +134,17 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
 
-                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"true");
-                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"true");
+                    java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
 
                 } catch (IOException e) {
-                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
-                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
@@ -153,10 +153,10 @@ public class ClusterInfoParser {
                     e.printStackTrace();
                 }
                 catch (ParseException p){
-                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
-                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
@@ -166,10 +166,10 @@ public class ClusterInfoParser {
                 }
                 catch (Exception e1)
                 {
-                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
-                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
                     StringWriter sw = new StringWriter();
                     PrintWriter pw = new PrintWriter(sw);
@@ -180,7 +180,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.MACHINE_INFO))
+            if(filename.getName().contains(ValFactory.MACHINE_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -189,10 +189,10 @@ public class ClusterInfoParser {
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
 
-                    machine_info_obj.put(StrFactory.ISMACHINE_INFOEXIST,true);
-                    machine_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    machine_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    machine_info_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    machine_info_obj.put(ValFactory.ISMACHINE_INFOEXIST,true);
+                    machine_info_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    machine_info_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    machine_info_obj.put(ValFactory.FILE_NAME, filename.getName());
                     machine_info_obj_list.add(machine_info_obj);
 
                 } catch (IOException e) {
@@ -206,17 +206,17 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.OS_INFO))
+            if(filename.getName().contains(ValFactory.OS_INFO))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
                     JSONObject os_info_obj = (JSONObject) jsonParser.parse(reader);
 
-                    os_info_obj.put(StrFactory.ISMACHINE_INFOEXIST,true);
-                    os_info_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    os_info_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    os_info_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    os_info_obj.put(ValFactory.ISMACHINE_INFOEXIST,true);
+                    os_info_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    os_info_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    os_info_obj.put(ValFactory.FILE_NAME, filename.getName());
                     os_info_obj_list.add(os_info_obj);
 
                 } catch (IOException e) {
@@ -230,7 +230,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(StrFactory.NTPTIME))
+            if(filename.getName().contains(ValFactory.NTPTIME))
             {
                 try {
 
@@ -238,9 +238,9 @@ public class ClusterInfoParser {
 
                     JSONObject ntptime_obj = ntpInfoParser.parse(filename);
 
-                    ntptime_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
-                    ntptime_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
-                    ntptime_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    ntptime_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    ntptime_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    ntptime_obj.put(ValFactory.FILE_NAME, filename.getName());
                     ntptime_obj_list.add(ntptime_obj);
 
                 } catch (Exception e) {
@@ -258,10 +258,10 @@ public class ClusterInfoParser {
     {
         return null;
     }
+
     public JSONObject getCluster_info_obj() {
         //FileReader reader = new FileReader(ff.getFiles());
        //
-
         return cluster_info_obj;
     }
 

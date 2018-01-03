@@ -10,12 +10,8 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.FileFactory;
-import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
 
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,7 +30,7 @@ public class statusParser {
     {
         TextArea t = new TextArea();
         File statusfile;
-        ArrayList<File> filelist = ff.getFiles();
+        ArrayList<File> filelist = ff.getAllFiles();
         boolean isvalidstatusoutput = false;
         for (int i =0; i < filelist.size();++i)
         {

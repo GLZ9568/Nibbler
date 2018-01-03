@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class NtpInfoParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusParser.class);
+    private static Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
 
     private JSONObject ntpInfoJSON;
 
@@ -60,11 +60,11 @@ public class NtpInfoParser {
             while (scanner.hasNextLine()) {
                 String currentLine = scanner.nextLine();
                 if (currentLine.toLowerCase().contains("ntp_gettime") && currentLine.contains("ERROR")) {
-                    ntpInfoJSON.put(StrFactory.NTPTIME_STAUS, "ntp is down");
+                    ntpInfoJSON.put(ValFactory.NTPTIME_STAUS, "ntp is down");
                     break;
                 } else if (currentLine.toLowerCase().contains("ntp_gettime") && currentLine.contains("OK")) {
 
-                    ntpInfoJSON.put(StrFactory.NTPTIME_STAUS, "ntp is running");
+                    ntpInfoJSON.put(ValFactory.NTPTIME_STAUS, "ntp is running");
                    // logger.info("NTP status current line: " + currentLine);
                     //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
 
@@ -73,13 +73,13 @@ public class NtpInfoParser {
                     //logger.info("Offset current line: " + currentLine);
                     String[] splitLine = Inspector.splitByComma(currentLine);
                     Arrays.sort(splitLine);
-                    ntpInfoJSON.put(StrFactory.NTPTIME_OFFSET, splitLine[0]);
+                    ntpInfoJSON.put(ValFactory.NTPTIME_OFFSET, splitLine[0]);
                    // logger.info("NTP offset: " + ntpInfoJSON.get(StrFactory.NTPTIME_OFFSET).toString());
                 }
                 else if(currentLine.toLowerCase().contains("exception"))
                 {
                     String[] splitLine = Inspector.splitByColon(currentLine);
-                    ntpInfoJSON.put(StrFactory.NTPTIME_STAUS, splitLine[0] + ": " + splitLine[3]);
+                    ntpInfoJSON.put(ValFactory.NTPTIME_STAUS, splitLine[0] + ": " + splitLine[3]);
                 }
 
 

@@ -10,7 +10,6 @@
 package com.datastax.test;
 
 import com.datastax.support.Parser.CfstatsFileParser;
-import com.datastax.support.Util.StrFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;

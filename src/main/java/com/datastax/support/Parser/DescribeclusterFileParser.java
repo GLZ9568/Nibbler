@@ -10,7 +10,7 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.Inspector;
-import com.datastax.support.Util.StrFactory;
+import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -51,13 +51,13 @@ public class DescribeclusterFileParser {
          **/
 
         for (File file : files) {
-            if (file.getAbsolutePath().contains(StrFactory.DESCRIBECLUSTER)) {
+            if (file.getAbsolutePath().contains(ValFactory.DESCRIBECLUSTER)) {
                 describeclusterJSON = new JSONObject();
                 valueJSON = new JSONObject();
 
-                describeclusterJSON.put(StrFactory.FILE_PATH, file.getAbsolutePath());
-                describeclusterJSON.put(StrFactory.FILE_NAME, file.getName());
-                describeclusterJSON.put(StrFactory.FILE_ID, Inspector.getFileID(file));
+                describeclusterJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+                describeclusterJSON.put(ValFactory.FILE_NAME, file.getName());
+                describeclusterJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
                 try {
                     Scanner scanner = new Scanner(file);
@@ -73,7 +73,7 @@ public class DescribeclusterFileParser {
                             }
                         }
                     }
-                    describeclusterJSON.put(StrFactory.SCHEMA_VERSIONS, valueJSON);
+                    describeclusterJSON.put(ValFactory.SCHEMA_VERSIONS, valueJSON);
                 } catch (FileNotFoundException fnfe) {
                     logger.error(fnfe);
                 }
