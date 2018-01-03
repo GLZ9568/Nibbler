@@ -53,6 +53,11 @@ public class StrFactory {
     public static final String INFO_TOTALHEAP = "info_totalheap";
     public static final String INFO_USEDHEAP = "info_usedheap";
     public static final String INFO_OFFHEAP = "info_usedheap";
+    public static final String DISK_NAME = "disk_name";
+    public static final String TOTAL_SPACE = "total_space";
+    public static final String USED_SPACE = "used_space";
+    public static final String DISK_SPACE_USAGE = "disk_space_usage";
+
     // file names
     // conf file names;
     public static final String CLUSTER_INFO = "cluster_info.json";
@@ -66,11 +71,13 @@ public class StrFactory {
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";
     public static final String CONF_SURFFIX = ".conf";
+    public static final String DISK_SPACE = "disk_space.json";
 
     // cassandra.yaml configurations
     public static final String SEEDS = "seeds";
     public static final String CLUSTER_NAME = "cluster_name";
     public static final String NUM_TOKENS = "num_tokens";
+    public static final String SNITCH = "endpoint_snitch";
 
     // agentaddress.yaml configurations
 

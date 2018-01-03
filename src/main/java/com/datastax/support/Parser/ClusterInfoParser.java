@@ -127,25 +127,57 @@ public class ClusterInfoParser {
 
             if(filename.getName().contains(StrFactory.JAVA_SYSTEM_PROPERTIES))
             {
+                JSONObject java_system_properties_obj =  new JSONObject();
+
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
                     JSONParser jsonParser = new JSONParser();
-                    JSONObject java_system_properties_obj = (JSONObject) jsonParser.parse(reader);
+                    java_system_properties_obj = (JSONObject) jsonParser.parse(reader);
                     //cpu_info_obj.put("id","abc");
                     // String str = cpu_info_obj.get("id").toString();
 
-
-                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,true);
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"true");
                     java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
                     java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
 
                 } catch (IOException e) {
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj_list.add(java_system_properties_obj);
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e.printStackTrace(pw);
+                    logger.error(sw.toString());
                     e.printStackTrace();
                 }
                 catch (ParseException p){
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj_list.add(java_system_properties_obj);
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    p.printStackTrace(pw);
+                    logger.error(sw.toString());
                     p.printStackTrace();
+                }
+                catch (Exception e1)
+                {
+                    java_system_properties_obj.put(StrFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
+                    java_system_properties_obj.put(StrFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    java_system_properties_obj.put(StrFactory.FILE_PATH, filename.getAbsolutePath());
+                    java_system_properties_obj.put(StrFactory.FILE_NAME, filename.getName());
+                    java_system_properties_obj_list.add(java_system_properties_obj);
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e1.printStackTrace(pw);
+                    logger.error(sw.toString());
+                    e1.printStackTrace();
                 }
 
             }
@@ -166,9 +198,11 @@ public class ClusterInfoParser {
                     machine_info_obj_list.add(machine_info_obj);
 
                 } catch (IOException e) {
+                    logger.info(e.getMessage());
                     e.printStackTrace();
                 }
                 catch (ParseException p){
+                    logger.info(p.getMessage());
                     p.printStackTrace();
                 }
 
@@ -188,9 +222,11 @@ public class ClusterInfoParser {
                     os_info_obj_list.add(os_info_obj);
 
                 } catch (IOException e) {
+                    logger.info(e.getMessage());
                     e.printStackTrace();
                 }
                 catch (ParseException p){
+                    logger.info(p.getMessage());
                     p.printStackTrace();
                 }
 

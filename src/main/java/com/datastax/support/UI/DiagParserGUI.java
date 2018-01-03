@@ -84,7 +84,8 @@ public class DiagParserGUI extends Application {
         hbox.setPadding(new Insets(15, 12, 15, 12));
         hbox.setSpacing(10);   // Gap between nodes
         hbox.setStyle("-fx-background-color: #336699;");
-        Button btnOpenDirectoryChooser = new Button();
+        final Button btnOpenDirectoryChooser = new Button();
+        //btnOpenDirectoryChooser.setStyle("-fx-font-size: 7pt");
         btnOpenDirectoryChooser.setText("Open Diag Directory");
         btnOpenDirectoryChooser.setPrefSize(200, 20);
         final Button buttonAnalyzed = new Button("Start Analyzing");
@@ -102,7 +103,6 @@ public class DiagParserGUI extends Application {
                 if (diagpath != null) {
 
                     ///refresh the output
-                    //anchorpane.getChildren().clear();
 
                     statuspane.setExpanded(false);
                     dsetoolringpane.setExpanded(false);
@@ -136,7 +136,7 @@ public class DiagParserGUI extends Application {
                         else {
                             current_file_path=  current_file_path_tmp.substring(0,current_file_path_tmp.lastIndexOf("/") + 1);
                         }
-                        //logger.info("save status file report to: " + current_file_path + "status.out");
+                        logger.info("save status file report to: " + current_file_path + "status.out");
                         status_file = new File(current_file_path + "status.out");
                         dsetool_ring_file = new File(current_file_path + "dse_ring.out");
                         nodetool_info_file = new File(current_file_path + "nodetool_info.out");
@@ -186,7 +186,7 @@ public class DiagParserGUI extends Application {
 
 
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Warning!");
                     alert.setHeaderText("");
                     alert.setContentText("Please choose the diag path first!");

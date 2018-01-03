@@ -45,6 +45,7 @@ public class ConfFileParser {
     private ArrayList<NibProperties> clusterConfProperties;
 
     private ArrayList<String> clusterName;
+    private ArrayList<String> snitch_list;
 
     public void parse(ArrayList<File> files) {
 
@@ -63,6 +64,7 @@ public class ConfFileParser {
         clusterConfProperties = new ArrayList<NibProperties>();
 
         clusterName = new ArrayList<String>();
+        snitch_list = new ArrayList<String>();
 
         for (File file : files) {
             if (isCassandraYaml(file)) {
@@ -80,8 +82,12 @@ public class ConfFileParser {
             cassandraYamlProperties = extractProperties(cassandraYamlFiles);
             for (NibProperties properties : cassandraYamlProperties) {
                 String clasterName = properties.get(StrFactory.CLUSTER_NAME).toString();
+                String snitch_str = properties.get(StrFactory.SNITCH).toString();
                 if (!clusterName.contains(clasterName)) {
                     clusterName.add(clasterName);
+                }
+                if (!snitch_list.contains(snitch_str)) {
+                    snitch_list.add(snitch_str);
                 }
             }
         } else {
@@ -155,6 +161,10 @@ public class ConfFileParser {
     }
 
     public ArrayList<String> getClusterName() {return clusterName;}
+
+    public ArrayList<String> getSnitch_list() {
+        return snitch_list;
+    }
 
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {
         ArrayList<NibProperties> propertiesArrayList = new ArrayList<NibProperties>();
