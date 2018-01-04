@@ -155,6 +155,8 @@ public class ClusterInfoAnalyzer {
                 for (int i = 0; i < instance_types.size(); ++i) {
                     if(instance_types.get(i) !=null)
                         clusterinfotext += "  - " + instance_types.get(i).toString() +"(" + ValFactory.aws_instance.get(instance_types.get(i).toString())+")"+ "\n";
+                    else
+                        clusterinfotext += "  - Not AWS instance \n";
                 }
             }
 
@@ -645,6 +647,8 @@ public class ClusterInfoAnalyzer {
         {
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
+
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfo_warning_header+clusterinfotext);
             t.setPrefWidth(1024);
             t.setMinHeight(450);
@@ -654,6 +658,7 @@ public class ClusterInfoAnalyzer {
             //flow.getChildren().addAll(t1,t2);
         }
         else {
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfotext);
             t.setPrefWidth(1024);
             t.setMinHeight(450);

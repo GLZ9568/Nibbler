@@ -90,12 +90,15 @@ public class NodetoolInfoAnalyzer {
         }
 
         if(is_diff_heap_size) {
+
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             nodetool_info_warning_text +="\n";
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             t.setPrefWidth(1024);
             t.setMinHeight(450);
         } else {
 
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(nodetool_info_text);
             t.setPrefWidth(1024);
             t.setMinHeight(450);
