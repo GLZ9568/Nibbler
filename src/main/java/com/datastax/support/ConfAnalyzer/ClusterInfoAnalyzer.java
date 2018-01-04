@@ -43,9 +43,7 @@ public class ClusterInfoAnalyzer {
     boolean is_unsupported_os = false;
     boolean is_commitlog_dir_same_with_datadir = false;
 
-    public TextArea generateNodeStatusOutput(FileFactory ff)
-
-    {
+    public TextArea generateNodeStatusOutput(FileFactory ff) {
 
         TextArea t = new TextArea();
         TextFlow flow = new TextFlow();

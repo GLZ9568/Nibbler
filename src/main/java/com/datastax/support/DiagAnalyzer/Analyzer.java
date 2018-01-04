@@ -38,10 +38,16 @@ public class Analyzer {
 
     public Analyzer(ArrayList<File> files) {
         this.allFiles = files;
+        initiate();
+    }
+
+    protected void initiate () {
         nodetoolStatusFileParser = new NodetoolStatusFileParser(allFiles);
         this.nodetoolStatus = nodetoolStatusFileParser.getNodetoolStatusJSON();
+
         dsetoolRingFileParser = new DsetoolRingFileParser(allFiles);
         this.dsetoolRing = dsetoolRingFileParser.getDsetoolRingJSON();
+
         nodetoolInfoFileParser = new NodetoolInfoFileParser(allFiles);
         nodetoolInfoProperties = nodetoolInfoFileParser.getNodetoolInfoProperties();
     }
