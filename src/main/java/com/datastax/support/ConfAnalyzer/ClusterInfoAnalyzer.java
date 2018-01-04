@@ -16,8 +16,10 @@ import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -650,8 +652,12 @@ public class ClusterInfoAnalyzer {
 
             t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfo_warning_header+clusterinfotext);
-            t.setPrefWidth(1024);
-            t.setMinHeight(450);
+            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+            double screen_height =  visualBounds.getHeight() ;
+            double screen_width = visualBounds.getWidth();
+            t.setMinHeight(screen_height*0.4);
+           // t.setPrefWidth(1024);
+
             //t.setScrollTop(0);
            /// flow.setLineSpacing(0);
 
@@ -660,8 +666,12 @@ public class ClusterInfoAnalyzer {
         else {
             t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(clusterinfotext);
-            t.setPrefWidth(1024);
-            t.setMinHeight(450);
+            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+            double screen_height =  visualBounds.getHeight() ;
+            double screen_width = visualBounds.getWidth();
+            t.setMinHeight(screen_height*0.4);
+           // t.setPrefWidth(1024);
+           // t.setMinHeight(450);
             //flow.getChildren().addAll(t);
         }
         return t;
