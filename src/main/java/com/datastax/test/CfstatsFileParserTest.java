@@ -27,9 +27,7 @@ public class CfstatsFileParserTest extends Test {
     private ArrayList<JSONObject> cfstatsList = new ArrayList<JSONObject>();
 
     public void parseFiles () {
-        CfstatsFileParser cfstatsFileParser = new CfstatsFileParser();
-        cfstatsFileParser.parse(files);
-        cfstatsList = cfstatsFileParser.getNodetoolCfstats();
+        cfstatsList = fileFactory.getCfstatsList();
 
         JSONObject cfstats = cfstatsList.get(0);
 

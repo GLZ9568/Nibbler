@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,9 +35,9 @@ public final class Inspector {
         return SystemUtils.IS_OS_WINDOWS;
     }
 
-    public static boolean foundIPAddress(String path) {
+    public static boolean foundIPAddress(String str) {
         Pattern pattern = Pattern.compile(IP_PATTERN);
-        Matcher matcher = pattern.matcher(path);
+        Matcher matcher = pattern.matcher(str);
         while (matcher.find()) {
             return true;
         }
@@ -67,6 +69,12 @@ public final class Inspector {
             return true;
         }
         return false;
+    }
+
+    public static String getStackTrace (Exception e) {
+        StringWriter stackTrace = new StringWriter();
+        e.printStackTrace(new PrintWriter(stackTrace));
+        return stackTrace.toString();
     }
 
     public static String[] splitBySpace (String input) {

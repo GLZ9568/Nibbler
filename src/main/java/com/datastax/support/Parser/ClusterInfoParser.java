@@ -61,7 +61,7 @@ public class ClusterInfoParser {
         for (int i =0; i < filelist.size();++i)
         {
             filename = filelist.get(i);
-            if(filename.getName().contains(ValFactory.CLUSTER_INFO))
+            if(filename.getName().contains(ValFactory.CLUSTER_INFO_JSON))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -79,7 +79,7 @@ public class ClusterInfoParser {
                 }
                 //iscluster_infoexist = true;
             }
-            if(filename.getName().contains(ValFactory.NODE_INFO))
+            if(filename.getName().contains(ValFactory.NODE_INFO_JSON))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -99,7 +99,7 @@ public class ClusterInfoParser {
                 }
                 //isnode_infoexist = true;
             }
-            if(filename.getName().contains(ValFactory.CPU))
+            if(filename.getName().contains(ValFactory.CPU_JSON))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -123,7 +123,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(ValFactory.JAVA_SYSTEM_PROPERTIES))
+            if(filename.getName().contains(ValFactory.JAVA_SYSTEM_PROPERTIES_JSON))
             {
                 JSONObject java_system_properties_obj =  new JSONObject();
 
@@ -140,47 +140,50 @@ public class ClusterInfoParser {
                     java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
 
-                } catch (IOException e) {
+                } catch (IOException ioe) {
                     java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
                     java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
                     java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    e.printStackTrace(pw);
-                    logger.error(sw.toString());
-                    e.printStackTrace();
+                    //StringWriter sw = new StringWriter();
+                    //PrintWriter pw = new PrintWriter(sw);
+                    //ioe.printStackTrace(pw);
+                    //logger.error(sw.toString());
+                    logger.error(Inspector.getStackTrace(ioe));
+                    //ioe.printStackTrace();
                 }
-                catch (ParseException p){
+                catch (ParseException pe){
                     java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
                     java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
                     java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    p.printStackTrace(pw);
-                    logger.error(sw.toString());
-                    p.printStackTrace();
+                    //StringWriter sw = new StringWriter();
+                    //PrintWriter pw = new PrintWriter(sw);
+                    //pe.printStackTrace(pw);
+                    //logger.error(sw.toString());
+                    logger.error(Inspector.getStackTrace(pe));
+                    //pe.printStackTrace();
                 }
-                catch (Exception e1)
+                catch (Exception e)
                 {
                     java_system_properties_obj.put(ValFactory.ISJAVA_SYSTEM_PROPERTIESEXIST,"false");
                     java_system_properties_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
                     java_system_properties_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
                     java_system_properties_obj.put(ValFactory.FILE_NAME, filename.getName());
                     java_system_properties_obj_list.add(java_system_properties_obj);
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    e1.printStackTrace(pw);
-                    logger.error(sw.toString());
-                    e1.printStackTrace();
+                    //StringWriter sw = new StringWriter();
+                    //PrintWriter pw = new PrintWriter(sw);
+                    //e.printStackTrace(pw);
+                    //logger.error(sw.toString());
+                    logger.error(Inspector.getStackTrace(e));
+                    //e.printStackTrace();
                 }
 
             }
 
-            if(filename.getName().contains(ValFactory.MACHINE_INFO))
+            if(filename.getName().contains(ValFactory.MACHINE_INFO_JSON))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());
@@ -206,7 +209,7 @@ public class ClusterInfoParser {
 
             }
 
-            if(filename.getName().contains(ValFactory.OS_INFO))
+            if(filename.getName().contains(ValFactory.OS_INFO_JSON))
             {
                 try {
                     FileReader reader = new FileReader(filename.getAbsolutePath());

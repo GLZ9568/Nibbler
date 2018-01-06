@@ -25,16 +25,21 @@ import java.util.Scanner;
  * Created by Chun Gao on 15/12/17
  */
 
-public class CfstatsFileParser {
+public class CfstatsFileParser extends FileParser{
 
     private static final Logger logger = LogManager.getLogger(CfstatsFileParser.class);
 
-    private ArrayList<JSONObject> nodetoolCfstats;
+    private ArrayList<JSONObject> cfstats;
     private JSONObject nodetoolStatusJSON;
     private JSONArray keyspaceArray;
     private JSONObject keyspaceJSON;
     private JSONArray tableArray;
     private JSONObject tableJSON;
+
+    public CfstatsFileParser (ArrayList<File> files) {
+        super(files);
+        parse();
+    }
 
     /**
      {
@@ -56,8 +61,8 @@ public class CfstatsFileParser {
         ]
      }
      **/
-    public void parse (ArrayList<File> files) {
-        nodetoolCfstats = new ArrayList<JSONObject>();
+    private void parse () {
+        cfstats = new ArrayList<JSONObject>();
 
         for (File file : files) {
             if (file.getAbsolutePath().contains(ValFactory.NODETOOL) && file.getName().equals(ValFactory.CFSTATS)) {
@@ -130,16 +135,16 @@ public class CfstatsFileParser {
                     keyspaceArray.add(keyspaceJSON);
 
                     nodetoolStatusJSON.put(ValFactory.KEYSPACES, keyspaceArray);
-                    nodetoolCfstats.add(nodetoolStatusJSON);
+                    cfstats.add(nodetoolStatusJSON);
 
                 } catch (FileNotFoundException fnfe) {
-                    logger.debug(fnfe);
+                    logException(logger, fnfe);
                 }
             }
         }
     }
 
-    public ArrayList<JSONObject> getNodetoolCfstats() {
-        return this.nodetoolCfstats;
+    public ArrayList<JSONObject> getCfstatsList() {
+        return this.cfstats;
     }
 }

@@ -9,12 +9,10 @@
 
 package com.datastax.test;
 
-import com.datastax.support.ConfAnalyzer.ClusterInfoAnalyzer;
-import com.datastax.support.Parser.ClusterInfoParser;
+import com.datastax.support.Analyzer.ClusterInfoAnalyzer;
 import com.datastax.support.Util.FileFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
 
 import java.io.File;
 
@@ -27,8 +25,9 @@ public class ClusterInfoParserTest {
     private static final Logger logger = LogManager.getLogger(FileFactory.class);
     public static void main (String[] args) {
 
-        FileFactory ff = new FileFactory();
-        boolean b = ff.readFiles(new File("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC"));
+        FileFactory ff = new FileFactory(new File("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC"));
+        //boolean b = ff.initiate(new File("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC"));
+        boolean b = ff.getInitiateSuccessCheck();
 
         if (b)
         {

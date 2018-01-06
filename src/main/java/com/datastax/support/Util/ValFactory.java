@@ -60,18 +60,19 @@ public class ValFactory {
 
     // file names
     // conf file names;
-    public static final String CLUSTER_INFO = "cluster_info.json";
-    public static final String NODE_INFO = "node_info.json";
-    public static final String CPU = "cpu.json";
-    public static final String OS_INFO = "os-info.json";
-    public static final String JAVA_SYSTEM_PROPERTIES = "java_system_properties.json";
-    public static final String MACHINE_INFO = "machine-info.json";
+    public static final String CLUSTER_INFO_JSON = "cluster_info.json";
+    public static final String NODE_INFO_JSON = "node_info.json";
+    public static final String CPU_JSON = "cpu.json";
+    public static final String MEMORY_JSON = "memory.json";
+    public static final String OS_INFO_JSON = "os-info.json";
+    public static final String JAVA_SYSTEM_PROPERTIES_JSON = "java_system_properties.json";
+    public static final String MACHINE_INFO_JSON = "machine-info.json";
+    public static final String DISK_SPACE_JSON = "disk_space.json";
     public static final String NTPTIME = "ntptime";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";
     public static final String CONF_SURFFIX = ".conf";
-    public static final String DISK_SPACE = "disk_space.json";
 
     // cassandra.yaml configurations
     public static final String SEEDS = "seeds";
@@ -91,12 +92,25 @@ public class ValFactory {
     public static final String GOSSIPINFO = "gossipinfo";
     public static final String INFO = "info";
     public static final String NETSTATS = "netstats";
+
     public static final String PROXYHISTOGRAMS = "proxyhistograms";
+    public static final String MIN = "Min";
+    public static final String MAX = "Max";
+    public static final String PERCENTILE = "PCT";
+    public static final String READ_LATENCY = "RLAT_\u03BCs";
+    public static final String WRITE_LATENCY = "WLAT_\u03BCs";
+    public static final String RANGE_LATENCY = "RGLAT_\u03BCs";
+    public static final String CAS_READ_LATENCY = "CASRLAT_\u03BCs";
+    public static final String CAS_WRITE_LATENCY = "CASWLAT_\u03BCs";
+    public static final String VIEW_WRITE_LATENCY = "VWWLAT_\u03BCs";
+
 
     public static final String DSETOOL = "dsetool";
     public static final String RING = "ring";
     public static final String DC = "DC";
     public static final String WORKLOAD = "Workload";
+    public static final String GRAPH = "Graph";
+    public static final String HEALTH = "Health";
 
     public static final String STATUS = "status";
     public static final String UD = "U/D";

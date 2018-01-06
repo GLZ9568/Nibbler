@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class NtpInfoParser {
 
-    private static Logger logger = LogManager.getLogger(NtpInfoParser.class);
+    private static final Logger logger = LogManager.getLogger(NtpInfoParser.class);
 
     private JSONObject ntpInfoJSON;
 
@@ -86,7 +86,7 @@ public class NtpInfoParser {
             }
             logger.info(Inspector.getIPAddress(file.getAbsolutePath())+" NTP Summary: "+ ntpInfoJSON.toString());
         } catch (FileNotFoundException fnfe) {
-            logger.debug(fnfe);
+            logger.error(Inspector.getStackTrace(fnfe));
         }
 
         return ntpInfoJSON;

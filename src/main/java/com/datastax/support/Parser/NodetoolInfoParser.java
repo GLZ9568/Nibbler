@@ -25,7 +25,7 @@ import java.util.Scanner;
 
 public class NodetoolInfoParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolInfoParser.class);
+    private static final Logger logger = LogManager.getLogger(NodetoolInfoParser.class);
 
     private JSONObject nodetoolInfoJSON;
     private ArrayList<JSONObject> info_obj_list;
@@ -82,7 +82,7 @@ public class NodetoolInfoParser {
      "info_usedheap":" 142.27"
      }
      **/
-    public void parse(ArrayList<File> files) {
+    private void parse(ArrayList<File> files) {
         info_obj_list = new ArrayList<JSONObject>();
         for (File file : files) {
             if (file.getName().equals(ValFactory.INFO)) {
@@ -128,7 +128,7 @@ public class NodetoolInfoParser {
                     nodetoolInfoJSON.put(ValFactory.FILE_ID, setIP(file.getAbsolutePath()));
                     info_obj_list.add(nodetoolInfoJSON);
                 } catch (FileNotFoundException fnfe) {
-                    logger.debug(fnfe);
+                    logger.error(Inspector.getStackTrace(fnfe));
                 }
             }
         }

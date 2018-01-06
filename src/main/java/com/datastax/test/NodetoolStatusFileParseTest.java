@@ -9,7 +9,6 @@
 
 package com.datastax.test;
 
-import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,8 +26,7 @@ public class NodetoolStatusFileParseTest extends Test{
     private JSONObject nodetoolStatusJSON = new JSONObject();
 
     public void parseFiles() {
-        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(files);
-        nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
+        nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
     }
 
     public void readNodetoolStatusJSON() {

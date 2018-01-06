@@ -26,14 +26,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -239,8 +237,9 @@ public class DiagParserGUI extends Application {
 
     private void startParsing() {
 
-        ff = new FileFactory();
-        boolean b = ff.readFiles(new File(diagpath));
+        ff = new FileFactory(new File(diagpath));
+        //boolean b = ff.initiate(new File(diagpath));
+        boolean b = ff.getInitiateSuccessCheck();
 
         if (b) {
             statuspane = sp.createstatusPane(ff);

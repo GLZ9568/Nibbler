@@ -25,19 +25,17 @@ public class ConfFileParseTest extends Test{
 
     private static final Logger logger = LogManager.getLogger(ConfFileParseTest.class);
 
-    private ConfFileParser confFileParser;
     private ArrayList<NibProperties> cassandraYamlProperties = new ArrayList<NibProperties>();
     private ArrayList<NibProperties> addressYamlProperties = new ArrayList<NibProperties>();
     private ArrayList<NibProperties> dseYamlProperties = new ArrayList<NibProperties>();
     private ArrayList<NibProperties> clusterConfProperties = new ArrayList<NibProperties>();
 
     public void parseFiles() {
-        confFileParser = new ConfFileParser();
-        confFileParser.parse(files);
-        cassandraYamlProperties = confFileParser.getCassandraYamlProperties();
-        addressYamlProperties = confFileParser.getAddressYamlProperties();
-        dseYamlProperties = confFileParser.getDSEYamlProperties();
-        clusterConfProperties = confFileParser.getClusterConfProperties();
+        //confFileParser = new ConfFileParser(files);
+        cassandraYamlProperties = fileFactory.getCassandraYamlPropertiesList();
+        addressYamlProperties = fileFactory.getAddressYamlPropertiesList();
+        dseYamlProperties = fileFactory.getDSEYamlPropertiesList();
+        clusterConfProperties = fileFactory.getClusterConfPropertiesList();
 
         for (Object key : addressYamlProperties.get(0).keySet()){
             for (NibProperties props : addressYamlProperties){

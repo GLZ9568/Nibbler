@@ -9,15 +9,12 @@
 
 package com.datastax.support.UI;
 
-import com.datastax.support.ConfAnalyzer.NodetoolInfoAnalyzer;
-import com.datastax.support.Parser.DsetoolRingParser;
+import com.datastax.support.Analyzer.NodetoolInfoAnalyzer;
 import com.datastax.support.Util.FileFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Screen;
-
-import java.awt.*;
 
 /**
  * Created by Mike Zhang on 24/12/2017.

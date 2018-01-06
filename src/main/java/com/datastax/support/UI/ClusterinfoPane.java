@@ -9,14 +9,12 @@
 
 package com.datastax.support.UI;
 
-import com.datastax.support.ConfAnalyzer.*;
+import com.datastax.support.Analyzer.ClusterInfoAnalyzer;
 import com.datastax.support.Util.FileFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Screen;
-
-import java.awt.*;
 
 /**
  * Created by Mike Zhang on 2/12/2017.
