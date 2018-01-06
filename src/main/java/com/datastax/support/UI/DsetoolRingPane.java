@@ -36,6 +36,7 @@ public class DsetoolRingPane {
         double screen_width = visualBounds.getWidth();
         //tp.setPrefWidth(screen_width*0.5);
         tp.setMinWidth(screen_width*0.7);
+        //tp.setMinHeight(screen_height*0.4);
        // tp.setPrefWidth(1024);
         //tp.setMinHeight(768);
         //tp.setMaxHeight(768);

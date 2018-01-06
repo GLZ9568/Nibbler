@@ -10,7 +10,9 @@
 package com.datastax.support.Parser;
 
 import com.datastax.support.Util.FileFactory;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
+import javafx.stage.Screen;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,9 +45,12 @@ public class DsetoolRingParser {
                     fis.close();
                     String str = new String(data, "UTF-8");
                     t.setText(str);
-                    t.setPrefWidth(1024);
-                    t.setMinHeight(450);
-
+                    //t.setPrefWidth(1024);
+                   // t.setMinHeight(450);
+                    Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+                    double screen_height =  visualBounds.getHeight() ;
+                    double screen_width = visualBounds.getWidth();
+                    t.setMinHeight(screen_height*0.4);
                     if (str.contains("Workload")){
                         isvalidringoutput = true;
                         break;

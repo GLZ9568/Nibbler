@@ -14,7 +14,9 @@ import com.datastax.support.Parser.NodetoolStatusFileParser;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
+import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -94,14 +96,22 @@ public class NodetoolInfoAnalyzer {
             t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             nodetool_info_warning_text +="\n";
             t.setText(nodetool_info_warning_text + nodetool_info_text);
-            t.setPrefWidth(1024);
-            t.setMinHeight(450);
+            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+            double screen_height =  visualBounds.getHeight() ;
+            double screen_width = visualBounds.getWidth();
+            t.setMinHeight(screen_height*0.4);
+          //  t.setPrefWidth(1024);
+          //  t.setMinHeight(450);
         } else {
 
             t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
             t.setText(nodetool_info_text);
-            t.setPrefWidth(1024);
-            t.setMinHeight(450);
+            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+            double screen_height =  visualBounds.getHeight() ;
+            double screen_width = visualBounds.getWidth();
+            t.setMinHeight(screen_height*0.4);
+           // t.setPrefWidth(1024);
+          //  t.setMinHeight(450);
         }
 
         return t;
