@@ -25,18 +25,21 @@ import java.util.Scanner;
  * Created by Chun Gao on 26/12/2017
  */
 
-public class DescribeclusterFileParser {
+public class DescribeClusterFileParser extends FileParser {
 
-    private static final Logger logger = LogManager.getLogger(DescribeclusterFileParser.class);
+    private static final Logger logger = LogManager.getLogger(DescribeClusterFileParser.class);
 
-    private ArrayList<JSONObject> describeclusterJSONs;
+    private ArrayList<JSONObject> describeclusterJSONList;
     private JSONObject describeclusterJSON;
     private JSONObject valueJSON;
 
+    public DescribeClusterFileParser(ArrayList<File> files) {
+        super(files);
+        parse();
+    }
 
-    public void parse(ArrayList<File> files) {
-
-        describeclusterJSONs = new ArrayList<JSONObject>();
+    private void parse() {
+        describeclusterJSONList = new ArrayList<JSONObject>();
 
         /**
          {
@@ -75,14 +78,14 @@ public class DescribeclusterFileParser {
                     }
                     describeclusterJSON.put(ValFactory.SCHEMA_VERSIONS, valueJSON);
                 } catch (FileNotFoundException fnfe) {
-                    logger.error(fnfe);
+                    logException(logger, fnfe);
                 }
-                describeclusterJSONs.add(describeclusterJSON);
+                describeclusterJSONList.add(describeclusterJSON);
             }
         }
     }
 
-    public ArrayList<JSONObject> getDescribeclusterJSONs() {
-        return describeclusterJSONs;
+    public ArrayList<JSONObject> getDescribeClusterJSONList() {
+        return describeclusterJSONList;
     }
 }

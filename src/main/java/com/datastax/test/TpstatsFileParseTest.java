@@ -27,12 +27,10 @@ public class TpstatsFileParseTest extends Test {
     private static final Logger logger = LogManager.getLogger(TpstatsFileParseTest.class);
 
     public void parseFiles() {
-        TpstatsFileParser tpstatsFileParser = new TpstatsFileParser();
-        tpstatsFileParser.parse(files);
-        ArrayList<JSONObject> tpstatsJSONs = tpstatsFileParser.getTpstatsJSONs();
+        ArrayList<JSONObject> tpstatsJSONs = fileFactory.getTpstatsJSONList();
         logger.debug("Number of Tpstats JSONs: " + tpstatsJSONs.size());
         for(JSONObject tpstatsJSON : tpstatsJSONs) {
-            logger.debug("Tpstats JSON Detials: " + tpstatsJSON.get(ValFactory.NODE) + " - " + tpstatsJSON.get(ValFactory.FILE_NAME) + " - " + tpstatsJSON.get(ValFactory.FILE_PATH));
+            logger.debug("Tpstats JSON Detials: " + tpstatsJSON.get(ValFactory.FILE_ID) + " - " + tpstatsJSON.get(ValFactory.FILE_NAME) + " - " + tpstatsJSON.get(ValFactory.FILE_PATH));
             if(tpstatsJSONs.indexOf(tpstatsJSON) == 0) {
                 logger.debug("First Tpstats Output: " + tpstatsJSON);
             }

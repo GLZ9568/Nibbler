@@ -23,16 +23,17 @@ import java.util.Scanner;
  * Created by Chun Gao on 2/01/2018
  */
 
-public class NodetoolInfoFileParser {
+public class NodetoolInfoFileParser extends FileParser {
     private static final Logger logger = LogManager.getLogger(NodetoolInfoFileParser.class);
 
     private ArrayList<Properties> nodetoolInfoProperties;
 
     public NodetoolInfoFileParser (ArrayList<File> files) {
-        parse(files);
+        super(files);
+        parse();
     }
 
-    public void parse (ArrayList<File> files) {
+    private void parse () {
         nodetoolInfoProperties = new ArrayList<Properties>();
 
         for (File file : files) {
@@ -53,14 +54,14 @@ public class NodetoolInfoFileParser {
                     properties.put(ValFactory.FILE_PATH, file.getAbsolutePath());
                     properties.put(ValFactory.FILE_NAME, file.getName());
                 } catch (FileNotFoundException fnfe) {
-                    logger.error(fnfe);
+                    logException(logger, fnfe);
                 }
                 nodetoolInfoProperties.add(properties);
             }
         }
     }
 
-    public ArrayList<Properties> getNodetoolInfoProperties() {
+    public ArrayList<Properties> getNodetoolInfoPropertiesList() {
         return nodetoolInfoProperties;
     }
 }

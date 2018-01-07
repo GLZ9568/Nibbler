@@ -26,19 +26,22 @@ import java.util.Scanner;
  * Created by Chun Gao on 18/12/2017
  */
 
-public class TpstatsFileParser {
+public class TpstatsFileParser extends FileParser {
 
     private static final Logger logger = LogManager.getLogger(TpstatsFileParser.class);
 
-    private ArrayList<JSONObject> tpstatsJSONs;
+    private ArrayList<JSONObject> tpstatsJSONList;
     private JSONObject tpstatsJSON;
     private JSONArray tpstatsArray;
     private JSONObject valueJSON;
 
+    public TpstatsFileParser (ArrayList<File> files) {
+        super(files);
+        parse();
+    }
 
-    public void parse(ArrayList<File> files) {
-
-        tpstatsJSONs = new ArrayList<JSONObject>();
+    private void parse() {
+        tpstatsJSONList = new ArrayList<JSONObject>();
 
         /**
          {
@@ -84,15 +87,15 @@ public class TpstatsFileParser {
                         }
                     }
                     tpstatsJSON.put(ValFactory.TPSTATS, tpstatsArray);
-                    tpstatsJSONs.add(tpstatsJSON);
+                    tpstatsJSONList.add(tpstatsJSON);
                 } catch (FileNotFoundException fnfe) {
-                    logger.error(fnfe);
+                    logException(logger, fnfe);
                 }
             }
         }
     }
 
-    public ArrayList<JSONObject> getTpstatsJSONs() {
-        return tpstatsJSONs;
+    public ArrayList<JSONObject> getTpstatsJSONList() {
+        return tpstatsJSONList;
     }
 }

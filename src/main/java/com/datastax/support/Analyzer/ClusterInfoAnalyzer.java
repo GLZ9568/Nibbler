@@ -1,13 +1,13 @@
 /*
  * Copyright (c)
  *
- * Date: 2/12/2017
+ * Date: 4/1/2018
  *
  * Author: Chun Gao & Mike Zhang
  *
  */
 
-package com.datastax.support.ConfAnalyzer;
+package com.datastax.support.Analyzer;
 
 import com.datastax.support.Parser.ClusterInfoParser;
 import com.datastax.support.Parser.ConfFileParser;
@@ -83,9 +83,9 @@ public class ClusterInfoAnalyzer {
          *
          */
 
-        ConfFileParser cfp = new ConfFileParser();
+        ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
 
-        cfp.parse(ff.getAllFiles());
+        //cfp.parse(ff.getAllFiles());
 
         ArrayList<String> clustername = cfp.getClusterName();
         ArrayList<String> snitch = cfp.getSnitch_list();

@@ -1,13 +1,13 @@
 /*
  * Copyright (c)
  *
- * Date: 19/12/2017
+ * Date: 4/1/2018
  *
  * Author: Chun Gao & Mike Zhang
  *
  */
 
-package com.datastax.support.ConfAnalyzer;
+package com.datastax.support.Analyzer;
 
 import com.datastax.support.Parser.NodetoolInfoParser;
 import com.datastax.support.Parser.NodetoolStatusFileParser;

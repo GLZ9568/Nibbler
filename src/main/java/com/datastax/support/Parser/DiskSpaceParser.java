@@ -9,7 +9,6 @@
 
 package com.datastax.support.Parser;
 
-import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
@@ -53,7 +52,7 @@ public class DiskSpaceParser {
 
 
         for (File file : files) {
-            if (file.getName().equals(ValFactory.DISK_SPACE))
+            if (file.getName().equals(ValFactory.DISK_SPACE_JSON))
             {
                 diskJSONArray = new JSONArray();
                 try {

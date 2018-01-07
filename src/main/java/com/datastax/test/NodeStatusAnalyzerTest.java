@@ -9,7 +9,7 @@
 
 package com.datastax.test;
 
-import com.datastax.support.DiagAnalyzer.NodeStatusAnalyzer;
+import com.datastax.support.Analyzer.NodeStatusAnalyzer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +24,7 @@ public class NodeStatusAnalyzerTest extends Test{
 
     public void analyze() {
         this.initiate();
-        nodeStatusAnalyzer = new NodeStatusAnalyzer(files);
+        nodeStatusAnalyzer = new NodeStatusAnalyzer(fileFactory);
         nodeStatusAnalyzer.analyze();
     }
 

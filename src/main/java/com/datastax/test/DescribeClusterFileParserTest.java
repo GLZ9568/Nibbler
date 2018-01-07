@@ -9,7 +9,6 @@
 
 package com.datastax.test;
 
-import com.datastax.support.Parser.DescribeclusterFileParser;
 import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,14 +20,12 @@ import java.util.ArrayList;
  * Created by Chun Gao on 28/12/2017
  */
 
-public class DescribeclusterFileParserTest extends Test {
+public class DescribeClusterFileParserTest extends Test {
 
-    private static final Logger logger = LogManager.getLogger(DescribeclusterFileParserTest.class);
+    private static final Logger logger = LogManager.getLogger(DescribeClusterFileParserTest.class);
 
     public void parseFiles() {
-        DescribeclusterFileParser describeclusterFileParser = new DescribeclusterFileParser();
-        describeclusterFileParser.parse(files);
-        ArrayList<JSONObject> describeclusterJSONs = describeclusterFileParser.getDescribeclusterJSONs();
+        ArrayList<JSONObject> describeclusterJSONs = fileFactory.getDescribeClusterJSONList();
         logger.debug("Number of Describecluster JSONs: " + describeclusterJSONs.size());
         for(JSONObject describeclusterJSON : describeclusterJSONs) {
             logger.debug("Describecluster JSON Detials: " + describeclusterJSON.get(ValFactory.FILE_ID) + " - " + describeclusterJSON.get(ValFactory.FILE_NAME) + " - " + describeclusterJSON.get(ValFactory.FILE_PATH));
@@ -39,8 +36,8 @@ public class DescribeclusterFileParserTest extends Test {
     }
 
     public static void main (String[] args) {
-        DescribeclusterFileParserTest describeclusterFileParserTest = new DescribeclusterFileParserTest();
-        describeclusterFileParserTest.initiate();
-        describeclusterFileParserTest.parseFiles();
+        DescribeClusterFileParserTest describeClusterFileParserTest = new DescribeClusterFileParserTest();
+        describeClusterFileParserTest.initiate();
+        describeClusterFileParserTest.parseFiles();
     }
 }

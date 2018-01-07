@@ -21,31 +21,39 @@ import java.util.ArrayList;
  * Created by Chun Gao on 17/11/17
  *
  */
-public class ConfFileParser {
+public class ConfFileParser extends FileParser {
     private static final Logger logger = LogManager.getLogger(ConfFileParser.class);
+
     private ArrayList<File> cassandraYamlFiles;
-    private ArrayList<NibProperties> cassandraYamlProperties;
+    private ArrayList<NibProperties> cassandraYamlPropertiesList;
     private ArrayList<File> addressYamlFiles;
-    private ArrayList<NibProperties> addressYamlProperties;
+    private ArrayList<NibProperties> addressYamlPropertiesList;
     private ArrayList<File> dseYamlFiles;
-    private ArrayList<NibProperties> dseYamlProperties;
+    private ArrayList<NibProperties> dseYamlPropertiesList;
     private ArrayList<File> confFiles;
     private ArrayList<File> clusterConfFiles;
-    private ArrayList<NibProperties> clusterConfProperties;
+    private ArrayList<NibProperties> clusterConfPropertiesList;
     private ArrayList<String> clusterName;
     private ArrayList<String> snitch_list;
-    public void parse(ArrayList<File> files) {
+
+    public ConfFileParser(ArrayList<File> files) {
+        super(files);
+        parse();
+    }
+
+    private void parse() {
         cassandraYamlFiles = new ArrayList<File>();
-        cassandraYamlProperties = new ArrayList<NibProperties>();
+        cassandraYamlPropertiesList = new ArrayList<NibProperties>();
         addressYamlFiles = new ArrayList<File>();
-        addressYamlProperties = new ArrayList<NibProperties>();
+        addressYamlPropertiesList = new ArrayList<NibProperties>();
         dseYamlFiles = new ArrayList<File>();
-        dseYamlProperties = new ArrayList<NibProperties>();
+        dseYamlPropertiesList = new ArrayList<NibProperties>();
         confFiles = new ArrayList<File>();
         clusterConfFiles = new ArrayList<File>();
-        clusterConfProperties = new ArrayList<NibProperties>();
+        clusterConfPropertiesList = new ArrayList<NibProperties>();
         clusterName = new ArrayList<String>();
         snitch_list = new ArrayList<String>();
+
         for (File file : files) {
             if (isCassandraYaml(file)) {
                 cassandraYamlFiles.add(file);
@@ -57,9 +65,10 @@ public class ConfFileParser {
                 confFiles.add(file);
             }
         }
+
         if (!cassandraYamlFiles.isEmpty()) {
-            cassandraYamlProperties = extractProperties(cassandraYamlFiles);
-            for (NibProperties properties : cassandraYamlProperties) {
+            cassandraYamlPropertiesList = extractProperties(cassandraYamlFiles);
+            for (NibProperties properties : cassandraYamlPropertiesList) {
                 String clasterName = properties.get(ValFactory.CLUSTER_NAME).toString();
                 String snitch_str = properties.get(ValFactory.SNITCH).toString();
                 if (!clusterName.contains(clasterName)) {
@@ -72,16 +81,19 @@ public class ConfFileParser {
         } else {
             logger.error("Did not find any " + ValFactory.CASSANDRA_YAML + " files.");
         }
+
         if (!addressYamlFiles.isEmpty()) {
-            addressYamlProperties = extractProperties(addressYamlFiles);
+            addressYamlPropertiesList = extractProperties(addressYamlFiles);
         } else {
             logger.error("Did not find any " + ValFactory.ADDRESS_YAML + " files.");
         }
+
         if (!dseYamlFiles.isEmpty()) {
-            dseYamlProperties = extractProperties(dseYamlFiles);
+            dseYamlPropertiesList = extractProperties(dseYamlFiles);
         } else {
             logger.error("Did not find any " + ValFactory.DSE_YAML + " files.");
         }
+
         if (!confFiles.isEmpty()) {
             for (File file : confFiles) {
                 if (isClusterConfFile(file, clusterName)) {
@@ -89,32 +101,41 @@ public class ConfFileParser {
                 }
             }
         }
+
         if (!clusterConfFiles.isEmpty()) {
-            clusterConfProperties = extractProperties(clusterConfFiles);
+            clusterConfPropertiesList = extractProperties(clusterConfFiles);
         }
     }
-    public boolean isCassandraYaml (File file) {
+
+    private boolean isCassandraYaml (File file) {
         return file.getName().contains(ValFactory.CASSANDRA_YAML);
     }
-    public ArrayList<NibProperties> getCassandraYamlProperties() {
-        return cassandraYamlProperties;
+
+    public ArrayList<NibProperties> getCassandraYamlPropertiesList() {
+        return cassandraYamlPropertiesList;
     }
-    public boolean isAgentAddressYaml (File file) {
+
+    private boolean isAgentAddressYaml (File file) {
         return file.getName().contains(ValFactory.ADDRESS_YAML);
     }
-    public ArrayList<NibProperties> getAddressYamlProperties() {
-        return addressYamlProperties;
+
+    public ArrayList<NibProperties> getAddressYamlPropertiesList() {
+        return addressYamlPropertiesList;
     }
-    public boolean isDSEYaml (File file) {
+
+    private boolean isDSEYaml (File file) {
         return file.getAbsolutePath().contains(ValFactory.DSE_YAML);
     }
-    public ArrayList<NibProperties> getDSEYamlProperties() {
-        return dseYamlProperties;
+
+    public ArrayList<NibProperties> getDSEYamlPropertiesList() {
+        return dseYamlPropertiesList;
     }
-    public boolean isConfFile (File file) {
+
+    private boolean isConfFile (File file) {
         return file.getName().endsWith(ValFactory.CONF_SURFFIX);
     }
-    public boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
+
+    private boolean isClusterConfFile (File file, ArrayList<String> cluster_name) {
         for (String cn : cluster_name) {
             if (file.getName().replaceAll("[^A-Za-z0-9]+", "").contains(cn.replaceAll("[^A-Za-z0-9]+", ""))) {
                 return true;
@@ -122,13 +143,17 @@ public class ConfFileParser {
         }
         return false;
     }
-    public ArrayList<NibProperties> getClusterConfProperties () {
-        return clusterConfProperties;
+
+    public ArrayList<NibProperties> getClusterConfPropertiesList() {
+        return clusterConfPropertiesList;
     }
+
     public ArrayList<String> getClusterName() {return clusterName;}
+
     public ArrayList<String> getSnitch_list() {
         return snitch_list;
     }
+
     public ArrayList<NibProperties> extractProperties(ArrayList<File> files) {
         ArrayList<NibProperties> propertiesArrayList = new ArrayList<NibProperties>();
         for (File file : files) {
@@ -143,11 +168,11 @@ public class ConfFileParser {
                 properties.put(ValFactory.FILE_NAME, file.getName());
                 propertiesArrayList.add(properties);
             } catch (FileNotFoundException fnfe) {
-                logger.error(fnfe);
+                logException(logger, fnfe);
             } catch (IOException ioe) {
-                logger.error(ioe);
+                logException(logger, ioe);
             } catch (NullPointerException npe) {
-                logger.error(npe);
+                logException(logger, npe);
             }
         }
         return propertiesArrayList;

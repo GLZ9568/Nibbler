@@ -26,16 +26,17 @@ import java.util.Scanner;
  * Created by Chun Gao on 26/12/2017
  */
 
-public class DsetoolRingFileParser {
+public class DsetoolRingFileParser extends FileParser {
 
-    private static Logger logger = LogManager.getLogger(DsetoolRingFileParser.class);
+    private static final Logger logger = LogManager.getLogger(DsetoolRingFileParser.class);
 
     private JSONObject dsetoolRingJSON;
     private JSONArray dsetoolRingJSONArray;
     private JSONObject nodeJSON;
 
     public DsetoolRingFileParser(ArrayList<File> files) {
-        parse(files);
+        super(files);
+        parse();
     }
 
     /**
@@ -52,7 +53,7 @@ public class DsetoolRingFileParser {
      "file_name":"ring","file_id":"13.57.154.111"
      }
      **/
-    public void parse (ArrayList<File> files) {
+    private void parse () {
         dsetoolRingJSON = new JSONObject();
 
         boolean valid = false;
@@ -72,12 +73,15 @@ public class DsetoolRingFileParser {
 
                     while (scanner.hasNextLine()) {
                         ArrayList<String> splitLine = new ArrayList<String>(Arrays.asList(Inspector.splitBySpace(scanner.nextLine())));
-                        if (splitLine.size() == 9) {
-                            if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && !valid) {
-                                valid = true;
-                                keys = splitLine;
+                        if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 9 && !valid) {
+                            valid = true;
+                            keys = splitLine;
+                        } else if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 12 && !valid) {
+                            valid = true;
+                            for (int i=0; i<splitLine.size() - 1; i++) {
+                                keys.add(splitLine.get(i));
                             }
-                        }else if (splitLine.size() == 10) {
+                        } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 10) {
                             values = new ArrayList<String>();
                             for (int i=0; i<keys.size(); i++) {
                                 if(i<6) {
@@ -96,24 +100,33 @@ public class DsetoolRingFileParser {
                                 }
                                 dsetoolRingJSONArray.add(nodeJSON);
                             }
+                        } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 12) {
+                            values = new ArrayList<String>();
+                            for (int i=0; i<keys.size(); i++) {
+                                if(i<6) {
+                                    values.add(splitLine.get(i));
+                                } else if (i==7) {
+                                    values.add(splitLine.get(i) + " " + splitLine.get(i+1));
+                                } else {
+                                    values.add(splitLine.get(i+1));
+                                }
+                            }
+
+                            if(keys.size() == 11) {
+                                nodeJSON = new JSONObject();
+                                for (int i = 0; i < keys.size(); i++) {
+                                    nodeJSON.put(keys.get(i), values.get(i));
+                                }
+                                dsetoolRingJSONArray.add(nodeJSON);
+                            }
                         }
                     }
                     dsetoolRingJSON.put(ValFactory.RING, dsetoolRingJSONArray);
                 } catch (FileNotFoundException fnfe) {
-                    logger.debug(fnfe);
+                    logException(logger, fnfe);
                 }
             }
         }
-    }
-
-    public JSONObject initiatePadding(ArrayList<String> keys, int pad) {
-        JSONObject padding = new JSONObject();
-
-        for (String key : keys) {
-            padding.put(key, key.length() + pad);
-        }
-
-        return padding;
     }
 
     public JSONObject getDsetoolRingJSON() {

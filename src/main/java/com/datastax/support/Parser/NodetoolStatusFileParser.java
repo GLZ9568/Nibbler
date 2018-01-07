@@ -26,15 +26,16 @@ import java.util.Scanner;
  * Created by Chun Gao on 24/11/2017
  */
 
-public class NodetoolStatusFileParser {
+public class NodetoolStatusFileParser extends FileParser {
 
-    private static Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
+    private static final Logger logger = LogManager.getLogger(NodetoolStatusFileParser.class);
 
     private JSONObject nodetoolStatusJSON;
     private JSONArray nodeJSONArray;
 
     public NodetoolStatusFileParser(ArrayList<File> files) {
-        parse(files);
+        super(files);
+        parse();
     }
 
     /**
@@ -62,7 +63,7 @@ public class NodetoolStatusFileParser {
         ]
     }
     **/
-    public void parse (ArrayList<File> files) {
+    private void parse () {
         nodetoolStatusJSON = new JSONObject();
         nodeJSONArray = new JSONArray();
 
@@ -72,7 +73,7 @@ public class NodetoolStatusFileParser {
             if (file.getAbsolutePath().contains(ValFactory.NODETOOL) && file.getName().equals(ValFactory.STATUS) && !valid) {
 
                 JSONArray nodeArray = new JSONArray();
-                JSONObject padding = initiatePadding(ValFactory.PAD);
+                JSONObject padding = initiatePadding(ValFactory.NODETOOLTATUS);
 
                 nodetoolStatusJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
                 nodetoolStatusJSON.put(ValFactory.FILE_NAME, file.getName());
@@ -94,10 +95,10 @@ public class NodetoolStatusFileParser {
                             }
                             valid = true;
 
-                            dcInfo.put(ValFactory.DATACENTER, Inspector.splitBySpace(currentLine)[1]);
+                            dcInfo.put(ValFactory.DATACENTER, splitLine[1]);
 
                             nodeArray = new JSONArray();
-                            padding = initiatePadding(ValFactory.PAD);
+                            padding = initiatePadding(ValFactory.NODETOOLTATUS);
                         }
                         if (ValFactory.NODESTATUS.contains(splitLine[0])) {
                             JSONObject nodeInfo = new JSONObject();
@@ -124,20 +125,10 @@ public class NodetoolStatusFileParser {
                     nodeJSONArray.add(dcInfo);
                     nodetoolStatusJSON.put(ValFactory.STATUS, nodeJSONArray);
                 } catch (FileNotFoundException fnfe) {
-                    logger.debug(fnfe);
+                    logException(logger, fnfe);
                 }
             }
         }
-    }
-
-    public JSONObject initiatePadding(int pad) {
-        JSONObject padding = new JSONObject();
-
-        for (String key : ValFactory.NODETOOLTATUS) {
-            padding.put(key, key.length() + pad);
-        }
-
-        return padding;
     }
 
     public JSONObject getNodetoolStatusJSON() {
