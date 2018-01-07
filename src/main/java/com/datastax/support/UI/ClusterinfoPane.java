@@ -59,7 +59,7 @@ public class ClusterinfoPane {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.error(sw.toString());;
+            logger.error(sw.toString());
             return tp;
         }
         return tp;
