@@ -9,7 +9,6 @@
 
 package com.datastax.support.Parser;
 
-import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,11 +73,11 @@ public class JSONFileParser extends FileParser {
                     javaSystemPropertiesJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
                 }
             } catch (FileNotFoundException fnfe) {
-                logException(logger, fnfe);
+                logCheckedException(logger, fnfe);
             } catch (ParseException pe) {
-                logException(logger, pe);
+                logCheckedException(logger, pe);
             } catch (IOException ioe) {
-                logException(logger, ioe);
+                logCheckedException(logger, ioe);
             }
         }
     }

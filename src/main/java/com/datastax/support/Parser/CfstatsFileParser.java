@@ -138,7 +138,7 @@ public class CfstatsFileParser extends FileParser{
                     cfstats.add(nodetoolStatusJSON);
 
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
                 }
             }
         }

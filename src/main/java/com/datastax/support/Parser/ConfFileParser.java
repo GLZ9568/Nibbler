@@ -168,11 +168,11 @@ public class ConfFileParser extends FileParser {
                 properties.put(ValFactory.FILE_NAME, file.getName());
                 propertiesArrayList.add(properties);
             } catch (FileNotFoundException fnfe) {
-                logException(logger, fnfe);
+                logCheckedException(logger, fnfe);
             } catch (IOException ioe) {
-                logException(logger, ioe);
+                logCheckedException(logger, ioe);
             } catch (NullPointerException npe) {
-                logException(logger, npe);
+                logCheckedException(logger, npe);
             }
         }
         return propertiesArrayList;

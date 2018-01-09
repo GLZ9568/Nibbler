@@ -68,9 +68,9 @@ public class ProxyHistogramsFileParser extends FileParser {
                 proxyHistogramsJSON.put(ValFactory.FILE_NAME, file.getName());
                 proxyHistogramsJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
 
+                ArrayList<String> keyList = new ArrayList<String>(Arrays.asList(ValFactory.PERCENTILE, ValFactory.READ_LATENCY, ValFactory.WRITE_LATENCY, ValFactory.RANGE_LATENCY));
                 try {
                     Scanner scanner = new Scanner(file);
-                    ArrayList<String> keyList = new ArrayList<String>(Arrays.asList(ValFactory.PERCENTILE, ValFactory.READ_LATENCY, ValFactory.WRITE_LATENCY, ValFactory.RANGE_LATENCY));
                     padding = initiatePadding(keyList);
                     boolean keyListModified = false;
                     while (scanner.hasNextLine()) {
@@ -87,15 +87,35 @@ public class ProxyHistogramsFileParser extends FileParser {
                                     keyListModified = true;
                                 }
                             }
-                            for (int i=0; i<keyList.size(); i++) {
-                                latencyJSON.put(keyList.get(i), splitLine[i]);
+                            if (keyList.size() == splitLine.length) {
+                                // if all keys and values both exists for a row, this is what suppose to happen
+                                for (int i = 0; i < keyList.size(); i++) {
+                                    latencyJSON.put(keyList.get(i), splitLine[i]);
+                                }
+                                padding = calculatePadding(padding, splitLine);
+                            } else if (keyList.size() > splitLine.length){
+                                // if all keys exists but some values are missing, we invalid the row and put all values "--"
+                                String[] newSplitLine = new String[keyList.size()];
+                                for (int i = 0; i < keyList.size(); i++) {
+                                    if(i<splitLine.length) {
+                                        newSplitLine[i] = splitLine[i];
+                                        latencyJSON.put(keyList.get(i), splitLine[i]);
+                                    } else {
+                                        newSplitLine[i] = "--";
+                                        latencyJSON.put(keyList.get(i), "--");
+                                    }
+                                }
+                                padding = calculatePadding(padding, newSplitLine);
+                            } else {
+                                // (this should not happen) if all values eixsts but keys missing, in this case, we return empty result set for now
                             }
-                            padding = calculatePadding(padding, splitLine);
                             latencyArray.add(latencyJSON);
                         }
                     }
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
+                } catch (Exception e) {
+                    logUncheckedException(logger, e);
                 }
                 proxyHistogramsJSON.put(ValFactory.PROXYHISTOGRAMS, latencyArray);
                 proxyHistogramsJSON.put(ValFactory.PADDING, padding);

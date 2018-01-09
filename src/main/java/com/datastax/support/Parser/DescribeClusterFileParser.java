@@ -78,7 +78,7 @@ public class DescribeClusterFileParser extends FileParser {
                     }
                     describeclusterJSON.put(ValFactory.SCHEMA_VERSIONS, valueJSON);
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
                 }
                 describeclusterJSONList.add(describeclusterJSON);
             }

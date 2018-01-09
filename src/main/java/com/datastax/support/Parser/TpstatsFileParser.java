@@ -89,7 +89,7 @@ public class TpstatsFileParser extends FileParser {
                     tpstatsJSON.put(ValFactory.TPSTATS, tpstatsArray);
                     tpstatsJSONList.add(tpstatsJSON);
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
                 }
             }
         }

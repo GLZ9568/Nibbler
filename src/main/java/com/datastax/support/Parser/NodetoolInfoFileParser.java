@@ -54,7 +54,7 @@ public class NodetoolInfoFileParser extends FileParser {
                     properties.put(ValFactory.FILE_PATH, file.getAbsolutePath());
                     properties.put(ValFactory.FILE_NAME, file.getName());
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
                 }
                 nodetoolInfoProperties.add(properties);
             }

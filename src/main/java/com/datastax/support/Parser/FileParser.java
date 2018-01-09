@@ -48,9 +48,17 @@ public class FileParser {
         return padding;
     }
 
-    protected void logException (Logger logger, Exception e) {
+    protected void logCheckedException(Logger logger, Exception e) {
         StringWriter stackTrace = new StringWriter();
         e.printStackTrace(new PrintWriter(stackTrace));
+        logger.error("Exception: " + e);
+        logger.error("StackTrace: " + stackTrace.toString());
+    }
+
+    protected void logUncheckedException(Logger logger, Exception e) {
+        StringWriter stackTrace = new StringWriter();
+        e.printStackTrace(new PrintWriter(stackTrace));
+        logger.error("Encountered Unchecked Exception: " + e);
         logger.error("Exception: " + e);
         logger.error("StackTrace: " + stackTrace.toString());
     }

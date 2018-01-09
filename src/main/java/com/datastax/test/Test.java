@@ -26,8 +26,8 @@ public class Test extends Nibbler {
     private static final Logger logger = LogManager.getLogger(Test.class);
 
     //private final String testDir = "DSE4.8";
-    private final String testDir = "DSE5.0";
-    //private final String testDir = "test";
+    //private final String testDir = "DSE5.0";
+    private final String testDir = "visa";
     private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\TestData\\" + testDir);
     //private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\" + testDir);
     private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/" + testDir);

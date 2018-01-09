@@ -125,7 +125,7 @@ public class NodetoolStatusFileParser extends FileParser {
                     nodeJSONArray.add(dcInfo);
                     nodetoolStatusJSON.put(ValFactory.STATUS, nodeJSONArray);
                 } catch (FileNotFoundException fnfe) {
-                    logException(logger, fnfe);
+                    logCheckedException(logger, fnfe);
                 }
             }
         }

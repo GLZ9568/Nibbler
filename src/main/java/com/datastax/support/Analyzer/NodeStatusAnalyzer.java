@@ -79,8 +79,6 @@ public class NodeStatusAnalyzer extends Analyzer {
                     ringPadding.put(ValFactory.OWNS, ringPadding.get(ValFactory.OWNS) > ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD
                             ? ringPadding.get(ValFactory.OWNS) : ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD);
 
-                    logger.debug("RingNode EntrySet: " + ringNode.entrySet() + " " + ringNode.entrySet().toString().contains(ValFactory.GRAPH));
-
                     if (ringNode.entrySet().toString().contains(ValFactory.GRAPH)) {
                         if (!foundGraph) {
                             foundGraph = true;
@@ -114,7 +112,6 @@ public class NodeStatusAnalyzer extends Analyzer {
                 if(key.equals(ValFactory.UD)) {
                     nodeInfo += String.format("%1$-" + statusPadding.get(key) + "s", key);
                     nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s", ValFactory.UPTIME);
-                    logger.debug("FoundHealth: " + foundHealth);
                     if(foundHealth) {
                         nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", ValFactory.HEALTH);
                     }
@@ -124,7 +121,6 @@ public class NodeStatusAnalyzer extends Analyzer {
                 } else if (key.equals(ValFactory.TOKENS)) {
                     nodeInfo += String.format("%1$-" + statusPadding.get(key) + "s", key);
                     nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.WORKLOAD) + "s", ValFactory.WORKLOAD);
-                    logger.debug("FoundGraph: " + foundGraph);
                     if(foundGraph) {
                         nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.GRAPH) + "s", ValFactory.GRAPH);
                     }
