@@ -234,7 +234,7 @@ public class DiagParserGUI extends Application {
             diagpath = selectedDirectory.getAbsolutePath();
         }
     }
-
+    //*** call the analyser interface here****///
     private void startParsing() {
 
         ff = new FileFactory(new File(diagpath));
@@ -257,7 +257,7 @@ public class DiagParserGUI extends Application {
         }
     }
 
-    //*** call the analyser interface here****///
+
     private void displayAnalysisResult() {
        /* TitledPane tp = new TitledPane();
         tp.setExpanded(false);

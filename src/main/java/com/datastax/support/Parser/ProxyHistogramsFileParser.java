@@ -117,6 +117,9 @@ public class ProxyHistogramsFileParser extends FileParser {
                 } catch (Exception e) {
                     logUncheckedException(logger, e);
                 }
+                catch (ArrayIndexOutOfBoundsException e) {
+                    logException(logger, e);
+                }
                 proxyHistogramsJSON.put(ValFactory.PROXYHISTOGRAMS, latencyArray);
                 proxyHistogramsJSON.put(ValFactory.PADDING, padding);
                 proxyHistogramsJSONList.add(proxyHistogramsJSON);
