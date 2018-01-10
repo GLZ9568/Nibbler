@@ -390,9 +390,16 @@ public class ClusterInfoAnalyzer {
 
                             TimeZone timeZone = TimeZone.getTimeZone(java_sys_obj_tmp.get("user.timezone").toString());
 
+                            int timezone_offset =  timeZone.getOffset(new Date().getTime()) / 1000 / 60/60;
 
-                            clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString() +"(GMT" +
-                                    Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
+
+                            if (timezone_offset >= 0)
+                                clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString()  +"(GMT+" +
+                                        Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
+                            else
+                                clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString()  +"(GMT" +
+                                        Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
+
                         }
                     }
 
