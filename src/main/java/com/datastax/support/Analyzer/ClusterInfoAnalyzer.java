@@ -25,10 +25,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Mike Zhang on 2/12/2017.
@@ -391,7 +388,11 @@ public class ClusterInfoAnalyzer {
                             java_version_set.add(java_sys_obj_tmp.get("java.vendor").toString() + " "
                                     + java_sys_obj_tmp.get("java.version").toString());
 
-                            clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString() + "\n";
+                            TimeZone timeZone = TimeZone.getTimeZone(java_sys_obj_tmp.get("user.timezone").toString());
+
+
+                            clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString() +"(GMT" +
+                                    Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
                         }
                     }
 
