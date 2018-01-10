@@ -734,6 +734,8 @@ public class ClusterInfoAnalyzer {
                     }
                 }
 
+
+
                 else if(os_name.toLowerCase().contains("red hat"))
                 {
                     int check =0;
@@ -850,7 +852,25 @@ public class ClusterInfoAnalyzer {
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
-
+                else if(os_name.toLowerCase().contains("oracle linux"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("oracle linux"))
+                        {
+                            String version = Inspector.splitBySpace(str)[2];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
                 else if(os_name.toLowerCase().contains("red hat"))
                 {
                     int check =0;

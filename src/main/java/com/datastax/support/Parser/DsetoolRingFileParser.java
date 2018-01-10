@@ -124,6 +124,9 @@ public class DsetoolRingFileParser extends FileParser {
                     dsetoolRingJSON.put(ValFactory.RING, dsetoolRingJSONArray);
                 } catch (FileNotFoundException fnfe) {
                     logCheckedException(logger, fnfe);
+                } catch (Exception e)
+                {
+                    logCheckedException(logger, e);
                 }
             }
         }
