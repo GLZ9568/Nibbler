@@ -19,7 +19,7 @@
         <module name="Nibbler" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="Nibbler" target="1.5" />
     </bytecodeTargetLevel>
   </component>

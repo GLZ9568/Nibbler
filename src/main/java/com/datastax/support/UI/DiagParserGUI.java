@@ -26,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -54,13 +55,15 @@ public class DiagParserGUI extends Application {
     private GridPane grid = new GridPane();
     private FileFactory ff;
     private TitledPane statuspane = new TitledPane();
+    private TitledPane nodeStatusPane = new TitledPane();
     private StatusPane sp =  new StatusPane();
-    private TitledPane dsetoolringpane = new TitledPane();
+    //private TitledPane dsetoolringpane = new TitledPane();
     private DsetoolRingPane rp =  new DsetoolRingPane();
     private TitledPane clusterinfopane = new TitledPane();
     private ClusterinfoPane cip = new ClusterinfoPane();
     private TitledPane infopane = new TitledPane();
-    private NotoolInfoPane nip = new NotoolInfoPane();
+    //private NotoolInfoPane nip = new NotoolInfoPane();
+    private TextFlow nodeStatusTextFlow = new TextFlow();
 
 
 
@@ -122,9 +125,10 @@ public class DiagParserGUI extends Application {
                     ///refresh the output
 
                     statuspane.setExpanded(false);
-                    dsetoolringpane.setExpanded(false);
+                    ///nodeStatusPane.set
+                    //dsetoolringpane.setExpanded(false);
                     clusterinfopane.setExpanded(false);
-                    infopane.setExpanded(false);
+                    //infopane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     //border.getChildren().remove(scrollpane);
@@ -140,8 +144,9 @@ public class DiagParserGUI extends Application {
                     buttonAnalyzed.setDisable(false);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     try {
-                        File status_file = null;
-                        File dsetool_ring_file = null;
+                        //File status_file = null;
+                        //File dsetool_ring_file = null;
+                        File nodeStatusFile;
                         File nodetool_info_file = null;
                         File cluster_info_file = null;
                         String current_file_path_tmp = Nibbler.class.getProtectionDomain()
@@ -155,23 +160,28 @@ public class DiagParserGUI extends Application {
                             current_file_path=  current_file_path_tmp.substring(0,current_file_path_tmp.lastIndexOf("/") + 1);
                         }
                         logger.info("save status file report to: " + current_file_path + "status.out");
-                        status_file = new File(current_file_path + "status.out");
-                        dsetool_ring_file = new File(current_file_path + "dse_ring.out");
+                        nodeStatusFile = new File(current_file_path + "nodeStatus.out");
+                        //status_file = new File(current_file_path + "status.out");
+                        //dsetool_ring_file = new File(current_file_path + "dse_ring.out");
                         nodetool_info_file = new File(current_file_path + "nodetool_info.out");
                         cluster_info_file = new File(current_file_path + "cluster_info.out");
 
-                        FileWriter status_file_writer = new FileWriter(status_file);
-                        FileWriter ring_file_writer = new FileWriter(dsetool_ring_file);
+                        //FileWriter status_file_writer = new FileWriter(status_file);
+                        //FileWriter ring_file_writer = new FileWriter(dsetool_ring_file);
+                        FileWriter nodeStatusFileWriter = new FileWriter(nodeStatusFile);
                         FileWriter nodetool_info_file_writer = new FileWriter(nodetool_info_file);
                         FileWriter cluster_info_file_writer = new FileWriter(cluster_info_file);
                         //logger.info("status file content is: "+ sp.getStatus_report());
-                        status_file_writer.write(sp.getStatus_report());
-                        ring_file_writer.write(rp.getRing_report());
-                        nodetool_info_file_writer.write(nip.getNodetool_info_report());
+                        //status_file_writer.write(sp.getStatus_report());
+                        nodeStatusFileWriter.write(sp.getStatus_report());
+
+                        //ring_file_writer.write(rp.getRing_report());
+                        //nodetool_info_file_writer.write(nip.getNodetool_info_report());
                         cluster_info_file_writer.write(cip.getCluster_info_report());
-                        status_file_writer.close();
-                        ring_file_writer.close();
-                        nodetool_info_file_writer.close();
+                        nodeStatusFileWriter.close();
+                        //status_file_writer.close();
+                        //ring_file_writer.close();
+                        //nodetool_info_file_writer.close();
                         cluster_info_file_writer.close();
 
                         TextArea textArea = new TextArea("Analysis Reports saved to " + current_file_path
@@ -243,9 +253,11 @@ public class DiagParserGUI extends Application {
 
         if (b) {
             statuspane = sp.createstatusPane(ff);
-            dsetoolringpane =  rp.createDsetoolRingPane(ff);
+            //dsetoolringpane =  rp.createDsetoolRingPane(ff);
             clusterinfopane = cip.createClusterInfoPane(ff);
-            infopane = nip.createinfoPane(ff);
+            //nodeStatusTextFlow = new NodeStatusAnalyzer(ff).getNodeStatusTextFlow();
+            //nodeStatusTextFlow.se
+            //infopane = nip.createinfoPane(ff);
         } else {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -268,12 +280,14 @@ public class DiagParserGUI extends Application {
         tp.setContent(t);*/
         //border.setCenter(addAnchorPane());
         border.setCenter(addScrollPane());
-        grid.getChildren().removeAll(clusterinfopane,statuspane,dsetoolringpane,infopane);
+        //grid.getChildren().removeAll(clusterinfopane,statuspane,dsetoolringpane,infopane);
+        grid.getChildren().removeAll(clusterinfopane,statuspane,nodeStatusTextFlow);
 
         grid.add(clusterinfopane,0,0);
         grid.add(statuspane,0,1);
-        grid.add(dsetoolringpane,0,2);
-        grid.add(infopane,0,3);
+        //grid.add(new NodeStatusTitledPane(ff).getNodeStatusTextFlow(),0,2);
+        //grid.add(dsetoolringpane,0,2);
+        //grid.add(infopane,0,3);
         anchorpane.getChildren().add(grid);
         //anchorpane.getChildren().add(statuspane);
        // anchorpane.getChildren().add(dsetoolringpane);

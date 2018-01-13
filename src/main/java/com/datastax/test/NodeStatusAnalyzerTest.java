@@ -25,7 +25,6 @@ public class NodeStatusAnalyzerTest extends Test{
     public void analyze() {
         this.initiate();
         nodeStatusAnalyzer = new NodeStatusAnalyzer(fileFactory);
-        nodeStatusAnalyzer.analyze();
     }
 
     public static void main(String[] args) {

@@ -37,6 +37,12 @@
             <artifactId>json-simple</artifactId>
             <version>1.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.fxmisc.richtext/richtextfx -->
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.8.1</version>
+        </dependency>
     </dependencies>
 
 </project>

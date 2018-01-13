@@ -29,16 +29,17 @@ public class NodeStatusAnalyzer extends Analyzer {
     private JSONObject nodetoolStatusJSON;
     private JSONObject dsetoolRingJSON;
     private ArrayList<Properties> nodetoolInfoPropertiesList;
+    private String output = "";
 
     public NodeStatusAnalyzer (FileFactory fileFactory) {
         super(fileFactory);
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
         this.dsetoolRingJSON = fileFactory.getDsetoolRingJSON();
         this.nodetoolInfoPropertiesList = fileFactory.getNodetoolInfoPropertiesList();
+        analyze();
     }
 
-    public void analyze() {
-        String output = "";
+    private void analyze() {
         String dcInfo = "|";
         String nodeInfo = "";
         int totalNumofNodes = 0;
@@ -194,5 +195,9 @@ public class NodeStatusAnalyzer extends Analyzer {
         dcInfo += "\nTotal Number of Nodes: [" + totalNumofNodes + "]";
         output += " " + dcInfo + "\n\n" + nodeInfo;
         logger.debug("\n" + output);
+    }
+
+    public String getOutput () {
+        return output;
     }
 }

@@ -12,6 +12,7 @@ package com.datastax.test;
 import com.datastax.support.Nibbler;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
+import com.datastax.support.Util.ValFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class Test extends Nibbler {
 
     //private final String testDir = "DSE4.8";
     //private final String testDir = "DSE5.0";
-    private final String testDir = "visa";
+    private final String testDir = "test";
     private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\TestData\\" + testDir);
     //private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\" + testDir);
     private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/" + testDir);
@@ -51,7 +52,7 @@ public class Test extends Nibbler {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Nibbler Test");
         BorderPane border = new BorderPane();
         primaryStage.setScene(new Scene(border, 1024, 768));
         primaryStage.show();

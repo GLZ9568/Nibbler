@@ -21,6 +21,7 @@ public class ValFactory {
 
     // values
     public static final int PAD = 2;
+    String testme = "";
 
     // common
     public static final String NONE_EXIST = "none_exist";

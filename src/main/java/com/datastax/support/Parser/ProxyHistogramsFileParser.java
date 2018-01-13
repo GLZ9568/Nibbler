@@ -94,7 +94,7 @@ public class ProxyHistogramsFileParser extends FileParser {
                                 }
                                 padding = calculatePadding(padding, splitLine);
                             } else if (keyList.size() > splitLine.length){
-                                // if all keys exists but some values are missing, we invalid the row and put all values "--"
+                                // if all keys exists but some values are missing, we read in the available value and fill the rest with "--"
                                 String[] newSplitLine = new String[keyList.size()];
                                 for (int i = 0; i < keyList.size(); i++) {
                                     if(i<splitLine.length) {
@@ -107,7 +107,7 @@ public class ProxyHistogramsFileParser extends FileParser {
                                 }
                                 padding = calculatePadding(padding, newSplitLine);
                             } else {
-                                // (this should not happen) if all values eixsts but keys missing, in this case, we return empty result set for now
+                                // (this should not happen) if all values exists but keys missing, in this case, we return empty result set for now
                             }
                             latencyArray.add(latencyJSON);
                         }
