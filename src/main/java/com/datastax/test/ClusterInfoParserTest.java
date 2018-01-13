@@ -33,7 +33,7 @@ public class ClusterInfoParserTest {
         {
             ClusterInfoAnalyzer cia =  new ClusterInfoAnalyzer();
 
-            cia.generateNodeStatusOutput(ff);
+            cia.generateClusterInfoOutput(ff);
 
             /*
             ClusterInfoParser cip = new ClusterInfoParser(ff);
