@@ -36,7 +36,7 @@ public class NodetoolInfoAnalyzer {
     private static final Logger logger = LogManager.getLogger(NodetoolInfoAnalyzer.class);
     private boolean is_diff_heap_size = false;
 
-    public TextArea generateNodeStatusOutput(FileFactory ff) {
+    public TextArea generateNodetoolInfoOutput(FileFactory ff) {
         TextArea t = new TextArea();
 
         NodetoolInfoParser nip = new NodetoolInfoParser(ff.getAllFiles());
@@ -104,7 +104,7 @@ public class NodetoolInfoAnalyzer {
           //  t.setMinHeight(450);
         } else {
 
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
             t.setText(nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
