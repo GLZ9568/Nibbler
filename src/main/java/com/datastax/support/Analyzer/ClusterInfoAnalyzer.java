@@ -25,10 +25,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Mike Zhang on 2/12/2017.
@@ -391,7 +388,18 @@ public class ClusterInfoAnalyzer {
                             java_version_set.add(java_sys_obj_tmp.get("java.vendor").toString() + " "
                                     + java_sys_obj_tmp.get("java.version").toString());
 
-                            clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString() + "\n";
+                            TimeZone timeZone = TimeZone.getTimeZone(java_sys_obj_tmp.get("user.timezone").toString());
+
+                            int timezone_offset =  timeZone.getOffset(new Date().getTime()) / 1000 / 60/60;
+
+
+                            if (timezone_offset >= 0)
+                                clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString()  +"(GMT+" +
+                                        Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
+                            else
+                                clusterinfotext += "Timezone: " + java_sys_obj_tmp.get("user.timezone").toString()  +"(GMT" +
+                                        Integer.valueOf(timeZone.getOffset(new Date().getTime()) / 1000 / 60/60)+")" +"\n";
+
                         }
                     }
 
@@ -726,6 +734,8 @@ public class ClusterInfoAnalyzer {
                     }
                 }
 
+
+
                 else if(os_name.toLowerCase().contains("red hat"))
                 {
                     int check =0;
@@ -842,7 +852,25 @@ public class ClusterInfoAnalyzer {
                                 ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
                     }
                 }
-
+                else if(os_name.toLowerCase().contains("oracle linux"))
+                {
+                    int check =0;
+                    for(String str:supported_os_array)
+                    {
+                        if(str.contains("oracle linux"))
+                        {
+                            String version = Inspector.splitBySpace(str)[2];
+                            if(os_version.contains(version)){
+                                check = check+1;
+                            }
+                        }
+                    }
+                    if(check==0)
+                    {
+                        clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                    }
+                }
                 else if(os_name.toLowerCase().contains("red hat"))
                 {
                     int check =0;

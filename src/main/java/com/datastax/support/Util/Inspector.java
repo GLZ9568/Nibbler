@@ -108,7 +108,7 @@ public final class Inspector {
             if( hours >= 24) {
                 int days = hours / 24;
                 if(fullformat) {
-                    return String.format("%d days %02d hours %02d days %02d seconds", days, hours % 24, minutes, seconds);
+                    return String.format("%d days %02d hours %02d minutes %02d seconds", days, hours % 24, minutes, seconds);
                 } else {
                     return String.format("%dd %02dh %02dm %02ds", days, hours % 24, minutes, seconds);
                 }
