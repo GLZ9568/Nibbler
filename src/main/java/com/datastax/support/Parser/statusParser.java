@@ -68,10 +68,10 @@ public class statusParser {
 
         if (!isvalidstatusoutput)
         {
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
             t.setText("No Valid nodetool status collected!!");
         }
-        t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+        t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
         return t;
 
     }

@@ -40,7 +40,7 @@ public class NotoolInfoPane {
         //tp.setPrefSize(1024, 10);
         tp.setText("nodetool info(group by DC)");
         try {
-            TextArea info_area = new NodetoolInfoAnalyzer().generateNodeStatusOutput(ff);
+            TextArea info_area = new NodetoolInfoAnalyzer().generateNodetoolInfoOutput(ff);
             tp.setContent(info_area);
             nodetool_info_report = info_area.getText();
             return tp;

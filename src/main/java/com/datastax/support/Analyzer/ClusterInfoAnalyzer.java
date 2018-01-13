@@ -42,7 +42,8 @@ public class ClusterInfoAnalyzer {
     boolean is_unsupported_os = false;
     boolean is_commitlog_dir_same_with_datadir = false;
 
-    public TextArea generateNodeStatusOutput(FileFactory ff) {
+
+    public TextArea generateClusterInfoOutput(FileFactory ff) {
 
         TextArea t = new TextArea();
         TextFlow flow = new TextFlow();
@@ -299,6 +300,8 @@ public class ClusterInfoAnalyzer {
 
                 if(node_obj !=null) {
 
+                    //// get dse version///
+
                     String[] node_version_array = Inspector.splitByComma(node_obj.get("node_version").toString());
                     String dse_version = new String();
                     clusterinfotext += "DSE(Cassandra) Version: ";
@@ -322,10 +325,26 @@ public class ClusterInfoAnalyzer {
                             clusterinfotext += node_version_array[i].replaceAll("[{|}]", "");
                     }
                     clusterinfotext += "\n";
+
+                    ///get hostname
                     clusterinfotext += "Hostname: " + node_obj.get("hostname") + "\n";
 
+                    //get vCPU
                     clusterinfotext += "Number of vCPUs: " + node_obj.get("num_procs") + "\n";
 
+                    ///get machine memory
+
+                    for(Object sysmem_obj: cip.getMachine_info_obj_list())
+                    {
+                        JSONObject sysmem_obj_tmp = (JSONObject) sysmem_obj;
+
+                        if(sysmem_obj_tmp.get("file_id").equals(file_id))
+                        {
+                            clusterinfotext += "Machine Memory: " +sysmem_obj_tmp.get("memory").toString()+ "mb" + "\n";
+
+                        }
+
+                    }
 
                 /////get and check OS version if supported////
 
@@ -405,19 +424,7 @@ public class ClusterInfoAnalyzer {
 
                 }
 
-                ///get machine memory
 
-                for(Object sysmem_obj: cip.getMachine_info_obj_list())
-                {
-                    JSONObject sysmem_obj_tmp = (JSONObject) sysmem_obj;
-
-                    if(sysmem_obj_tmp.get("file_id").equals(file_id))
-                    {
-                        clusterinfotext += "Machine Memory: " +sysmem_obj_tmp.get("memory").toString()+ "mb" + "\n";
-
-                    }
-
-                }
 
                 ///get ntp status////
 
@@ -658,7 +665,7 @@ public class ClusterInfoAnalyzer {
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
 
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
             t.setText(clusterinfo_warning_header+clusterinfotext);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
@@ -672,7 +679,7 @@ public class ClusterInfoAnalyzer {
             //flow.getChildren().addAll(t1,t2);
         }
         else {
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
             t.setText(clusterinfotext);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
