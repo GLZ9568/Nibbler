@@ -51,7 +51,7 @@ public class NodetoolInfoAnalyzer {
         //logger.debug("JSONArray Size: " + dcArray.size());
         for (Object dc : dcArray) {
             JSONObject tmpdcvar = (JSONObject) dc;
-            logger.debug("DC: " + tmpdcvar.get(ValFactory.DATACENTER));
+//            logger.debug("DC: " + tmpdcvar.get(ValFactory.DATACENTER));
             Set<String> heap_size_set = new HashSet<String>();
             /////group by DC name///
             String dotlinestr = Inspector.generateDotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
@@ -67,7 +67,7 @@ public class NodetoolInfoAnalyzer {
                 for (JSONObject nodetool_info_obj: info_obj_list) {
                     //// node ip//////
                     if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())) {
-                        logger.debug("node: " + file_id);
+//                        logger.debug("node: " + file_id);
                         nodetool_info_text+= "====== " + file_id + " =======\n";
                         //nodetool_info_text+= "Uptime: " + Inspector.secToTime(Integer.valueOf(nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()))+ "\n";
                         nodetool_info_text+= "Uptime: " + nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()+ "\n";
@@ -93,23 +93,25 @@ public class NodetoolInfoAnalyzer {
 
         if(is_diff_heap_size) {
 
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 13pt; -fx-font-family:monospace");
             nodetool_info_warning_text +="\n";
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
             t.setMinHeight(screen_height*0.4);
+            t.setEditable(false);
           //  t.setPrefWidth(1024);
           //  t.setMinHeight(450);
         } else {
 
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
             t.setText(nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
             t.setMinHeight(screen_height*0.4);
+            t.setEditable(false);
            // t.setPrefWidth(1024);
           //  t.setMinHeight(450);
         }

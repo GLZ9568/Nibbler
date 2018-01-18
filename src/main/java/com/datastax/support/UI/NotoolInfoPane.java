@@ -36,9 +36,9 @@ public class NotoolInfoPane {
         // tp.setMinHeight(screen_height*0.4);
         //tp.setPrefWidth(1024);
         //tp.setMinHeight(768);
-        tp.setStyle("-fx-font-family: Courier New");
+        tp.setStyle("-fx-font-family:monospace;-fx-font-size:11pt");
         //tp.setPrefSize(1024, 10);
-        tp.setText("nodetool info(group by DC)");
+        tp.setText("Nodetool Info(group by DC)");
         try {
             TextArea info_area = new NodetoolInfoAnalyzer().generateNodetoolInfoOutput(ff);
             tp.setContent(info_area);

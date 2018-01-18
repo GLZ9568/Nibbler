@@ -84,7 +84,7 @@ public class NtpInfoParser {
 
 
             }
-            logger.info(Inspector.getIPAddress(file.getAbsolutePath())+" NTP Summary: "+ ntpInfoJSON.toString());
+//            logger.info(Inspector.getIPAddress(file.getAbsolutePath())+" NTP Summary: "+ ntpInfoJSON.toString());
         } catch (FileNotFoundException fnfe) {
             logger.error(Inspector.getStackTrace(fnfe));
         }

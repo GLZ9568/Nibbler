@@ -134,4 +134,13 @@ public final class Inspector {
         }
         return dotinestr;
     }
+
+    public static String generateEqualline(int length) {
+        String dotinestr =  new String();
+
+        for (int i=0; i< length; ++i) {
+            dotinestr+="=";
+        }
+        return dotinestr;
+    }
 }

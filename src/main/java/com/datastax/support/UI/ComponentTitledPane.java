@@ -31,9 +31,9 @@ public class ComponentTitledPane {
     protected String fillInfo = "-fx-fill:PURPLE";
     protected String fontWeightTitle = "-fx-font-weight:bold";
     protected String fontWeightBody = "-fx-font-weight:normal";
-    protected String fontSizeS = "-fx-font-size:8pt";
-    protected String fontSizeM = "-fx-font-size:10pt";
-    protected String fontSizeL = "-fx-font-size:12pt";
+    protected String fontSizeS = "-fx-font-size:9pt";
+    protected String fontSizeM = "-fx-font-size:11pt";
+    protected String fontSizeL = "-fx-font-size:13pt";
     protected String fontFamilyDefault = "-fx-font-family:Courier New";
     protected String fontFamilyAlign = "-fx-font-family:monospace";
     protected double screenWidthFactor = 0.7;
@@ -62,12 +62,14 @@ public class ComponentTitledPane {
     private void initiateTitledPane(String title) {
         titledPane.setExpanded(true);
         titledPane.setMinWidth(screen_width*screenWidthFactor);
-        titledPane.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyDefault);
+        titledPane.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         titledPane.setText(title);
     }
 
     protected TextArea generateTextArea(String input) {
         TextArea textArea = new TextArea();
+        //textArea.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
+        textArea.setMinHeight(screen_height*0.4);
         textArea.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         textArea.setText(input);
         textArea.setEditable(false);

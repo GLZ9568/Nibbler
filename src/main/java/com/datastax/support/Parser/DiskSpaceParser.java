@@ -99,7 +99,7 @@ public class DiskSpaceParser {
                 }
                 disk_info_obj_bynode.put(ValFactory.DISK_SPACE_USAGE,diskJSONArray);
                 disk_info_obj_bynode.put(ValFactory.FILE_ID,setIP(file.getAbsolutePath()));
-                logger.info("disk space info: " + disk_info_obj_bynode.toString());
+//                logger.info("disk space info: " + disk_info_obj_bynode.toString());
                 disk_space_obj_list.add(disk_info_obj_bynode);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
