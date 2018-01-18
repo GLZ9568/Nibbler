@@ -83,8 +83,6 @@ public class ClusterInfoAnalyzer {
 
         ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
 
-        //cfp.parse(ff.getAllFiles());
-
         ArrayList<String> clustername = cfp.getClusterName();
         ArrayList<String> snitch = cfp.getSnitch_list();
         //Set<String> seeds = cfp.getSeeds_list();
@@ -153,10 +151,15 @@ public class ClusterInfoAnalyzer {
             if (instance_types !=null) {
                 clusterinfotext += "Instance Types: \n";
                 for (int i = 0; i < instance_types.size(); ++i) {
-                    if(instance_types.get(i) !=null)
-                        clusterinfotext += "  - " + instance_types.get(i).toString() +"(" + ValFactory.aws_instance.get(instance_types.get(i).toString())+")"+ "\n";
-                    else
+                    if(instance_types.get(i) !=null) {
+                        clusterinfotext += "  - " + instance_types.get(i).toString()
+                                + "(" + ValFactory.aws_instance.get(instance_types.get(i).toString()) + ")" + "\n";
+                        clusterinfotext += "     "+get_aws_dc(cip,nodetoolStatusJSON) + "\n";
+                    }
+                    else {
                         clusterinfotext += "  - Not AWS instance \n";
+                        clusterinfotext += "     "+get_non_aws_dc(cip,nodetoolStatusJSON) + "\n";
+                    }
                 }
             }
 
@@ -329,8 +332,23 @@ public class ClusterInfoAnalyzer {
                     ///get hostname
                     clusterinfotext += "Hostname: " + node_obj.get("hostname") + "\n";
 
+                    /// get AWS instance type:
+
+                    JSONObject ec2_obj = (JSONObject) node_obj.get("ec2");
+                    if(ec2_obj.get("instance-type")!= null) {
+                        clusterinfotext += "AWS Instance Type: " + ec2_obj.get("instance-type")
+                                .toString().trim().replaceAll("\"", "").
+                                        replaceAll(",", "") + "\n";
+
+                    }
+                    else {
+                        clusterinfotext += "AWS Instance Type: " + "Non AWS Instance" + "\n";
+
+                    }
+
                     //get vCPU
                     clusterinfotext += "Number of vCPUs: " + node_obj.get("num_procs") + "\n";
+
 
                     ///get machine memory
 
@@ -472,6 +490,12 @@ public class ClusterInfoAnalyzer {
                                +", " + "iowait: "+
                                String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%iowait").toString()))
 
+                               +", " + "steal: "+
+                               String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%steal").toString()))
+
+                               +", " + "nice: "+
+                               String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%nice").toString()))
+
                                +", "+ "idle: " +
                                String.format("%.2f",Double.parseDouble(cpu_obj_tmp.get("%idle").toString())) + "\n";
                     }
@@ -495,7 +519,7 @@ public class ClusterInfoAnalyzer {
                                         replaceAll("[{|}]", "").replaceAll("\"", "")
                                         .replaceAll(",", "");
 
-                                logger.info("get commitlog dir from node_info is: " + commitlog_dir);
+//                                logger.info("get commitlog dir from node_info is: " + commitlog_dir);
 
                                 ///get commitlog disk device////
 
@@ -665,12 +689,13 @@ public class ClusterInfoAnalyzer {
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
 
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
             t.setText(clusterinfo_warning_header+clusterinfotext);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
             t.setMinHeight(screen_height*0.4);
+            t.setEditable(false);
            // t.setPrefWidth(1024);
 
             //t.setScrollTop(0);
@@ -679,12 +704,13 @@ public class ClusterInfoAnalyzer {
             //flow.getChildren().addAll(t1,t2);
         }
         else {
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
             t.setText(clusterinfotext);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
             t.setMinHeight(screen_height*0.4);
+            t.setEditable(false);
            // t.setPrefWidth(1024);
            // t.setMinHeight(450);
             //flow.getChildren().addAll(t);
@@ -834,7 +860,7 @@ public class ClusterInfoAnalyzer {
         else //if(dse_subversion.equals("5.1"))
         {
 
-            logger.info("dse version is: " +  dse_version + " dse sub version is: " + dse_subversion);
+//            logger.info("dse version is: " +  dse_version + " dse sub version is: " + dse_subversion);
             String[] supported_os_array = Inspector.
                     splitByComma(ValFactory.supported_os.get(dse_subversion).toLowerCase());
 
@@ -970,4 +996,72 @@ public class ClusterInfoAnalyzer {
         return clusterinfo_warning_header;
     }
 
+    public String get_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON)
+    {
+        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
+        Set<String> aws_dc_set =  new HashSet<String>();
+        String aws_dc = new String("- DC: [");
+        for (Object dc : dcArray) {
+            JSONObject tmpdcvar = (JSONObject) dc;
+            JSONArray nodesarrary =  (JSONArray)tmpdcvar.get(ValFactory.NODES);
+            for(Object node :nodesarrary) {
+                JSONObject tempnodevar = (JSONObject) node;
+
+                JSONObject node_obj = null;
+                String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
+                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+
+                if(node_obj !=null) {
+
+                    JSONObject ec2_obj = (JSONObject) node_obj.get("ec2");
+                    if(ec2_obj.get("instance-type")!= null) {
+                        aws_dc_set.add(tmpdcvar.get(ValFactory.DATACENTER).toString());
+                    }
+
+                }
+
+            }
+        }
+        for(String aws_dc_str: aws_dc_set){
+            aws_dc += aws_dc_str+"|";
+        }
+
+        return aws_dc.substring(0,aws_dc.length()-1)+"]";
+    }
+
+    public String get_non_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON)
+    {
+        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
+        Set<String> non_aws_dc_set =  new HashSet<String>();
+        String non_aws_dc = new String("- DC: [");
+        for (Object dc : dcArray) {
+            JSONObject tmpdcvar = (JSONObject) dc;
+            JSONArray nodesarrary =  (JSONArray)tmpdcvar.get(ValFactory.NODES);
+            for(Object node :nodesarrary) {
+                JSONObject tempnodevar = (JSONObject) node;
+
+                JSONObject node_obj = null;
+                String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
+                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+
+                if(node_obj !=null) {
+
+                    JSONObject ec2_obj = (JSONObject) node_obj.get("ec2");
+                    if(ec2_obj.get("instance-type") == null) {
+                        non_aws_dc_set.add(tmpdcvar.get(ValFactory.DATACENTER).toString());
+                    }
+
+                }
+
+            }
+        }
+        for(String aws_dc_str: non_aws_dc_set){
+            non_aws_dc += aws_dc_str+"|";
+        }
+
+        return non_aws_dc.substring(0,non_aws_dc.length()-1)+"]";
+
+    }
 }

@@ -41,7 +41,7 @@ public class ClusterinfoPane {
         //tp.setPrefWidth(screen_width*0.5);
         tp.setMinWidth(screen_width*0.7);
         //tp.setMinHeight(screen_height*0.4);
-        tp.setStyle( "-fx-font-family: Courier New");
+        tp.setStyle( "-fx-font-family:monospace; -fx-font-size:11pt");
         //tp.setPrefSize(1024, 10);
         tp.setText("Cluster Configuration Summary");
         try {

@@ -194,7 +194,7 @@ public class NodeStatusAnalyzer extends Analyzer {
         }
         dcInfo += "\nTotal Number of Nodes: [" + totalNumofNodes + "]";
         output += " " + dcInfo + "\n\n" + nodeInfo;
-        logger.debug("\n" + output);
+//        logger.debug("\n" + output);
     }
 
     public String getOutput () {

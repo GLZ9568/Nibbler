@@ -105,6 +105,21 @@ public class ValFactory {
     public static final String CAS_WRITE_LATENCY = "CASWLAT_\u03BCs";
     public static final String VIEW_WRITE_LATENCY = "VWWLAT_\u03BCs";
 
+    public static final String AUTHENTICATOR = "Authenticator";
+    public static final String AUTHORIZER = "Authorizer";
+    public static final String role_manager = "role_manager";
+    public static final String roles_validity_in_ms = "roles_validity(ms)";
+    public static final String permissions_validity_in_ms = "perm_valid(ms)";
+    public static final String concurrent_compactors = "concur_compact";
+    public static final String concurrent_reads = "concur_read";
+    public static final String concurrent_writes = "concur_write";
+    public static final String read_request_timeout_in_ms = "read_timeout(ms)";
+    public static final String write_request_timeout_in_ms = "write_timeout(ms)";
+    public static final String streaming_socket_timeout_in_ms = "stream_timeout(ms)";
+    public static final String authentication_options = "authent_option";
+    public static final String role_management_options = "role_man_option";
+
+
 
     public static final String DSETOOL = "dsetool";
     public static final String RING = "ring";
