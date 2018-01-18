@@ -60,7 +60,7 @@ public class ComponentTitledPane {
     }
 
     private void initiateTitledPane(String title) {
-        titledPane.setExpanded(false);
+        titledPane.setExpanded(true);
         titledPane.setMinWidth(screen_width*screenWidthFactor);
         titledPane.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyDefault);
         titledPane.setText(title);
