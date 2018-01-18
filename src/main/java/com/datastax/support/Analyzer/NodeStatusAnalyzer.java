@@ -33,10 +33,15 @@ public class NodeStatusAnalyzer extends Analyzer {
 
     public NodeStatusAnalyzer (FileFactory fileFactory) {
         super(fileFactory);
-        this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
-        this.dsetoolRingJSON = fileFactory.getDsetoolRingJSON();
-        this.nodetoolInfoPropertiesList = fileFactory.getNodetoolInfoPropertiesList();
-        analyze();
+        try {
+            this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
+            this.dsetoolRingJSON = fileFactory.getDsetoolRingJSON();
+            this.nodetoolInfoPropertiesList = fileFactory.getNodetoolInfoPropertiesList();
+            analyze();
+        } catch (Exception e) {
+            output = "Encoutntered Unchecked Exception";
+            logUncheckedException(logger, e);
+        }
     }
 
     private void analyze() {
@@ -46,17 +51,17 @@ public class NodeStatusAnalyzer extends Analyzer {
         JSONArray statusJSONArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         JSONArray ringJSONArray = (JSONArray) dsetoolRingJSON.get(ValFactory.RING);
 
-        output += "Number of DCs: [" + statusJSONArray.size() + "]";
-
         for (Object dc : statusJSONArray) {
             JSONObject datacenterJSON = (JSONObject) dc;
             dcInfo += " " + datacenterJSON.get(ValFactory.DATACENTER) + " |";
             JSONObject statusPadding = (JSONObject) datacenterJSON.get(ValFactory.PADDING);
             JSONArray statusNodes = (JSONArray) datacenterJSON.get(ValFactory.NODES);
-            JSONArray sortedStatusNodes = sortJSONArray(statusNodes, ValFactory.RACK);
+            JSONArray sortedStatusNodes = sortJSONArray(statusNodes, ValFactory.RACK, false, "string");
             JSONArray ringNodes = new JSONArray();
-
-            nodeInfo += String.format("Datacenter: [" + datacenterJSON.get(ValFactory.DATACENTER) + "] | Number of Nodes: [" + ((JSONArray) datacenterJSON.get(ValFactory.NODES)).size() + "]\n");
+            String title = String.format("Datacenter: " + datacenterJSON.get(ValFactory.DATACENTER) +
+                    " | Number of Nodes: " + ((JSONArray) datacenterJSON.get(ValFactory.NODES)).size() + "\n");
+            nodeInfo += title;
+            nodeInfo += printDividingLine(title.length()) + "\n";
             totalNumofNodes += ((JSONArray) datacenterJSON.get(ValFactory.NODES)).size();
 
             HashMap<String, Integer> ringPadding = new HashMap<String, Integer>();
@@ -193,7 +198,10 @@ public class NodeStatusAnalyzer extends Analyzer {
             nodeInfo += "\n";
         }
         dcInfo += "\nTotal Number of Nodes: [" + totalNumofNodes + "]";
-        output += " " + dcInfo + "\n\n" + nodeInfo;
+
+        output += nodeInfo;
+        output += "Number of DCs: [" + statusJSONArray.size() + "]";
+        output += dcInfo;
         logger.debug("\n" + output);
     }
 

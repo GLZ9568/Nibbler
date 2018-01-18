@@ -54,6 +54,8 @@ public class ComponentTitledPane {
         screen_height = visualBounds.getHeight() ;
         screen_width = visualBounds.getWidth();
 
+        titledPane.setMinHeight(500);
+
         initiateTitledPane(title);
     }
 

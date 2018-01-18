@@ -21,11 +21,14 @@ public class ValFactory {
 
     // values
     public static final int PAD = 2;
+    public static final int CFSTATS_NO_OF_RECORDS = 10;
+    public static final int PRINT_ALL_RECORDS = 0;
     String testme = "";
 
     // common
     public static final String NONE_EXIST = "none_exist";
     public static final String NODE = "node";
+    public static final String NODEC = "Node";
     public static final String NODES = "nodes";
     public static final String FILE_ID = "file_id";
     public static final String FILE_NAME = "file_name";
@@ -86,6 +89,12 @@ public class ValFactory {
     // nodetool output
     public static final String NODETOOL = "nodetool";
     public static final String CFSTATS = "cfstats";
+    public static final String LARGE_PARTITION = "Compacted large partition";
+    public static final String MAX_TOMBSTONE = "Max tombstone per slice (last 5 minutes)";
+    public static final String MAX_LIVE_CELL = "Max live cells per slice (last 5 minutes)";
+    public static final String NUMBER_OF_KEYS = "Number of keys (estimate)";
+    public static final String TABLE_SPACE_USED = "Current space used (total)";
+    public static final String PARTITION_SIZE = "Partition Size";
     public static final String COMPACTIONHISTORY = "compactionhistory";
     public static final String COMPACTIONSTATS = "compactionstats";
     public static final String GETCOMPACTIONTHROUGHPUT = "getcompactionthroughput";
