@@ -11,7 +11,6 @@ package com.datastax.support.UI;
 
 import com.datastax.support.Analyzer.NodeStatusAnalyzer;
 import com.datastax.support.Util.FileFactory;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -27,7 +26,7 @@ public class NodeStatusTitledPane extends ComponentTitledPane {
 
     private NodeStatusAnalyzer nodeStatusAnalyzer;
     private static final String title = "Node Status";
-    private String output = "";
+    private String output;
 
     public NodeStatusTitledPane(FileFactory fileFactory) {
         super(title);
