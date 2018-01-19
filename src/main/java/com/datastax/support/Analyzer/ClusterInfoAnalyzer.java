@@ -694,7 +694,7 @@ public class ClusterInfoAnalyzer {
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height*0.4);
+            t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
             t.setEditable(false);
            // t.setPrefWidth(1024);
 
@@ -709,7 +709,7 @@ public class ClusterInfoAnalyzer {
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height*0.4);
+            t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
             t.setEditable(false);
            // t.setPrefWidth(1024);
            // t.setMinHeight(450);
