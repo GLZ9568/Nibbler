@@ -2,16 +2,15 @@
   <artifact type="jar" build-on-make="true" name="Nibbler:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Nibbler_jar</output-path>
     <root id="archive" name="Nibbler.jar">
-      <element id="module-output" name="Nibbler" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-core/2.10.0/log4j-core-2.10.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.10.0/log4j-api-2.10.0.jar" path-in-jar="/" />
+      <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1" />
       <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.10.0" />
-      <element id="library" level="project" name="Maven: org.json:json:20171018" />
       <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.10.0" />
       <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.7" />
-      <element id="file-copy" path="$MAVEN_REPOSITORY$/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" path-in-jar="/" />
+      <element id="module-output" name="Nibbler" />
     </root>
   </artifact>
 </component>

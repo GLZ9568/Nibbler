@@ -142,7 +142,7 @@ public class DiagParserGUI extends Application {
                     ///display the analysis result///
                     Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
                     double screen_width = visualBounds.getWidth();
-                  //  primaryStage.setMinWidth(screen_width*0.7+15);
+                    primaryStage.setMinWidth(screen_width*0.7+15);
                     //primaryStage.setMaxWidth(screen_width*0.7+15);
                     displayAnalysisResult();
 
