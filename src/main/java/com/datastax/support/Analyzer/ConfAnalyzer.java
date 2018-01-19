@@ -137,9 +137,14 @@ public class ConfAnalyzer extends Analyzer {
                     else
                         splitline[2] = np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase());
 
-                    splitline[3] = np_dseyaml.getProperty("default_scheme");
+                    if(np_dseyaml.getProperty("default_scheme") !=null) {
 
-                    logger.info(splitline[0]+ " authentication_options in dse.yaml is: " + splitline[3]);
+                        splitline[3] = np_dseyaml.getProperty("default_scheme");
+
+                        logger.info(splitline[0] + " authentication_options in dse.yaml is: " + splitline[3]);
+                    }
+                    else
+                        splitline[3] = "NaN";
 
                     if(np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).contains("dseauthorizer"))
                         splitline[4] = "DseAuthorizer";
@@ -191,25 +196,37 @@ public class ConfAnalyzer extends Analyzer {
 
                     splitline[11] = np_casyaml.getProperty("permissions_validity_in_ms");
 
-                    if(np_casyaml.getProperty(ValFactory.role_manager).toLowerCase().contains("dserolemanager"))
-                        splitline[12] = "DseRoleManager";
-                    else if(np_casyaml.getProperty(ValFactory.role_manager).toLowerCase().contains("cassandrarolemanager"))
-                        splitline[12] = "CassandraRoleManager";
-                    else
-                        splitline[12] = np_casyaml.getProperty(ValFactory.role_manager);
-
-                    if(np_dseyaml.getProperty("mode").toLowerCase().equals("internal")||
-                            np_dseyaml.getProperty("mode").toLowerCase().equals("ldap")) {
-                        splitline[13] = np_dseyaml.getProperty("mode");
-                        logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
+                    if(np_casyaml.getProperty(ValFactory.role_manager)!=null) {
+                        if (np_casyaml.getProperty(ValFactory.role_manager).toLowerCase().contains("dserolemanager"))
+                            splitline[12] = "DseRoleManager";
+                        else if (np_casyaml.getProperty(ValFactory.role_manager).toLowerCase().contains("cassandrarolemanager"))
+                            splitline[12] = "CassandraRoleManager";
+                        else
+                            splitline[12] = np_casyaml.getProperty(ValFactory.role_manager);
                     }
                     else
-                    {
-                        splitline[13] = np_dseyaml.getProperty("mode");
-                        logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
+                        splitline[12] = "NaN";
+
+                    if(np_dseyaml.getProperty("mode") !=null) {
+
+                        if (np_dseyaml.getProperty("mode").toLowerCase().equals("internal") ||
+                                np_dseyaml.getProperty("mode").toLowerCase().equals("ldap")) {
+                            splitline[13] = np_dseyaml.getProperty("mode");
+                            logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
+                        } else {
+                            splitline[13] = np_dseyaml.getProperty("mode");
+                            logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
+                        }
+
                     }
 
-                    splitline[14] = np_casyaml.getProperty("roles_validity_in_ms");
+                    else
+                        splitline[13] = "NaN";
+
+                    if(np_casyaml.getProperty("roles_validity_in_ms") !=null)
+                        splitline[14] = np_casyaml.getProperty("roles_validity_in_ms");
+                    else
+                        splitline[14] = "NaN";
 
                     padding = calculateMaxPadding(padding,splitline,keyList);
 

@@ -54,13 +54,13 @@ public class ComponentTitledPane {
         screen_height = visualBounds.getHeight() ;
         screen_width = visualBounds.getWidth();
 
-        titledPane.setMinHeight(500);
+      //  titledPane.setMinHeight(500);
 
         initiateTitledPane(title);
     }
 
     private void initiateTitledPane(String title) {
-        titledPane.setExpanded(true);
+        titledPane.setExpanded(false);
         titledPane.setMinWidth(screen_width*screenWidthFactor);
         titledPane.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         titledPane.setText(title);
