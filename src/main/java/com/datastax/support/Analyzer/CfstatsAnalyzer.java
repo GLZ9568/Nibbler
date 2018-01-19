@@ -145,6 +145,8 @@ public class CfstatsAnalyzer extends Analyzer {
             output += printDividingLine(exp.length());
         }
 
+        output += "\n" + maxLiveCellTitle + "\n" + printDividingLine(maxLiveCellTitle.length()) + "\n";
+
         logger.debug("Sorted Large Partition JSON Array: \n" + output);
     }
 
