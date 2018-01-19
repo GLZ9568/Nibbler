@@ -12,6 +12,8 @@ package com.datastax.support.UI;
 import com.datastax.support.Nibbler;
 import com.datastax.support.Util.FileFactory;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,10 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -63,6 +62,7 @@ public class DiagParserGUI extends Application {
     private TitledPane nodeStatusTitledPane = new TitledPane();
     private NotoolInfoPane nip = new NotoolInfoPane();
     private TitledPane confInfoPane =  new TitledPane();
+    private TitledPane cfStatsPane = new TitledPane();
 
 
 
@@ -88,7 +88,7 @@ public class DiagParserGUI extends Application {
         logger.info("screen width is: "+ screen_width);
         primaryStage.setMaxHeight(screen_height*0.8);
         primaryStage.setMinWidth(screen_width*0.7);
-        primaryStage.setMaxWidth(screen_width*0.7);
+        //primaryStage.setMaxWidth(screen_width*0.7);
         primaryStage.setScene(new Scene(border, screen_width*0.7, screen_height*0.8));
         primaryStage.show();
     }
@@ -129,6 +129,7 @@ public class DiagParserGUI extends Application {
                     nodeStatusTitledPane.setExpanded(false);
                     infopane.setExpanded(false);
                     confInfoPane.setExpanded(false);
+                    cfStatsPane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     //border.getChildren().remove(scrollpane);
@@ -141,8 +142,8 @@ public class DiagParserGUI extends Application {
                     ///display the analysis result///
                     Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
                     double screen_width = visualBounds.getWidth();
-                    primaryStage.setMinWidth(screen_width*0.7+15);
-                    primaryStage.setMaxWidth(screen_width*0.7+15);
+                    //primaryStage.setMinWidth(screen_width*0.7+15);
+                    //primaryStage.setMaxWidth(screen_width*0.7+15);
                     displayAnalysisResult();
 
                     buttonAnalyzed.setDisable(false);
@@ -257,6 +258,7 @@ public class DiagParserGUI extends Application {
             nodeStatusTitledPane = new NodeStatusTitledPane(ff).getNodeStatusTitledPane();
             infopane = nip.createinfoPane(ff);
             confInfoPane = new ConfInfoPane(ff).getConfInfoPane();
+            cfStatsPane = new CfstatsTitledPane(ff).getCfstatsTitledPane();
 
         } else {
 
@@ -280,15 +282,38 @@ public class DiagParserGUI extends Application {
         tp.setContent(t);*/
         //border.setCenter(addAnchorPane());
         border.setCenter(addScrollPane());
-        grid.getChildren().removeAll(clusterinfopane,nodeStatusTitledPane,infopane,confInfoPane);
+        grid.getChildren().removeAll(clusterinfopane,nodeStatusTitledPane,infopane,confInfoPane,cfStatsPane);
+
 
         grid.add(clusterinfopane,0,0);
         //grid.add(statuspane,0,1);
        // grid.add(dsetoolringpane,0,2);
         grid.add(nodeStatusTitledPane,0,1);
         grid.add(infopane,0,2);
-        grid.add(confInfoPane,0,3);
+        grid.add(cfStatsPane,0,3);
+        grid.add(confInfoPane,0,4);
         anchorpane.getChildren().add(grid);
+        scrollpane.widthProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+
+                anchorpane.setPrefWidth(arg2.doubleValue() - 15);
+                anchorpane.setPrefWidth(arg2.doubleValue() - 15);
+                grid.setPrefWidth(arg2.doubleValue() - 15);
+                grid.setPrefWidth(arg2.doubleValue() - 15);
+                clusterinfopane.setPrefWidth(arg2.doubleValue() - 15);
+                clusterinfopane.setPrefWidth(arg2.doubleValue() - 15);
+                nodeStatusTitledPane.setPrefWidth(arg2.doubleValue() - 15);
+                nodeStatusTitledPane.setPrefWidth(arg2.doubleValue() - 15);
+                infopane.setPrefWidth(arg2.doubleValue() - 15);
+                infopane.setPrefWidth(arg2.doubleValue() - 15);
+                confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
+                confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
+                cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
+                cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
+
+
+            }
+        });
         //anchorpane.getChildren().add(statuspane);
         // anchorpane.getChildren().add(dsetoolringpane);
     }
