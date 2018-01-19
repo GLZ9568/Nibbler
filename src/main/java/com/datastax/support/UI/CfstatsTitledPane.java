@@ -19,7 +19,7 @@ public class CfstatsTitledPane extends ComponentTitledPane {
     private static final Logger logger = LogManager.getLogger(CfstatsTitledPane.class);
 
     private CfstatsAnalyzer cfstatsAnalyzer;
-    private static final String title = "Cfstats";
+    private static final String title = "Table Statistics";
     private String output;
 
     public CfstatsTitledPane(FileFactory fileFactory) {
