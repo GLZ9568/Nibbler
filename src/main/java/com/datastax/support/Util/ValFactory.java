@@ -179,6 +179,9 @@ public class ValFactory {
     public static final String STATUSTHRIFT = "statusthrift";
     public static final String VERSION = "version";
 
+    public static final double SCREEN_WIDTH_FACTOR = 0.8;
+    public static final double SCREEN_HEIGHT_FACTOR = 0.8;
+
     public static final String supported_platform_url = "http://docs.datastax.com/en/landing_page/doc/landing_page/supportedPlatforms.html";
 
     public static final HashMap<String, String> aws_instance = new HashMap<String, String>(){

@@ -9,10 +9,10 @@
 
 package com.datastax.support.UI;
 
+import com.datastax.support.Util.ValFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
@@ -36,8 +36,6 @@ public class ComponentTitledPane {
     protected String fontSizeL = "-fx-font-size:13pt";
     protected String fontFamilyDefault = "-fx-font-family:Courier New";
     protected String fontFamilyAlign = "-fx-font-family:monospace";
-    protected double screenWidthFactor = 0.7;
-    protected double screenHeightFactor = 0.8;
 
     protected TitledPane titledPane;
     protected TextFlow textFlow;
@@ -54,22 +52,20 @@ public class ComponentTitledPane {
         screen_height = visualBounds.getHeight() ;
         screen_width = visualBounds.getWidth();
 
-        titledPane.setMinHeight(500);
-
         initiateTitledPane(title);
     }
 
     private void initiateTitledPane(String title) {
-        titledPane.setExpanded(true);
-        titledPane.setMinWidth(screen_width*screenWidthFactor);
+        titledPane.setExpanded(false);
+        titledPane.setMinWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
         titledPane.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         titledPane.setText(title);
     }
 
     protected TextArea generateTextArea(String input) {
         TextArea textArea = new TextArea();
-        //textArea.setStyle("-fx-font-size: 11pt; -fx-font-family: Courier New");
-        textArea.setMinHeight(screen_height*0.4);
+        textArea.setMinHeight(screen_height * (3*ValFactory.SCREEN_HEIGHT_FACTOR/5));
+        textArea.setMinWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
         textArea.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         textArea.setText(input);
         textArea.setEditable(false);
