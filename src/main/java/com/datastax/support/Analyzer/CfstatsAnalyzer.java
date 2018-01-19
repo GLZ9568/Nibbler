@@ -190,7 +190,7 @@ public class CfstatsAnalyzer extends Analyzer {
 
                                 ArrayList<String> maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
                                         table.get(ValFactory.TABLE).toString(), String.valueOf(maxTombstonePerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                        table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
+                                        table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
                                 if (maxTombstoneKeys.size() == maxTomeStonePerSliceValueList.size()) {
                                     for (int i = 0; i < maxTombstoneKeys.size(); i++) {
                                         maxTombstoneJSON.put(maxTombstoneKeys.get(i), maxTomeStonePerSliceValueList.get(i));
@@ -211,7 +211,7 @@ public class CfstatsAnalyzer extends Analyzer {
 
                                 ArrayList<String> maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
                                         table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                        table.get(maxLiveCell).toString() + " (" + calByte(Long.parseLong(table.get(maxLiveCell).toString())) + ")"));
+                                        table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
                                 if (maxLiveCellKeys.size() == maxLiveCellPerSliceValueList.size()) {
                                     for (int i = 0; i < maxLiveCellKeys.size(); i++) {
                                         maxLiveCellJSON.put(maxLiveCellKeys.get(i), maxLiveCellPerSliceValueList.get(i));
