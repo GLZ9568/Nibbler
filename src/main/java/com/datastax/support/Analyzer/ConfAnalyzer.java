@@ -128,11 +128,11 @@ public class ConfAnalyzer extends Analyzer {
 
                     splitline[0] = np_dseyaml.getProperty(ValFactory.FILE_ID).toString();
                     splitline[1] = getNodeDCName(splitline[0]);
-                    if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).contains("dseauthenticator"))
+                    if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).toLowerCase().contains("dseauthenticator"))
                         splitline[2] = "DseAuthenticator";
-                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).contains("allowallauthenticator"))
+                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).toLowerCase().contains("allowallauthenticator"))
                         splitline[2] = "AllowAllAuthenticator";
-                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).contains("passwordauthenticator"))
+                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).toLowerCase().contains("passwordauthenticator"))
                         splitline[2] = "PasswordAuthenticator";
                     else
                         splitline[2] = np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase());
@@ -146,14 +146,14 @@ public class ConfAnalyzer extends Analyzer {
                     else
                         splitline[3] = "NaN";
 
-                    if(np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).contains("dseauthorizer"))
+                    if(np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).toLowerCase().contains("dseauthorizer"))
                         splitline[4] = "DseAuthorizer";
-                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).contains("allowallauthorizer"))
+                    else if(np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).toLowerCase().contains("allowallauthorizer"))
                         splitline[4] = "AllowAllAuthorizer";
-                    else if(np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).contains("cassandraauthorizer"))
+                    else if(np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).toLowerCase().contains("cassandraauthorizer"))
                         splitline[4] = "CassandraAuthorizer";
                     else
-                        splitline[4] = np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase());
+                        splitline[4] = np_casyaml.getProperty(ValFactory.AUTHORIZER);
 
                     if(np_casyaml.getProperty("concurrent_compactors") != null)
                         splitline[5] = np_casyaml.getProperty("concurrent_compactors");
@@ -262,6 +262,8 @@ public class ConfAnalyzer extends Analyzer {
                     conf_obj.put(ValFactory.role_manager,splitline[12]);
                     conf_obj.put(ValFactory.role_management_options,splitline[13]);
                     conf_obj.put(ValFactory.roles_validity_in_ms,splitline[14]);
+                    conf_obj.put(ValFactory.SEEDS, np_casyaml.getProperty("seeds"));
+
 
                 }
 
@@ -333,9 +335,76 @@ public class ConfAnalyzer extends Analyzer {
             }
         }
 
+        confinfotext += "\n";
+
+        confinfotext += "**  seed list configuration **\n\n";
+        ArrayList<String> seed_key_list =  new ArrayList<String>();
+        seed_key_list.add(0,ValFactory.ADDRESS);
+        seed_key_list.add(1,ValFactory.SEEDS);
+        for (Object dc : dcArray) {
+            JSONObject tmpdcvar = (JSONObject) dc;
+            JSONArray nodesarrary =  (JSONArray)tmpdcvar.get(ValFactory.NODES);
+            String dc_name = tmpdcvar.get(ValFactory.DATACENTER).toString();
+            confinfotext+="Datacenter: "+ dc_name +"\n";
+            confinfotext+= Inspector.generateEqualline(12+dc_name.length())+"\n";
+            for(Object node :nodesarrary) {
+                JSONObject tempnodevar = (JSONObject) node;
+                String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
+
+                for(Object conf_obj_tmp: conf_obj_list)
+                {
+                    JSONObject conf_obj_tmp1 = (JSONObject)conf_obj_tmp ;
+                    if(file_id.equals(conf_obj_tmp1.get(ValFactory.ADDRESS))
+                            &&conf_obj_tmp1.get(ValFactory.DC).equals(dc_name)) {
+
+
+                    }
+
+                }
+
+            }
+        }
+
+
+
         logger.info("\n" + confinfotext);
 
         return confinfotext;
+    }
+
+    protected JSONObject getPaddingbyDC(String dc_name,ArrayList<String> keylist)
+    {
+        JSONObject padding = initiatePadding(keylist);
+
+        String[] splitline = new String[2];
+        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
+
+        for (Object dc : dcArray) {
+            JSONObject tmpdcvar = (JSONObject) dc;
+            JSONArray nodesarrary = (JSONArray) tmpdcvar.get(ValFactory.NODES);
+            String dc_name1 = tmpdcvar.get(ValFactory.DATACENTER).toString();
+
+            if (dc_name.equals(dc_name1)) {
+                for (Object node : nodesarrary) {
+                    JSONObject tempnodevar = (JSONObject) node;
+                    String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
+                    for(Object conf_obj_tmp: conf_obj_list)
+                    {
+                        JSONObject conf_obj_tmp1 = (JSONObject)conf_obj_tmp ;
+                        if(file_id.equals(conf_obj_tmp1.get(ValFactory.ADDRESS))
+                                &&conf_obj_tmp1.get(ValFactory.DC).equals(dc_name)) {
+                            splitline[0] = file_id;
+                            splitline[1] = conf_obj_tmp1.get("seeds").toString();
+                            padding = calculateMaxPadding(padding,splitline,keylist);
+
+                        }
+
+                    }
+
+                }
+            }
+        }
+        return padding;
     }
 
     protected JSONObject initiatePadding(ArrayList<String> keys) {
