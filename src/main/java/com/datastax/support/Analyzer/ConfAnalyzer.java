@@ -347,6 +347,12 @@ public class ConfAnalyzer extends Analyzer {
             String dc_name = tmpdcvar.get(ValFactory.DATACENTER).toString();
             confinfotext+="Datacenter: "+ dc_name +"\n";
             confinfotext+= Inspector.generateEqualline(12+dc_name.length())+"\n";
+            JSONObject dcpadding = getPaddingbyDC(dc_name,seed_key_list);
+            for(String key: seed_key_list)
+            {
+                confinfotext += String.format("%1$-" + dcpadding.get(key) + "s", key);
+            }
+            confinfotext += "\n";
             for(Object node :nodesarrary) {
                 JSONObject tempnodevar = (JSONObject) node;
                 String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
@@ -357,12 +363,17 @@ public class ConfAnalyzer extends Analyzer {
                     if(file_id.equals(conf_obj_tmp1.get(ValFactory.ADDRESS))
                             &&conf_obj_tmp1.get(ValFactory.DC).equals(dc_name)) {
 
-
+                        confinfotext += String.format("%1$-" +
+                                dcpadding.get(ValFactory.ADDRESS) + "s", conf_obj_tmp1.get(ValFactory.ADDRESS));
+                        confinfotext += String.format("%1$-" +
+                                dcpadding.get(ValFactory.SEEDS) + "s", conf_obj_tmp1.get(ValFactory.SEEDS));
+                        confinfotext += "\n";
                     }
 
                 }
 
             }
+            confinfotext += "\n";
         }
 
 

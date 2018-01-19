@@ -142,7 +142,7 @@ public class DiagParserGUI extends Application {
                     ///display the analysis result///
                     Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
                     double screen_width = visualBounds.getWidth();
-                    //primaryStage.setMinWidth(screen_width*0.7+15);
+                  //  primaryStage.setMinWidth(screen_width*0.7+15);
                     //primaryStage.setMaxWidth(screen_width*0.7+15);
                     displayAnalysisResult();
 
@@ -297,19 +297,13 @@ public class DiagParserGUI extends Application {
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
 
                 anchorpane.setPrefWidth(arg2.doubleValue() - 15);
-                anchorpane.setPrefWidth(arg2.doubleValue() - 15);
-                grid.setPrefWidth(arg2.doubleValue() - 15);
                 grid.setPrefWidth(arg2.doubleValue() - 15);
                 clusterinfopane.setPrefWidth(arg2.doubleValue() - 15);
-                clusterinfopane.setPrefWidth(arg2.doubleValue() - 15);
-                nodeStatusTitledPane.setPrefWidth(arg2.doubleValue() - 15);
                 nodeStatusTitledPane.setPrefWidth(arg2.doubleValue() - 15);
                 infopane.setPrefWidth(arg2.doubleValue() - 15);
-                infopane.setPrefWidth(arg2.doubleValue() - 15);
-                confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
                 confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
                 cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
-                cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
+
 
             }
         });
