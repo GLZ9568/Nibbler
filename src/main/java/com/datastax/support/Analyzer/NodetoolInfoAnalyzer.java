@@ -93,7 +93,7 @@ public class NodetoolInfoAnalyzer {
 
         if(is_diff_heap_size) {
 
-            t.setStyle("-fx-font-size: 13pt; -fx-font-family:monospace");
+            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
             nodetool_info_warning_text +="\n";
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();

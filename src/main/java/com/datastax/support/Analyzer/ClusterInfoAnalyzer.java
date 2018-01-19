@@ -154,7 +154,7 @@ public class ClusterInfoAnalyzer {
                     if(instance_types.get(i) !=null) {
                         clusterinfotext += "  - " + instance_types.get(i).toString()
                                 + "(" + ValFactory.aws_instance.get(instance_types.get(i).toString()) + ")" + "\n";
-                        clusterinfotext += "     "+get_aws_dc(cip,nodetoolStatusJSON) + "\n";
+                        clusterinfotext += "     "+get_aws_dc(cip,nodetoolStatusJSON, instance_types.get(i).toString()) + "\n";
                     }
                     else {
                         clusterinfotext += "  - Not AWS instance \n";
@@ -996,7 +996,7 @@ public class ClusterInfoAnalyzer {
         return clusterinfo_warning_header;
     }
 
-    public String get_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON)
+    public String get_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON,String aws_instance_type)
     {
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         Set<String> aws_dc_set =  new HashSet<String>();
@@ -1016,7 +1016,8 @@ public class ClusterInfoAnalyzer {
 
                     JSONObject ec2_obj = (JSONObject) node_obj.get("ec2");
                     if(ec2_obj.get("instance-type")!= null) {
-                        aws_dc_set.add(tmpdcvar.get(ValFactory.DATACENTER).toString());
+                        if(aws_instance_type.equals(ec2_obj.get("instance-type").toString()))
+                          aws_dc_set.add(tmpdcvar.get(ValFactory.DATACENTER).toString());
                     }
 
                 }
