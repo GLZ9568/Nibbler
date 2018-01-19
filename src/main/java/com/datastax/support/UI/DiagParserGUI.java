@@ -311,7 +311,6 @@ public class DiagParserGUI extends Application {
                 cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
                 cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
 
-
             }
         });
         //anchorpane.getChildren().add(statuspane);
