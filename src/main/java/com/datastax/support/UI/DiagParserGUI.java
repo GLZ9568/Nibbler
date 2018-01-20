@@ -53,18 +53,19 @@ public class DiagParserGUI extends Application {
     private GridPane grid = new GridPane();
     private FileFactory ff;
     private TitledPane statuspane = new TitledPane();
-    private StatusPane sp =  new StatusPane();
+    private StatusPane sp = new StatusPane();
     private TitledPane dsetoolringpane = new TitledPane();
-    private DsetoolRingPane rp =  new DsetoolRingPane();
+    private DsetoolRingPane rp = new DsetoolRingPane();
     private TitledPane clusterinfopane = new TitledPane();
     private ClusterinfoPane cip = new ClusterinfoPane();
     private TitledPane infopane = new TitledPane();
     private TitledPane nodeStatusTitledPane = new TitledPane();
     private NotoolInfoPane nip = new NotoolInfoPane();
-    private TitledPane confInfoPane =  new TitledPane();
+    private ConfInfoPane cfip;
+    private NodeStatusTitledPane nsp;
+    private CfstatsTitledPane cfsp;
+    private TitledPane confInfoPane = new TitledPane();
     private TitledPane cfStatsPane = new TitledPane();
-
-
 
 
     @Override
@@ -82,14 +83,14 @@ public class DiagParserGUI extends Application {
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-        double screen_height =  visualBounds.getHeight() ;
+        double screen_height = visualBounds.getHeight();
         double screen_width = visualBounds.getWidth();
-        logger.info("screen height is: "+ screen_height);
-        logger.info("screen width is: "+ screen_width);
-        primaryStage.setMaxHeight(screen_height*0.8);
-        primaryStage.setMinWidth(screen_width*0.7);
+        logger.info("screen height is: " + screen_height);
+        logger.info("screen width is: " + screen_width);
+        primaryStage.setMinHeight(screen_height * 0.8);
+        primaryStage.setMinWidth(screen_width * 0.7);
         //primaryStage.setMaxWidth(screen_width*0.7);
-        primaryStage.setScene(new Scene(border, screen_width*0.7, screen_height*0.8));
+        primaryStage.setScene(new Scene(border, screen_width * 0.7, screen_height * 0.8));
         primaryStage.show();
     }
 
@@ -123,7 +124,7 @@ public class DiagParserGUI extends Application {
 
                     ///refresh the output
 
-                   // statuspane.setExpanded(false);
+                    // statuspane.setExpanded(false);
                     //dsetoolringpane.setExpanded(false);
                     clusterinfopane.setExpanded(false);
                     nodeStatusTitledPane.setExpanded(false);
@@ -142,75 +143,12 @@ public class DiagParserGUI extends Application {
                     ///display the analysis result///
                     Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
                     double screen_width = visualBounds.getWidth();
+                    double screen_height = visualBounds.getHeight();
+                    //primaryStage.setScene(new Scene(border, screen_width * 0.7+15, screen_height * 0.8));
                     primaryStage.setMinWidth(screen_width*0.7+15);
-                    //primaryStage.setMaxWidth(screen_width*0.7+15);
                     displayAnalysisResult();
-
+                    saveAnalysisReport();
                     buttonAnalyzed.setDisable(false);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    try {
-                       // File status_file = null;
-                        //File dsetool_ring_file = null;
-                        File nodetool_info_file = null;
-                        File cluster_info_file = null;
-                        String current_file_path_tmp = Nibbler.class.getProtectionDomain()
-                                .getCodeSource().getLocation().toURI().getPath().toString();
-
-                        String current_file_path = new String();
-
-                        if(System.getProperty("os.name").toString().toLowerCase().equals("windows"))
-                            current_file_path=  current_file_path_tmp.substring(0,current_file_path_tmp.lastIndexOf("\\") + 1);
-                        else {
-                            current_file_path=  current_file_path_tmp.substring(0,current_file_path_tmp.lastIndexOf("/") + 1);
-                        }
-                        logger.info("save status file report to: " + current_file_path + "status.out");
-                       // status_file = new File(current_file_path + "status.out");
-                       // dsetool_ring_file = new File(current_file_path + "dse_ring.out");
-                        nodetool_info_file = new File(current_file_path + "nodetool_info.out");
-                        cluster_info_file = new File(current_file_path + "cluster_info.out");
-
-                       // FileWriter status_file_writer = new FileWriter(status_file);
-                       // FileWriter ring_file_writer = new FileWriter(dsetool_ring_file);
-                        FileWriter nodetool_info_file_writer = new FileWriter(nodetool_info_file);
-                        FileWriter cluster_info_file_writer = new FileWriter(cluster_info_file);
-                        //logger.info("status file content is: "+ sp.getStatus_report());
-                      //  status_file_writer.write(sp.getStatus_report());
-                      //  ring_file_writer.write(rp.getRing_report());
-                        nodetool_info_file_writer.write(nip.getNodetool_info_report());
-                        cluster_info_file_writer.write(cip.getCluster_info_report());
-                       // status_file_writer.close();
-                      //  ring_file_writer.close();
-                        nodetool_info_file_writer.close();
-                        cluster_info_file_writer.close();
-
-                        TextArea textArea = new TextArea("Analysis Reports saved to " + current_file_path
-                                +"\n\n"+ "Report files: status.out dse_ring.out nodetool_info.out cluster_info.out");
-                        textArea.setEditable(false);
-                        textArea.setWrapText(true);
-                        GridPane gridPane = new GridPane();
-                        gridPane.setMaxWidth(Double.MAX_VALUE);
-                        gridPane.add(textArea, 0, 0);
-                        alert.setTitle("Analysis is done! ");
-                        alert.setHeaderText("");
-                        alert.getDialogPane().setContent(gridPane);
-                        alert.showAndWait();
-
-                    } catch (IOException e) {
-                        alert.setTitle("");
-                        alert.setHeaderText("");
-                        alert.setContentText("Error saving report files!!!");
-                        alert.showAndWait();
-                        e.printStackTrace();
-
-                    } catch (URISyntaxException e1)
-                    {
-                        alert.setTitle("");
-                        alert.setHeaderText("");
-                        alert.setContentText("Error saving report files!!!");
-                        alert.showAndWait();
-                        e1.printStackTrace();
-                    }
-
 
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -243,6 +181,7 @@ public class DiagParserGUI extends Application {
             diagpath = selectedDirectory.getAbsolutePath();
         }
     }
+
     //*** call the analyser interface here****///
     private void startParsing() {
 
@@ -251,14 +190,17 @@ public class DiagParserGUI extends Application {
         boolean b = ff.getInitiateSuccessCheck();
 
         if (b) {
-           // statuspane = sp.createstatusPane(ff);
-          //  dsetoolringpane =  rp.createDsetoolRingPane(ff);
+            // statuspane = sp.createstatusPane(ff);
+            //  dsetoolringpane =  rp.createDsetoolRingPane(ff);
             clusterinfopane = cip.createClusterInfoPane(ff);
             //nodeStatusTitledPane = new NodeStatusTitledPane(ff);
-            nodeStatusTitledPane = new NodeStatusTitledPane(ff).getNodeStatusTitledPane();
+            nsp = new NodeStatusTitledPane(ff);
+            nodeStatusTitledPane = nsp.getNodeStatusTitledPane();
             infopane = nip.createinfoPane(ff);
-            confInfoPane = new ConfInfoPane(ff).getConfInfoPane();
-            cfStatsPane = new CfstatsTitledPane(ff).getCfstatsTitledPane();
+            cfip = new ConfInfoPane(ff);
+            confInfoPane = cfip.getConfInfoPane();
+            cfsp = new CfstatsTitledPane(ff);
+            cfStatsPane = cfsp.getCfstatsTitledPane();
 
         } else {
 
@@ -282,16 +224,16 @@ public class DiagParserGUI extends Application {
         tp.setContent(t);*/
         //border.setCenter(addAnchorPane());
         border.setCenter(addScrollPane());
-        grid.getChildren().removeAll(clusterinfopane,nodeStatusTitledPane,infopane,confInfoPane,cfStatsPane);
+        grid.getChildren().removeAll(clusterinfopane, nodeStatusTitledPane, infopane, confInfoPane, cfStatsPane);
 
 
-        grid.add(clusterinfopane,0,0);
+        grid.add(clusterinfopane, 0, 0);
         //grid.add(statuspane,0,1);
-       // grid.add(dsetoolringpane,0,2);
-        grid.add(nodeStatusTitledPane,0,1);
-        grid.add(infopane,0,2);
-        grid.add(cfStatsPane,0,3);
-        grid.add(confInfoPane,0,4);
+        // grid.add(dsetoolringpane,0,2);
+        grid.add(nodeStatusTitledPane, 0, 1);
+        grid.add(infopane, 0, 2);
+        grid.add(cfStatsPane, 0, 3);
+        grid.add(confInfoPane, 0, 4);
         anchorpane.getChildren().add(grid);
         scrollpane.widthProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -311,6 +253,69 @@ public class DiagParserGUI extends Application {
         // anchorpane.getChildren().add(dsetoolringpane);
     }
 
+    private void saveAnalysisReport()
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String report_status_success_str = "";
+        String report_status_fail_str = "";
+        String cluster_info_report_path = cip.save_cluster_info_report();
+        if (cluster_info_report_path.equals("")
+                || cluster_info_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: cluster_info.out !!\n";
+        } else {
+            report_status_success_str += cluster_info_report_path + "\n";
+        }
+
+        String node_info_report_path = nip.save_node_info_report();
+
+        if (node_info_report_path.equals("")
+                || node_info_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: nodetool_info.out !!\n";
+        } else {
+            report_status_success_str += node_info_report_path + "\n";
+        }
+
+        String node_status_report_path = nsp.save_node_status_report();
+
+        if (node_status_report_path.equals("")
+                || node_status_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: node_status_info.out !!\n";
+        } else {
+            report_status_success_str += node_status_report_path + "\n";
+        }
+
+        String table_stats_report_path = cfsp.save_table_stats_report();
+
+        if (table_stats_report_path.equals("")
+                || table_stats_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: table_stats_info.out !!\n";
+        } else {
+            report_status_success_str += table_stats_report_path + "\n";
+        }
+
+        String node_conf_file_report_path = cfip.save_node_conf_file_report();
+
+        if (node_conf_file_report_path.equals("")
+                || node_conf_file_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: node_conf_file_info.out !!\n";
+        } else {
+            report_status_success_str += node_conf_file_report_path + "\n";
+        }
+
+
+        TextArea textArea = new TextArea("Analysis Report Files saved to: \n" +
+                report_status_success_str + "\n" + report_status_fail_str
+        );
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        GridPane gridPane = new GridPane();
+        gridPane.setMaxWidth(Double.MAX_VALUE);
+        gridPane.add(textArea, 0, 0);
+        alert.setTitle("Analysis is done! ");
+        alert.setHeaderText("");
+        alert.getDialogPane().setContent(gridPane);
+        alert.showAndWait();
+    }
     private AnchorPane addAnchorPane() {
 
 

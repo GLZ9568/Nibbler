@@ -11,6 +11,7 @@ package com.datastax.support.UI;
 
 import com.datastax.support.Analyzer.NodetoolInfoAnalyzer;
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -58,5 +59,10 @@ public class NotoolInfoPane {
     }
     public String getNodetool_info_report() {
         return nodetool_info_report;
+    }
+
+    public String save_node_info_report()
+    {
+        return Inspector.saveReportFile(nodetool_info_report,"nodetool_info.out");
     }
 }

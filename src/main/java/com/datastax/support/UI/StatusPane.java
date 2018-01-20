@@ -10,6 +10,7 @@
 package com.datastax.support.UI;
 
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
@@ -54,5 +55,10 @@ public class StatusPane {
 
     public String getStatus_report() {
         return status_report;
+    }
+
+    public String save_nodestatus_info_report()
+    {
+        return Inspector.saveReportFile(status_report,"nodestatus_info.out");
     }
 }

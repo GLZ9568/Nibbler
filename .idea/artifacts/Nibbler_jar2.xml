@@ -17,6 +17,8 @@
       <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.7" />
       <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.10.0" />
       <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.10.0" />
+      <element id="library" level="project" name="Maven: com.esotericsoftware.yamlbeans:yamlbeans:1.13" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/esotericsoftware/yamlbeans/yamlbeans/1.13/yamlbeans-1.13.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
