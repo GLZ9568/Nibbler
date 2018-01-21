@@ -266,7 +266,8 @@ public class ConfAnalyzer extends Analyzer {
 
         }
 
-        confinfotext += "**  Configuration Parameter Summary **\n\n";
+        confinfotext += "**  Configuration Parameter Summary **\n"
+        +Inspector.generateEqualline(new String("**  Configuration Parameter Summary ***").length())+"\n";
 
         for (String key : keyList) {
             confinfotext += String.format("%1$-" + padding.get(key) + "s", key);
@@ -326,9 +327,9 @@ public class ConfAnalyzer extends Analyzer {
             }
         }
 
-        confinfotext += "\n";
-
-        confinfotext += "**  Seed List Configuration **\n\n";
+        confinfotext +="\n";
+        confinfotext += "**  Seed List Configuration **\n"+
+                Inspector.generateEqualline(new String("**  Seed List Configuration **").length())+"\n\n";
         ArrayList<String> seed_key_list = new ArrayList<String>();
         seed_key_list.add(0, ValFactory.ADDRESS);
         seed_key_list.add(1, ValFactory.SEEDS);
@@ -397,7 +398,7 @@ public class ConfAnalyzer extends Analyzer {
                                          "      - nodes:"+node_list_str+"\n";
             }
 
-            confinfo_warning_header+="\n\n";
+            confinfo_warning_header+="\n";
 
             confinfotext = confinfo_warning_header + confinfotext;
 

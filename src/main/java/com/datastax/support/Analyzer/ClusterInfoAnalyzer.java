@@ -88,7 +88,8 @@ public class ClusterInfoAnalyzer {
         ArrayList<String> snitch = cfp.getSnitch_list();
         //Set<String> seeds = cfp.getSeeds_list();
 
-        clusterinfotext +="#### Cluster Configuration Overview #### \n";
+        clusterinfotext +="** Cluster Configuration Overview **\n" +
+                Inspector.generateEqualline(new String("** Cluster Configuration Overview **").length())+"\n";
         ////1. get cluster name
         if(clustername.size()>1)
         {
@@ -173,7 +174,8 @@ public class ClusterInfoAnalyzer {
             }
             clusterinfotext += "\n";
 
-            clusterinfotext += "#### Cluster Rack Topology #### \n";
+            clusterinfotext += "** Cluster Rack Topology ** \n"+
+            Inspector.generateEqualline(new String("** Cluster Rack Topology **").length())+"\n";
 
             String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
             Arrays.sort(rack_map_arrary);
@@ -272,7 +274,8 @@ public class ClusterInfoAnalyzer {
         * */
 
 
-        clusterinfotext += "#### Node Configuration Details(group by datacenters) ####\n";
+        clusterinfotext += "** Node Configuration Details(group by datacenters) **\n"+
+        Inspector.generateEqualline(new String("** Node Configuration Details(group by datacenters) **").length())+"\n";
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         //logger.debug("JSONArray Size: " + dcArray.size());
         for (Object dc : dcArray) {
