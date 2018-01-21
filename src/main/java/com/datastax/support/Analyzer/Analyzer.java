@@ -12,10 +12,7 @@ package com.datastax.support.Analyzer;
 import com.datastax.support.Util.FileFactory;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextBuilder;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.StringBuilders;
