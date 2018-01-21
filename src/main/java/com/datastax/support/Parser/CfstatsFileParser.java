@@ -61,6 +61,7 @@ public class CfstatsFileParser extends FileParser{
         ]
      }
      **/
+
     private void parse () {
         cfstats = new ArrayList<JSONObject>();
 

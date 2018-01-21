@@ -98,8 +98,9 @@ public class NodetoolInfoAnalyzer {
             t.setText(nodetool_info_warning_text + nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height *3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            //double screen_width = visualBounds.getWidth();
+           // t.setMinHeight(screen_height *3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            t.setMinHeight(Inspector.getDynamicTextAreaHeight(nodetool_info_warning_text + nodetool_info_text));
             t.setEditable(false);
           //  t.setPrefWidth(1024);
           //  t.setMinHeight(450);
@@ -109,8 +110,9 @@ public class NodetoolInfoAnalyzer {
             t.setText(nodetool_info_text);
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height *3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+           // double screen_width = visualBounds.getWidth();
+           // t.setMinHeight(screen_height *3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            t.setMinHeight(Inspector.getDynamicTextAreaHeight(nodetool_info_text));
             t.setEditable(false);
            // t.setPrefWidth(1024);
           //  t.setMinHeight(450);

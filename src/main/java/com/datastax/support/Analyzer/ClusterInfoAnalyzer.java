@@ -18,6 +18,7 @@ import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
@@ -392,8 +393,9 @@ public class ClusterInfoAnalyzer {
                                     String unsupported_msg_str =
                                             "Unsupported OS " + "in DC: " +
                                                     tmpdcvar.get(ValFactory.DATACENTER).toString() + "("
-                                                    + os_name + " " + os_version + " for DSE " + dse_version + ")" + "!!!!"
-                                                    + " Please check " + ValFactory.supported_platform_url + "\n";
+                                                    + os_name + " " + os_version + " for DSE " + dse_version + ")" + "!!"
+                                                    + " Please check: "
+                                                    + ValFactory.supported_platform_url + "\n";
                                     clusterinfotext += "OS Version: " + os_name + " " + os_version +
                                             "(unsupported os: " + os_name + " " + os_version + " for DSE " + dse_version + ")" + "\n";
                                     un_supported_os_msg_set.add(unsupported_msg_str);
@@ -588,7 +590,7 @@ public class ClusterInfoAnalyzer {
             {
                 clusterinfo_warning_header+= "Commitlog directory is on the same disk device with data directory in DC: " +
                         tmpdcvar.get(ValFactory.DATACENTER).toString() +
-                        "(Device name is: "+commitlog_data_dir_set.toArray()[0].toString()+")"+ "!!!!\n";
+                        "(Device name is: "+commitlog_data_dir_set.toArray()[0].toString()+")"+ "!!\n";
                 is_commitlog_dir_same_with_datadir = true;
             }
 
@@ -600,7 +602,7 @@ public class ClusterInfoAnalyzer {
                     dse_version_str+=str+",";
                 }
                 clusterinfo_warning_header+= dse_version_dff_msg_warning +
-                        tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+dse_version_str.substring(0,dse_version_str.length()-1)+")"+ "!!!!\n";
+                        tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+dse_version_str.substring(0,dse_version_str.length()-1)+")"+ "!!\n";
                 is_diff_dse_version = true;
             }
 
@@ -613,7 +615,7 @@ public class ClusterInfoAnalyzer {
                 }
                 clusterinfo_warning_header+= java_version_dff_msg_warning +
                         tmpdcvar.get(ValFactory.DATACENTER).toString()+ "("+java_version_str.substring(0,java_version_str.length()-1)+")" +
-                        "!!!!\n";
+                        "!!\n";
                 is_diff_java_version = true;
             }
 
@@ -694,7 +696,8 @@ public class ClusterInfoAnalyzer {
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            //t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfo_warning_header+clusterinfotext));
             t.setEditable(false);
            // t.setPrefWidth(1024);
 
@@ -709,7 +712,8 @@ public class ClusterInfoAnalyzer {
             Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
             double screen_height =  visualBounds.getHeight() ;
             double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+           // t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+            t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfotext));
             t.setEditable(false);
            // t.setPrefWidth(1024);
            // t.setMinHeight(450);
@@ -763,7 +767,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -785,7 +789,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -805,7 +809,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -825,7 +829,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -845,13 +849,13 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else
                 {
                     clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                 }
 
 
@@ -882,7 +886,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else if(os_name.toLowerCase().contains("oracle linux"))
@@ -901,7 +905,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else if(os_name.toLowerCase().contains("red hat"))
@@ -920,7 +924,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -940,7 +944,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -960,7 +964,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -980,13 +984,13 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else
                 {
                     clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                 }
 
 

@@ -10,6 +10,9 @@
 package com.datastax.support.Util;
 
 import com.datastax.support.Nibbler;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -181,10 +184,27 @@ public final class Inspector {
         return save_file_path;
     }
 
-    public static  void logException (Logger logger, Exception e) {
+    public static void logException (Logger logger, Exception e) {
         StringWriter stackTrace = new StringWriter();
         e.printStackTrace(new PrintWriter(stackTrace));
         logger.error("Exception: " + e);
         logger.error("StackTrace: " + stackTrace.toString());
     }
+
+    public static double getDynamicTextAreaHeight(String input){
+
+        Text text = new Text();
+        text.setText(input);
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        double screen_height = visualBounds.getHeight();
+        double actual_height = text.getLayoutBounds().getHeight() * 1.4;
+
+        double pref_height = screen_height * (3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+        logger.info( " Textarea actual height is: " + actual_height + "  Pref height is: " + pref_height);
+
+        return actual_height > pref_height? pref_height:actual_height;
+
+
+    }
 }
+

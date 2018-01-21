@@ -328,7 +328,7 @@ public class ConfAnalyzer extends Analyzer {
 
         confinfotext += "\n";
 
-        confinfotext += "**  seed list configuration **\n\n";
+        confinfotext += "**  Seed List Configuration **\n\n";
         ArrayList<String> seed_key_list = new ArrayList<String>();
         seed_key_list.add(0, ValFactory.ADDRESS);
         seed_key_list.add(1, ValFactory.SEEDS);
