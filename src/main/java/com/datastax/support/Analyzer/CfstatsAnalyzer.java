@@ -191,7 +191,10 @@ public class CfstatsAnalyzer extends Analyzer {
                                 maxTombstoneMap.put(maxTombstoneMapKey, maxTombstonePerSlice);
 
                                 ArrayList<String> maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-/*null pointer for this line*/                        table.get(ValFactory.TABLE).toString(), String.valueOf(maxTombstonePerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
+/*null pointer for  table.get(ValFactory.NUMBER_OF_KEYS)
+*  in dse 5.1, it is changed to Number of partitions (estimate)
+*
+* */                        table.get(ValFactory.TABLE).toString(), String.valueOf(maxTombstonePerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
                                         table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
                                 if (maxTombstoneKeys.size() == maxTomeStonePerSliceValueList.size()) {
                                     for (int i = 0; i < maxTombstoneKeys.size(); i++) {

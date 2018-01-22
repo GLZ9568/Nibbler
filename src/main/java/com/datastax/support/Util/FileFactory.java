@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -39,6 +40,8 @@ public class FileFactory {
     private ArrayList<NibProperties> addressYamlPropertiesList;
     private ArrayList<NibProperties> dseYamlPropertiesList;
     private ArrayList<NibProperties> clusterConfPropertiesList;
+    private ArrayList<Map<String,Object>> cassandraYamlPropertyList;
+    private ArrayList<Map<String,Object>> dseYamlPropertyList;
     private ArrayList<JSONObject> describeClusterJSONList;
     private JSONObject dsetoolRingJSON;
     private JSONFileParser jsonFileParser;
@@ -100,6 +103,8 @@ public class FileFactory {
         this.nodetoolStatusJSON = new NodetoolStatusFileParser(allFiles).getNodetoolStatusJSON();
         this.tpstatsJSONList = new TpstatsFileParser(allFiles).getTpstatsJSONList();
         this.proxyHistogramsJSONList = new ProxyHistogramsFileParser(allFiles).getProxyHistogramsJSONList();
+        this.cassandraYamlPropertyList =  new YamlFileParser(allFiles).getCassandraYamlPropertiesList();
+        this.dseYamlPropertyList = new YamlFileParser(allFiles).getDSEYamlPropertiesList();
     }
 
     // get variables and objects created from input files
@@ -189,5 +194,13 @@ public class FileFactory {
 
     public ArrayList<JSONObject> getProxyHistogramsJSONList() {
         return proxyHistogramsJSONList;
+    }
+
+    public ArrayList<Map<String, Object>> getCassandraYamlPropertyList() {
+        return cassandraYamlPropertyList;
+    }
+
+    public ArrayList<Map<String, Object>> getDseYamlPropertyList() {
+        return dseYamlPropertyList;
     }
 }

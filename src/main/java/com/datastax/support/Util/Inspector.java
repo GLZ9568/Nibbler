@@ -92,6 +92,10 @@ public final class Inspector {
         return input.split(":");
     }
 
+    public static String[] splitByEqual(String input) {
+        return input.split("=");
+    }
+
     public static String[] splitBySlash(String input) {
         return input.split("/");
     }
@@ -105,6 +109,33 @@ public final class Inspector {
     public static String secToTime(int sec, boolean fullformat) {
         int seconds = sec % 60;
         int minutes = sec / 60;
+        if (minutes >= 60) {
+            int hours = minutes / 60;
+            minutes %= 60;
+            if (hours >= 24) {
+                int days = hours / 24;
+                if (fullformat) {
+                    return String.format("%d days %02d hours %02d minutes %02d seconds", days, hours % 24, minutes, seconds);
+                } else {
+                    return String.format("%dd %02dh %02dm %02ds", days, hours % 24, minutes, seconds);
+                }
+            }
+            if (fullformat) {
+                return String.format("%02d hours %02d minutes %02d seconds", hours, minutes, seconds);
+            } else {
+                return String.format("%02dh %02dm %02ds", hours, minutes, seconds);
+            }
+        }
+        if (fullformat) {
+            return String.format("%02d minutes %02d seconds", minutes, seconds);
+        } else {
+            return String.format("%02dm %02ds", minutes, seconds);
+        }
+    }
+
+    public static String milsecToTime(int milsec, boolean fullformat) {
+        int seconds = milsec/1000 % 60;
+        int minutes = milsec/1000 / 60;
         if (minutes >= 60) {
             int hours = minutes / 60;
             minutes %= 60;

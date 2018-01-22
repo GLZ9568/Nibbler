@@ -31,9 +31,13 @@ public class ConfAnalyzer extends Analyzer {
     private final static Logger logger = LogManager.getLogger("ConfAnalyzer.class");
     private ArrayList<NibProperties> cassandraYamlPropertiesList;
     private ArrayList<NibProperties> dseYamlPropertiesList;
+    private ArrayList<Map<String,Object>> cassandraYamlPropertyList;
+    private ArrayList<Map<String,Object>> dseYamlPropertyList;
     private JSONObject nodetoolStatusJSON;
     private ArrayList<String> keyList = new ArrayList<String>();
     private ArrayList<JSONObject> conf_obj_list = new ArrayList<JSONObject>();
+    private Map<String,Object> cas_map =  new HashMap<String, Object>();
+    private Map<String,Object> dse_map = new HashMap<String, Object>();
 
     private JSONObject padding = new JSONObject();
 
@@ -41,6 +45,8 @@ public class ConfAnalyzer extends Analyzer {
         super(fileFactory);
         this.cassandraYamlPropertiesList = fileFactory.getCassandraYamlPropertiesList();
         this.dseYamlPropertiesList = fileFactory.getDSEYamlPropertiesList();
+        this.cassandraYamlPropertyList = fileFactory.getCassandraYamlPropertyList();
+        this.dseYamlPropertyList = fileFactory.getDseYamlPropertyList();
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
     }
     /*
@@ -131,14 +137,45 @@ public class ConfAnalyzer extends Analyzer {
                         splitline[2] = "PasswordAuthenticator";
                     else
                         splitline[2] = np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase());
-
+/*
                     if (np_dseyaml.getProperty("default_scheme") != null) {
 
                         splitline[3] = np_dseyaml.getProperty("default_scheme");
 
                         logger.info(splitline[0] + " authentication_options in dse.yaml is: " + splitline[3]);
                     } else
+                        splitline[3] = "NaN";*/
+                    ////// get auth option in dse.yaml///
+
+                    if(splitline[2].equals("DseAuthenticator")) {
+                        for (Map<String, Object> dse_map_tmp : dseYamlPropertyList) {
+                            dse_map = dse_map_tmp;
+                            for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
+                                if (splitline[0].equals(entry.getKey())) {
+                                    Map map = (Map) entry.getValue();
+                                    logger.info("ip is: " + entry.getKey());
+
+                                    String auth_option_str = map.get("authentication_options").toString();
+                                    logger.info("dse.yaml auth options is : " + auth_option_str);
+
+                                    String[] auth_options = Inspector.splitByComma
+                                            (auth_option_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : auth_options) {
+                                        if (str.contains("default_scheme")) {
+                                            splitline[3] = Inspector.splitByEqual(str)[1];
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    else
                         splitline[3] = "NaN";
+
+                    //////// end of get auth option in dse.yaml/////
+
 
                     if (np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).toLowerCase().contains("dseauthorizer"))
                         splitline[4] = "DseAuthorizer";
@@ -182,7 +219,8 @@ public class ConfAnalyzer extends Analyzer {
                         logger.info(splitline[0] + " stream timeout(null) is : " +
                                 np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
                     } else {
-                        splitline[10] = np_casyaml.getProperty("streaming_socket_timeout_in_ms");
+                        String str = np_casyaml.getProperty("streaming_socket_timeout_in_ms");
+                        splitline[10] = str + "("+Inspector.milsecToTime(Integer.valueOf(str),false)+")";
                         logger.info(splitline[0] + " stream timeout is(not null) : " +
                                 np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
                     }
@@ -199,6 +237,7 @@ public class ConfAnalyzer extends Analyzer {
                     } else
                         splitline[12] = "NaN";
 
+                   /*
                     if (np_dseyaml.getProperty("mode") != null) {
 
                         if (np_dseyaml.getProperty("mode").toLowerCase().equals("internal") ||
@@ -212,6 +251,45 @@ public class ConfAnalyzer extends Analyzer {
 
                     } else
                         splitline[13] = "NaN";
+
+                    */
+
+                    ///// get role_management_options in dse.yaml/////
+
+                    if(splitline[12].equals("DseRoleManager")) {
+                        for (Map<String, Object> dse_map_tmp : dseYamlPropertyList) {
+                            dse_map = dse_map_tmp;
+                            for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
+                                if (splitline[0].equals(entry.getKey())) {
+                                    Map map = (Map) entry.getValue();
+                                    logger.info("ip is: " + entry.getKey());
+
+                                    Object role_man_opt_obj = map.get("role_management_options");
+                                    if(role_man_opt_obj != null) {
+                                        String dse_role_option_str = role_man_opt_obj.toString();
+                                        logger.info("dse.yaml auth options is : " + dse_role_option_str);
+
+                                        String[] role_options = Inspector.splitByComma
+                                                (dse_role_option_str.trim().replaceAll("[{|}]", ""));
+
+                                        for (String str : role_options) {
+                                            if (str.contains("mode")) {
+                                                splitline[13] = Inspector.splitByEqual(str)[1];
+                                            }
+                                        }
+                                    }
+                                    else
+                                        splitline[13] = "NaN";
+
+                                }
+                            }
+                        }
+                    }
+                    else
+                        splitline[13] = "NaN";
+                    ///// end of role_management_options in dse.yaml////
+
+
 
                     if (np_casyaml.getProperty("roles_validity_in_ms") != null)
                         splitline[14] = np_casyaml.getProperty("roles_validity_in_ms");
@@ -266,6 +344,11 @@ public class ConfAnalyzer extends Analyzer {
 
         }
 
+        if(cassandraYamlPropertiesList.size()==0)
+        {
+            confinfotext +="Not found cassandra.yaml files!!";
+            return confinfotext;
+        }
         confinfotext += "**  Configuration Parameter Summary **\n"
         +Inspector.generateEqualline(new String("**  Configuration Parameter Summary ***").length())+"\n";
 
@@ -328,8 +411,9 @@ public class ConfAnalyzer extends Analyzer {
         }
 
         confinfotext +="\n";
-        confinfotext += "**  Seed List Configuration **\n"+
-                Inspector.generateEqualline(new String("**  Seed List Configuration **").length())+"\n\n";
+        confinfotext += "**  Seed List Configuration **\n\n"
+              //  + Inspector.generateEqualline(new String("**  Seed List Configuration **").length())+"\n\n"
+        ;
         ArrayList<String> seed_key_list = new ArrayList<String>();
         seed_key_list.add(0, ValFactory.ADDRESS);
         seed_key_list.add(1, ValFactory.SEEDS);

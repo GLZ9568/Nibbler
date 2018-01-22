@@ -28,8 +28,10 @@ public class NibProperties extends Properties {
         Scanner scanner = new Scanner(input);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
+        ////- {seeds: "10.22.106.86"} - seeds:
         while (scanner.hasNext()) {
-            output.write(scanner.nextLine().replaceAll("[ -]", "").getBytes());
+            output.write(scanner.nextLine().replaceAll("[ -]", "")
+                    .replaceAll("[{|}]", "").getBytes());
             output.write("\n".getBytes());
         }
 
