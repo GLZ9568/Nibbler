@@ -303,6 +303,7 @@ public class DiagParserGUI extends Application {
         );
         textArea.setEditable(false);
         textArea.setWrapText(true);
+
         GridPane gridPane = new GridPane();
         gridPane.setMaxWidth(Double.MAX_VALUE);
         gridPane.add(textArea, 0, 0);

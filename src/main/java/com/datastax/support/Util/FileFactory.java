@@ -57,7 +57,7 @@ public class FileFactory {
     private JSONObject nodetoolStatusJSON;
     private ArrayList<JSONObject> tpstatsJSONList;
     private ArrayList<JSONObject> proxyHistogramsJSONList;
-
+    private ArrayList<JSONObject> info_obj_list = new ArrayList<JSONObject>();
 
     public FileFactory(final File inputDirectory) {
         this.inputDirectory = inputDirectory;
@@ -105,6 +105,7 @@ public class FileFactory {
         this.proxyHistogramsJSONList = new ProxyHistogramsFileParser(allFiles).getProxyHistogramsJSONList();
         this.cassandraYamlPropertyList =  new YamlFileParser(allFiles).getCassandraYamlPropertiesList();
         this.dseYamlPropertyList = new YamlFileParser(allFiles).getDSEYamlPropertiesList();
+        this.info_obj_list = new NodetoolInfoParser(allFiles).getNodetoolInfoJSONList();
     }
 
     // get variables and objects created from input files
@@ -202,5 +203,9 @@ public class FileFactory {
 
     public ArrayList<Map<String, Object>> getDseYamlPropertyList() {
         return dseYamlPropertyList;
+    }
+
+    public ArrayList<JSONObject> getInfo_obj_list() {
+        return info_obj_list;
     }
 }

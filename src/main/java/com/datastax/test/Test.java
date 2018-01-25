@@ -33,12 +33,16 @@ public class Test extends Nibbler {
     private final File linDir = new File ("/Users/tongjixianing/Downloads/crm3prod-diagnostics-2017_11_23_10_10_44_UTC");
     //private final File linDir = new File ("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC");
 
+    int value  =  1516770326 + 630720000;
+
+
     protected FileFactory fileFactory;
     protected ArrayList<File> files;
 
     public void initiate() {
         files = new ArrayList<File>();
 
+       logger.info(value);
         if (Inspector.foundWindowsOS()) {
             logger.debug("Reading From: " + winDir + "\\");
             fileFactory = new FileFactory(winDir);

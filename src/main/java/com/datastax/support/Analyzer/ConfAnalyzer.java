@@ -154,18 +154,21 @@ public class ConfAnalyzer extends Analyzer {
                                 if (splitline[0].equals(entry.getKey())) {
                                     Map map = (Map) entry.getValue();
                                     logger.info("ip is: " + entry.getKey());
+                                    String auth_option_str="";
+                                    if(map.get("authentication_options")!=null) {
+                                        auth_option_str = map.get("authentication_options").toString();
+                                        logger.info("dse.yaml auth options is : " + auth_option_str);
 
-                                    String auth_option_str = map.get("authentication_options").toString();
-                                    logger.info("dse.yaml auth options is : " + auth_option_str);
+                                        String[] auth_options = Inspector.splitByComma
+                                                (auth_option_str.trim().replaceAll("[{|}]", ""));
 
-                                    String[] auth_options = Inspector.splitByComma
-                                            (auth_option_str.trim().replaceAll("[{|}]", ""));
-
-                                    for (String str : auth_options) {
-                                        if (str.contains("default_scheme")) {
-                                            splitline[3] = Inspector.splitByEqual(str)[1];
+                                        for (String str : auth_options) {
+                                            if (str.contains("default_scheme")) {
+                                                splitline[3] = Inspector.splitByEqual(str)[1];
+                                            }
                                         }
-                                    }
+                                    }else
+                                        splitline[3] = "NaN";
 
                                 }
                             }
@@ -411,8 +414,8 @@ public class ConfAnalyzer extends Analyzer {
         }
 
         confinfotext +="\n";
-        confinfotext += "**  Seed List Configuration **\n\n"
-              //  + Inspector.generateEqualline(new String("**  Seed List Configuration **").length())+"\n\n"
+        confinfotext += "**  Seed List Configuration **\n"
+               + Inspector.generateEqualline(new String("**  Seed List Configuration **").length())+"\n"
         ;
         ArrayList<String> seed_key_list = new ArrayList<String>();
         seed_key_list.add(0, ValFactory.ADDRESS);
@@ -421,8 +424,13 @@ public class ConfAnalyzer extends Analyzer {
             JSONObject tmpdcvar = (JSONObject) dc;
             JSONArray nodesarrary = (JSONArray) tmpdcvar.get(ValFactory.NODES);
             String dc_name = tmpdcvar.get(ValFactory.DATACENTER).toString();
-            confinfotext += "Datacenter: " + dc_name + "\n";
-            confinfotext += Inspector.generateEqualline(12 + dc_name.length()) + "\n";
+
+            String dotlinestr = Inspector.generateDotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
+            confinfotext +=dotlinestr +
+                    ">>>Datacenter: "+ tmpdcvar.get(ValFactory.DATACENTER).toString()+"<<<<\n"+
+                    dotlinestr;
+            //confinfotext += "Datacenter: " + dc_name + "\n";
+           // confinfotext += Inspector.generateEqualline(12 + dc_name.length()) + "\n";
             JSONObject dcpadding = getPaddingbyDC(dc_name, seed_key_list);
             for (String key : seed_key_list) {
                 confinfotext += String.format("%1$-" + dcpadding.get(key) + "s", key);

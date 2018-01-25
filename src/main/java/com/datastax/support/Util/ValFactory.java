@@ -61,7 +61,7 @@ public class ValFactory {
     public static final String TOTAL_SPACE = "total_space";
     public static final String USED_SPACE = "used_space";
     public static final String DISK_SPACE_USAGE = "disk_space_usage";
-
+    public static final String PERCENT_REPAIRED = "percent_repaired";
     // file names
     // conf file names;
     public static final String CLUSTER_INFO_JSON = "cluster_info.json";
@@ -143,6 +143,7 @@ public class ValFactory {
     public static final String DATACENTER = "Datacenter";
     public static final String DATA_CENTER = "Data Center";
     public static final String ADDRESS = "Address";
+    public static final String HOSTNAME = "Hostname";
     public static final String LOAD = "Load";
     public static final String TOKENS = "Tokens";
     public static final String OWNS = "Owns";

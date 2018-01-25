@@ -47,7 +47,7 @@ public class ClusterInfoAnalyzer {
     public TextArea generateClusterInfoOutput(FileFactory ff) {
 
         TextArea t = new TextArea();
-        TextFlow flow = new TextFlow();
+       // TextFlow flow = new TextFlow();
         ClusterInfoParser cip = new ClusterInfoParser(ff);
         DiskSpaceParser dsp = new DiskSpaceParser();
         dsp.parse(ff.getAllFiles());
