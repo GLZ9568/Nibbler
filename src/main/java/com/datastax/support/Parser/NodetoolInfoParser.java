@@ -116,7 +116,7 @@ public class NodetoolInfoParser {
                             //Arrays.sort(splitLine);
                             nodetoolInfoJSON.put(ValFactory.INFO_USEDHEAP, splitLine1[0].trim());
                             nodetoolInfoJSON.put(ValFactory.INFO_TOTALHEAP, splitLine1[1].trim());
-                           // logger.info("Heap Memory: " + splitLine1[0] + "/" + splitLine1[1]);
+                            //logger.info("Heap Memory: " + splitLine1[0] + "/" + splitLine1[1]);
                         }
                         if (currentLine.toLowerCase().contains("off heap memory")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
