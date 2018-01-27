@@ -152,7 +152,7 @@ public class ClusterInfoParser extends FileParser{
                     //PrintWriter pw = new PrintWriter(sw);
                     //ioe.printStackTrace(pw);
                     //logger.error(sw.toString());
-                    logger.error(Inspector.getStackTrace(ioe));
+                    logger.error("node: " + setIP(filename.getAbsolutePath())+"\n"+Inspector.getStackTrace(ioe));
                     //ioe.printStackTrace();
                 }
                 catch (ParseException pe){
@@ -165,7 +165,7 @@ public class ClusterInfoParser extends FileParser{
                     //PrintWriter pw = new PrintWriter(sw);
                     //pe.printStackTrace(pw);
                     //logger.error(sw.toString());
-                    logger.error(Inspector.getStackTrace(pe));
+                    logger.error("node: " + setIP(filename.getAbsolutePath())+"\n"+ Inspector.getStackTrace(pe));
                     //pe.printStackTrace();
                 }
                 catch (Exception e)
@@ -179,7 +179,7 @@ public class ClusterInfoParser extends FileParser{
                     //PrintWriter pw = new PrintWriter(sw);
                     //e.printStackTrace(pw);
                     //logger.error(sw.toString());
-                    logger.error(Inspector.getStackTrace(e));
+                    logger.error("node: " + setIP(filename.getAbsolutePath())+"\n"+Inspector.getStackTrace(e));
                     //e.printStackTrace();
                 }
 
