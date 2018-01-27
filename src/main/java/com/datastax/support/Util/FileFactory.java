@@ -10,6 +10,7 @@
 package com.datastax.support.Util;
 
 import com.datastax.support.Parser.*;
+import com.datastax.support.UI.ClusterinfoPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -36,6 +37,7 @@ public class FileFactory {
 
     private ArrayList<JSONObject> cfstatsList;
     private ConfFileParser confFileParser;
+    private ClusterInfoParser cip;
     private ArrayList<NibProperties> cassandraYamlPropertiesList;
     private ArrayList<NibProperties> addressYamlPropertiesList;
     private ArrayList<NibProperties> dseYamlPropertiesList;
@@ -58,6 +60,18 @@ public class FileFactory {
     private ArrayList<JSONObject> tpstatsJSONList;
     private ArrayList<JSONObject> proxyHistogramsJSONList;
     private ArrayList<JSONObject> info_obj_list = new ArrayList<JSONObject>();
+
+    private JSONObject cluster_info_obj;
+    private JSONObject node_info_obj;
+    private ArrayList<JSONObject> cpu_obj_list;
+    private ArrayList<JSONObject> java_system_properties_obj_list;
+    private ArrayList<JSONObject> machine_info_obj_list;
+    private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> os_info_obj_list;
+    private ArrayList<JSONObject> disk_space_obj_list;
+
+    private ArrayList<String> clusterName;
+    private ArrayList<String> snitch_list;
 
     public FileFactory(final File inputDirectory) {
         this.inputDirectory = inputDirectory;
@@ -83,9 +97,11 @@ public class FileFactory {
 
     private void parse () {
         this.cfstatsList = new CfstatsFileParser(allFiles).getCfstatsList();
+
         this.confFileParser = new ConfFileParser(allFiles);
         this.cassandraYamlPropertiesList = confFileParser.getCassandraYamlPropertiesList();
         this.addressYamlPropertiesList = confFileParser.getAddressYamlPropertiesList();
+
         this.dseYamlPropertiesList = confFileParser.getDSEYamlPropertiesList();
         this.clusterConfPropertiesList = confFileParser.getClusterConfPropertiesList();
         this.describeClusterJSONList = new DescribeClusterFileParser(allFiles).getDescribeClusterJSONList();
@@ -106,6 +122,19 @@ public class FileFactory {
         this.cassandraYamlPropertyList =  new YamlFileParser(allFiles).getCassandraYamlPropertiesList();
         this.dseYamlPropertyList = new YamlFileParser(allFiles).getDSEYamlPropertiesList();
         this.info_obj_list = new NodetoolInfoParser(allFiles).getNodetoolInfoJSONList();
+
+        this.clusterName = this.confFileParser.getClusterName();
+        this.snitch_list = this.confFileParser.getSnitch_list();
+        cip = new ClusterInfoParser(allFiles);
+        this.disk_space_obj_list = new DiskSpaceParser(allFiles).getDisk_space_obj_list();
+        this.cluster_info_obj =  cip.getCluster_info_obj();
+        this.node_info_obj = cip.getNode_info_obj();
+        this.cpu_obj_list = cip.getCpu_obj_list();
+        this.java_system_properties_obj_list = cip.getJava_system_properties_obj_list();
+        this.machine_info_obj_list = cip.getMachine_info_obj_list();
+        this.ntptime_obj_list = cip.getNtptime_list();
+        this.os_info_obj_list = cip.getOs_info_obj_list();
+
     }
 
     // get variables and objects created from input files
@@ -207,5 +236,61 @@ public class FileFactory {
 
     public ArrayList<JSONObject> getInfo_obj_list() {
         return info_obj_list;
+    }
+
+    public JSONObject getCluster_info_obj() {
+        return cluster_info_obj;
+    }
+
+    public JSONObject getNode_info_obj() {
+        return node_info_obj;
+    }
+
+    public ArrayList<JSONObject> getCpu_obj_list() {
+        return cpu_obj_list;
+    }
+
+    public ArrayList<JSONObject> getJava_system_properties_obj_list() {
+        return java_system_properties_obj_list;
+    }
+
+    public ArrayList<JSONObject> getMachine_info_obj_list() {
+        return machine_info_obj_list;
+    }
+
+    public ArrayList<JSONObject> getNtptime_obj_list() {
+        return ntptime_obj_list;
+    }
+
+    public ArrayList<JSONObject> getOs_info_obj_list() {
+        return os_info_obj_list;
+    }
+
+    public ArrayList<JSONObject> getDisk_space_obj_list() {
+        return disk_space_obj_list;
+    }
+
+    public ArrayList<NibProperties> getDseYamlPropertiesList() {
+        return dseYamlPropertiesList;
+    }
+
+    public JSONFileParser getJsonFileParser() {
+        return jsonFileParser;
+    }
+
+    public ArrayList<JSONObject> getOsInfoJSONList() {
+        return osInfoJSONList;
+    }
+
+    public ArrayList<JSONObject> getCpuJSONList() {
+        return cpuJSONList;
+    }
+
+    public ArrayList<String> getClusterName() {
+        return clusterName;
+    }
+
+    public ArrayList<String> getSnitch_list() {
+        return snitch_list;
     }
 }

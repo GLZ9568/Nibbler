@@ -140,7 +140,7 @@ public class DiagParserGUI extends Application {
                     double screen_width = visualBounds.getWidth();
                     double screen_height = visualBounds.getHeight();
                     //primaryStage.setScene(new Scene(border, screen_width * 0.7+15, screen_height * 0.8));
-                    primaryStage.setMinWidth(screen_width*0.7+15);
+                    primaryStage.setMinWidth(screen_width * 0.7 + 15);
                     displayAnalysisResult();
                     saveAnalysisReport();
                     buttonAnalyzed.setDisable(false);
@@ -248,8 +248,7 @@ public class DiagParserGUI extends Application {
         // anchorpane.getChildren().add(dsetoolringpane);
     }
 
-    private void saveAnalysisReport()
-    {
+    private void saveAnalysisReport() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String report_status_success_str = "";
         String report_status_fail_str = "";
@@ -312,6 +311,7 @@ public class DiagParserGUI extends Application {
         alert.getDialogPane().setContent(gridPane);
         alert.showAndWait();
     }
+
     private AnchorPane addAnchorPane() {
 
 

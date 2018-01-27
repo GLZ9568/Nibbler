@@ -73,6 +73,7 @@ public class ValFactory {
     public static final String MACHINE_INFO_JSON = "machine-info.json";
     public static final String DISK_SPACE_JSON = "disk_space.json";
     public static final String NTPTIME = "ntptime";
+    public static final String NTPSTAT = "ntpstat";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";

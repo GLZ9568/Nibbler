@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by Mike Zhang on 30/11/2017.
  */
 
-public class ClusterInfoParser {
+public class ClusterInfoParser extends FileParser{
 
     private static final Logger logger = LogManager.getLogger(ClusterInfoParser.class);
 
@@ -44,9 +44,11 @@ public class ClusterInfoParser {
     private boolean ismachine_infoexist = false;
     */
 
-    public ClusterInfoParser(FileFactory ff) {
+    public ClusterInfoParser(ArrayList<File> files) {
 
-        ArrayList<File> filelist = ff.getAllFiles();
+        super(files);
+
+      //  ArrayList<File> filelist = ff.getAllFiles();
         File filename;
         cluster_info_obj =  new JSONObject();
         cluster_info_obj.put(ValFactory.ISCLUSTER_INFOEXIST,"false");
@@ -58,9 +60,9 @@ public class ClusterInfoParser {
         ntptime_obj_list = new ArrayList<JSONObject>();
         os_info_obj_list = new ArrayList<JSONObject>();
 
-        for (int i =0; i < filelist.size();++i)
+        for (int i =0; i < files.size();++i)
         {
-            filename = filelist.get(i);
+            filename = files.get(i);
             if(filename.getName().contains(ValFactory.CLUSTER_INFO_JSON))
             {
                 try {
@@ -280,17 +282,6 @@ public class ClusterInfoParser {
         return node_info_obj;
     }
 
-    public ArrayList<JSONObject> getCpu_obj() {
-        return cpu_obj_list;
-    }
-
-    public ArrayList<JSONObject> getJava_system_properties_obj() {
-        return java_system_properties_obj_list;
-    }
-
-    public ArrayList<JSONObject> getMachine_info_obj() {
-        return machine_info_obj_list;
-    }
 
     public ArrayList<JSONObject> getCpu_obj_list() {
         return cpu_obj_list;

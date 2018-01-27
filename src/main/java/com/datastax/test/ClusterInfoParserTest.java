@@ -31,9 +31,9 @@ public class ClusterInfoParserTest {
 
         if (b)
         {
-            ClusterInfoAnalyzer cia =  new ClusterInfoAnalyzer();
+            ClusterInfoAnalyzer cia =  new ClusterInfoAnalyzer(ff);
 
-            cia.generateClusterInfoOutput(ff);
+            cia.generateClusterInfoOutput();
 
             /*
             ClusterInfoParser cip = new ClusterInfoParser(ff);

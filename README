@@ -52,6 +52,9 @@ timeout
 
 auth method
 
+10. node resource(sort by cpu idle in desc )
+
+ip, total phy mem, used phy mem, total heap, used heap, off heap, user, sys,steal,nice, iowait, idle
 
 
 

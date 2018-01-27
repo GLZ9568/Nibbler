@@ -41,13 +41,14 @@ public class NodetoolInfoAnalyzer extends Analyzer{
     private JSONObject padding = new JSONObject();
     private JSONObject nodetoolStatusJSON;
     private ArrayList<JSONObject> info_obj_list = new ArrayList<JSONObject>();
-    private ClusterInfoParser cip;
+    private JSONObject node_info_obj;
     public NodetoolInfoAnalyzer(FileFactory fileFactory) {
         super(fileFactory);
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
         this.info_obj_list = fileFactory.getInfo_obj_list();
+        this.node_info_obj = fileFactory.getNode_info_obj();
     }
-    public TextArea generateNodetoolInfoOutput(FileFactory ff) {
+    public TextArea generateNodetoolInfoOutput() {
         TextArea t = new TextArea();
 
         //NodetoolInfoParser nip = new NodetoolInfoParser(ff.getAllFiles());
@@ -59,7 +60,7 @@ public class NodetoolInfoAnalyzer extends Analyzer{
        // NodetoolStatusFileParser nodetoolStatusParser = new NodetoolStatusFileParser(ff.getAllFiles());
       //  nodetoolStatusJSON = nodetoolStatusParser.getNodetoolStatusJSON();
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
-        cip = new ClusterInfoParser(ff);
+       // cip = new ClusterInfoParser(ff);
         keyList.add(0, ValFactory.ADDRESS);
         keyList.add(1,ValFactory.HOSTNAME);
         keyList.add(2, ValFactory.UPTIME_SECONDS);
@@ -114,8 +115,8 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                         nodetool_info_text += String.format("%1$-" +
                                 dcpadding.get(ValFactory.ADDRESS) + "s", nodetool_info_obj.get(ValFactory.FILE_ID));
                         JSONObject node_obj = null;
-                        if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                            node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                        if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                            node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                         if(node_obj !=null)
                         {
@@ -218,8 +219,8 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                             * */
                             splitline[0] = file_id;
                             JSONObject node_obj = null;
-                            if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                                node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                            if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                                node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                             if(node_obj !=null)
                             {

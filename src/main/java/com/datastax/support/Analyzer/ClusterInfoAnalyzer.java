@@ -32,7 +32,7 @@ import java.util.*;
  * Created by Mike Zhang on 2/12/2017.
  */
 
-public class ClusterInfoAnalyzer {
+public class ClusterInfoAnalyzer extends Analyzer{
 
     private static final Logger logger = LogManager.getLogger(ClusterInfoAnalyzer.class);
     private boolean is_mul_cluster_name = false;
@@ -42,19 +42,44 @@ public class ClusterInfoAnalyzer {
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
     boolean is_commitlog_dir_same_with_datadir = false;
+    private JSONObject cluster_info_obj;
+    private JSONObject node_info_obj;
+    private ArrayList<JSONObject> cpu_obj_list;
+    private ArrayList<JSONObject> java_system_properties_obj_list;
+    private ArrayList<JSONObject> machine_info_obj_list;
+    private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> os_info_obj_list;
+    private ArrayList<JSONObject> disk_space_obj_list;
+    private ArrayList<String> clustername;
+    private ArrayList<String> snitch;
+    private  JSONObject nodetoolStatusJSON;
 
+    public ClusterInfoAnalyzer(FileFactory fileFactory) {
+        super(fileFactory);
+        this.cluster_info_obj = fileFactory.getCluster_info_obj();
+        this.node_info_obj = fileFactory.getNode_info_obj();
+        this.cpu_obj_list = fileFactory.getCpu_obj_list();
+        this.java_system_properties_obj_list = fileFactory.getJava_system_properties_obj_list();
+        this.machine_info_obj_list = fileFactory.getMachine_info_obj_list();
+        this.ntptime_obj_list = fileFactory.getNtptime_obj_list();
+        this.os_info_obj_list = fileFactory.getOs_info_obj_list();
+        this.disk_space_obj_list = fileFactory.getDisk_space_obj_list();
+        this.clustername = fileFactory.getClusterName();
+        this.snitch = fileFactory.getSnitch_list();
+        this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
+    }
 
-    public TextArea generateClusterInfoOutput(FileFactory ff) {
+    public TextArea generateClusterInfoOutput() {
 
         TextArea t = new TextArea();
        // TextFlow flow = new TextFlow();
-        ClusterInfoParser cip = new ClusterInfoParser(ff);
-        DiskSpaceParser dsp = new DiskSpaceParser();
-        dsp.parse(ff.getAllFiles());
-        JSONObject nodetoolStatusJSON = new JSONObject();
+        //ClusterInfoParser cip = new ClusterInfoParser(ff);
+       // DiskSpaceParser dsp = new DiskSpaceParser();
+       // dsp.parse(ff.getAllFiles());
+        //JSONObject nodetoolStatusJSON = new JSONObject();
 
-        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
-        nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
+       // NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
+      //  nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
 
         String clusterinfotext = new String();
 
@@ -82,10 +107,10 @@ public class ClusterInfoAnalyzer {
          *
          */
 
-        ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
+        //ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
 
-        ArrayList<String> clustername = cfp.getClusterName();
-        ArrayList<String> snitch = cfp.getSnitch_list();
+       // ArrayList<String> clustername = cfp.getClusterName();
+       // ArrayList<String> snitch = cfp.getSnitch_list();
         //Set<String> seeds = cfp.getSeeds_list();
 
         clusterinfotext +="** Cluster Configuration Overview **\n" +
@@ -112,14 +137,14 @@ public class ClusterInfoAnalyzer {
         }
 
         ////2. get number of DCs
-        if(cip.getCluster_info_obj().get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        if(cluster_info_obj.get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
         {
-            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
+            clusterinfotext += "Number of Data Centers: " + cluster_info_obj.get("dc_count")+ "\n";
 
 
             ///3. get number of nodes: ////
 
-            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count") + "\n";
+            clusterinfotext += "Number of Nodes: " + cluster_info_obj.get("node_count") + "\n";
         }
             /// get snitch ////
 
@@ -143,11 +168,11 @@ public class ClusterInfoAnalyzer {
                 clusterinfotext +="Snitch: " + snitch.get(0) + "\n";
             }
 
-        if(cip.getCluster_info_obj().get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        if(cluster_info_obj.get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
         {
             ///4. get instance types
 
-            JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
+            JSONArray instance_types = (JSONArray) cluster_info_obj.get("cluster_instance_types");
 
             /// If it is not AWS instances, instance_types will be null
             if (instance_types !=null) {
@@ -156,16 +181,16 @@ public class ClusterInfoAnalyzer {
                     if(instance_types.get(i) !=null) {
                         clusterinfotext += "  - " + instance_types.get(i).toString()
                                 + "(" + ValFactory.aws_instance.get(instance_types.get(i).toString()) + ")" + "\n";
-                        clusterinfotext += "     "+get_aws_dc(cip,nodetoolStatusJSON, instance_types.get(i).toString()) + "\n";
+                        clusterinfotext += "     "+get_aws_dc(/*cip,*/nodetoolStatusJSON, instance_types.get(i).toString()) + "\n";
                     }
                     else {
                         clusterinfotext += "  - Not AWS instance \n";
-                        clusterinfotext += "     "+get_non_aws_dc(cip,nodetoolStatusJSON) + "\n";
+                        clusterinfotext += "     "+get_non_aws_dc(/*cip,*/nodetoolStatusJSON) + "\n";
                     }
                 }
             }
 
-            JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
+            JSONArray cluster_os = (JSONArray) cluster_info_obj.get("cluster_os");
             clusterinfotext +="Cluster OS Version: \n";
 
             for (int i=0; i< cluster_os.size();++i)
@@ -177,7 +202,7 @@ public class ClusterInfoAnalyzer {
             clusterinfotext += "** Cluster Rack Topology ** \n"+
             Inspector.generateEqualline(new String("** Cluster Rack Topology **").length())+"\n";
 
-            String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
+            String[] rack_map_arrary = Inspector.splitByComma(cluster_info_obj.get("rack_map").toString().replaceAll("[{|}]", ""));
             Arrays.sort(rack_map_arrary);
 
             for(int i=0; i< rack_map_arrary.length; ++i)
@@ -302,8 +327,8 @@ public class ClusterInfoAnalyzer {
                 clusterinfotext += "====== "+tempnodevar.get(ValFactory.ADDRESS).toString()+" ======"+"\n";
                 JSONObject node_obj = null;
 
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                     node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                     node_obj =  (JSONObject)node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
@@ -356,7 +381,7 @@ public class ClusterInfoAnalyzer {
 
                     ///get machine memory
 
-                    for(Object sysmem_obj: cip.getMachine_info_obj_list())
+                    for(Object sysmem_obj: machine_info_obj_list)
                     {
                         JSONObject sysmem_obj_tmp = (JSONObject) sysmem_obj;
 
@@ -370,7 +395,7 @@ public class ClusterInfoAnalyzer {
 
                 /////get and check OS version if supported////
 
-                for(Object os_info_obj: cip.getOs_info_obj_list())
+                for(Object os_info_obj:os_info_obj_list)
                 {
                     /*
                       "sub_os" : "CentOS Linux",
@@ -416,7 +441,7 @@ public class ClusterInfoAnalyzer {
                 }
                 ///get java version and node timezone
 
-                for(Object java_sys_obj: cip.getJava_system_properties_obj_list())
+                for(Object java_sys_obj: java_system_properties_obj_list)
                 {
                     JSONObject java_sys_obj_tmp = (JSONObject) java_sys_obj;
 
@@ -451,7 +476,7 @@ public class ClusterInfoAnalyzer {
 
                 ///get ntp status////
 
-                for(Object ntp_obj: cip.getNtptime_list())
+                for(Object ntp_obj: ntptime_obj_list)
                 {
                     JSONObject ntp_obj_tmp = (JSONObject) ntp_obj;
 
@@ -481,7 +506,7 @@ public class ClusterInfoAnalyzer {
 
                 ////get cpu info////
 
-                for(Object cpu_obj: cip.getCpu_obj_list())
+                for(Object cpu_obj: cpu_obj_list)
                 {
                     JSONObject cpu_obj_tmp = (JSONObject) cpu_obj;
 
@@ -511,14 +536,14 @@ public class ClusterInfoAnalyzer {
                 /////get disk info ////
                 clusterinfotext +="Storage Configuration:\n";
                 String commitlog_dir = new String();
-                for(Object disk_obj_tmp : dsp.getDisk_space_obj_list())
+                for(Object disk_obj_tmp :disk_space_obj_list)
                 {
                     JSONObject disk_obj = (JSONObject)disk_obj_tmp;
                     if(disk_obj.get(ValFactory.FILE_ID).equals(file_id)) {
                         JSONArray disk_list = (JSONArray) disk_obj.get(ValFactory.DISK_SPACE_USAGE);
-                        JSONObject node_info_obj = (JSONObject) cip.getNode_info_obj().get(file_id);
-                        if (node_info_obj != null) {
-                            JSONObject partitions_info = (JSONObject) node_info_obj.get("partitions");
+                        JSONObject node_info_obj_byip = (JSONObject) node_info_obj.get(file_id);
+                        if (node_info_obj_byip != null) {
+                            JSONObject partitions_info = (JSONObject) node_info_obj_byip.get("partitions");
                             if (partitions_info.get("commitlog") != null) {
                                 commitlog_dir = partitions_info.get("commitlog").toString().trim().
                                         replaceAll("[{|}]", "").replaceAll("\"", "")
@@ -1003,7 +1028,7 @@ public class ClusterInfoAnalyzer {
         return clusterinfo_warning_header;
     }
 
-    public String get_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON,String aws_instance_type)
+    public String get_aws_dc(/*ClusterInfoParser cip,*/ JSONObject nodetoolStatusJSON,String aws_instance_type)
     {
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         Set<String> aws_dc_set =  new HashSet<String>();
@@ -1016,8 +1041,8 @@ public class ClusterInfoAnalyzer {
 
                 JSONObject node_obj = null;
                 String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
@@ -1038,7 +1063,7 @@ public class ClusterInfoAnalyzer {
         return aws_dc.substring(0,aws_dc.length()-1)+"]";
     }
 
-    public String get_non_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON)
+    public String get_non_aws_dc(/*ClusterInfoParser cip,*/ JSONObject nodetoolStatusJSON)
     {
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         Set<String> non_aws_dc_set =  new HashSet<String>();
@@ -1051,8 +1076,8 @@ public class ClusterInfoAnalyzer {
 
                 JSONObject node_obj = null;
                 String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
