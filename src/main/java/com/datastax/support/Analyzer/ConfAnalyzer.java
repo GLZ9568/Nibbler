@@ -461,7 +461,7 @@ public class ConfAnalyzer extends Analyzer {
         logger.info("\n" + confinfotext);
         if(seed_map.keySet().size()>1)
         {
-            confinfo_warning_header+="seed list is not consistent across the cluster!!!\n";
+            confinfo_warning_header+="seed list is not consistent across the cluster!!\n";
             /**
              *
              * Map<String,Map<String,String>> seed_map = new HashMap<String, Map<String,String>>();

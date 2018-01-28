@@ -94,7 +94,7 @@ public class NtpInfoParser {
     }
 
 
-    public JSONObject getNodetoolStatusJSON() {
+    public JSONObject getNtpInfoJSON() {
         return this.ntpInfoJSON;
     }
 }

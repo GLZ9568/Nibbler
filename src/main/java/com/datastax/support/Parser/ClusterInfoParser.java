@@ -35,6 +35,7 @@ public class ClusterInfoParser extends FileParser{
     private ArrayList<JSONObject> machine_info_obj_list;
     private ArrayList<NibProperties> dsetool_ring_obj_list;
     private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> ntpstat_obj_list;
     private ArrayList<JSONObject> os_info_obj_list;
 
 /*  private boolean iscluster_infoexist = false;
@@ -58,6 +59,7 @@ public class ClusterInfoParser extends FileParser{
         java_system_properties_obj_list =  new ArrayList<JSONObject>();
         machine_info_obj_list =  new ArrayList<JSONObject>();
         ntptime_obj_list = new ArrayList<JSONObject>();
+        ntpstat_obj_list = new ArrayList<JSONObject>();
         os_info_obj_list = new ArrayList<JSONObject>();
 
         for (int i =0; i < files.size();++i)
@@ -254,6 +256,25 @@ public class ClusterInfoParser extends FileParser{
 
             }
 
+            if(filename.getName().contains(ValFactory.NTPSTAT))
+            {
+                try {
+
+                    NTPStatParser ntpStatParser =  new NTPStatParser();
+
+                    JSONObject ntpstat_obj = ntpStatParser.parse(filename);
+
+                    ntpstat_obj.put(ValFactory.FILE_ID, setIP(filename.getAbsolutePath()));
+                    ntpstat_obj.put(ValFactory.FILE_PATH, filename.getAbsolutePath());
+                    ntpstat_obj.put(ValFactory.FILE_NAME, filename.getName());
+                    ntpstat_obj_list.add(ntpstat_obj);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
 
         }
 
@@ -302,6 +323,11 @@ public class ClusterInfoParser extends FileParser{
     public ArrayList<JSONObject> getOs_info_obj_list() {
         return os_info_obj_list;
     }
+
+    public ArrayList<JSONObject> getNtpstat_obj_list() {
+        return ntpstat_obj_list;
+    }
+
     /* public boolean isIscluster_infoexist() {
         return iscluster_infoexist;
     }

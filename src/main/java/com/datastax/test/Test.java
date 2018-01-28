@@ -30,9 +30,9 @@ public class Test extends Nibbler {
     private final String testDir = "test";
     private final File winDir = new File("C:\\Users\\CGao\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\TestData\\" + testDir);
     //private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\" + testDir);
-    private final File linDir = new File ("/Users/tongjixianing/Downloads/crm3prod-diagnostics-2017_11_23_10_10_44_UTC");
+    //private final File linDir = new File ("/Users/tongjixianing/Downloads/crm3prod-diagnostics-2017_11_23_10_10_44_UTC");
     //private final File linDir = new File ("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC");
-
+    private final File linDir = new File ("/Users/tongjixianing/Downloads/prod_tax-diagnostics-2017_11_20_03_15_12_UTC");
     int value  =  1516770326 + 630720000;
 
 

@@ -67,6 +67,7 @@ public class FileFactory {
     private ArrayList<JSONObject> java_system_properties_obj_list;
     private ArrayList<JSONObject> machine_info_obj_list;
     private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> ntpstat_obj_list;
     private ArrayList<JSONObject> os_info_obj_list;
     private ArrayList<JSONObject> disk_space_obj_list;
 
@@ -134,6 +135,7 @@ public class FileFactory {
         this.machine_info_obj_list = cip.getMachine_info_obj_list();
         this.ntptime_obj_list = cip.getNtptime_list();
         this.os_info_obj_list = cip.getOs_info_obj_list();
+        this.ntpstat_obj_list = cip.getNtpstat_obj_list();
 
     }
 
@@ -260,6 +262,10 @@ public class FileFactory {
 
     public ArrayList<JSONObject> getNtptime_obj_list() {
         return ntptime_obj_list;
+    }
+
+    public ArrayList<JSONObject> getNtpstat_obj_list() {
+        return ntpstat_obj_list;
     }
 
     public ArrayList<JSONObject> getOs_info_obj_list() {

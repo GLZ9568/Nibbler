@@ -38,6 +38,7 @@ public class ClusterInfoAnalyzer extends Analyzer{
     private boolean is_mul_cluster_name = false;
     private boolean is_mul_snitch_name = false;
     private boolean is_mul_seeds_list = false;
+    private boolean is_ntp_down = false;
     private boolean is_diff_java_version = false;
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
@@ -48,11 +49,13 @@ public class ClusterInfoAnalyzer extends Analyzer{
     private ArrayList<JSONObject> java_system_properties_obj_list;
     private ArrayList<JSONObject> machine_info_obj_list;
     private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> ntpstat_obj_list;
     private ArrayList<JSONObject> os_info_obj_list;
     private ArrayList<JSONObject> disk_space_obj_list;
     private ArrayList<String> clustername;
     private ArrayList<String> snitch;
-    private  JSONObject nodetoolStatusJSON;
+    private JSONObject nodetoolStatusJSON;
+    private Set<String> ntp_downnode_set = new HashSet<String>();
 
     public ClusterInfoAnalyzer(FileFactory fileFactory) {
         super(fileFactory);
@@ -67,6 +70,7 @@ public class ClusterInfoAnalyzer extends Analyzer{
         this.clustername = fileFactory.getClusterName();
         this.snitch = fileFactory.getSnitch_list();
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
+        this.ntpstat_obj_list = fileFactory.getNtpstat_obj_list();
     }
 
     public String generateClusterInfoOutput() {
@@ -90,8 +94,7 @@ public class ClusterInfoAnalyzer extends Analyzer{
         String seeds_list_dff_msg_warning = "Multiple seeds lists detected in cassandra.yamls!!! \n";
         String java_version_dff_msg_warning = "Different Java versions in DC: ";
         String dse_version_dff_msg_warning = "Different DSE versions in DC:  ";
-
-
+        String ntp_down_msg_warning = "NTP is down on nodes: \n";
 
         ///cluster general info///
 
@@ -316,6 +319,7 @@ public class ClusterInfoAnalyzer extends Analyzer{
             Set<String> java_version_set = new HashSet<String>();
             Set<String> un_supported_os_msg_set = new HashSet<String>();
             Set<String> commitlog_data_dir_set = new HashSet<String>();
+
             for(Object node :nodesarrary)
             {
                 JSONObject tempnodevar = (JSONObject) node;
@@ -476,6 +480,7 @@ public class ClusterInfoAnalyzer extends Analyzer{
 
                 ///get ntp status////
 
+                /*
                 for(Object ntp_obj: ntptime_obj_list)
                 {
                     JSONObject ntp_obj_tmp = (JSONObject) ntp_obj;
@@ -501,7 +506,37 @@ public class ClusterInfoAnalyzer extends Analyzer{
                             }
                         }
                     }
+                    */
 
+                for(Object ntpstat_obj: ntpstat_obj_list) {
+                    JSONObject ntp_obj_tmp = (JSONObject) ntpstat_obj;
+
+                    if (ntp_obj_tmp.get("file_id").equals(file_id)) {
+                        if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS) != null) {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().contains("down")) {
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() + "\n";
+                                ntp_downnode_set.add(file_id);
+                                is_ntp_down = true;
+                            }
+
+                        }
+                        if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS) != null) {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().contains("running"))
+                                if (ntp_obj_tmp.get(ValFactory.NTPTIME_OFFSET) != null) {
+                                    clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() +
+                                           ", time to correct: " +
+                                            ntp_obj_tmp.get(ValFactory.NTPTIME_OFFSET).toString() + "\n";
+                                }
+                        }
+                        if(ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS)!=null)
+                        {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().toLowerCase().contains("exception"))
+                            {
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() + "\n";
+                            }
+                        }
+
+                    }
                 }
 
                 ////get cpu info////
@@ -714,9 +749,24 @@ public class ClusterInfoAnalyzer extends Analyzer{
             }
             */
 
-        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os||is_commitlog_dir_same_with_datadir)
+        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os||is_commitlog_dir_same_with_datadir||is_ntp_down)
         {
-            clusterinfo_warning_header += "\n";
+            //String ntp_down_msg_warning = "NTP is down on nodes: \n";
+            if(ntp_downnode_set.size()>0) {
+                ntp_down_msg_warning += "  - [";
+                for(String str : ntp_downnode_set){
+
+                    ntp_down_msg_warning+=str+",";
+                }
+
+                String tmp = ntp_down_msg_warning.substring(0,ntp_down_msg_warning.length()-1)+"]\n";
+
+                clusterinfo_warning_header += tmp+"\n";
+
+
+            }
+            else
+                clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
 
            // t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
