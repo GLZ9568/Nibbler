@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 /**
- * Created by Chun Gao on 17/11/17
+ * Created by Mike Zhang on 17/11/17
  *
  */
 public class ConfFileParser extends FileParser {
