@@ -69,9 +69,9 @@ public class ClusterInfoAnalyzer extends Analyzer{
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
     }
 
-    public TextArea generateClusterInfoOutput() {
+    public String generateClusterInfoOutput() {
 
-        TextArea t = new TextArea();
+        //TextArea t = new TextArea();
        // TextFlow flow = new TextFlow();
         //ClusterInfoParser cip = new ClusterInfoParser(ff);
        // DiskSpaceParser dsp = new DiskSpaceParser();
@@ -719,35 +719,38 @@ public class ClusterInfoAnalyzer extends Analyzer{
             clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
 
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
-            t.setText(clusterinfo_warning_header+clusterinfotext);
-            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-            double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
+           // t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
+          //  t.setText(clusterinfo_warning_header+clusterinfotext);
+          //  Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+          //  double screen_height =  visualBounds.getHeight() ;
+         //   double screen_width = visualBounds.getWidth();
             //t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
-            t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfo_warning_header+clusterinfotext));
-            t.setEditable(false);
+         //   t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfo_warning_header+clusterinfotext));
+        //    t.setEditable(false);
            // t.setPrefWidth(1024);
 
             //t.setScrollTop(0);
            /// flow.setLineSpacing(0);
 
             //flow.getChildren().addAll(t1,t2);
+            return clusterinfo_warning_header+clusterinfotext;
         }
         else {
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
-            t.setText(clusterinfotext);
-            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-            double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
+          //  t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
+        //    t.setText(clusterinfotext);
+        //    Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+       //     double screen_height =  visualBounds.getHeight() ;
+       //     double screen_width = visualBounds.getWidth();
            // t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
-            t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfotext));
-            t.setEditable(false);
+      //      t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfotext));
+      //      t.setEditable(false);
            // t.setPrefWidth(1024);
            // t.setMinHeight(450);
             //flow.getChildren().addAll(t);
+
+            return clusterinfotext;
         }
-        return t;
+       // return t;
 
     }
 

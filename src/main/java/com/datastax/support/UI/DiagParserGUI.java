@@ -52,7 +52,7 @@ public class DiagParserGUI extends Application {
     private TitledPane dsetoolringpane = new TitledPane();
     private DsetoolRingPane rp = new DsetoolRingPane();
     private TitledPane clusterinfopane = new TitledPane();
-    private ClusterinfoPane cip = new ClusterinfoPane();
+    private ClusterinfoPane cip;
     private TitledPane infopane = new TitledPane();
     private TitledPane nodeStatusTitledPane = new TitledPane();
     private NotoolInfoPane nip = new NotoolInfoPane();
@@ -138,7 +138,7 @@ public class DiagParserGUI extends Application {
                     ///display the analysis result///
                     Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
                     double screen_width = visualBounds.getWidth();
-                    double screen_height = visualBounds.getHeight();
+                   // double screen_height = visualBounds.getHeight();
                     //primaryStage.setScene(new Scene(border, screen_width * 0.7+15, screen_height * 0.8));
                     primaryStage.setMinWidth(screen_width * 0.7 + 15);
                     displayAnalysisResult();
@@ -187,7 +187,8 @@ public class DiagParserGUI extends Application {
         if (b) {
             // statuspane = sp.createstatusPane(ff);
             //  dsetoolringpane =  rp.createDsetoolRingPane(ff);
-            clusterinfopane = cip.createClusterInfoPane(ff);
+            cip = new ClusterinfoPane(ff);
+            clusterinfopane = cip.getClusterInfoPane();
             //nodeStatusTitledPane = new NodeStatusTitledPane(ff);
             nsp = new NodeStatusTitledPane(ff);
             nodeStatusTitledPane = nsp.getNodeStatusTitledPane();
