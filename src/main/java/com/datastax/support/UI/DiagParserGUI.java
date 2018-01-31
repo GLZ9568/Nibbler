@@ -65,17 +65,11 @@ public class DiagParserGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
-        //border.setCenter(addAnchorPane());
         border.setCenter(addScrollPane());
-        primaryStage.setTitle("Diag Parser");
-        //primaryStage.setScene(new Scene(root, 1024,768));
-        //primaryStage.setMaxWidth(768);
-        // primaryStage.setMinHeight(1024);
-        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        primaryStage.setTitle("DS Diag Parser");
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screen_height = visualBounds.getHeight();
@@ -181,7 +175,7 @@ public class DiagParserGUI extends Application {
     private void startParsing() {
 
         ff = new FileFactory(new File(diagpath));
-        //boolean b = ff.initiate(new File(diagpath));
+
         boolean b = ff.getInitiateSuccessCheck();
 
         if (b) {
@@ -211,14 +205,7 @@ public class DiagParserGUI extends Application {
 
 
     private void displayAnalysisResult() {
-       /* TitledPane tp = new TitledPane();
-        tp.setExpanded(false);
-        tp.setPrefSize(1024, 20);
-        tp.setText("nodetool status");
-        Text t = new Text();
-        t.setText("This is a text sample");
-        tp.setContent(t);*/
-        //border.setCenter(addAnchorPane());
+
         border.setCenter(addScrollPane());
         grid.getChildren().removeAll(clusterinfopane, nodeStatusTitledPane, infopane, confInfoPane, cfStatsPane);
 
@@ -245,8 +232,7 @@ public class DiagParserGUI extends Application {
 
             }
         });
-        //anchorpane.getChildren().add(statuspane);
-        // anchorpane.getChildren().add(dsetoolringpane);
+
     }
 
     private void saveAnalysisReport() {
@@ -314,22 +300,6 @@ public class DiagParserGUI extends Application {
     }
 
     private AnchorPane addAnchorPane() {
-
-
-        //Button buttonSave = new Button("Save");
-        //Button buttonCancel = new Button("Cancel");
-
-        //HBox hb = new HBox();
-        // hb.setPadding(new Insets(0, 10, 10, 10));
-        // hb.setSpacing(10);
-        // hb.getChildren().addAll(buttonSave, buttonCancel);
-
-        // anchorpane.getChildren().addAll(grid,hb);
-        // Anchor buttons to bottom right, anchor grid to top
-        //AnchorPane.setBottomAnchor(hb, 8.0);
-        // AnchorPane.setRightAnchor(hb, 5.0);
-        // AnchorPane.setTopAnchor(grid, 10.0);
-        //anchorpane.getChildren().addAll(tp);
 
         return anchorpane;
     }

@@ -80,7 +80,7 @@ public class ConfAnalyzer extends Analyzer {
         Map<String,Map<String,String>> seed_map = new HashMap<String, Map<String,String>>();
         Map<String,String> sub_seed_map = new HashMap<String, String>();
         ArrayList<String> node_list =  new ArrayList<String>();
-        String[] splitline = new String[15];
+        String[] splitline = new String[17];
         String confinfo_warning_header = new String("#### WARNING: ####\n");
 
         /// get each node's config and padding for each property column
@@ -119,8 +119,8 @@ public class ConfAnalyzer extends Analyzer {
         keyList.add(12, ValFactory.role_manager);
         keyList.add(13, ValFactory.role_management_options);
         keyList.add(14, ValFactory.roles_validity_in_ms);
-
-
+        keyList.add(15, ValFactory.server_encryption);
+        keyList.add(16, ValFactory.client_encryption);
         padding = initiatePadding(keyList);
         for (NibProperties np_casyaml : cassandraYamlPropertiesList) {
             for (NibProperties np_dseyaml : dseYamlPropertiesList) {
@@ -137,14 +137,8 @@ public class ConfAnalyzer extends Analyzer {
                         splitline[2] = "PasswordAuthenticator";
                     else
                         splitline[2] = np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase());
-/*
-                    if (np_dseyaml.getProperty("default_scheme") != null) {
 
-                        splitline[3] = np_dseyaml.getProperty("default_scheme");
 
-                        logger.info(splitline[0] + " authentication_options in dse.yaml is: " + splitline[3]);
-                    } else
-                        splitline[3] = "NaN";*/
                     ////// get auth option in dse.yaml///
 
                     if(splitline[2].equals("DseAuthenticator")) {
@@ -240,22 +234,6 @@ public class ConfAnalyzer extends Analyzer {
                     } else
                         splitline[12] = "NaN";
 
-                   /*
-                    if (np_dseyaml.getProperty("mode") != null) {
-
-                        if (np_dseyaml.getProperty("mode").toLowerCase().equals("internal") ||
-                                np_dseyaml.getProperty("mode").toLowerCase().equals("ldap")) {
-                            splitline[13] = np_dseyaml.getProperty("mode");
-                            logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
-                        } else {
-                            splitline[13] = np_dseyaml.getProperty("mode");
-                            logger.info(splitline[0] + " role_management_options in dse.yaml is: " + splitline[13]);
-                        }
-
-                    } else
-                        splitline[13] = "NaN";
-
-                    */
 
                     ///// get role_management_options in dse.yaml/////
 
@@ -299,10 +277,73 @@ public class ConfAnalyzer extends Analyzer {
                     else
                         splitline[14] = "NaN";
 
+
+                    ////get server/client encryption option in cassandra.yaml////
+
+
+                    for (Map<String, Object> cas_map_tmp : cassandraYamlPropertyList) {
+                        cas_map = cas_map_tmp;
+                        for (Map.Entry<String, Object> entry : cas_map.entrySet()) {
+                            if (splitline[0].equals(entry.getKey())) {
+                                Map map = (Map) entry.getValue();
+                                logger.info("ip is: " + entry.getKey());
+
+                                Object server_encrypt_opt_obj = map.get("server_encryption_options");
+
+                                Object client_encrypt_opt_obj = map.get("client_encryption_options");
+                                if(server_encrypt_opt_obj != null) {
+                                    String server_encrypt_opt_str = server_encrypt_opt_obj.toString();
+                                    logger.info("cassandra.yaml server encrpt is : " + server_encrypt_opt_str);
+
+                                    String[] server_encrypt_options = Inspector.splitByComma
+                                            (server_encrypt_opt_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : server_encrypt_options) {
+                                        if (str.contains("internode_encryption")) {
+                                            splitline[15] = Inspector.splitByEqual(str)[1];
+                                        }
+                                    }
+                                }
+                                else
+                                    splitline[15] = "NaN";
+
+                                if(client_encrypt_opt_obj != null) {
+                                    String client_encrypt_opt_str = client_encrypt_opt_obj.toString();
+                                    logger.info("cassandra.yaml client encrpt is : " + client_encrypt_opt_str);
+
+                                    String[] client_encrypt_options = Inspector.splitByComma
+                                            (client_encrypt_opt_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : client_encrypt_options) {
+                                        if (str.contains("enabled")) {
+                                            String tmp = Inspector.splitByEqual(str)[1];
+                                            if(tmp.equals("false")){
+
+                                                splitline[16] = "disabled";
+                                            }
+                                            else if(tmp.equals("true")){
+
+                                                splitline[16] = "enable";
+                                            }
+                                            else
+                                                splitline[16] = "NaN";
+
+                                        }
+                                    }
+                                }
+                                else
+                                    splitline[16] = "NaN";
+
+                            }
+                        }
+                    }
+
+                    ////end of get server/client encryption in cassandra.yaml////
+
                     padding = calculateMaxPadding(padding, splitline, keyList);
 
                     /***
-                     *  ValFactory.ADDRESS,
+                     ValFactory.ADDRESS,
                      ValFactory.AUTHENTICATOR,
                      ValFactory.authentication_options,
                      ValFactory.AUTHORIZER,
@@ -316,6 +357,8 @@ public class ConfAnalyzer extends Analyzer {
                      ValFactory.role_manager,
                      ValFactory.role_management_options,
                      ValFactory.roles_validity_in_ms
+                     ValFactory.server_encryption
+                     ValFactory.client_encryption
                      *
                      */
                     conf_obj.put(ValFactory.ADDRESS, splitline[0]);
@@ -333,6 +376,8 @@ public class ConfAnalyzer extends Analyzer {
                     conf_obj.put(ValFactory.role_manager, splitline[12]);
                     conf_obj.put(ValFactory.role_management_options, splitline[13]);
                     conf_obj.put(ValFactory.roles_validity_in_ms, splitline[14]);
+                    conf_obj.put(ValFactory.server_encryption, splitline[15]);
+                    conf_obj.put(ValFactory.client_encryption, splitline[16]);
                     conf_obj.put(ValFactory.SEEDS, np_casyaml.getProperty("seeds"));
                     sub_seed_map.put(splitline[0],np_casyaml.getProperty("seeds").toString());
                     seed_map.put(np_casyaml.getProperty("seeds").toString(),sub_seed_map);
@@ -407,6 +452,10 @@ public class ConfAnalyzer extends Analyzer {
                                 padding.get(ValFactory.role_management_options) + "s", conf_obj_tmp1.get(ValFactory.role_management_options));
                         confinfotext += String.format("%1$-" +
                                 padding.get(ValFactory.roles_validity_in_ms) + "s", conf_obj_tmp1.get(ValFactory.roles_validity_in_ms));
+                        confinfotext += String.format("%1$-" +
+                                padding.get(ValFactory.server_encryption) + "s", conf_obj_tmp1.get(ValFactory.server_encryption));
+                        confinfotext += String.format("%1$-" +
+                                padding.get(ValFactory.client_encryption) + "s", conf_obj_tmp1.get(ValFactory.client_encryption));
                         confinfotext += "\n";
                     }
                 }

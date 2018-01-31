@@ -49,6 +49,22 @@ public class YamlFileParserTest  extends Test{
                 Map map = (Map) entry.getValue();
 
                 logger.info("dse.yaml auth options is : " + map.get("authentication_options"));
+
+            }
+        }
+
+
+        for(Map<String,Object> cas_map_tmp : cassandraYamlPropertiesList)
+        {
+            cas_map = cas_map_tmp;
+            for (Map.Entry<String,Object> entry : cas_map.entrySet())
+            {
+                logger.info("ip is: " + entry.getKey());
+                Map map = (Map) entry.getValue();
+
+                logger.info("cassandra.yaml server encryption option is: " + map.get("server_encryption_options"));
+
+                logger.info("cassandra.yaml client encryption option is: " + map.get("client_encryption_options"));
             }
         }
 
