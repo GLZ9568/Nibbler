@@ -80,7 +80,7 @@ public class ConfAnalyzer extends Analyzer {
         Map<String,Map<String,String>> seed_map = new HashMap<String, Map<String,String>>();
         Map<String,String> sub_seed_map = new HashMap<String, String>();
         ArrayList<String> node_list =  new ArrayList<String>();
-        String[] splitline = new String[17];
+        String[] splitline = new String[20];
         String confinfo_warning_header = new String("#### WARNING: ####\n");
 
         /// get each node's config and padding for each property column
@@ -121,6 +121,9 @@ public class ConfAnalyzer extends Analyzer {
         keyList.add(14, ValFactory.roles_validity_in_ms);
         keyList.add(15, ValFactory.server_encryption);
         keyList.add(16, ValFactory.client_encryption);
+        keyList.add(17, ValFactory.cql_slow_log);
+        keyList.add(18, ValFactory.solr_slow_log);
+        keyList.add(19, ValFactory.audit_logging);
         padding = initiatePadding(keyList);
         for (NibProperties np_casyaml : cassandraYamlPropertiesList) {
             for (NibProperties np_dseyaml : dseYamlPropertiesList) {
@@ -340,6 +343,142 @@ public class ConfAnalyzer extends Analyzer {
 
                     ////end of get server/client encryption in cassandra.yaml////
 
+
+                    /*
+                     ValFactory.cql_slow_log
+                     ValFactory.solr_slow_log
+                     ValFactory.audit_logging
+                     */
+                    ////start of get cql slow log///
+
+                    for (Map<String, Object> dse_map_tmp : dseYamlPropertyList) {
+                        dse_map = dse_map_tmp;
+                        for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
+                            if (splitline[0].equals(entry.getKey())) {
+                                Map map = (Map) entry.getValue();
+                                //logger.info("ip is: " + entry.getKey());
+
+                                Object cql_slow_log_obj = map.get("cql_slow_log_options");
+                                if(cql_slow_log_obj != null) {
+                                    String cql_slow_log_str = cql_slow_log_obj.toString();
+                                    //logger.info("dse.yaml cql slow option is : " + cql_slow_log_str);
+
+                                    String[] slow_log_options = Inspector.splitByComma
+                                            (cql_slow_log_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : slow_log_options) {
+                                        if (str.contains("enabled")) {
+                                            String tmp = Inspector.splitByEqual(str)[1];
+                                            if(tmp.equals("false")){
+
+                                                splitline[17] = "disabled";
+                                            }
+                                            else if(tmp.equals("true")){
+
+                                                splitline[17] = "enable";
+                                            }
+                                            else
+                                                splitline[17] = "NaN";
+                                        }
+                                    }
+                                }
+                                else
+                                    splitline[17] = "NaN";
+
+                            }
+                        }
+                    }
+
+                    ////end of get cql slow log////
+
+
+
+                    //// start of get solr slow log////
+
+                    for (Map<String, Object> dse_map_tmp : dseYamlPropertyList) {
+                        dse_map = dse_map_tmp;
+                        for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
+                            if (splitline[0].equals(entry.getKey())) {
+                                Map map = (Map) entry.getValue();
+                                //logger.info("ip is: " + entry.getKey());
+
+                                Object solr_slow_log_obj = map.get("solr_slow_sub_query_log_options");
+                                if(solr_slow_log_obj != null) {
+                                    String solr_slow_log_str = solr_slow_log_obj.toString();
+                                    //logger.info("dse.yaml cql slow option is : " + cql_slow_log_str);
+
+                                    String[] slow_log_options = Inspector.splitByComma
+                                            (solr_slow_log_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : slow_log_options) {
+                                        if (str.contains("enabled")) {
+                                            String tmp = Inspector.splitByEqual(str)[1];
+                                            if(tmp.equals("false")){
+
+                                                splitline[18] = "disabled";
+                                            }
+                                            else if(tmp.equals("true")){
+
+                                                splitline[18] = "enable";
+                                            }
+                                            else
+                                                splitline[18] = "NaN";
+                                        }
+                                    }
+                                }
+                                else
+                                    splitline[18] = "NaN";
+
+                            }
+                        }
+                    }
+
+                    ////end of get solr slow log////
+
+
+
+                    ////start of get auditing logging ////
+
+                    for (Map<String, Object> dse_map_tmp : dseYamlPropertyList) {
+                        dse_map = dse_map_tmp;
+                        for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
+                            if (splitline[0].equals(entry.getKey())) {
+                                Map map = (Map) entry.getValue();
+                                //logger.info("ip is: " + entry.getKey());
+
+                                Object audit_log_obj = map.get("audit_logging_options");
+                                if(audit_log_obj != null) {
+                                    String audit_log_str = audit_log_obj.toString();
+                                    //logger.info("dse.yaml cql slow option is : " + cql_slow_log_str);
+
+                                    String[] audit_log_options = Inspector.splitByComma
+                                            (audit_log_str.trim().replaceAll("[{|}]", ""));
+
+                                    for (String str : audit_log_options) {
+                                        if (str.contains("enabled")) {
+                                            String tmp = Inspector.splitByEqual(str)[1];
+                                            if(tmp.equals("false")){
+
+                                                splitline[19] = "disabled";
+                                            }
+                                            else if(tmp.equals("true")){
+
+                                                splitline[19] = "enable";
+                                            }
+                                            else
+                                                splitline[19] = "NaN";
+                                        }
+                                    }
+                                }
+                                else
+                                    splitline[19] = "NaN";
+
+                            }
+                        }
+                    }
+
+                    ////end of get auditing logging////
+
                     padding = calculateMaxPadding(padding, splitline, keyList);
 
                     /***
@@ -359,6 +498,9 @@ public class ConfAnalyzer extends Analyzer {
                      ValFactory.roles_validity_in_ms
                      ValFactory.server_encryption
                      ValFactory.client_encryption
+                     ValFactory.cql_slow_log
+                     ValFactory.solr_slow_log
+                     ValFactory.audit_logging
                      *
                      */
                     conf_obj.put(ValFactory.ADDRESS, splitline[0]);
@@ -378,6 +520,9 @@ public class ConfAnalyzer extends Analyzer {
                     conf_obj.put(ValFactory.roles_validity_in_ms, splitline[14]);
                     conf_obj.put(ValFactory.server_encryption, splitline[15]);
                     conf_obj.put(ValFactory.client_encryption, splitline[16]);
+                    conf_obj.put(ValFactory.cql_slow_log, splitline[17]);
+                    conf_obj.put(ValFactory.solr_slow_log, splitline[18]);
+                    conf_obj.put(ValFactory.audit_logging, splitline[19]);
                     conf_obj.put(ValFactory.SEEDS, np_casyaml.getProperty("seeds"));
                     sub_seed_map.put(splitline[0],np_casyaml.getProperty("seeds").toString());
                     seed_map.put(np_casyaml.getProperty("seeds").toString(),sub_seed_map);
@@ -456,6 +601,12 @@ public class ConfAnalyzer extends Analyzer {
                                 padding.get(ValFactory.server_encryption) + "s", conf_obj_tmp1.get(ValFactory.server_encryption));
                         confinfotext += String.format("%1$-" +
                                 padding.get(ValFactory.client_encryption) + "s", conf_obj_tmp1.get(ValFactory.client_encryption));
+                        confinfotext += String.format("%1$-" +
+                                padding.get(ValFactory.cql_slow_log) + "s", conf_obj_tmp1.get(ValFactory.cql_slow_log));
+                        confinfotext += String.format("%1$-" +
+                                padding.get(ValFactory.solr_slow_log) + "s", conf_obj_tmp1.get(ValFactory.solr_slow_log));
+                        confinfotext += String.format("%1$-" +
+                                padding.get(ValFactory.audit_logging) + "s", conf_obj_tmp1.get(ValFactory.audit_logging));
                         confinfotext += "\n";
                     }
                 }

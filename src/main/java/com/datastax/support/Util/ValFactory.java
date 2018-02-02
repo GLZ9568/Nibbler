@@ -121,6 +121,9 @@ public class ValFactory {
     public static final String roles_validity_in_ms = "roles_validity(ms)";
     public static final String server_encryption = "server_encrypt";
     public static final String client_encryption = "client_encrypt";
+    public static final String cql_slow_log = "cql_slow_log";
+    public static final String solr_slow_log = "solr_slow_log";
+    public static final String audit_logging = "audit_log";
     public static final String permissions_validity_in_ms = "perm_valid(ms)";
     public static final String concurrent_compactors = "concur_compact";
     public static final String concurrent_reads = "concur_read";
