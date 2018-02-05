@@ -96,7 +96,7 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                 JSONObject tempnodevar = (JSONObject) node;
 
                 String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
-
+                boolean foundnode = false;
                 for (JSONObject nodetool_info_obj: info_obj_list) {
                     //// node ip//////
                     if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())) {
@@ -144,7 +144,41 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                         if(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)!=null)
                         heap_size_set.add(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).toString().trim()+"mb");
                         nodetool_info_text += "\n";
+
+                        foundnode = true;
                     }
+                }
+
+                //// if the nodetool info is missing but we do not want to miss that in our output////
+
+                if(!foundnode){
+
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get(ValFactory.ADDRESS) + "s",file_id);
+                    JSONObject node_obj = null;
+                    if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                        node_obj =  (JSONObject) node_info_obj.get(file_id);
+
+                    if(node_obj !=null)
+                    {
+                        nodetool_info_text += String.format("%1$-" +
+                                dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname").toString());
+                    }
+
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", "NaN");
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get("Total Heap(mb)") + "s", "NaN");
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get("Used Heap(mb)") + "s", "NaN");
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get("Off Heap(mb)") + "s", "NaN");
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get("Gossip Generation") + "s", "NaN");
+                    nodetool_info_text += String.format("%1$-" +
+                                dcpadding.get("Percent Repaired") + "s","NaN");
+
+                    nodetool_info_text += "\n";
                 }
             }
             if(heap_size_set.size()>1) {
