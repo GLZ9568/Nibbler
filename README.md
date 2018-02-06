@@ -1,18 +1,15 @@
 ## Nibbler - Datatsax Opscenter Diagnostic Files Analyzer
---------
 
 Nibbler is a tool to analyze the Datastax opscenter diagnostic files. It makes the troubleshoot tasks much easier and helps you quickly narrow down the issue by providing the accurate and integrated diag analysis reports. 
 
 
 ## Requirements
-------------------------
 
 1.Java 1.8+
 
 2.Supported platforms: MacOS, Linux, Windows
 
 ## Getting started
-------------------------
 
 1.Download the executable [Nibbler.jar](https://github.com/GLZ9568/Nibbler/raw/master/out/artifacts/Nibbler_jar2/Nibbler.jar) file and double click it to run
 
