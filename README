@@ -1,60 +1,29 @@
-TO DO:
-
-1.General Cluster info:
-
- 1.1.Cluster name: Total number of nodes(cluster_info.json),  OS version(if supported, cluster_info.json), aws_instance_type(determine storage type,cluster_info.json)
-  -> DC name(Workloadtype, number of tokens): number of nodes(nodetool_status), rack_map(cluster_info.json)
-  -> each node(node_info.json):
-      - ip address, hostname, dse version(cassandra version), "user.timezone" : "America/New_York"(java_system_properties.json),"java.version" : "1.8.0_77" (java_system_properties.json),workload type(dsetool_ring), ntp status(ntptime),machine memory(machine-info.json),num_procs, used cpu(cpu.json)
-
-ntp_gettime() returns code 5 (ERROR)
-
-ntpstat
-exit status: 1
-
-stdout:
-unsynchronised
-  time server re-starting
-   polling server every 8 s
+## The second largest heading
 
 
-ntp_gettime() returns code 0 (OK)
+## Requirements
 
-synchronised to NTP server
+1. Java 1.8+
 
-2.status
+2. Supported platforms: MacOS, Linux, Windows
 
-Each node:
-3.info: heap memory, uptime,generation
+## Getting started
 
-4.tpstats: dropped messages, blocked messages
-
-5.netstats: read repair attempted & blocked
-
-6.cfstats: large partitions(> 256mb) for each table, tombstones(> 0) for each table, Maximum live cells per slice for each table
-
-7.describecluster: for each node Schema versions: UNREACHABLE nodes
+1. Download the executable [Nibbler.jar](https://github.com/GLZ9568/Nibbler/raw/master/out/artifacts/Nibbler_jar2/Nibbler.jar) file and double click it to run
 
 
+2. Click the "Open Diag Directory" button to select the uncompressed Opscenter diag tar ball path. Please note that the path should be the root path of the Opscenter diag path.E.g /Users/username/Downloads/Mycluster-diagnostics-2018_01_10_03_04_49_UTC
 
-8.system.log:
-  (categirzed by date)
-GC latency , local pauses, hinted handoff,discarded prepared statements(top 10),large batches(top10),dropped messages, tombstone warnings(top10), large partitions(top 10)
-[PERIODIC-COMMIT-LOG-SYNCER] 2017-12-25 14:47:21,392  NoSpamLogger.java:97 - Out of 1 commit log syncs over the past 0s with average duration of 10697.00ms, 1 have exceeded the configured commit interval by an average of 697.00ms
 
-9. cassandra.yaml:
+3. Press the "Start Analyzing" button to start parsing and analyzing the Opscenter diags.
 
-compare seed-list
 
-concurrent writer
+4. When analyzing is done, it will pop a window which tells the analysis is done and it will save analysis report files to the same path of the executable file.
 
-timeout
 
-auth method
+5. You can browse the analysis reports from each Collapse Tab.
 
-10. node resource(sort by cpu idle in desc )
 
-ip, total phy mem, used phy mem, total heap, used heap, off heap, user, sys,steal,nice, iowait, idle
-
+6. In some cases, the Opscenter diags may be incomplete or file contents are corrupted. The tool can handle most of the incomplete diags and corrupted file contents. However, it can still be broken in some cases. You can refer to the Nibbler.log which is under the same directory of the executable file to investigate the issue.
 
 
