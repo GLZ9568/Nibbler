@@ -69,7 +69,7 @@ public class DiagParserGUI extends Application {
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
         border.setCenter(addScrollPane());
-        primaryStage.setTitle("DS Diag Parser");
+        primaryStage.setTitle("Nibbler - DS Diag Parser");
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screen_height = visualBounds.getHeight();
