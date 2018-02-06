@@ -184,7 +184,7 @@ public class ConfAnalyzer extends Analyzer {
                     else if (np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase()).toLowerCase().contains("cassandraauthorizer"))
                         splitline[4] = "CassandraAuthorizer";
                     else
-                        splitline[4] = np_casyaml.getProperty(ValFactory.AUTHORIZER);
+                        splitline[4] = np_casyaml.getProperty(ValFactory.AUTHORIZER.toLowerCase());
 
                     if (np_casyaml.getProperty("concurrent_compactors") != null)
                         splitline[5] = np_casyaml.getProperty("concurrent_compactors");
