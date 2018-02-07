@@ -59,9 +59,10 @@ public class DiagParserGUI extends Application {
     private ConfInfoPane cfip;
     private NodeStatusTitledPane nsp;
     private CfstatsTitledPane cfsp;
+    private SystemResourceTitledPane srtp;
     private TitledPane confInfoPane = new TitledPane();
     private TitledPane cfStatsPane = new TitledPane();
-
+    private TitledPane nodeResourceTitledPane = new TitledPane();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -120,6 +121,7 @@ public class DiagParserGUI extends Application {
                     infopane.setExpanded(false);
                     confInfoPane.setExpanded(false);
                     cfStatsPane.setExpanded(false);
+                    nodeResourceTitledPane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     //border.getChildren().remove(scrollpane);
@@ -191,6 +193,8 @@ public class DiagParserGUI extends Application {
             confInfoPane = cfip.getConfInfoPane();
             cfsp = new CfstatsTitledPane(ff);
             cfStatsPane = cfsp.getCfstatsTitledPane();
+            srtp = new SystemResourceTitledPane(ff);
+            nodeResourceTitledPane = srtp.getSystemResourceTitledPane();
 
         } else {
 
@@ -207,16 +211,15 @@ public class DiagParserGUI extends Application {
     private void displayAnalysisResult() {
 
         border.setCenter(addScrollPane());
-        grid.getChildren().removeAll(clusterinfopane, nodeStatusTitledPane, infopane, confInfoPane, cfStatsPane);
+        grid.getChildren().removeAll(clusterinfopane, nodeStatusTitledPane, infopane, confInfoPane, cfStatsPane,nodeResourceTitledPane);
 
 
         grid.add(clusterinfopane, 0, 0);
-        //grid.add(statuspane,0,1);
-        // grid.add(dsetoolringpane,0,2);
         grid.add(nodeStatusTitledPane, 0, 1);
         grid.add(infopane, 0, 2);
-        grid.add(cfStatsPane, 0, 3);
-        grid.add(confInfoPane, 0, 4);
+        grid.add(nodeResourceTitledPane,0,3);
+        grid.add(cfStatsPane, 0, 4);
+        grid.add(confInfoPane, 0, 5);
         anchorpane.getChildren().add(grid);
         scrollpane.widthProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -228,6 +231,7 @@ public class DiagParserGUI extends Application {
                 infopane.setPrefWidth(arg2.doubleValue() - 15);
                 confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
                 cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
+                nodeResourceTitledPane.setPrefWidth(arg2.doubleValue() - 15);
 
 
             }
