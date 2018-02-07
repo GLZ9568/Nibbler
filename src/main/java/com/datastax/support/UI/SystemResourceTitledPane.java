@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class SystemResourceTitledPane extends ComponentTitledPane {
-    private static final Logger logger = LogManager.getLogger(SystemResourceAnalyzer.class);
+    private static final Logger logger = LogManager.getLogger(SystemResourceTitledPane.class);
 
     private SystemResourceAnalyzer systemResourceAnalyzer;
     private static final String title = "Node Resource Usage Info";
