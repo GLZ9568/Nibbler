@@ -94,7 +94,9 @@ public class SystemResourceAnalyzer extends Analyzer {
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(cpuJSON.get(ValFactory.FILE_ID))) {
                     for (String key : ValFactory.CPUKEYLIST) {
                         cpuInfoJSON.put(key, cpuJSON.get(key));
-                        cpuValueList.add(Double.toString((Double)cpuJSON.get(key)));
+                        //cpuValueList.add(Double.toString((Double)cpuJSON.get(key)));
+
+                        cpuValueList.add(Double.toString(Double.valueOf(cpuJSON.get(key).toString())));
                     }
                 }
             }
