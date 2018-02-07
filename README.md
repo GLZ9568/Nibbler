@@ -22,6 +22,7 @@ Nibbler is a tool to analyze the Datastax opscenter diagnostic files. It makes t
    - `Threadpool Statistics`. This tab provides the statistics for thread pool on each node. It displays the non-zero dropped messages and non-zero values for all Active, Pending, Blocked, All time blocked metrics for each thread pool. It will also integrate the read repair statistics from netstats which can tell how inconsistent the cluster looks like.
    - `Node Resource Usage Info`. This tab provides the statistics for resource usage per node. The output is sorted by total cpu usage per node. It provides the comprehensive information of cpu, physical memory, heap, offheap memory for each node. 
    - `Node Configuration Files Info`. This tab provides the key configuration parameters from cassandra.yaml and dse.yaml. It will also provide the health check if seed list configuration is consistent across the cluster.
+   <br><br>
 6. In some cases, the Opscenter diags may be incomplete or file contents are corrupted. The tool can handle most of the incomplete diags and corrupted file contents. However, it can still be broken in some cases. You can refer to the Nibbler.log which is under the same directory of the executable file to investigate the issue.
 
 
