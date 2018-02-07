@@ -47,6 +47,11 @@ public class NodetoolInfoFileParser extends FileParser {
                         String[] split = Inspector.splitByColon(currentLine);
                         if (split.length == 2) {
                             properties.put(split[0].trim(), split[1].trim());
+                            if (split[0].trim().equals(ValFactory.HEAPVALUE)) {
+                                String[] heapInfo = Inspector.splitBySlash(split[1]);
+                                properties.put(ValFactory.USEDHEAPVALUE, heapInfo[0].trim());
+                                properties.put(ValFactory.MAXHEAPVALUE, heapInfo[1].trim());
+                            }
                         }
                     }
                     String id = Inspector.getFileID(file);

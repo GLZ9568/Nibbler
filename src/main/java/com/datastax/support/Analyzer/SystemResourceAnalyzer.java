@@ -94,7 +94,7 @@ public class SystemResourceAnalyzer extends Analyzer {
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(cpuJSON.get(ValFactory.FILE_ID))) {
                     for (String key : ValFactory.CPUKEYLIST) {
                         cpuInfoJSON.put(key, cpuJSON.get(key));
-                        cpuValueList.add(Double.toString((Double)cpuJSON.get(key)));
+                        cpuValueList.add(cpuJSON.get(key).toString());
                     }
                 }
             }
@@ -140,23 +140,17 @@ public class SystemResourceAnalyzer extends Analyzer {
                     memoryValueList.add(Long.toString(totalMemory));
                     for (String key : ValFactory.MEMORYKEYLIST) {
                         memoryInfoJSON.put(key, memoryJSON.get(key));
-                        memoryValueList.add(Long.toString((Long)memoryJSON.get(key)));
+                        memoryValueList.add(memoryJSON.get(key).toString());
                     }
                 }
             }
 
-            String heapValue = nodetoolInfoProperties.getProperty(ValFactory.HEAPVALUE);
-            String[] heapInfo = Inspector.splitBySlash(heapValue);
-            for (int i=0; i<heapInfo.length; i++) {
-                heapInfo[i] = heapInfo[i].trim();
-            }
-
-            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), heapInfo[0]);
-            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), heapInfo[1]);
+            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
+            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
             memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
 
-            memoryValueList.add(heapInfo[0]);
-            memoryValueList.add(heapInfo[1]);
+            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
+            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
             memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
 
             memoryPadding = calculatePadding(memoryPadding, memoryKeys, memoryValueList);
