@@ -125,15 +125,15 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                         }
 
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", nodetool_info_obj.get(ValFactory.INFO_UPTIME));
+                                dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", nodetool_info_obj.get(ValFactory.INFO_UPTIME)==null? "NaN": nodetool_info_obj.get(ValFactory.INFO_UPTIME));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Total Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP));
+                                dcpadding.get("Total Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)==null? "NaN": nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Used Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_USEDHEAP));
+                                dcpadding.get("Used Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_USEDHEAP)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_USEDHEAP));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Off Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_OFFHEAP));
+                                dcpadding.get("Off Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_OFFHEAP)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_OFFHEAP));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Gossip Generation") + "s", nodetool_info_obj.get(ValFactory.INFO_GENERATION));
+                                dcpadding.get("Gossip Generation") + "s", nodetool_info_obj.get(ValFactory.INFO_GENERATION)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_GENERATION));
                         if(nodetool_info_obj.containsKey(ValFactory.PERCENT_REPAIRED))
                             nodetool_info_text += String.format("%1$-" +
                                 dcpadding.get("Percent Repaired") + "s", nodetool_info_obj.get(ValFactory.PERCENT_REPAIRED));
