@@ -56,12 +56,12 @@ public class ValFactory {
     public static final String ID = "ID";
     public static final String INFO_TOTALHEAP = "info_totalheap";
     public static final String INFO_USEDHEAP = "info_usedheap";
-    public static final String INFO_OFFHEAP = "info_usedheap";
+    public static final String INFO_OFFHEAP = "info_offheap";
     public static final String DISK_NAME = "disk_name";
     public static final String TOTAL_SPACE = "total_space";
     public static final String USED_SPACE = "used_space";
     public static final String DISK_SPACE_USAGE = "disk_space_usage";
-
+    public static final String PERCENT_REPAIRED = "percent_repaired";
     // file names
     // conf file names;
     public static final String CLUSTER_INFO_JSON = "cluster_info.json";
@@ -73,6 +73,7 @@ public class ValFactory {
     public static final String MACHINE_INFO_JSON = "machine-info.json";
     public static final String DISK_SPACE_JSON = "disk_space.json";
     public static final String NTPTIME = "ntptime";
+    public static final String NTPSTAT = "ntpstat";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
     public static final String ADDRESS_YAML = "address.yaml";
     public static final String DSE_YAML = "dse.yaml";
@@ -118,6 +119,11 @@ public class ValFactory {
     public static final String AUTHORIZER = "Authorizer";
     public static final String role_manager = "role_manager";
     public static final String roles_validity_in_ms = "roles_validity(ms)";
+    public static final String server_encryption = "server_encrypt";
+    public static final String client_encryption = "client_encrypt";
+    public static final String cql_slow_log = "cql_slow_log";
+    public static final String solr_slow_log = "solr_slow_log";
+    public static final String audit_logging = "audit_log";
     public static final String permissions_validity_in_ms = "perm_valid(ms)";
     public static final String concurrent_compactors = "concur_compact";
     public static final String concurrent_reads = "concur_read";
@@ -149,6 +155,7 @@ public class ValFactory {
     public static final String DATACENTER = "Datacenter";
     public static final String DATA_CENTER = "Data Center";
     public static final String ADDRESS = "Address";
+    public static final String HOSTNAME = "Hostname";
     public static final String LOAD = "Load";
     public static final String TOKENS = "Tokens";
     public static final String OWNS = "Owns";
@@ -185,7 +192,7 @@ public class ValFactory {
     public static final String STATUSTHRIFT = "statusthrift";
     public static final String VERSION = "version";
 
-    public static final double SCREEN_WIDTH_FACTOR = 0.8;
+    public static final double SCREEN_WIDTH_FACTOR = 0.7;
     public static final double SCREEN_HEIGHT_FACTOR = 0.8;
 
     public static final String supported_platform_url = "http://docs.datastax.com/en/landing_page/doc/landing_page/supportedPlatforms.html";

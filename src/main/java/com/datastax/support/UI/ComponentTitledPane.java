@@ -13,6 +13,7 @@ import com.datastax.support.Util.ValFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
@@ -64,11 +65,27 @@ public class ComponentTitledPane {
 
     protected TextArea generateTextArea(String input) {
         TextArea textArea = new TextArea();
-        textArea.setMinHeight(screen_height * (3*ValFactory.SCREEN_HEIGHT_FACTOR/5));
+        //textArea.setMinHeight(screen_height * (3*ValFactory.SCREEN_HEIGHT_FACTOR/5));
+        textArea.setMinHeight(getDynamicTextAreaHeight(input));
         textArea.setMinWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
         textArea.setStyle(fontWeightBody + ";" + fontSizeM + ";" + fontFamilyAlign);
         textArea.setText(input);
         textArea.setEditable(false);
         return textArea;
+    }
+
+    protected double getDynamicTextAreaHeight(String input){
+
+        Text text = new Text();
+        text.setText(input);
+
+        double actual_height = text.getLayoutBounds().getHeight() * 1.4;
+
+        double pref_height = screen_height * (3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+        logger.info(titledPane.getText()+ " Textarea actual height is: " + actual_height + "  Pref height is: " + pref_height);
+
+        return actual_height > pref_height? pref_height:actual_height;
+
+
     }
 }

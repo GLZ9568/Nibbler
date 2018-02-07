@@ -12,6 +12,7 @@ package com.datastax.support.UI;
 import com.datastax.support.Analyzer.ConfAnalyzer;
 import com.datastax.support.Analyzer.NodeStatusAnalyzer;
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.scene.control.TitledPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,12 +31,25 @@ public class ConfInfoPane extends ComponentTitledPane {
 
     public ConfInfoPane(FileFactory fileFactory) {
         super(title);
+        try{
         confAnalyzer = new ConfAnalyzer(fileFactory);
         output = confAnalyzer.generateConfOutput();
+
+        } catch (Exception e) {
+            output = "Encoutntered Unchecked Exception";
+            Inspector.logException(logger, e);
+
+        }
+
         titledPane.setContent(generateTextArea(output));
     }
 
     public TitledPane getConfInfoPane() {
         return titledPane;
+    }
+
+    public String save_node_conf_file_report()
+    {
+        return Inspector.saveReportFile(output,"node_conf_file_info.out");
     }
 }

@@ -95,14 +95,14 @@ public class NodetoolInfoParser {
                         String currentLine = scanner.nextLine();
                         if (currentLine.toLowerCase().contains("generation no")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
+                            nodetoolInfoJSON.put(ValFactory.INFO_GENERATION, splitLine[1].trim() + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
                            // logger.info("Generation No: " + splitLine[1] + "(" + Inspector.epochToDate(splitLine[1].trim()) + ")");
                         }
 
                         if (currentLine.toLowerCase().contains("uptime")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
 
-                            nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1] + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()),true)+ ")");
+                            nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim() + "(" + Inspector.secToTime(Integer.valueOf(splitLine[1].trim()),false)+ ")");
                             //nodetoolInfoJSON.put(ValFactory.INFO_UPTIME, splitLine[1].trim());
                             // logger.info("NTP status current line: " + currentLine);
                             //logger.info("NTP status:"+ ntpInfoJSON.get(StrFactory.NTPTIME_STAUS).toString());
@@ -114,15 +114,21 @@ public class NodetoolInfoParser {
 
                             String[] splitLine1 = Inspector.splitBySlash(splitLine[1]);
                             //Arrays.sort(splitLine);
-                            nodetoolInfoJSON.put(ValFactory.INFO_USEDHEAP, splitLine1[0]);
-                            nodetoolInfoJSON.put(ValFactory.INFO_TOTALHEAP, splitLine1[1]);
-                           // logger.info("Heap Memory: " + splitLine1[0] + "/" + splitLine1[1]);
+                            nodetoolInfoJSON.put(ValFactory.INFO_USEDHEAP, splitLine1[0].trim());
+                            nodetoolInfoJSON.put(ValFactory.INFO_TOTALHEAP, splitLine1[1].trim());
+                            //logger.info("Heap Memory: " + splitLine1[0] + "/" + splitLine1[1]);
                         }
                         if (currentLine.toLowerCase().contains("off heap memory")) {
                             String[] splitLine = Inspector.splitByColon(currentLine);
-                            nodetoolInfoJSON.put(ValFactory.INFO_OFFHEAP, splitLine[1]);
+                            nodetoolInfoJSON.put(ValFactory.INFO_OFFHEAP, splitLine[1].trim());
                            // logger.info("Off Heap Memory: " + splitLine[1]);
                         }
+                        if (currentLine.toLowerCase().contains("percent repaired")) {
+                            String[] splitLine = Inspector.splitByColon(currentLine);
+                            nodetoolInfoJSON.put(ValFactory.PERCENT_REPAIRED, splitLine[1].trim());
+                             logger.info("percent repaired: " + splitLine[1]);
+                        }
+
                     }
 //                    logger.info("node ip: " + setIP(file.getAbsolutePath()));
                     nodetoolInfoJSON.put(ValFactory.FILE_ID, setIP(file.getAbsolutePath()));

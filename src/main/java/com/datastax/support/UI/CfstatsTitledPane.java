@@ -11,6 +11,7 @@ package com.datastax.support.UI;
 
 import com.datastax.support.Analyzer.CfstatsAnalyzer;
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.scene.control.TitledPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +32,11 @@ public class CfstatsTitledPane extends ComponentTitledPane {
 
     public TitledPane getCfstatsTitledPane() {
         return titledPane;
+    }
+
+    public String save_table_stats_report()
+    {
+        return Inspector.saveReportFile(output,"table_stats_info.out");
     }
 
 }

@@ -11,6 +11,7 @@ package com.datastax.support.UI;
 
 import com.datastax.support.Analyzer.NodeStatusAnalyzer;
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -60,5 +61,10 @@ public class NodeStatusTitledPane extends ComponentTitledPane {
 
     public TitledPane getNodeStatusTitledPane() {
         return titledPane;
+    }
+
+    public String save_node_status_report()
+    {
+        return Inspector.saveReportFile(output,"node_status_info.out");
     }
 }

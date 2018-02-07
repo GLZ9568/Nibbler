@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by Mike Zhang on 28/12/2017.
  */
 
-public class DiskSpaceParser {
+public class DiskSpaceParser extends FileParser{
 
     private static final Logger logger = LogManager.getLogger(DiskSpaceParser.class);
 
@@ -36,7 +36,13 @@ public class DiskSpaceParser {
 
     private ArrayList<JSONObject> disk_space_obj_list;
     private JSONArray diskJSONArray;
-    public ArrayList<JSONObject> parse(ArrayList<File> files)  {
+
+
+    public DiskSpaceParser (ArrayList<File> files) {
+        super(files);
+        parse();
+    }
+    public ArrayList<JSONObject> parse()  {
 
         /*
         * {"disk_space_usage" :

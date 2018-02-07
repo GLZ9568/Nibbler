@@ -18,6 +18,7 @@ import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import org.apache.logging.log4j.LogManager;
@@ -31,29 +32,58 @@ import java.util.*;
  * Created by Mike Zhang on 2/12/2017.
  */
 
-public class ClusterInfoAnalyzer {
+public class ClusterInfoAnalyzer extends Analyzer{
 
     private static final Logger logger = LogManager.getLogger(ClusterInfoAnalyzer.class);
     private boolean is_mul_cluster_name = false;
     private boolean is_mul_snitch_name = false;
     private boolean is_mul_seeds_list = false;
+    private boolean is_ntp_down = false;
     private boolean is_diff_java_version = false;
     boolean is_diff_dse_version = false;
     boolean is_unsupported_os = false;
     boolean is_commitlog_dir_same_with_datadir = false;
+    private JSONObject cluster_info_obj;
+    private JSONObject node_info_obj;
+    private ArrayList<JSONObject> cpu_obj_list;
+    private ArrayList<JSONObject> java_system_properties_obj_list;
+    private ArrayList<JSONObject> machine_info_obj_list;
+    private ArrayList<JSONObject> ntptime_obj_list;
+    private ArrayList<JSONObject> ntpstat_obj_list;
+    private ArrayList<JSONObject> os_info_obj_list;
+    private ArrayList<JSONObject> disk_space_obj_list;
+    private ArrayList<String> clustername;
+    private ArrayList<String> snitch;
+    private JSONObject nodetoolStatusJSON;
+    private Set<String> ntp_downnode_set = new HashSet<String>();
 
+    public ClusterInfoAnalyzer(FileFactory fileFactory) {
+        super(fileFactory);
+        this.cluster_info_obj = fileFactory.getCluster_info_obj();
+        this.node_info_obj = fileFactory.getNode_info_obj();
+        this.cpu_obj_list = fileFactory.getCpu_obj_list();
+        this.java_system_properties_obj_list = fileFactory.getJava_system_properties_obj_list();
+        this.machine_info_obj_list = fileFactory.getMachine_info_obj_list();
+        this.ntptime_obj_list = fileFactory.getNtptime_obj_list();
+        this.os_info_obj_list = fileFactory.getOs_info_obj_list();
+        this.disk_space_obj_list = fileFactory.getDisk_space_obj_list();
+        this.clustername = fileFactory.getClusterName();
+        this.snitch = fileFactory.getSnitch_list();
+        this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
+        this.ntpstat_obj_list = fileFactory.getNtpstat_obj_list();
+    }
 
-    public TextArea generateClusterInfoOutput(FileFactory ff) {
+    public String generateClusterInfoOutput() {
 
-        TextArea t = new TextArea();
-        TextFlow flow = new TextFlow();
-        ClusterInfoParser cip = new ClusterInfoParser(ff);
-        DiskSpaceParser dsp = new DiskSpaceParser();
-        dsp.parse(ff.getAllFiles());
-        JSONObject nodetoolStatusJSON = new JSONObject();
+        //TextArea t = new TextArea();
+       // TextFlow flow = new TextFlow();
+        //ClusterInfoParser cip = new ClusterInfoParser(ff);
+       // DiskSpaceParser dsp = new DiskSpaceParser();
+       // dsp.parse(ff.getAllFiles());
+        //JSONObject nodetoolStatusJSON = new JSONObject();
 
-        NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
-        nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
+       // NodetoolStatusFileParser nodetoolStatusFileParser = new NodetoolStatusFileParser(ff.getAllFiles());
+      //  nodetoolStatusJSON = nodetoolStatusFileParser.getNodetoolStatusJSON();
 
         String clusterinfotext = new String();
 
@@ -64,8 +94,7 @@ public class ClusterInfoAnalyzer {
         String seeds_list_dff_msg_warning = "Multiple seeds lists detected in cassandra.yamls!!! \n";
         String java_version_dff_msg_warning = "Different Java versions in DC: ";
         String dse_version_dff_msg_warning = "Different DSE versions in DC:  ";
-
-
+        String ntp_down_msg_warning = "NTP is down on nodes: \n";
 
         ///cluster general info///
 
@@ -81,13 +110,14 @@ public class ClusterInfoAnalyzer {
          *
          */
 
-        ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
+        //ConfFileParser cfp = new ConfFileParser(ff.getAllFiles());
 
-        ArrayList<String> clustername = cfp.getClusterName();
-        ArrayList<String> snitch = cfp.getSnitch_list();
+       // ArrayList<String> clustername = cfp.getClusterName();
+       // ArrayList<String> snitch = cfp.getSnitch_list();
         //Set<String> seeds = cfp.getSeeds_list();
 
-        clusterinfotext +="#### Cluster Configuration Overview #### \n";
+        clusterinfotext +="** Cluster Configuration Overview **\n" +
+                Inspector.generateEqualline(new String("** Cluster Configuration Overview **").length())+"\n";
         ////1. get cluster name
         if(clustername.size()>1)
         {
@@ -110,14 +140,14 @@ public class ClusterInfoAnalyzer {
         }
 
         ////2. get number of DCs
-        if(cip.getCluster_info_obj().get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        if(cluster_info_obj.get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
         {
-            clusterinfotext += "Number of Data Centers: " + cip.getCluster_info_obj().get("dc_count")+ "\n";
+            clusterinfotext += "Number of Data Centers: " + cluster_info_obj.get("dc_count")+ "\n";
 
 
             ///3. get number of nodes: ////
 
-            clusterinfotext += "Number of Nodes: " + cip.getCluster_info_obj().get("node_count") + "\n";
+            clusterinfotext += "Number of Nodes: " + cluster_info_obj.get("node_count") + "\n";
         }
             /// get snitch ////
 
@@ -141,11 +171,11 @@ public class ClusterInfoAnalyzer {
                 clusterinfotext +="Snitch: " + snitch.get(0) + "\n";
             }
 
-        if(cip.getCluster_info_obj().get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
+        if(cluster_info_obj.get(ValFactory.ISCLUSTER_INFOEXIST).equals("true"))
         {
             ///4. get instance types
 
-            JSONArray instance_types = (JSONArray) cip.getCluster_info_obj().get("cluster_instance_types");
+            JSONArray instance_types = (JSONArray) cluster_info_obj.get("cluster_instance_types");
 
             /// If it is not AWS instances, instance_types will be null
             if (instance_types !=null) {
@@ -154,16 +184,16 @@ public class ClusterInfoAnalyzer {
                     if(instance_types.get(i) !=null) {
                         clusterinfotext += "  - " + instance_types.get(i).toString()
                                 + "(" + ValFactory.aws_instance.get(instance_types.get(i).toString()) + ")" + "\n";
-                        clusterinfotext += "     "+get_aws_dc(cip,nodetoolStatusJSON, instance_types.get(i).toString()) + "\n";
+                        clusterinfotext += "     "+get_aws_dc(/*cip,*/nodetoolStatusJSON, instance_types.get(i).toString()) + "\n";
                     }
                     else {
                         clusterinfotext += "  - Not AWS instance \n";
-                        clusterinfotext += "     "+get_non_aws_dc(cip,nodetoolStatusJSON) + "\n";
+                        clusterinfotext += "     "+get_non_aws_dc(/*cip,*/nodetoolStatusJSON) + "\n";
                     }
                 }
             }
 
-            JSONArray cluster_os = (JSONArray) cip.getCluster_info_obj().get("cluster_os");
+            JSONArray cluster_os = (JSONArray) cluster_info_obj.get("cluster_os");
             clusterinfotext +="Cluster OS Version: \n";
 
             for (int i=0; i< cluster_os.size();++i)
@@ -172,9 +202,10 @@ public class ClusterInfoAnalyzer {
             }
             clusterinfotext += "\n";
 
-            clusterinfotext += "#### Cluster Rack Topology #### \n";
+            clusterinfotext += "** Cluster Rack Topology ** \n"+
+            Inspector.generateEqualline(new String("** Cluster Rack Topology **").length())+"\n";
 
-            String[] rack_map_arrary = Inspector.splitByComma(cip.getCluster_info_obj().get("rack_map").toString().replaceAll("[{|}]", ""));
+            String[] rack_map_arrary = Inspector.splitByComma(cluster_info_obj.get("rack_map").toString().replaceAll("[{|}]", ""));
             Arrays.sort(rack_map_arrary);
 
             for(int i=0; i< rack_map_arrary.length; ++i)
@@ -271,7 +302,8 @@ public class ClusterInfoAnalyzer {
         * */
 
 
-        clusterinfotext += "#### Node Configuration Details(group by datacenters) ####\n";
+        clusterinfotext += "** Node Configuration Details(group by datacenters) **\n"+
+        Inspector.generateEqualline(new String("** Node Configuration Details(group by datacenters) **").length())+"\n";
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         //logger.debug("JSONArray Size: " + dcArray.size());
         for (Object dc : dcArray) {
@@ -287,6 +319,7 @@ public class ClusterInfoAnalyzer {
             Set<String> java_version_set = new HashSet<String>();
             Set<String> un_supported_os_msg_set = new HashSet<String>();
             Set<String> commitlog_data_dir_set = new HashSet<String>();
+
             for(Object node :nodesarrary)
             {
                 JSONObject tempnodevar = (JSONObject) node;
@@ -298,8 +331,8 @@ public class ClusterInfoAnalyzer {
                 clusterinfotext += "====== "+tempnodevar.get(ValFactory.ADDRESS).toString()+" ======"+"\n";
                 JSONObject node_obj = null;
 
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                     node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                     node_obj =  (JSONObject)node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
@@ -352,7 +385,7 @@ public class ClusterInfoAnalyzer {
 
                     ///get machine memory
 
-                    for(Object sysmem_obj: cip.getMachine_info_obj_list())
+                    for(Object sysmem_obj: machine_info_obj_list)
                     {
                         JSONObject sysmem_obj_tmp = (JSONObject) sysmem_obj;
 
@@ -366,7 +399,7 @@ public class ClusterInfoAnalyzer {
 
                 /////get and check OS version if supported////
 
-                for(Object os_info_obj: cip.getOs_info_obj_list())
+                for(Object os_info_obj:os_info_obj_list)
                 {
                     /*
                       "sub_os" : "CentOS Linux",
@@ -392,8 +425,9 @@ public class ClusterInfoAnalyzer {
                                     String unsupported_msg_str =
                                             "Unsupported OS " + "in DC: " +
                                                     tmpdcvar.get(ValFactory.DATACENTER).toString() + "("
-                                                    + os_name + " " + os_version + " for DSE " + dse_version + ")" + "!!!!"
-                                                    + " Please check " + ValFactory.supported_platform_url + "\n";
+                                                    + os_name + " " + os_version + " for DSE " + dse_version + ")" + "!!"
+                                                    + " Please check: "
+                                                    + ValFactory.supported_platform_url + "\n";
                                     clusterinfotext += "OS Version: " + os_name + " " + os_version +
                                             "(unsupported os: " + os_name + " " + os_version + " for DSE " + dse_version + ")" + "\n";
                                     un_supported_os_msg_set.add(unsupported_msg_str);
@@ -411,7 +445,7 @@ public class ClusterInfoAnalyzer {
                 }
                 ///get java version and node timezone
 
-                for(Object java_sys_obj: cip.getJava_system_properties_obj_list())
+                for(Object java_sys_obj: java_system_properties_obj_list)
                 {
                     JSONObject java_sys_obj_tmp = (JSONObject) java_sys_obj;
 
@@ -446,7 +480,8 @@ public class ClusterInfoAnalyzer {
 
                 ///get ntp status////
 
-                for(Object ntp_obj: cip.getNtptime_list())
+                /*
+                for(Object ntp_obj: ntptime_obj_list)
                 {
                     JSONObject ntp_obj_tmp = (JSONObject) ntp_obj;
 
@@ -471,12 +506,42 @@ public class ClusterInfoAnalyzer {
                             }
                         }
                     }
+                    */
 
+                for(Object ntpstat_obj: ntpstat_obj_list) {
+                    JSONObject ntp_obj_tmp = (JSONObject) ntpstat_obj;
+
+                    if (ntp_obj_tmp.get("file_id").equals(file_id)) {
+                        if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS) != null) {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().contains("down")) {
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() + "\n";
+                                ntp_downnode_set.add(file_id);
+                                is_ntp_down = true;
+                            }
+
+                        }
+                        if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS) != null) {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().contains("running"))
+                                if (ntp_obj_tmp.get(ValFactory.NTPTIME_OFFSET) != null) {
+                                    clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() +
+                                           ", time to correct: " +
+                                            ntp_obj_tmp.get(ValFactory.NTPTIME_OFFSET).toString() + "\n";
+                                }
+                        }
+                        if(ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS)!=null)
+                        {
+                            if (ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString().toLowerCase().contains("exception"))
+                            {
+                                clusterinfotext += "NTP Status: " + ntp_obj_tmp.get(ValFactory.NTPTIME_STAUS).toString() + "\n";
+                            }
+                        }
+
+                    }
                 }
 
                 ////get cpu info////
 
-                for(Object cpu_obj: cip.getCpu_obj_list())
+                for(Object cpu_obj: cpu_obj_list)
                 {
                     JSONObject cpu_obj_tmp = (JSONObject) cpu_obj;
 
@@ -506,14 +571,14 @@ public class ClusterInfoAnalyzer {
                 /////get disk info ////
                 clusterinfotext +="Storage Configuration:\n";
                 String commitlog_dir = new String();
-                for(Object disk_obj_tmp : dsp.getDisk_space_obj_list())
+                for(Object disk_obj_tmp :disk_space_obj_list)
                 {
                     JSONObject disk_obj = (JSONObject)disk_obj_tmp;
                     if(disk_obj.get(ValFactory.FILE_ID).equals(file_id)) {
                         JSONArray disk_list = (JSONArray) disk_obj.get(ValFactory.DISK_SPACE_USAGE);
-                        JSONObject node_info_obj = (JSONObject) cip.getNode_info_obj().get(file_id);
-                        if (node_info_obj != null) {
-                            JSONObject partitions_info = (JSONObject) node_info_obj.get("partitions");
+                        JSONObject node_info_obj_byip = (JSONObject) node_info_obj.get(file_id);
+                        if (node_info_obj_byip != null) {
+                            JSONObject partitions_info = (JSONObject) node_info_obj_byip.get("partitions");
                             if (partitions_info.get("commitlog") != null) {
                                 commitlog_dir = partitions_info.get("commitlog").toString().trim().
                                         replaceAll("[{|}]", "").replaceAll("\"", "")
@@ -588,7 +653,7 @@ public class ClusterInfoAnalyzer {
             {
                 clusterinfo_warning_header+= "Commitlog directory is on the same disk device with data directory in DC: " +
                         tmpdcvar.get(ValFactory.DATACENTER).toString() +
-                        "(Device name is: "+commitlog_data_dir_set.toArray()[0].toString()+")"+ "!!!!\n";
+                        "(Device name is: "+commitlog_data_dir_set.toArray()[0].toString()+")"+ "!!\n";
                 is_commitlog_dir_same_with_datadir = true;
             }
 
@@ -600,7 +665,7 @@ public class ClusterInfoAnalyzer {
                     dse_version_str+=str+",";
                 }
                 clusterinfo_warning_header+= dse_version_dff_msg_warning +
-                        tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+dse_version_str.substring(0,dse_version_str.length()-1)+")"+ "!!!!\n";
+                        tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+dse_version_str.substring(0,dse_version_str.length()-1)+")"+ "!!\n";
                 is_diff_dse_version = true;
             }
 
@@ -613,7 +678,7 @@ public class ClusterInfoAnalyzer {
                 }
                 clusterinfo_warning_header+= java_version_dff_msg_warning +
                         tmpdcvar.get(ValFactory.DATACENTER).toString()+ "("+java_version_str.substring(0,java_version_str.length()-1)+")" +
-                        "!!!!\n";
+                        "!!\n";
                 is_diff_java_version = true;
             }
 
@@ -684,38 +749,58 @@ public class ClusterInfoAnalyzer {
             }
             */
 
-        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os||is_commitlog_dir_same_with_datadir)
+        if(is_diff_java_version || is_diff_dse_version || is_mul_cluster_name||is_unsupported_os||is_commitlog_dir_same_with_datadir||is_ntp_down)
         {
-            clusterinfo_warning_header += "\n";
+            //String ntp_down_msg_warning = "NTP is down on nodes: \n";
+            if(ntp_downnode_set.size()>0) {
+                ntp_down_msg_warning += "  - [";
+                for(String str : ntp_downnode_set){
+
+                    ntp_down_msg_warning+=str+",";
+                }
+
+                String tmp = ntp_down_msg_warning.substring(0,ntp_down_msg_warning.length()-1)+"]\n";
+
+                clusterinfo_warning_header += tmp+"\n";
+
+
+            }
+            else
+                clusterinfo_warning_header += "\n";
             //t.setText(clusterinfo_warning_header);
 
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
-            t.setText(clusterinfo_warning_header+clusterinfotext);
-            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-            double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height*0.4);
-            t.setEditable(false);
+           // t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
+          //  t.setText(clusterinfo_warning_header+clusterinfotext);
+          //  Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+          //  double screen_height =  visualBounds.getHeight() ;
+         //   double screen_width = visualBounds.getWidth();
+            //t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+         //   t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfo_warning_header+clusterinfotext));
+        //    t.setEditable(false);
            // t.setPrefWidth(1024);
 
             //t.setScrollTop(0);
            /// flow.setLineSpacing(0);
 
             //flow.getChildren().addAll(t1,t2);
+            return clusterinfo_warning_header+clusterinfotext;
         }
         else {
-            t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
-            t.setText(clusterinfotext);
-            Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
-            double screen_height =  visualBounds.getHeight() ;
-            double screen_width = visualBounds.getWidth();
-            t.setMinHeight(screen_height*0.4);
-            t.setEditable(false);
+          //  t.setStyle("-fx-font-size: 11pt; -fx-font-family:monospace");
+        //    t.setText(clusterinfotext);
+        //    Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+       //     double screen_height =  visualBounds.getHeight() ;
+       //     double screen_width = visualBounds.getWidth();
+           // t.setMinHeight(screen_height * 3*ValFactory.SCREEN_HEIGHT_FACTOR/5);
+      //      t.setMinHeight(Inspector.getDynamicTextAreaHeight(clusterinfotext));
+      //      t.setEditable(false);
            // t.setPrefWidth(1024);
            // t.setMinHeight(450);
             //flow.getChildren().addAll(t);
+
+            return clusterinfotext;
         }
-        return t;
+       // return t;
 
     }
 
@@ -763,7 +848,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -785,7 +870,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -805,7 +890,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -825,7 +910,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -845,13 +930,13 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else
                 {
                     clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                 }
 
 
@@ -882,7 +967,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else if(os_name.toLowerCase().contains("oracle linux"))
@@ -901,7 +986,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else if(os_name.toLowerCase().contains("red hat"))
@@ -920,7 +1005,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -940,7 +1025,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -960,7 +1045,7 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
 
@@ -980,13 +1065,13 @@ public class ClusterInfoAnalyzer {
                     if(check==0)
                     {
                         clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                                ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                     }
                 }
                 else
                 {
                     clusterinfo_warning_header+="Unsupported OS Version for DSE " + dse_version + " " +
-                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!!!\n";
+                            ": " + os_name + " " + os_version + " on node: " + file_id + " !!\n";
                 }
 
 
@@ -996,7 +1081,7 @@ public class ClusterInfoAnalyzer {
         return clusterinfo_warning_header;
     }
 
-    public String get_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON,String aws_instance_type)
+    public String get_aws_dc(/*ClusterInfoParser cip,*/ JSONObject nodetoolStatusJSON,String aws_instance_type)
     {
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         Set<String> aws_dc_set =  new HashSet<String>();
@@ -1009,8 +1094,8 @@ public class ClusterInfoAnalyzer {
 
                 JSONObject node_obj = null;
                 String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
@@ -1031,7 +1116,7 @@ public class ClusterInfoAnalyzer {
         return aws_dc.substring(0,aws_dc.length()-1)+"]";
     }
 
-    public String get_non_aws_dc(ClusterInfoParser cip, JSONObject nodetoolStatusJSON)
+    public String get_non_aws_dc(/*ClusterInfoParser cip,*/ JSONObject nodetoolStatusJSON)
     {
         JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
         Set<String> non_aws_dc_set =  new HashSet<String>();
@@ -1044,8 +1129,8 @@ public class ClusterInfoAnalyzer {
 
                 JSONObject node_obj = null;
                 String file_id= tempnodevar.get(ValFactory.ADDRESS).toString();
-                if(cip.getNode_info_obj().get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                    node_obj =  (JSONObject) cip.getNode_info_obj().get(file_id);
+                if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj =  (JSONObject) node_info_obj.get(file_id);
 
                 if(node_obj !=null) {
 
