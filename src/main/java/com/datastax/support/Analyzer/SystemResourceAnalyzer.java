@@ -87,14 +87,24 @@ public class SystemResourceAnalyzer extends Analyzer {
             JSONObject cpuInfoJSON = new JSONObject();
             cpuInfoJSON.put(ValFactory.NODEC, nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
             cpuValueList.add(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
-            cpuInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
-            cpuValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+            if(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER) != null) {
+                cpuInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+                cpuValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+            } else {
+                cpuInfoJSON.put(ValFactory.DC, "--");
+                cpuValueList.add("--");
+            }
             for (Object JSON : cpuJSONList) {
                 JSONObject cpuJSON = (JSONObject) JSON;
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(cpuJSON.get(ValFactory.FILE_ID))) {
                     for (String key : ValFactory.CPUKEYLIST) {
-                        cpuInfoJSON.put(key, cpuJSON.get(key));
-                        cpuValueList.add(cpuJSON.get(key).toString());
+                        if (cpuJSON.get(key) != null) {
+                            cpuInfoJSON.put(key, cpuJSON.get(key));
+                            cpuValueList.add(cpuJSON.get(key).toString());
+                        } else {
+                            cpuInfoJSON.put(key, "--");
+                            cpuValueList.add("--");
+                        }
                     }
                 }
             }
@@ -126,32 +136,54 @@ public class SystemResourceAnalyzer extends Analyzer {
             JSONObject memoryInfoJSON = new JSONObject();
             memoryInfoJSON.put(ValFactory.NODEC, nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
             memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
-            memoryInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
-            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+            if(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER) != null) {
+                memoryInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+            } else {
+                memoryInfoJSON.put(ValFactory.DC, "--");
+                memoryValueList.add("--");
+            }
 
             for (Object JSON : memoryJSONList) {
                 JSONObject memoryJSON = (JSONObject) JSON;
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(memoryJSON.get(ValFactory.FILE_ID))) {
+                    logger.debug("Node: " + nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
                     long totalMemory = 0;
                     for (String key : ValFactory.MEMORYKEYLIST) {
+                        logger.debug("Key: " + key);
+                        logger.debug("Value: " + memoryJSON.get(key));
                         totalMemory += (Long)memoryJSON.get(key);
                     }
                     memoryInfoJSON.put(ValFactory.TOTAL, totalMemory);
                     memoryValueList.add(Long.toString(totalMemory));
                     for (String key : ValFactory.MEMORYKEYLIST) {
                         memoryInfoJSON.put(key, memoryJSON.get(key));
-                        memoryValueList.add(memoryJSON.get(key).toString());
+                        if(memoryJSON.get(key) != null) {
+                            memoryValueList.add(memoryJSON.get(key).toString());
+                        } else {
+                            memoryValueList.add("--");
+                        }
                     }
                 }
             }
 
-            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
-            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
-            memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
+            if(nodetoolInfoProperties.getProperty(ValFactory.HEAPVALUE) != null) {
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
 
-            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
-            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
-            memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
+                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
+                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
+                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
+            } else {
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), "--");
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), "--");
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), "--");
+
+                memoryValueList.add("--");
+                memoryValueList.add("--");
+                memoryValueList.add("--");
+            }
 
             memoryPadding = calculatePadding(memoryPadding, memoryKeys, memoryValueList);
             unsortedMemoryArray.add(memoryInfoJSON);

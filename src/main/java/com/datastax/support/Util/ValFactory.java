@@ -140,7 +140,7 @@ public class ValFactory {
     public static final String USEDHEAPVALUE = "Used Heap Memory (MB)";
     public static final String MAXHEAPVALUE = "Max Heap Memory (MB)";
     public static final ArrayList<String> CPUKEYLIST = new ArrayList<String>(Arrays.asList("%user", "%system", "%iowait", "%steal", "%nice", "%idle"));
-    public static final ArrayList<String> MEMORYKEYLIST = new ArrayList<String>(Arrays.asList("used", "free", "cached", "buffers", "shared"));
+    public static final ArrayList<String> MEMORYKEYLIST = new ArrayList<String>(Arrays.asList("used", "free", "cache", "buffers", "shared"));
     public static final ArrayList<String> HEAPKEYLIST = new ArrayList<String>(Arrays.asList("Used Heap (MB)", "Max Heap (MB)", "Off Heap (MB)"));
 
 

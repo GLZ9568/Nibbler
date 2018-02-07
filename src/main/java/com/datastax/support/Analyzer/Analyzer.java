@@ -179,8 +179,14 @@ public class Analyzer {
 
     protected HashMap<String, Integer> calculatePadding(HashMap<String, Integer> padding, ArrayList<String> keys, ArrayList<String> values) {
         for (int i=0; i<keys.size(); i++) {
-            padding.put(keys.get(i), padding.get(keys.get(i)) > values.get(i).length() + ValFactory.PAD
-                    ? padding.get(keys.get(i)) : values.get(i).length() + ValFactory.PAD);
+            if (values.get(i) != null) {
+                padding.put(keys.get(i), padding.get(keys.get(i)) > values.get(i).length() + ValFactory.PAD
+                        ? padding.get(keys.get(i)) : values.get(i).length() + ValFactory.PAD);
+            } else {
+                String nullValueOutput = "--";
+                padding.put(keys.get(i), padding.get(keys.get(i)) > nullValueOutput.length() + ValFactory.PAD
+                        ? padding.get(keys.get(i)) : nullValueOutput.length() + ValFactory.PAD);
+            }
         }
         return padding;
     }
