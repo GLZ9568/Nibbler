@@ -9,6 +9,7 @@
 
 package com.datastax.support.Parser;
 
+import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,21 +57,21 @@ public class JSONFileParser extends FileParser {
             try {
                 JSONParser parser = new JSONParser();
                 if (file.getName().toLowerCase().contains(ValFactory.CLUSTER_INFO_JSON.toLowerCase())) {
-                    clusterInfoJSON = (JSONObject) parser.parse(new FileReader(file.getAbsolutePath()));
+                    clusterInfoJSON = addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file);
                 } else if (file.getName().toLowerCase().contains(ValFactory.NODE_INFO_JSON.toLowerCase())) {
-                    nodeInfoJSON = (JSONObject) parser.parse(new FileReader(file.getAbsolutePath()));
+                    nodeInfoJSON = addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file);
                 } else if (file.getName().toLowerCase().contains(ValFactory.OS_INFO_JSON.toLowerCase())) {
-                    osInfoJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    osInfoJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 } else if (file.getName().toLowerCase().contains(ValFactory.MACHINE_INFO_JSON.toLowerCase())) {
-                    machineInfoJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    machineInfoJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 } else if (file.getName().toLowerCase().contains(ValFactory.CPU_JSON.toLowerCase())) {
-                    cpuJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    cpuJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 } else if (file.getName().toLowerCase().contains(ValFactory.MEMORY_JSON.toLowerCase())) {
-                    memoryJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    memoryJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 } else if (file.getName().toLowerCase().contains(ValFactory.DISK_SPACE_JSON.toLowerCase())) {
-                    diskSpaceJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    diskSpaceJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 } else if (file.getName().toLowerCase().contains(ValFactory.JAVA_SYSTEM_PROPERTIES_JSON.toLowerCase())) {
-                    javaSystemPropertiesJSONList.add((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())));
+                    javaSystemPropertiesJSONList.add(addFileInfo((JSONObject) parser.parse(new FileReader(file.getAbsolutePath())), file));
                 }
             } catch (FileNotFoundException fnfe) {
                 logCheckedException(logger, fnfe);
@@ -80,6 +81,14 @@ public class JSONFileParser extends FileParser {
                 logCheckedException(logger, ioe);
             }
         }
+    }
+
+    private JSONObject addFileInfo (JSONObject jsonObject, File file) {
+        String id = Inspector.getFileID(file);
+        jsonObject.put(ValFactory.FILE_ID, id);
+        jsonObject.put(ValFactory.FILE_PATH, file.getAbsolutePath());
+        jsonObject.put(ValFactory.FILE_NAME, file.getName());
+        return jsonObject;
     }
 
     public JSONObject getClusterInfoJSON() {

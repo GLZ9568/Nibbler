@@ -29,8 +29,9 @@ public class Test extends Nibbler {
     //private final String testDir = "DSE5.0";
     private final String testDir = "test";
     private final File winDir = new File("C:\\Users\\CGao\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\TestData\\" + testDir);
-    //private final File winDir = new File("D:\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\" + testDir);
+    //private final File winDir = new File("C:\\Users\\CGao\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\40467\\xnetdse_prod1-diagnostics-2018_01_23_02_31_10_UTC");
     private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/" + testDir);
+    //private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/largedata");
     //private final File linDir = new File ("/Users/tongjixianing/Downloads/order_prod_cluster-diagnostics-2017_11_24_23_44_42_UTC");
 
     protected FileFactory fileFactory;

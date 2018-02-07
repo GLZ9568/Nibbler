@@ -128,6 +128,12 @@ public class ValFactory {
     public static final String authentication_options = "authent_option";
     public static final String role_management_options = "role_man_option";
 
+    public static final String TOTAL = "total";
+    public static final String HEAPVALUE = "Heap Memory (MB)";
+    public static final String OFFHEAPVALUE = "Off Heap Memory (MB)";
+    public static final ArrayList<String> CPUKEYLIST = new ArrayList<String>(Arrays.asList("%user", "%system", "%iowait", "%steal", "%nice", "%idle"));
+    public static final ArrayList<String> MEMORYKEYLIST = new ArrayList<String>(Arrays.asList("used", "free", "cached", "buffers", "shared"));
+    public static final ArrayList<String> HEAPKEYLIST = new ArrayList<String>(Arrays.asList("Used Heap (MB)", "Configured Heap (MB)", "Off Heap (MB)"));
 
 
     public static final String DSETOOL = "dsetool";

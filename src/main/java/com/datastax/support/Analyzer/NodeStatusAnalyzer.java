@@ -108,9 +108,11 @@ public class NodeStatusAnalyzer extends Analyzer {
             }
 
             for (Properties properties : nodetoolInfoPropertiesList) {
-                if (properties.get(ValFactory.DATA_CENTER).toString().equals(datacenterJSON.get(ValFactory.DATACENTER).toString())) {
-                    nodetoolInfoPadding.put(ValFactory.UPTIME, nodetoolInfoPadding.get(ValFactory.UPTIME) > Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).length() + ValFactory.PAD
-                            ? nodetoolInfoPadding.get(ValFactory.UPTIME) : Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).length() + ValFactory.PAD);
+                if (properties.get(ValFactory.DATA_CENTER) !=null && datacenterJSON.get(ValFactory.DATACENTER) != null) {
+                    if (properties.get(ValFactory.DATA_CENTER).toString().equals(datacenterJSON.get(ValFactory.DATACENTER).toString())) {
+                        nodetoolInfoPadding.put(ValFactory.UPTIME, nodetoolInfoPadding.get(ValFactory.UPTIME) > Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).length() + ValFactory.PAD
+                                ? nodetoolInfoPadding.get(ValFactory.UPTIME) : Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).length() + ValFactory.PAD);
+                    }
                 }
             }
 
@@ -145,24 +147,35 @@ public class NodeStatusAnalyzer extends Analyzer {
                     if (key.equals(ValFactory.UD)) {
                         nodeInfo += String.format("%1$-" + statusPadding.get(key) + "s", statusNode.get(key));
                         boolean foundNodeProperty = false;
+                        boolean foundDSERing = false;
                         for (Properties properties : nodetoolInfoPropertiesList) {
-                            if (properties.get(ValFactory.ID).toString().equals(statusNode.get(ValFactory.HOST_ID))) {
-                                foundNodeProperty = true;
-                                nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s",
-                                        Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).toString());
-                                if (foundHealth) {
-                                    for (Object ringNd : ringNodes) {
-                                        JSONObject ringNode = (JSONObject) ringNd;
-                                        if (statusNode.get(ValFactory.ADDRESS).toString().equals(ringNode.get(ValFactory.ADDRESS))) {
-                                            nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", ringNode.get(ValFactory.HEALTH));
+                            if (properties.get(ValFactory.ID) != null && statusNode.get(ValFactory.HOST_ID) != null) {
+                                if (properties.get(ValFactory.ID).toString().equals(statusNode.get(ValFactory.HOST_ID))) {
+                                    foundNodeProperty = true;
+                                    nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s",
+                                            Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).toString());
+
+                                    if (foundHealth) {
+                                        for (Object ringNd : ringNodes) {
+                                            JSONObject ringNode = (JSONObject) ringNd;
+                                            if (statusNode.get(ValFactory.ADDRESS).toString().equals(ringNode.get(ValFactory.ADDRESS))) {
+                                                nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", ringNode.get(ValFactory.HEALTH));
+                                                foundDSERing = true;
+                                            }
                                         }
                                     }
+
                                 }
                             }
                         }
                         if (!foundNodeProperty) {
                             nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s", "--");
                         }
+
+                        if (foundHealth && !foundDSERing) {
+                            nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", "--");
+                        }
+
                     } else if (key.equals(ValFactory.ADDRESS)) {
                         nodeInfo += String.format("%1$-" + statusPadding.get(key) + "s", statusNode.get(key));
                         for (Object ringNd : ringNodes) {

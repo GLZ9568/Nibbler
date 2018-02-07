@@ -11,6 +11,8 @@ package com.datastax.test;
 
 import com.datastax.support.UI.CfstatsTitledPane;
 import com.datastax.support.UI.NodeStatusTitledPane;
+import com.datastax.support.UI.SystemResourceTitledPane;
+import com.datastax.support.UI.TpstatsTitledPane;
 import com.datastax.support.Util.ValFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,18 +47,26 @@ public class UITest extends Test{
         final TitledPane nodeStatusTitledPane = nodeStatusPane.getNodeStatusTitledPane();
         CfstatsTitledPane cfstatsPane = new CfstatsTitledPane(fileFactory);
         final TitledPane cfstatsTitledPane = cfstatsPane.getCfstatsTitledPane();
+        TpstatsTitledPane tpstatsPane = new TpstatsTitledPane(fileFactory);
+        final TitledPane tpstatsTitledPane = tpstatsPane.getTpstatsTitledPane();
+        SystemResourceTitledPane systemResourcePane = new SystemResourceTitledPane(fileFactory);
+        final TitledPane systemResourceTitledPane = systemResourcePane.getSystemResourceTitledPane();
 
         stage.setTitle("Nibbler UI Test");
         stage.setMinHeight(screen_height * ValFactory.SCREEN_HEIGHT_FACTOR);
         stage.setMinWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
         gridPane.add(nodeStatusTitledPane, 0, 1);
         gridPane.add(cfstatsTitledPane, 0, 2);
-        gridPane.setMinHeight(screen_height * ValFactory.SCREEN_HEIGHT_FACTOR);
-        gridPane.setMinWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
+        gridPane.add(tpstatsTitledPane, 0, 3);
+        gridPane.add(systemResourceTitledPane, 0, 4);
+        gridPane.setPrefHeight(screen_height * ValFactory.SCREEN_HEIGHT_FACTOR);
+        gridPane.setPrefWidth(screen_width * ValFactory.SCREEN_WIDTH_FACTOR);
         gridPane.widthProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-                cfstatsTitledPane.setPrefWidth(arg2.doubleValue() - 15);
                 nodeStatusTitledPane.setPrefWidth(arg2.doubleValue() - 15);
+                cfstatsTitledPane.setPrefWidth(arg2.doubleValue() - 15);
+                tpstatsTitledPane.setPrefWidth(arg2.doubleValue() - 15);
+                systemResourceTitledPane.setPrefWidth(arg2.doubleValue() - 15);
             }
         });
         stage.setScene(new Scene(gridPane));

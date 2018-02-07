@@ -10,15 +10,9 @@
 package com.datastax.support.Analyzer;
 
 import com.datastax.support.Util.FileFactory;
-import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.ValFactory;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.util.StringBuilders;
 import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,7 +44,7 @@ public class Analyzer {
         }
         Collections.sort(jsonObjects, new Comparator<JSONObject>() {
             public int compare(JSONObject jsonObjectA, JSONObject jsonObjectB) {
-                if (type.toLowerCase() == "string") {
+                if (type.toLowerCase().equals("string")) {
                     String valueA = new String();
                     String valueB = new String();
                     try {
@@ -64,7 +58,7 @@ public class Analyzer {
                     } else {
                         return valueB.compareTo(valueA);
                     }
-                } else if (type.toLowerCase() == "long") {
+                } else if (type.toLowerCase().equals("long")) {
                     Long valueA = 0L;
                     Long valueB = 0L;
                     try {
@@ -78,7 +72,7 @@ public class Analyzer {
                     } else {
                         return valueB.compareTo(valueA);
                     }
-                } else if (type.toLowerCase() == "double") {
+                } else if (type.toLowerCase().equals("double")) {
                     Double valueA = 0.0;
                     Double valueB = 0.0;
                     try {
@@ -101,6 +95,71 @@ public class Analyzer {
         });
         sortedJsonArray.addAll(jsonObjects);
         return sortedJsonArray;
+    }
+
+    protected ArrayList<Properties> sortPropertiesArrayList(ArrayList<Properties> unsortedArrayList, final String sortKey, final boolean desc, final String type) {
+        ArrayList<Properties> sortedArrayList = new ArrayList<Properties>();
+
+        List<Properties> propertiesList = new ArrayList<Properties>();
+
+        for (Properties properties : unsortedArrayList) {
+            propertiesList.add(properties);
+        }
+
+        Collections.sort(propertiesList, new Comparator<Properties>() {
+            public int compare(Properties propertiesA, Properties propertiesB) {
+                if (type.toLowerCase().equals("string")) {
+                    String valueA = new String();
+                    String valueB = new String();
+                    try {
+                        valueA = (String) propertiesA.get(sortKey);
+                        valueB = (String) propertiesB.get(sortKey);
+                    } catch (JSONException jsone) {
+                        logException(logger, jsone);
+                    }
+                    if (!desc) {
+                        return valueA.compareTo(valueB);
+                    } else {
+                        return valueB.compareTo(valueA);
+                    }
+                } else if (type.toLowerCase().equals("long")) {
+                    Long valueA = 0L;
+                    Long valueB = 0L;
+                    try {
+                        valueA = Long.parseLong(propertiesA.get(sortKey).toString());
+                        valueB = Long.parseLong(propertiesB.get(sortKey).toString());
+                    } catch (JSONException jsone) {
+                        logException(logger, jsone);
+                    }
+                    if (!desc) {
+                        return valueA.compareTo(valueB);
+                    } else {
+                        return valueB.compareTo(valueA);
+                    }
+                } else if (type.toLowerCase().equals("double")) {
+                    Double valueA = 0.0;
+                    Double valueB = 0.0;
+                    try {
+                        valueA = Double.parseDouble(propertiesA.get(sortKey).toString());
+                        valueB = Double.parseDouble(propertiesB.get(sortKey).toString());
+                    } catch (JSONException jsone) {
+                        logException(logger, jsone);
+                    }
+                    if (!desc) {
+                        return valueA.compareTo(valueB);
+                    } else {
+                        return valueB.compareTo(valueA);
+                    }
+                } else {
+                    // this should not happen, only use the defined type to sort the JSONArray, currently there are String and Long
+                    // can implement more types here later if needed
+                    return 0;
+                }
+            }
+        });
+
+        sortedArrayList.addAll(propertiesList);
+        return sortedArrayList;
     }
 
     protected void logException (Logger logger, Exception e) {
@@ -186,7 +245,7 @@ public class Analyzer {
 
     protected String printDividingLine (int length) {
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i=0; i<length-1; i++) {
+        for(int i=0; i<length; i++) {
             stringBuilder.append("=");
         }
         return stringBuilder.toString();
