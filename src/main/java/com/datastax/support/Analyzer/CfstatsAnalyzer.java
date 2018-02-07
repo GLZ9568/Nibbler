@@ -145,8 +145,6 @@ public class CfstatsAnalyzer extends Analyzer {
             output += printDividingLine(exp.length());
         }
 
-        output += "\n" + maxLiveCellTitle + "\n" + printDividingLine(maxLiveCellTitle.length()) + "\n";
-
         logger.debug("Sorted Large Partition JSON Array: \n" + output);
     }
 
@@ -160,69 +158,74 @@ public class CfstatsAnalyzer extends Analyzer {
                         JSONObject table = (JSONObject) tb;
 
                         JSONObject largePartitionJSON = new JSONObject();
-                        long partitionSize = Long.parseLong((String)table.get(largePartition));
-                        if(partitionSize > largePartitionQualifier) {
-                            foundLargePartition = true;
-                            String largePartitionMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
-                            if (!largePartitionMap.containsKey(largePartitionMapKey) || ((Long) largePartitionMap.get(largePartitionMapKey)) < partitionSize) {
-                                largePartitionMap.put(largePartitionMapKey, partitionSize);
-                                ArrayList<String> largePartitionValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                        table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize),
-                                        table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString()));
-                                ArrayList<String> largePartitionPaddingValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                        table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize) + " (" + calByte(partitionSize) + ")",
-                                        table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
-                                if (largePartitionKeys.size() == largePartitionValueList.size()) {
-                                    for (int i=0; i<largePartitionKeys.size(); i++) {
-                                        largePartitionJSON.put(largePartitionKeys.get(i), largePartitionValueList.get(i));
+                        if (table.get(largePartition) != null) {
+                            long partitionSize = Long.parseLong((String) table.get(largePartition));
+                            if (partitionSize > largePartitionQualifier) {
+                                foundLargePartition = true;
+                                String largePartitionMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
+                                if (!largePartitionMap.containsKey(largePartitionMapKey) || ((Long) largePartitionMap.get(largePartitionMapKey)) < partitionSize) {
+                                    largePartitionMap.put(largePartitionMapKey, partitionSize);
+                                    ArrayList<String> largePartitionValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                            table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize),
+                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString()));
+                                    ArrayList<String> largePartitionPaddingValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                            table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize) + " (" + calByte(partitionSize) + ")",
+                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
+                                    if (largePartitionKeys.size() == largePartitionValueList.size()) {
+                                        for (int i = 0; i < largePartitionKeys.size(); i++) {
+                                            largePartitionJSON.put(largePartitionKeys.get(i), largePartitionValueList.get(i));
+                                        }
+                                        largePartitionPadding = calculatePadding(largePartitionPadding, largePartitionKeys, largePartitionPaddingValueList);
+                                        unsortedLargePartitionArray.add(largePartitionJSON);
                                     }
-                                    largePartitionPadding = calculatePadding(largePartitionPadding, largePartitionKeys, largePartitionPaddingValueList);
-                                    unsortedLargePartitionArray.add(largePartitionJSON);
                                 }
                             }
                         }
 
                         JSONObject maxTombstoneJSON = new JSONObject();
-                        double maxTombstonePerSlice = Double.parseDouble((String)table.get(maxTombStone));
-                        if(maxTombstonePerSlice > 0) {
-                            foundMaxTombstonePerSlice = true;
-                            String maxTombstoneMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
-                            if (!maxTombstoneMap.containsKey(maxTombstoneMapKey)) {
-                                maxTombstoneMap.put(maxTombstoneMapKey, maxTombstonePerSlice);
+                        if (table.get(maxTombStone) != null) {
+                            double maxTombstonePerSlice = Double.parseDouble((String) table.get(maxTombStone));
+                            if (maxTombstonePerSlice > 0) {
+                                foundMaxTombstonePerSlice = true;
+                                String maxTombstoneMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
+                                if (!maxTombstoneMap.containsKey(maxTombstoneMapKey)) {
+                                    maxTombstoneMap.put(maxTombstoneMapKey, maxTombstonePerSlice);
 
-                                ArrayList<String> maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-/*null pointer for  table.get(ValFactory.NUMBER_OF_KEYS)
-*  in dse 5.1, it is changed to Number of partitions (estimate)
-*
-* */                        table.get(ValFactory.TABLE).toString(), String.valueOf(maxTombstonePerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                        table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
-                                if (maxTombstoneKeys.size() == maxTomeStonePerSliceValueList.size()) {
-                                    for (int i = 0; i < maxTombstoneKeys.size(); i++) {
-                                        maxTombstoneJSON.put(maxTombstoneKeys.get(i), maxTomeStonePerSliceValueList.get(i));
+                                    ArrayList<String> maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                            table.get(ValFactory.TABLE).toString(),
+                                            String.valueOf(maxTombstonePerSlice),
+                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(),
+                                            table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
+                                    if (maxTombstoneKeys.size() == maxTomeStonePerSliceValueList.size()) {
+                                        for (int i = 0; i < maxTombstoneKeys.size(); i++) {
+                                            maxTombstoneJSON.put(maxTombstoneKeys.get(i), maxTomeStonePerSliceValueList.get(i));
+                                        }
+                                        maxTombstonePadding = calculatePadding(maxTombstonePadding, maxTombstoneKeys, maxTomeStonePerSliceValueList);
+                                        unsortedMaxTombstonePerSliceArray.add(maxTombstoneJSON);
                                     }
-                                    maxTombstonePadding = calculatePadding(maxTombstonePadding, maxTombstoneKeys, maxTomeStonePerSliceValueList);
-                                    unsortedMaxTombstonePerSliceArray.add(maxTombstoneJSON);
                                 }
                             }
                         }
 
                         JSONObject maxLiveCellJSON = new JSONObject();
-                        double maxLiveCellPerSlice = Double.parseDouble((String)table.get(maxLiveCell));
-                        if(maxLiveCellPerSlice > 0) {
-                            foundMaxLiveCellPerSlice = true;
-                            String maxLiveCellMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
-                            if (!maxLiveCellMap.containsKey(maxLiveCellMapKey)) {
-                                maxLiveCellMap.put(maxLiveCellMapKey, maxLiveCellPerSlice);
+                        if (table.get(maxLiveCell) != null) {
+                            double maxLiveCellPerSlice = Double.parseDouble((String) table.get(maxLiveCell));
+                            if (maxLiveCellPerSlice > 0) {
+                                foundMaxLiveCellPerSlice = true;
+                                String maxLiveCellMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
+                                if (!maxLiveCellMap.containsKey(maxLiveCellMapKey)) {
+                                    maxLiveCellMap.put(maxLiveCellMapKey, maxLiveCellPerSlice);
 
-                                ArrayList<String> maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                        table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                        table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
-                                if (maxLiveCellKeys.size() == maxLiveCellPerSliceValueList.size()) {
-                                    for (int i = 0; i < maxLiveCellKeys.size(); i++) {
-                                        maxLiveCellJSON.put(maxLiveCellKeys.get(i), maxLiveCellPerSliceValueList.get(i));
+                                    ArrayList<String> maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                            table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
+                                            table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
+                                    if (maxLiveCellKeys.size() == maxLiveCellPerSliceValueList.size()) {
+                                        for (int i = 0; i < maxLiveCellKeys.size(); i++) {
+                                            maxLiveCellJSON.put(maxLiveCellKeys.get(i), maxLiveCellPerSliceValueList.get(i));
+                                        }
+                                        maxLiveCellPadding = calculatePadding(maxLiveCellPadding, maxLiveCellKeys, maxLiveCellPerSliceValueList);
+                                        unsortedMaxLiveCellPerSliceArray.add(maxLiveCellJSON);
                                     }
-                                    maxLiveCellPadding = calculatePadding(maxLiveCellPadding, maxLiveCellKeys, maxLiveCellPerSliceValueList);
-                                    unsortedMaxLiveCellPerSliceArray.add(maxLiveCellJSON);
                                 }
                             }
                         }
