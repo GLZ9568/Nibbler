@@ -154,24 +154,21 @@ public class NodeStatusAnalyzer extends Analyzer {
                                     foundNodeProperty = true;
                                     nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s",
                                             Inspector.secToTime(Integer.parseInt(properties.get(ValFactory.UPTIME_SECONDS).toString()), false).toString());
-
-                                    if (foundHealth) {
-                                        for (Object ringNd : ringNodes) {
-                                            JSONObject ringNode = (JSONObject) ringNd;
-                                            if (statusNode.get(ValFactory.ADDRESS).toString().equals(ringNode.get(ValFactory.ADDRESS))) {
-                                                nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", ringNode.get(ValFactory.HEALTH));
-                                                foundDSERing = true;
-                                            }
-                                        }
-                                    }
-
                                 }
                             }
                         }
                         if (!foundNodeProperty) {
                             nodeInfo += String.format("%1$-" + nodetoolInfoPadding.get(ValFactory.UPTIME) + "s", "--");
                         }
-
+                        if (foundHealth) {
+                            for (Object ringNd : ringNodes) {
+                                JSONObject ringNode = (JSONObject) ringNd;
+                                if (statusNode.get(ValFactory.ADDRESS).toString().equals(ringNode.get(ValFactory.ADDRESS))) {
+                                    nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", ringNode.get(ValFactory.HEALTH));
+                                    foundDSERing = true;
+                                }
+                            }
+                        }
                         if (foundHealth && !foundDSERing) {
                             nodeInfo += String.format("%1$-" + ringPadding.get(ValFactory.HEALTH) + "s", "--");
                         }
