@@ -77,10 +77,7 @@ public class NodetoolInfoAnalyzer extends Analyzer{
             Set<String> heap_size_set = new HashSet<String>();
             String dc_name = tmpdcvar.get(ValFactory.DATACENTER).toString();
             /////group by DC name///
-           /* String dotlinestr = Inspector.generateDotline(19+ tmpdcvar.get(ValFactory.DATACENTER).toString().length())+"\n";
-            nodetool_info_text+=dotlinestr +
-                    ">>>Datacenter: "+ tmpdcvar.get(ValFactory.DATACENTER).toString()+"<<<<\n"+
-                    dotlinestr;*/
+
             nodetool_info_text += "Datacenter: " + dc_name + "\n";
             nodetool_info_text += Inspector.generateEqualline(12 + dc_name.length()) + "\n";
             JSONArray nodesarrary = (JSONArray) tmpdcvar.get(ValFactory.NODES);
@@ -91,15 +88,18 @@ public class NodetoolInfoAnalyzer extends Analyzer{
             }
 
             nodetool_info_text += "\n";
+            ArrayList<String> missing_node_list = getMissingNodeinDC(info_obj_list,dc_name);
+            for (/*Object node : nodesarrary*/JSONObject nodetool_info_obj: info_obj_list) {
+                //JSONObject tempnodevar = (JSONObject) node;
 
-            for (Object node : nodesarrary) {
-                JSONObject tempnodevar = (JSONObject) node;
-
-                String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
+               // String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
+                String file_id = nodetool_info_obj.get(ValFactory.FILE_ID).toString();
                 boolean foundnode = false;
-                for (JSONObject nodetool_info_obj: info_obj_list) {
+                for (/*JSONObject nodetool_info_obj: info_obj_list*/Object node : nodesarrary) {
                     //// node ip//////
-                    if(file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())) {
+                    JSONObject tempnodevar = (JSONObject) node;
+                    if(/*file_id.equals(nodetool_info_obj.get(ValFactory.FILE_ID).toString())*/
+                            file_id.equals(tempnodevar.get(ValFactory.ADDRESS).toString())) {
                     //logger.debug("node: " + file_id);
                       /*  nodetool_info_text+= "====== " + file_id + " =======\n";
                         //nodetool_info_text+= "Uptime: " + Inspector.secToTime(Integer.valueOf(nodetool_info_obj.get(ValFactory.INFO_UPTIME).toString()))+ "\n";
@@ -127,13 +127,13 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                         nodetool_info_text += String.format("%1$-" +
                                 dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", nodetool_info_obj.get(ValFactory.INFO_UPTIME)==null? "NaN": nodetool_info_obj.get(ValFactory.INFO_UPTIME));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Max Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)==null? "NaN": nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP));
+                                dcpadding.get("Max Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)==null? "NaN":  nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Used Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_USEDHEAP)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_USEDHEAP));
+                                dcpadding.get("Used Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_USEDHEAP)==null? "NaN": nodetool_info_obj.get(ValFactory.INFO_USEDHEAP) );
                         nodetool_info_text += String.format("%1$-" +
                                 dcpadding.get("Off Heap(mb)") + "s", nodetool_info_obj.get(ValFactory.INFO_OFFHEAP)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_OFFHEAP));
                         nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Gossip Generation") + "s", nodetool_info_obj.get(ValFactory.INFO_GENERATION));
+                                dcpadding.get("Gossip Generation") + "s", nodetool_info_obj.get(ValFactory.INFO_GENERATION)==null? "NaN":nodetool_info_obj.get(ValFactory.INFO_GENERATION));
                         if(nodetool_info_obj.containsKey(ValFactory.PERCENT_REPAIRED))
                             nodetool_info_text += String.format("%1$-" +
                                 dcpadding.get("Percent Repaired") + "s", nodetool_info_obj.get(ValFactory.PERCENT_REPAIRED));
@@ -141,7 +141,7 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                             nodetool_info_text += String.format("%1$-" +
                                     dcpadding.get("Percent Repaired") + "s","NaN");
 
-                        if(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)!=null)
+                        if(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP)!=null&&!nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).equals("NaN"))
                         heap_size_set.add(nodetool_info_obj.get(ValFactory.INFO_TOTALHEAP).toString().trim()+"mb");
                         nodetool_info_text += "\n";
 
@@ -149,37 +149,6 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                     }
                 }
 
-                //// if the nodetool info is missing but we do not want to miss that in our output////
-
-                if(!foundnode){
-
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get(ValFactory.ADDRESS) + "s",file_id);
-                    JSONObject node_obj = null;
-                    if(node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
-                        node_obj =  (JSONObject) node_info_obj.get(file_id);
-
-                    if(node_obj !=null)
-                    {
-                        nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname").toString());
-                    }
-
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", "NaN");
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get("Max Heap(mb)") + "s", "NaN");
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get("Used Heap(mb)") + "s", "NaN");
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get("Off Heap(mb)") + "s", "NaN");
-                    nodetool_info_text += String.format("%1$-" +
-                            dcpadding.get("Gossip Generation") + "s", "NaN");
-                    nodetool_info_text += String.format("%1$-" +
-                                dcpadding.get("Percent Repaired") + "s","NaN");
-
-                    nodetool_info_text += "\n";
-                }
             }
             if(heap_size_set.size()>1) {
                 is_diff_heap_size = true;
@@ -190,6 +159,39 @@ public class NodetoolInfoAnalyzer extends Analyzer{
                 }
                 nodetool_info_warning_text += "Different heap sizes in DC: "+
                         tmpdcvar.get(ValFactory.DATACENTER).toString() +"("+heap_str.substring(0,heap_str.length()-1)+")"+ "!!!!\n";
+            }
+
+            //// if the nodetool info is missing but we do not want to miss that in our output////
+
+            if(missing_node_list.size()!=0) {
+
+                for (String ip : missing_node_list){
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get(ValFactory.ADDRESS) + "s", ip);
+                JSONObject node_obj = null;
+                if (node_info_obj.get(ValFactory.ISNODE_INFOEXIST).equals("true"))
+                    node_obj = (JSONObject) node_info_obj.get(ip);
+
+                if (node_obj != null) {
+                    nodetool_info_text += String.format("%1$-" +
+                            dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname").toString());
+                }
+
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get(ValFactory.UPTIME_SECONDS) + "s", "NaN");
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get("Max Heap(mb)") + "s", "NaN");
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get("Used Heap(mb)") + "s", "NaN");
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get("Off Heap(mb)") + "s", "NaN");
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get("Gossip Generation") + "s", "NaN");
+                nodetool_info_text += String.format("%1$-" +
+                        dcpadding.get("Percent Repaired") + "s", "NaN");
+
+                nodetool_info_text += "\n";
+            }
             }
             nodetool_info_text += "\n";
         }
@@ -345,5 +347,34 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
 
         return null;
+    }
+
+    protected ArrayList<String> getMissingNodeinDC(ArrayList<JSONObject> info_obj_list,String dc_name)
+    {
+        JSONArray dcArray = (JSONArray) nodetoolStatusJSON.get(ValFactory.STATUS);
+        ArrayList<String> missing_node_ip_list = new ArrayList<String>();
+        for (Object dc : dcArray) {
+            JSONObject tmpdcvar = (JSONObject) dc;
+            JSONArray nodesarrary = (JSONArray) tmpdcvar.get(ValFactory.NODES);
+            String dc_name1 = tmpdcvar.get(ValFactory.DATACENTER).toString();
+            if (dc_name.equals(dc_name1)) {
+                boolean foundnode = false;
+                for (Object node : nodesarrary) {
+                    JSONObject tempnodevar = (JSONObject) node;
+                    String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
+                    for (Object info_obj_tmp : info_obj_list) {
+                        JSONObject info_obj_tmp1 = (JSONObject) info_obj_tmp;
+                        if (file_id.equals(info_obj_tmp1.get(ValFactory.FILE_ID))) {
+                            foundnode = true;
+                        }
+                    }
+                    if(!foundnode)
+                    {
+                        missing_node_ip_list.add(file_id);
+                    }
+                }
+            }
+        }
+        return missing_node_ip_list;
     }
 }
