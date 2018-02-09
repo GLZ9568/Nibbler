@@ -188,6 +188,8 @@ public class ClusterInfoAnalyzer extends Analyzer {
             clusterinfotext += "Cluster OS Version: \n";
 
             for (int i = 0; i < cluster_os.size(); ++i) {
+                String[] cluster_os_str_split = Inspector.splitByComma(cluster_os.get(i).toString());
+                if(!cluster_os_str_split[0].contains("null"))
                 clusterinfotext += "  - " + cluster_os.get(i).toString() + "\n";
             }
             clusterinfotext += "\n";
