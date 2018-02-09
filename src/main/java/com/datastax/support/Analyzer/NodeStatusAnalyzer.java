@@ -210,7 +210,7 @@ public class NodeStatusAnalyzer extends Analyzer {
         dcInfo += "\nTotal Number of Nodes: " + totalNumofNodes;
 
         output += nodeInfo;
-        output += "Number of DCs: " + statusJSONArray.size();
+        output += "Number of DCs: " + statusJSONArray.size() + " ";
         output += dcInfo;
         logger.debug("\n" + output);
     }

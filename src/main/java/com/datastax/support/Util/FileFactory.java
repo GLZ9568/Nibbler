@@ -220,6 +220,10 @@ public class FileFactory {
         return nodetoolStatusJSON;
     }
 
+    public JSONObject getNodeDCMap() {
+        return (JSONObject) nodetoolStatusJSON.get(ValFactory.NODEDCMAP);
+    }
+
     public ArrayList<JSONObject> getTpstatsJSONList() {
         return tpstatsJSONList;
     }

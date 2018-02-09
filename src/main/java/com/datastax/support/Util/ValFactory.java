@@ -39,6 +39,7 @@ public class ValFactory {
     public static final String TABLE = "Table";
     public static final String TABLES = "Tables";
     public static final String PADDING = "Padding";
+    public static final String NODEDCMAP = "NodeDCMap";
 
     public static final String ISCLUSTER_INFOEXIST = "iscluster_infoexist";
     public static final String ISNODE_INFOEXIST = "isnode_infoexist";
@@ -94,6 +95,7 @@ public class ValFactory {
     public static final String MAX_TOMBSTONE = "Max tombstone per slice (last 5 minutes)";
     public static final String MAX_LIVE_CELL = "Max live cells per slice (last 5 minutes)";
     public static final String NUMBER_OF_KEYS = "Number of keys (estimate)";
+    public static final String NUMBER_OF_PARTITIONS = "Number of partitions (estimate)";
     public static final String TABLE_SPACE_USED = "Current space used (total)";
     public static final String PARTITION_SIZE = "Partition Size";
     public static final String COMPACTIONHISTORY = "compactionhistory";
@@ -139,6 +141,8 @@ public class ValFactory {
     public static final String OFFHEAPVALUE = "Off Heap Memory (MB)";
     public static final String USEDHEAPVALUE = "Used Heap Memory (MB)";
     public static final String MAXHEAPVALUE = "Max Heap Memory (MB)";
+    public static final String CACHE = "cache";
+    public static final String CACHED = "cached";
     public static final ArrayList<String> CPUKEYLIST = new ArrayList<String>(Arrays.asList("%user", "%system", "%iowait", "%steal", "%nice", "%idle"));
     public static final ArrayList<String> MEMORYKEYLIST = new ArrayList<String>(Arrays.asList("used", "free", "cache", "buffers", "shared"));
     public static final ArrayList<String> HEAPKEYLIST = new ArrayList<String>(Arrays.asList("Used Heap (MB)", "Max Heap (MB)", "Off Heap (MB)"));

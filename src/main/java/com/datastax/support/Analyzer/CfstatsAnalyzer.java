@@ -165,12 +165,23 @@ public class CfstatsAnalyzer extends Analyzer {
                                 String largePartitionMapKey = keyspace.get(ValFactory.KEYSPACE).toString() + "." + table.get(ValFactory.TABLE).toString();
                                 if (!largePartitionMap.containsKey(largePartitionMapKey) || ((Long) largePartitionMap.get(largePartitionMapKey)) < partitionSize) {
                                     largePartitionMap.put(largePartitionMapKey, partitionSize);
-                                    ArrayList<String> largePartitionValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                            table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize),
-                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString()));
-                                    ArrayList<String> largePartitionPaddingValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                            table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize) + " (" + calByte(partitionSize) + ")",
-                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
+                                    ArrayList<String> largePartitionValueList;
+                                    ArrayList<String> largePartitionPaddingValueList;
+                                    if (table.get(ValFactory.NUMBER_OF_KEYS) != null) {
+                                        largePartitionValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize),
+                                                table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString()));
+                                        largePartitionPaddingValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize) + " (" + calByte(partitionSize) + ")",
+                                                table.get(ValFactory.NUMBER_OF_KEYS).toString(), table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
+                                    } else {
+                                        largePartitionValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize),
+                                                table.get(ValFactory.NUMBER_OF_PARTITIONS).toString(), table.get(spaceUsed).toString()));
+                                        largePartitionPaddingValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(partitionSize) + " (" + calByte(partitionSize) + ")",
+                                                table.get(ValFactory.NUMBER_OF_PARTITIONS).toString(), table.get(spaceUsed).toString() + " (" + calByte(Long.parseLong(table.get(spaceUsed).toString())) + ")"));
+                                    }
                                     if (largePartitionKeys.size() == largePartitionValueList.size()) {
                                         for (int i = 0; i < largePartitionKeys.size(); i++) {
                                             largePartitionJSON.put(largePartitionKeys.get(i), largePartitionValueList.get(i));
@@ -191,11 +202,22 @@ public class CfstatsAnalyzer extends Analyzer {
                                 if (!maxTombstoneMap.containsKey(maxTombstoneMapKey)) {
                                     maxTombstoneMap.put(maxTombstoneMapKey, maxTombstonePerSlice);
 
-                                    ArrayList<String> maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                            table.get(ValFactory.TABLE).toString(),
-                                            String.valueOf(maxTombstonePerSlice),
-                                            table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                            table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
+                                    ArrayList<String> maxTomeStonePerSliceValueList;
+
+                                    if (table.get(ValFactory.NUMBER_OF_KEYS) != null) {
+                                        maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(),
+                                                String.valueOf(maxTombstonePerSlice),
+                                                table.get(ValFactory.NUMBER_OF_KEYS).toString(),
+                                                table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
+                                    } else {
+                                        maxTomeStonePerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(),
+                                                String.valueOf(maxTombstonePerSlice),
+                                                table.get(ValFactory.NUMBER_OF_PARTITIONS).toString(),
+                                                table.get(spaceUsed).toString() + " (" + calByte(Double.parseDouble(table.get(spaceUsed).toString())) + ")"));
+                                    }
+
                                     if (maxTombstoneKeys.size() == maxTomeStonePerSliceValueList.size()) {
                                         for (int i = 0; i < maxTombstoneKeys.size(); i++) {
                                             maxTombstoneJSON.put(maxTombstoneKeys.get(i), maxTomeStonePerSliceValueList.get(i));
@@ -216,9 +238,16 @@ public class CfstatsAnalyzer extends Analyzer {
                                 if (!maxLiveCellMap.containsKey(maxLiveCellMapKey)) {
                                     maxLiveCellMap.put(maxLiveCellMapKey, maxLiveCellPerSlice);
 
-                                    ArrayList<String> maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
-                                            table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
-                                            table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
+                                    ArrayList<String> maxLiveCellPerSliceValueList;
+                                    if (table.get(ValFactory.NUMBER_OF_KEYS) != null) {
+                                        maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_KEYS).toString(),
+                                                table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
+                                    } else {
+                                        maxLiveCellPerSliceValueList = new ArrayList<String>(Arrays.asList(fileID, keyspace.get(ValFactory.KEYSPACE).toString(),
+                                                table.get(ValFactory.TABLE).toString(), String.valueOf(maxLiveCellPerSlice), table.get(ValFactory.NUMBER_OF_PARTITIONS).toString(),
+                                                table.get(maxLiveCell).toString() + " (" + calByte(Double.parseDouble(table.get(maxLiveCell).toString())) + ")"));
+                                    }
                                     if (maxLiveCellKeys.size() == maxLiveCellPerSliceValueList.size()) {
                                         for (int i = 0; i < maxLiveCellKeys.size(); i++) {
                                             maxLiveCellJSON.put(maxLiveCellKeys.get(i), maxLiveCellPerSliceValueList.get(i));

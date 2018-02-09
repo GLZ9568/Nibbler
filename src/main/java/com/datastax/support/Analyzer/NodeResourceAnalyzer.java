@@ -1,7 +1,7 @@
 /*
  * Copyright (c)
  *
- * Date: 24/1/2018
+ * Date: 9/2/2018
  *
  * Author: Chun Gao & Mike Zhang
  *
@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * Created by Chun Gao on 24/1/18
+ * Created by Chun Gao on 7/2/18
  */
 
-public class SystemResourceAnalyzer extends Analyzer {
-    private final static Logger logger = LogManager.getLogger(SystemResourceAnalyzer.class);
+public class NodeResourceAnalyzer extends Analyzer {
+    private final static Logger logger = LogManager.getLogger(NodeResourceAnalyzer.class);
 
     private ArrayList<JSONObject> cpuJSONList;
     private ArrayList<JSONObject> memoryJSONList;
@@ -35,7 +35,7 @@ public class SystemResourceAnalyzer extends Analyzer {
 
     private String output = "";
 
-    public SystemResourceAnalyzer (FileFactory fileFactory) {
+    public NodeResourceAnalyzer(FileFactory fileFactory) {
         super(fileFactory);
         try {
             nodetoolInfoPropertiesList = fileFactory.getNodetoolInfoPropertiesList();
@@ -86,9 +86,9 @@ public class SystemResourceAnalyzer extends Analyzer {
             JSONObject cpuInfoJSON = new JSONObject();
             cpuInfoJSON.put(ValFactory.NODEC, nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
             cpuValueList.add(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
-            if(nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)) != null) {
-                cpuInfoJSON.put(ValFactory.DC, nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)));
-                cpuValueList.add((String)nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)));
+            if(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER) != null) {
+                cpuInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+                cpuValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
             } else {
                 cpuInfoJSON.put(ValFactory.DC, "--");
                 cpuValueList.add("--");
@@ -135,9 +135,9 @@ public class SystemResourceAnalyzer extends Analyzer {
             JSONObject memoryInfoJSON = new JSONObject();
             memoryInfoJSON.put(ValFactory.NODEC, nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
             memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
-            if(nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)) != null) {
-                memoryInfoJSON.put(ValFactory.DC, nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)));
-                memoryValueList.add((String)nodeDCMap.get(nodetoolInfoProperties.getProperty(ValFactory.FILE_ID)));
+            if(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER) != null) {
+                memoryInfoJSON.put(ValFactory.DC, nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
+                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.DATA_CENTER));
             } else {
                 memoryInfoJSON.put(ValFactory.DC, "--");
                 memoryValueList.add("--");
@@ -146,22 +146,17 @@ public class SystemResourceAnalyzer extends Analyzer {
             for (Object JSON : memoryJSONList) {
                 JSONObject memoryJSON = (JSONObject) JSON;
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(memoryJSON.get(ValFactory.FILE_ID))) {
+                    logger.debug("Node: " + nodetoolInfoProperties.getProperty(ValFactory.FILE_ID));
                     long totalMemory = 0;
                     for (String key : ValFactory.MEMORYKEYLIST) {
-                        if (key.equals(ValFactory.CACHE) && memoryJSON.get(key) == null) {
-                            totalMemory += (Long) memoryJSON.get(ValFactory.CACHED);
-                        } else {
-                            totalMemory += (Long) memoryJSON.get(key);
-                        }
+                        logger.debug("Key: " + key);
+                        logger.debug("Value: " + memoryJSON.get(key));
+                        totalMemory += (Long)memoryJSON.get(key);
                     }
                     memoryInfoJSON.put(ValFactory.TOTAL, totalMemory);
                     memoryValueList.add(Long.toString(totalMemory));
                     for (String key : ValFactory.MEMORYKEYLIST) {
-                        if (key.equals(ValFactory.CACHE) && memoryJSON.get(key) == null) {
-                            memoryInfoJSON.put(ValFactory.CACHED, memoryJSON.get(ValFactory.CACHED));
-                        } else {
-                            memoryInfoJSON.put(key, memoryJSON.get(key));
-                        }
+                        memoryInfoJSON.put(key, memoryJSON.get(key));
                         if(memoryJSON.get(key) != null) {
                             memoryValueList.add(memoryJSON.get(key).toString());
                         } else {
@@ -180,10 +175,13 @@ public class SystemResourceAnalyzer extends Analyzer {
                 memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
                 memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
             } else {
-                for (int i=0; i<ValFactory.HEAPKEYLIST.size(); i++) {
-                    memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(i), "--");
-                    memoryValueList.add("--");
-                }
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), "--");
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), "--");
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), "--");
+
+                memoryValueList.add("--");
+                memoryValueList.add("--");
+                memoryValueList.add("--");
             }
 
             memoryPadding = calculatePadding(memoryPadding, memoryKeys, memoryValueList);
@@ -201,11 +199,7 @@ public class SystemResourceAnalyzer extends Analyzer {
         for (Object JSON : sortedMemoryArray) {
             JSONObject memoryJSON = (JSONObject) JSON;
             for (String key : memoryKeys) {
-                if (key.equals(ValFactory.CACHE) && memoryJSON.get(key) == null) {
-                    memoryOutput += String.format("%1$-" + memoryPadding.get(key) + "s", memoryJSON.get(ValFactory.CACHED));
-                } else {
-                    memoryOutput += String.format("%1$-" + memoryPadding.get(key) + "s", memoryJSON.get(key));
-                }
+                memoryOutput += String.format("%1$-" + memoryPadding.get(key) + "s", memoryJSON.get(key));
             }
             memoryOutput += "\n";
         }

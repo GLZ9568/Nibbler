@@ -60,8 +60,10 @@ public class NodetoolStatusFileParser extends FileParser {
             "Datacenter":"us-west-1"
             "Padding":{"Rack":6,"Load":11,"Address":15,"Host ID":38,"Owns":6,"U\/D":5,"Tokens":8}
             }
-        ]
-    }
+        ],
+     "NodeDCMap":{"34.239.74.78":"us-east-1","34.195.101.2":"us-east-1",...,"13.57.154.111":"us-west-1","52.9.233.65":"us-west-1",...}
+
+     }
     **/
     private void parse () {
         nodetoolStatusJSON = new JSONObject();
@@ -74,6 +76,7 @@ public class NodetoolStatusFileParser extends FileParser {
 
                 JSONArray nodeArray = new JSONArray();
                 JSONObject padding = initiatePadding(ValFactory.NODETOOLTATUS);
+                JSONObject nodeDCMap = new JSONObject();
 
                 nodetoolStatusJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
                 nodetoolStatusJSON.put(ValFactory.FILE_NAME, file.getName());
@@ -82,6 +85,7 @@ public class NodetoolStatusFileParser extends FileParser {
                 try {
                     Scanner scanner = new Scanner(file);
                     JSONObject dcInfo = new JSONObject();
+                    String dcName = "";
 
                     while (scanner.hasNextLine()) {
                         String currentLine = scanner.nextLine();
@@ -95,7 +99,8 @@ public class NodetoolStatusFileParser extends FileParser {
                             }
                             valid = true;
 
-                            dcInfo.put(ValFactory.DATACENTER, splitLine[1]);
+                            dcName = splitLine[1];
+                            dcInfo.put(ValFactory.DATACENTER, dcName);
 
                             nodeArray = new JSONArray();
                             padding = initiatePadding(ValFactory.NODETOOLTATUS);
@@ -106,6 +111,7 @@ public class NodetoolStatusFileParser extends FileParser {
                             padding.put(ValFactory.UD, (Integer) padding.get(ValFactory.UD) > splitLine[0].length() + ValFactory.PAD ? padding.get(ValFactory.UD) : splitLine[0].length() + ValFactory.PAD);
                             nodeInfo.put(ValFactory.ADDRESS, splitLine[1]);
                             padding.put(ValFactory.ADDRESS, (Integer) padding.get(ValFactory.ADDRESS) > splitLine[1].length() + ValFactory.PAD ? padding.get(ValFactory.ADDRESS) : splitLine[1].length() + ValFactory.PAD);
+                            nodeDCMap.put(splitLine[1], dcName);
                             nodeInfo.put(ValFactory.LOAD, splitLine[2] + " " + splitLine[3]);
                             padding.put(ValFactory.LOAD, (Integer) padding.get(ValFactory.LOAD) > splitLine[2].length() + 1 + splitLine[3].length() + ValFactory.PAD ? padding.get(ValFactory.LOAD) : splitLine[2].length() + 1 + splitLine[3].length() + ValFactory.PAD);
                             nodeInfo.put(ValFactory.TOKENS, splitLine[4]);
@@ -127,6 +133,7 @@ public class NodetoolStatusFileParser extends FileParser {
                 } catch (FileNotFoundException fnfe) {
                     logCheckedException(logger, fnfe);
                 }
+                nodetoolStatusJSON.put(ValFactory.NODEDCMAP, nodeDCMap);
             }
         }
     }

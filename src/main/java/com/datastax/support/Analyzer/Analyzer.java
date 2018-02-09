@@ -30,9 +30,13 @@ public class Analyzer {
     private final static Logger logger = LogManager.getLogger("Analyzer.class");
 
     protected FileFactory fileFactory;
+    protected JSONObject nodetoolStatusJSON;
+    protected JSONObject nodeDCMap;
     
     public Analyzer(FileFactory fileFactory) {
         this.fileFactory = fileFactory;
+        this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
+        this.nodeDCMap = (JSONObject) nodetoolStatusJSON.get(ValFactory.NODEDCMAP);
     }
 
     protected JSONArray sortJSONArray (JSONArray unsortedJSONArray, final String sortKey, final boolean desc, final String type) {
