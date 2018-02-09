@@ -57,6 +57,7 @@ public class ValFactory {
     public static final String ID = "ID";
     public static final String INFO_TOTALHEAP = "info_totalheap";
     public static final String INFO_USEDHEAP = "info_usedheap";
+    public static final String USED_MAX_HEAP_RATIO = "used_max_heap_ratio";
     public static final String INFO_OFFHEAP = "info_offheap";
     public static final String DISK_NAME = "disk_name";
     public static final String TOTAL_SPACE = "total_space";
