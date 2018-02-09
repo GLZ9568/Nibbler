@@ -150,11 +150,11 @@ public class ConfAnalyzer extends Analyzer {
                             for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
                                 if (splitline[0].equals(entry.getKey())) {
                                     Map map = (Map) entry.getValue();
-                                    logger.info("ip is: " + entry.getKey());
+                                    //logger.info("ip is: " + entry.getKey());
                                     String auth_option_str="";
                                     if(map.get("authentication_options")!=null) {
                                         auth_option_str = map.get("authentication_options").toString();
-                                        logger.info("dse.yaml auth options is : " + auth_option_str);
+                                      //  logger.info("dse.yaml auth options is : " + auth_option_str);
 
                                         String[] auth_options = Inspector.splitByComma
                                                 (auth_option_str.trim().replaceAll("[{|}]", ""));
@@ -216,13 +216,13 @@ public class ConfAnalyzer extends Analyzer {
 
                     if (np_casyaml.getProperty("streaming_socket_timeout_in_ms") == null) {
                         splitline[10] = "NaN";
-                        logger.info(splitline[0] + " stream timeout(null) is : " +
-                                np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
+                    //    logger.info(splitline[0] + " stream timeout(null) is : " +
+                     //           np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
                     } else {
                         String str = np_casyaml.getProperty("streaming_socket_timeout_in_ms");
                         splitline[10] = str + "("+Inspector.milsecToTime(Integer.valueOf(str),false)+")";
-                        logger.info(splitline[0] + " stream timeout is(not null) : " +
-                                np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
+                    //    logger.info(splitline[0] + " stream timeout is(not null) : " +
+                    //            np_casyaml.getProperty("streaming_socket_timeout_in_ms"));
                     }
 
                     splitline[11] = np_casyaml.getProperty("permissions_validity_in_ms");
@@ -246,12 +246,12 @@ public class ConfAnalyzer extends Analyzer {
                             for (Map.Entry<String, Object> entry : dse_map.entrySet()) {
                                 if (splitline[0].equals(entry.getKey())) {
                                     Map map = (Map) entry.getValue();
-                                    logger.info("ip is: " + entry.getKey());
+                                 //   logger.info("ip is: " + entry.getKey());
 
                                     Object role_man_opt_obj = map.get("role_management_options");
                                     if(role_man_opt_obj != null) {
                                         String dse_role_option_str = role_man_opt_obj.toString();
-                                        logger.info("dse.yaml auth options is : " + dse_role_option_str);
+                                //        logger.info("dse.yaml auth options is : " + dse_role_option_str);
 
                                         String[] role_options = Inspector.splitByComma
                                                 (dse_role_option_str.trim().replaceAll("[{|}]", ""));
@@ -289,14 +289,14 @@ public class ConfAnalyzer extends Analyzer {
                         for (Map.Entry<String, Object> entry : cas_map.entrySet()) {
                             if (splitline[0].equals(entry.getKey())) {
                                 Map map = (Map) entry.getValue();
-                                logger.info("ip is: " + entry.getKey());
+                               // logger.info("ip is: " + entry.getKey());
 
                                 Object server_encrypt_opt_obj = map.get("server_encryption_options");
 
                                 Object client_encrypt_opt_obj = map.get("client_encryption_options");
                                 if(server_encrypt_opt_obj != null) {
                                     String server_encrypt_opt_str = server_encrypt_opt_obj.toString();
-                                    logger.info("cassandra.yaml server encrpt is : " + server_encrypt_opt_str);
+                              //      logger.info("cassandra.yaml server encrpt is : " + server_encrypt_opt_str);
 
                                     String[] server_encrypt_options = Inspector.splitByComma
                                             (server_encrypt_opt_str.trim().replaceAll("[{|}]", ""));
@@ -312,7 +312,7 @@ public class ConfAnalyzer extends Analyzer {
 
                                 if(client_encrypt_opt_obj != null) {
                                     String client_encrypt_opt_str = client_encrypt_opt_obj.toString();
-                                    logger.info("cassandra.yaml client encrpt is : " + client_encrypt_opt_str);
+                             //       logger.info("cassandra.yaml client encrpt is : " + client_encrypt_opt_str);
 
                                     String[] client_encrypt_options = Inspector.splitByComma
                                             (client_encrypt_opt_str.trim().replaceAll("[{|}]", ""));
@@ -742,7 +742,7 @@ public class ConfAnalyzer extends Analyzer {
 
     protected JSONObject calculateMaxPadding(JSONObject padding, String[] splitLine, ArrayList<String> keylist) {
         for (int i = 0; i < padding.size(); i++) {
-            logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
+            //logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
             padding.put(keylist.get(i), (Integer) padding.get(keylist.get(i)) > splitLine[i].length() + ValFactory.PAD
                     ? (Integer) padding.get(keylist.get(i)) : splitLine[i].length() + ValFactory.PAD);
         }
