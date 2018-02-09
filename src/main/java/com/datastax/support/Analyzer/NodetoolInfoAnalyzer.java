@@ -120,8 +120,9 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
                         if(node_obj !=null)
                         {
+
                             nodetool_info_text += String.format("%1$-" +
-                                    dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname").toString());
+                                    dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname") ==null? "NaN":node_obj.get("hostname").toString());
                         }else{
                             nodetool_info_text += String.format("%1$-" +
                                     dcpadding.get(ValFactory.HOSTNAME) + "s", "NaN");
@@ -263,7 +264,10 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
                             if(node_obj !=null)
                             {
-                                splitline[1] =  node_obj.get("hostname").toString();
+                                if(node_obj.get("hostname")!=null)
+                                  splitline[1] =  node_obj.get("hostname").toString();
+                                else
+                                    splitline[1] = "NaN";
                             }else{
                                 splitline[1] = "NaN";
                             }
