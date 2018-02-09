@@ -10,7 +10,7 @@ Nibbler is a tool to analyze the Datastax opscenter diagnostic files. It makes t
 
 ## Getting started
 
-1. Download the executable [Nibbler.jar](https://github.com/GLZ9568/Nibbler/raw/master/out/artifacts/Nibbler_jar2/Nibbler.jar) file and double click it to run <br> <br>
+1. Download the executable [Nibbler.jar](https://github.com/GLZ9568/Nibbler/raw/master/out/artifacts/Nibbler_jar/Nibbler.jar) file and double click it to run <br> <br>
 2. Click the **Open Diag Directory** button to select the uncompressed Opscenter diag tar ball path. Please note that the path should be the root path of the Opscenter diag path.E.g `/Users/username/Downloads/Mycluster-diagnostics-2018_01_10_03_04_49_UTC` <br> <br>
 3. Press the **Start Analyzing** button to start parsing and analyzing the Opscenter diags. <br> <br>
 4. When analyzing is done, it will pop a window which tells the analysis is done and it will save analysis report files to the same path of the executable file. <br> <br>
