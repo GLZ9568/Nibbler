@@ -566,7 +566,7 @@ public class ConfAnalyzer extends Analyzer {
                     JSONObject conf_obj_tmp1 = (JSONObject) conf_obj_tmp;
                     if (file_id.equals(conf_obj_tmp1.get(ValFactory.ADDRESS))
                             && conf_obj_tmp1.get(ValFactory.DC).equals(dc_name)) {
-                        logger.info("ip is: " + file_id + " dc is: " + dc_name);
+//                        logger.info("ip is: " + file_id + " dc is: " + dc_name);
                         confinfotext += String.format("%1$-" +
                                 padding.get(ValFactory.ADDRESS) + "s", conf_obj_tmp1.get(ValFactory.ADDRESS));
                         confinfotext += String.format("%1$-" +
