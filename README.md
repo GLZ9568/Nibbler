@@ -30,3 +30,7 @@ Nibbler is a tool to analyze the Datastax opscenter diagnostic files. It makes t
 
 Will add the function for system.log analysis. 
 
+## Contacts 
+
+If you want to contribute to this tool, please contact mike.zhang@datastax.com and chun.gao@datastax.com.
+   
