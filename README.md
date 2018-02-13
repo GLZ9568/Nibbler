@@ -1,6 +1,6 @@
 ## Nibbler - Datastax Opscenter Diagnostic Files Analyzer
 
-Nibbler is a tool to analyze the Datastax opscenter diagnostic files. It makes the troubleshooting tasks much easier and helps you quickly narrow down the issue by providing the accurate and integrated diag analysis reports. 
+Nibbler is a GUI based tool to analyze the Datastax opscenter diagnostic files. It makes the troubleshooting tasks much easier and helps you quickly narrow down the issue by providing the accurate and integrated diag analysis reports. 
 
 
 ## Requirements
