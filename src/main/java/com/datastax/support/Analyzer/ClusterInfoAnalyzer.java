@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.reactfx.value.Val;
 
 import java.util.*;
 
@@ -52,6 +53,7 @@ public class ClusterInfoAnalyzer extends Analyzer {
     private ArrayList<JSONObject> ntpstat_obj_list;
     private ArrayList<JSONObject> os_info_obj_list;
     private ArrayList<JSONObject> disk_space_obj_list;
+    private ArrayList<JSONObject> disk_io_obj_list;
     private ArrayList<String> clustername;
     private ArrayList<String> snitch;
     private JSONObject nodetoolStatusJSON;
@@ -71,6 +73,7 @@ public class ClusterInfoAnalyzer extends Analyzer {
         this.snitch = fileFactory.getSnitch_list();
         this.nodetoolStatusJSON = fileFactory.getNodetoolStatusJSON();
         this.ntpstat_obj_list = fileFactory.getNtpstat_obj_list();
+        this.disk_io_obj_list = fileFactory.getDisk_io_obj_list();
     }
 
     public String generateClusterInfoOutput() {
@@ -579,10 +582,23 @@ public class ClusterInfoAnalyzer extends Analyzer {
                                     for (Object each_disk_tmp : disk_list) {
                                         JSONObject each_disk_obj = (JSONObject) each_disk_tmp;
                                         if (each_disk_obj.get(ValFactory.DISK_NAME).toString().equals(commitlog_dir)) {
+                                            if(!get_iowait_by_disk_and_node(file_id,commitlog_dir)[0].equals("NaN")&&
+                                               !get_iowait_by_disk_and_node(file_id,commitlog_dir)[1].equals("NaN")&&
+                                               !get_iowait_by_disk_and_node(file_id,commitlog_dir)[2].equals("NaN"))
                                             clusterinfotext += " - commitlog disk device: \n"
                                                     + "   - " + commitlog_dir
                                                     + " (total space(GB): " + each_disk_obj.get(ValFactory.TOTAL_SPACE).toString()
-                                                    + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString() + ")\n";
+                                                    + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString()
+                                                    + ", await: "+get_iowait_by_disk_and_node(file_id,commitlog_dir)[0]
+                                                    + ", w_await: "+ get_iowait_by_disk_and_node(file_id,commitlog_dir)[1]
+                                                    + ", r_await: "+ get_iowait_by_disk_and_node(file_id,commitlog_dir)[2]
+                                                    +")\n";
+                                            else
+                                                clusterinfotext += " - commitlog disk device: \n"
+                                                        + "   - " + commitlog_dir
+                                                        + " (total space(GB): " + each_disk_obj.get(ValFactory.TOTAL_SPACE).toString()
+                                                        + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString()
+                                                        +")\n";
                                         }
                                     }
                                 }
@@ -600,10 +616,22 @@ public class ClusterInfoAnalyzer extends Analyzer {
                                             String each_data_dir = each_data_dir_tmp.toString();
                                             if (each_data_dir.trim().replaceAll("[{|}]", "")
                                                     .replaceAll("\"", "")
-                                                    .replaceAll(",", "").equals(each_disk_obj.get(ValFactory.DISK_NAME))) {
+                                                    .replaceAll(",", "").equals(each_disk_obj.get(ValFactory.DISK_NAME).toString())) {
+                                                if(!get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[0].equals("NaN")&&
+                                                        !get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[1].equals("NaN")&&
+                                                        !get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[2].equals("NaN"))
                                                 clusterinfotext += "   - " + each_disk_obj.get(ValFactory.DISK_NAME)
                                                         + " (total space(GB): " + each_disk_obj.get(ValFactory.TOTAL_SPACE).toString()
-                                                        + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString() + ")\n";
+                                                        + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString()
+                                                        + ", await: "+get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[0]
+                                                        + ", w_await: "+ get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[1]
+                                                        + ", r_await: "+ get_iowait_by_disk_and_node(file_id,each_disk_obj.get(ValFactory.DISK_NAME).toString())[2]
+                                                        + ")\n";
+                                                else
+                                                    clusterinfotext += "   - " + each_disk_obj.get(ValFactory.DISK_NAME)
+                                                            + " (total space(GB): " + each_disk_obj.get(ValFactory.TOTAL_SPACE).toString()
+                                                            + ", used space(GB): " + each_disk_obj.get(ValFactory.USED_SPACE).toString()
+                                                            + ")\n";
 
                                                 //check if commitlog dir is the same with data dir
                                                 if (commitlog_dir.equals(each_disk_obj.get(ValFactory.DISK_NAME).toString())) {
@@ -638,9 +666,16 @@ public class ClusterInfoAnalyzer extends Analyzer {
 
 
             if (commitlog_data_dir_set.size() > 0) {
+
+                String device_str = new String();
+
+                for(int i =0 ; i < commitlog_data_dir_set.size();++i)
+                {
+                    device_str += commitlog_data_dir_set.toArray()[i].toString()+",";
+                }
                 clusterinfo_warning_header += "Commitlog directory is on the same disk device with data directory in DC: " +
                         tmpdcvar.get(ValFactory.DATACENTER).toString() +
-                        "(Device name is: " + commitlog_data_dir_set.toArray()[0].toString() + ")" + "!!\n";
+                        "(Device name is: " + device_str.substring(0,device_str.length()-1) + ")" + "!!\n";
                 is_commitlog_dir_same_with_datadir = true;
             }
 
@@ -1051,5 +1086,50 @@ public class ClusterInfoAnalyzer extends Analyzer {
 
         return non_aws_dc.substring(0, non_aws_dc.length() - 1) + "]";
 
+    }
+    public String[] get_iowait_by_disk_and_node(String node_ip, String disk_name)
+    {
+        String[] await_and_w_await_and_r_await_arr  = new String[3];
+        boolean found_matched_disk = false;
+        for(Object disk_io_obj_tmp: disk_io_obj_list){
+            JSONObject disk_io_obj = (JSONObject) disk_io_obj_tmp;
+            if(disk_io_obj.get(ValFactory.FILE_ID).toString().equals(node_ip)){
+
+                if(disk_io_obj.get(ValFactory.IS_IOINFO_VALID).toString().equals("true")) {
+                    JSONArray disk_list = (JSONArray) disk_io_obj.get(ValFactory.DISK_IO_USAGE);
+
+                    for (Object each_disk_tmp : disk_list) {
+                        JSONObject each_disk_obj = (JSONObject) each_disk_tmp;
+                        //logger.info(each_disk_obj.get(ValFactory.DISK_NAME).toString());
+                        String disk_name_from_disk_obj = each_disk_obj.get(ValFactory.DISK_NAME).toString();
+                        String disk_name_from_node_info = disk_name.
+                                replaceAll("_","-").replaceAll("/dev/","");
+                        logger.info(node_ip+ " disk name node_obj: " + disk_name_from_disk_obj + ", disk name node_info: " + disk_name_from_node_info);
+                        if (disk_name_from_node_info.
+                                contains(disk_name_from_disk_obj)) {
+                            logger.info("found match disks: " + disk_name_from_node_info);
+                            await_and_w_await_and_r_await_arr[0] = each_disk_obj.get(ValFactory.AWAIT).toString();
+                            await_and_w_await_and_r_await_arr[1] = each_disk_obj.get(ValFactory.W_AWAIT).toString();
+                            await_and_w_await_and_r_await_arr[2] = each_disk_obj.get(ValFactory.R_AWAIT).toString();
+                            found_matched_disk = true;
+                        }
+
+                    }
+                    if(!found_matched_disk){
+                        await_and_w_await_and_r_await_arr[0] = "NaN";
+                        await_and_w_await_and_r_await_arr[1] = "NaN";
+                        await_and_w_await_and_r_await_arr[2] = "NaN";
+                    }
+
+                }
+                else{
+                    await_and_w_await_and_r_await_arr[0] = "NaN";
+                    await_and_w_await_and_r_await_arr[1] = "NaN";
+                    await_and_w_await_and_r_await_arr[2] = "NaN";
+                }
+
+            }
+        }
+        return await_and_w_await_and_r_await_arr;
     }
 }

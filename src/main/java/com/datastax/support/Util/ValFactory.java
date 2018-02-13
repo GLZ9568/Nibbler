@@ -61,8 +61,13 @@ public class ValFactory {
     public static final String INFO_OFFHEAP = "info_offheap";
     public static final String DISK_NAME = "disk_name";
     public static final String TOTAL_SPACE = "total_space";
+    public static final String AWAIT = "disk_await";
+    public static final String W_AWAIT = "disk_w_await";
+    public static final String R_AWAIT = "disk_r_await";
+    public static final String IS_IOINFO_VALID = "isioinfovalid";
     public static final String USED_SPACE = "used_space";
     public static final String DISK_SPACE_USAGE = "disk_space_usage";
+    public static final String DISK_IO_USAGE = "disk_io_usage";
     public static final String PERCENT_REPAIRED = "percent_repaired";
     // file names
     // conf file names;
@@ -74,6 +79,7 @@ public class ValFactory {
     public static final String JAVA_SYSTEM_PROPERTIES_JSON = "java_system_properties.json";
     public static final String MACHINE_INFO_JSON = "machine-info.json";
     public static final String DISK_SPACE_JSON = "disk_space.json";
+    public static final String DISK_IO_JSON = "disk.json";
     public static final String NTPTIME = "ntptime";
     public static final String NTPSTAT = "ntpstat";
     public static final String CASSANDRA_YAML = "cassandra.yaml";
