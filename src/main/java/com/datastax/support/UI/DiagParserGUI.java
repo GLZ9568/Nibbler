@@ -79,7 +79,6 @@ public class DiagParserGUI extends Application {
         logger.info("screen width is: " + screen_width);
         primaryStage.setMinHeight(screen_height * 0.8);
         primaryStage.setMinWidth(screen_width * 0.7);
-        //primaryStage.setMaxWidth(screen_width*0.7);
         primaryStage.setScene(new Scene(border, screen_width * 0.7, screen_height * 0.8));
         primaryStage.show();
     }
