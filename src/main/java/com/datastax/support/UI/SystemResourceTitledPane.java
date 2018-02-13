@@ -11,6 +11,7 @@ package com.datastax.support.UI;
 
 import com.datastax.support.Analyzer.SystemResourceAnalyzer;
 import com.datastax.support.Util.FileFactory;
+import com.datastax.support.Util.Inspector;
 import javafx.scene.control.TitledPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,5 +36,10 @@ public class SystemResourceTitledPane extends ComponentTitledPane {
 
     public TitledPane getSystemResourceTitledPane() {
         return titledPane;
+    }
+
+    public String save_node_resource_usage_info_report()
+    {
+        return Inspector.saveReportFile(output,"node_resource_usage_info.out");
     }
 }

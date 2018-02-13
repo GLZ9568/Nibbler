@@ -287,6 +287,14 @@ public class DiagParserGUI extends Application {
             report_status_success_str += node_conf_file_report_path + "\n";
         }
 
+        String node_resource_usage_info_report_path = srtp.save_node_resource_usage_info_report();
+
+        if (node_resource_usage_info_report_path.equals("")
+                || node_resource_usage_info_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: node_conf_file_info.out !!\n";
+        } else {
+            report_status_success_str += node_resource_usage_info_report_path + "\n";
+        }
 
         TextArea textArea = new TextArea("Analysis Report Files saved to: \n" +
                 report_status_success_str + "\n" + report_status_fail_str

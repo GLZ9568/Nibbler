@@ -1104,10 +1104,10 @@ public class ClusterInfoAnalyzer extends Analyzer {
                         String disk_name_from_disk_obj = each_disk_obj.get(ValFactory.DISK_NAME).toString();
                         String disk_name_from_node_info = disk_name.
                                 replaceAll("_","-").replaceAll("/dev/","");
-                        logger.info(node_ip+ " disk name node_obj: " + disk_name_from_disk_obj + ", disk name node_info: " + disk_name_from_node_info);
+                       // logger.info(node_ip+ " disk name node_obj: " + disk_name_from_disk_obj + ", disk name node_info: " + disk_name_from_node_info);
                         if (disk_name_from_node_info.
                                 contains(disk_name_from_disk_obj)) {
-                            logger.info("found match disks: " + disk_name_from_node_info);
+                           // logger.info("found match disks: " + disk_name_from_node_info);
                             await_and_w_await_and_r_await_arr[0] = each_disk_obj.get(ValFactory.AWAIT).toString();
                             await_and_w_await_and_r_await_arr[1] = each_disk_obj.get(ValFactory.W_AWAIT).toString();
                             await_and_w_await_and_r_await_arr[2] = each_disk_obj.get(ValFactory.R_AWAIT).toString();
