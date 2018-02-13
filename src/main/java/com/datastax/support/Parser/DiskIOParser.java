@@ -130,7 +130,7 @@ public class DiskIOParser extends FileParser{
                         disk_info_obj_bynode.put(ValFactory.DISK_IO_USAGE, diskIOJSONArray);
                         disk_info_obj_bynode.put(ValFactory.FILE_ID, setIP(file.getAbsolutePath()));
                         disk_info_obj_bynode.put(ValFactory.IS_IOINFO_VALID,isvald);
-                        logger.info("disk io info: " + disk_info_obj_bynode.toString());
+//                        logger.info("disk io info: " + disk_info_obj_bynode.toString());
                         disk_io_obj_list.add(disk_info_obj_bynode);
 
                 } catch (FileNotFoundException e) {

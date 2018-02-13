@@ -82,6 +82,7 @@ public class ConfAnalyzer extends Analyzer {
         ArrayList<String> node_list =  new ArrayList<String>();
         String[] splitline = new String[20];
         String confinfo_warning_header = new String("#### WARNING: ####\n");
+        boolean found_matched_dse_cassandra_yaml_pair = false;
 
         /// get each node's config and padding for each property column
 
@@ -130,6 +131,7 @@ public class ConfAnalyzer extends Analyzer {
                 JSONObject conf_obj = new JSONObject();
                 if (np_dseyaml.getProperty(ValFactory.FILE_ID).toString().equals(np_casyaml.getProperty(ValFactory.FILE_ID).toString())) {
 
+                    found_matched_dse_cassandra_yaml_pair = true;
                     splitline[0] = np_dseyaml.getProperty(ValFactory.FILE_ID).toString();
                     splitline[1] = getNodeDCName(splitline[0]);
                     if (np_casyaml.getProperty(ValFactory.AUTHENTICATOR.toLowerCase()).toLowerCase().contains("dseauthenticator"))
@@ -537,11 +539,23 @@ public class ConfAnalyzer extends Analyzer {
 
         }
 
-        if(cassandraYamlPropertiesList.size()==0)
+        if(cassandraYamlPropertiesList.size()==0||dseYamlPropertiesList.size()==0)
         {
             confinfotext +="Not found cassandra.yaml files!!";
             return confinfotext;
         }
+
+        if(dseYamlPropertiesList.size()==0)
+        {
+            confinfotext +="Not found dse.yaml files!!";
+            return confinfotext;
+        }
+
+        if(!found_matched_dse_cassandra_yaml_pair){
+            confinfotext +="Not found either dse.yaml or cassandra.yaml files on the same node!!";
+            return confinfotext;
+        }
+
         confinfotext += "**  Configuration Parameter Summary **\n"
         +Inspector.generateEqualline(new String("**  Configuration Parameter Summary ***").length())+"\n";
 
