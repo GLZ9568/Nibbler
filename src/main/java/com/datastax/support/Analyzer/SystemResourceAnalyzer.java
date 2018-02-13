@@ -98,8 +98,14 @@ public class SystemResourceAnalyzer extends Analyzer {
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(cpuJSON.get(ValFactory.FILE_ID))) {
                     for (String key : ValFactory.CPUKEYLIST) {
                         if (cpuJSON.get(key) != null) {
-                            cpuInfoJSON.put(key, cpuJSON.get(key));
-                            cpuValueList.add(cpuJSON.get(key).toString());
+                            cpuInfoJSON.put(key,
+                                   // cpuJSON.get(key)
+                                    String.format("%.2f", Double.parseDouble(cpuJSON.get(key).toString()))
+                            );
+                            cpuValueList.add(
+                                    //cpuJSON.get(key).toString()
+                                    String.format("%.2f", Double.parseDouble(cpuJSON.get(key).toString()))
+                            );
                         } else {
                             cpuInfoJSON.put(key, "--");
                             cpuValueList.add("--");
