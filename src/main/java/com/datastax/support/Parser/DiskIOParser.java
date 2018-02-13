@@ -134,11 +134,11 @@ public class DiskIOParser extends FileParser{
                         disk_io_obj_list.add(disk_info_obj_bynode);
 
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    Inspector.logException(logger,e);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Inspector.logException(logger,e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Inspector.logException(logger,e);
                 }
 
 
