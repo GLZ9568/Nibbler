@@ -244,8 +244,10 @@ public class TpstatsAnalyzer extends Analyzer {
 
                 boolean foundDroppedValue = false;
                 for(int i=1; i<ValFactory.TPSTATS_DROP_TABLE.size(); i++) {
-                    if (!droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)).equals("0")) {
-                        foundDroppedValue = true;
+                    if (droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)) != null) {
+                        if (!droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)).equals("0")) {
+                            foundDroppedValue = true;
+                        }
                     }
                 }
                 if (foundDroppedValue) {
@@ -258,7 +260,7 @@ public class TpstatsAnalyzer extends Analyzer {
         if (!droppedArray.isEmpty()) {
             droppedArray = sortJSONArray(droppedArray, ValFactory.MUTATION, true, "Long");
         }
-        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", "No Dropped Messages Detected", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
+        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", "No Dropped Messages Detected in the Cluster", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
 
         logger.debug("\n" + output);
 
