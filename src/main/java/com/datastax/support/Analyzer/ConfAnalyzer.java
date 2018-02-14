@@ -291,14 +291,14 @@ public class ConfAnalyzer extends Analyzer {
                         for (Map.Entry<String, Object> entry : cas_map.entrySet()) {
                             if (splitline[0].equals(entry.getKey())) {
                                 Map map = (Map) entry.getValue();
-                               // logger.info("ip is: " + entry.getKey());
+                                logger.info("ip is: " + entry.getKey());
 
                                 Object server_encrypt_opt_obj = map.get("server_encryption_options");
-
+                                logger.info("server encrypt is: " + server_encrypt_opt_obj);
                                 Object client_encrypt_opt_obj = map.get("client_encryption_options");
                                 if(server_encrypt_opt_obj != null) {
                                     String server_encrypt_opt_str = server_encrypt_opt_obj.toString();
-                              //      logger.info("cassandra.yaml server encrpt is : " + server_encrypt_opt_str);
+                                    logger.info("cassandra.yaml server encrpt is : " + server_encrypt_opt_str);
 
                                     String[] server_encrypt_options = Inspector.splitByComma
                                             (server_encrypt_opt_str.trim().replaceAll("[{|}]", ""));
@@ -756,7 +756,9 @@ public class ConfAnalyzer extends Analyzer {
 
     protected JSONObject calculateMaxPadding(JSONObject padding, String[] splitLine, ArrayList<String> keylist) {
         for (int i = 0; i < padding.size(); i++) {
-            //logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
+            logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
+            if(splitLine[i]==null)
+                splitLine[i] = "NaN";
             padding.put(keylist.get(i), (Integer) padding.get(keylist.get(i)) > splitLine[i].length() + ValFactory.PAD
                     ? (Integer) padding.get(keylist.get(i)) : splitLine[i].length() + ValFactory.PAD);
         }

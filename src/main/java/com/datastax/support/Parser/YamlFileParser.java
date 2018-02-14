@@ -12,6 +12,7 @@ package com.datastax.support.Parser;
 import com.datastax.support.Util.Inspector;
 import com.datastax.support.Util.NibProperties;
 import com.datastax.support.Util.ValFactory;
+import com.esotericsoftware.yamlbeans.tokenizer.Tokenizer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,7 +109,10 @@ public class YamlFileParser extends FileParser {
                 logCheckedException(logger, fnfe);
             } catch (IOException ioe) {
                 logCheckedException(logger, ioe);
-            } catch (NullPointerException npe) {
+            } catch(Tokenizer.TokenizerException toe){
+                logCheckedException(logger, toe);
+            }
+            catch (NullPointerException npe) {
                 logCheckedException(logger, npe);
             }
         }

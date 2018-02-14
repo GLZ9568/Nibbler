@@ -32,7 +32,7 @@ public class Test extends Nibbler {
     //private final File winDir = new File("C:\\Users\\CGao\\Dropbox (HTG Projects)\\DSE\\02 Tickets\\2018_FTS\\40467\\xnetdse_prod1-diagnostics-2018_01_23_02_31_10_UTC");
    // private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/" + testDir);
     //private final File linDir = new File ("/Users/cgao/Dropbox (HTG Projects)/DSE/02 Tickets/TestData/largedata");
-    private final File linDir = new File ("/Users/tongjixianing/Downloads/Chevron_Production-diagnostics-2018_02_12_03_02_01_UTC");
+    private final File linDir = new File ("/Users/tongjixianing/Downloads/SOC_E3-diagnostics-2018_01_26_23_25_02_UTC");
 
     protected FileFactory fileFactory;
     protected ArrayList<File> files;
