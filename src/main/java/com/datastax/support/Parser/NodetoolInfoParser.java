@@ -139,7 +139,7 @@ public class NodetoolInfoParser {
                             if (currentLine.toLowerCase().contains("percent repaired")) {
                                 String[] splitLine = Inspector.splitByColon(currentLine);
                                 nodetoolInfoJSON.put(ValFactory.PERCENT_REPAIRED, splitLine[1].trim());
-                                logger.info("percent repaired: " + splitLine[1]);
+//                                logger.info("percent repaired: " + splitLine[1]);
                             }
                             if (max_heap != 0) {
                                 nodetoolInfoJSON.put(ValFactory.USED_MAX_HEAP_RATIO, used_heap / max_heap);

@@ -70,7 +70,7 @@ public class DiagParserGUI extends Application {
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
         border.setCenter(addScrollPane());
-        primaryStage.setTitle("Nibbler - DS Diag Parser");
+        primaryStage.setTitle("Nibbler - DS Diag Analyzer");
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screen_height = visualBounds.getHeight();
@@ -79,7 +79,6 @@ public class DiagParserGUI extends Application {
         logger.info("screen width is: " + screen_width);
         primaryStage.setMinHeight(screen_height * 0.8);
         primaryStage.setMinWidth(screen_width * 0.7);
-        //primaryStage.setMaxWidth(screen_width*0.7);
         primaryStage.setScene(new Scene(border, screen_width * 0.7, screen_height * 0.8));
         primaryStage.show();
     }
@@ -287,6 +286,14 @@ public class DiagParserGUI extends Application {
             report_status_success_str += node_conf_file_report_path + "\n";
         }
 
+        String node_resource_usage_info_report_path = srtp.save_node_resource_usage_info_report();
+
+        if (node_resource_usage_info_report_path.equals("")
+                || node_resource_usage_info_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: node_conf_file_info.out !!\n";
+        } else {
+            report_status_success_str += node_resource_usage_info_report_path + "\n";
+        }
 
         TextArea textArea = new TextArea("Analysis Report Files saved to: \n" +
                 report_status_success_str + "\n" + report_status_fail_str

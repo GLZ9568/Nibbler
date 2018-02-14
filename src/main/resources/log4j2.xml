@@ -11,13 +11,24 @@
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
 
     <Appenders>
-        <File name="FILE" fileName="nibbler.log" append="true">
+        <!--<File name="FILE" fileName="nibbler.log" append="true">
             <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/>
-        </File>
+        </File>-->
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/>
         </Console>
 
+        <RollingFile name="RollingFile" fileName="nibbler.log"
+                     filePattern="nibbler-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
@@ -25,7 +36,8 @@
 
         <Root level="debug">
             <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="FILE"/>
+            <!--<AppenderRef ref="FILE"/>-->
+            <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>
 

@@ -120,8 +120,12 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
                         if(node_obj !=null)
                         {
+
                             nodetool_info_text += String.format("%1$-" +
-                                    dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname").toString());
+                                    dcpadding.get(ValFactory.HOSTNAME) + "s", node_obj.get("hostname") ==null? "NaN":node_obj.get("hostname").toString());
+                        }else{
+                            nodetool_info_text += String.format("%1$-" +
+                                    dcpadding.get(ValFactory.HOSTNAME) + "s", "NaN");
                         }
 
                         nodetool_info_text += String.format("%1$-" +
@@ -260,7 +264,12 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
                             if(node_obj !=null)
                             {
-                                splitline[1] =  node_obj.get("hostname").toString();
+                                if(node_obj.get("hostname")!=null)
+                                  splitline[1] =  node_obj.get("hostname").toString();
+                                else
+                                    splitline[1] = "NaN";
+                            }else{
+                                splitline[1] = "NaN";
                             }
 
                             if(info_obj_tmp1.get(ValFactory.INFO_UPTIME)!=null) {
@@ -321,7 +330,7 @@ public class NodetoolInfoAnalyzer extends Analyzer{
 
     protected JSONObject calculateMaxPadding(JSONObject padding, String[] splitLine, ArrayList<String> keylist) {
         for (int i = 0; i < padding.size(); i++) {
-            logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
+//            logger.info("padding key is: " + keylist.get(i) + " splitline is: " + splitLine[i]);
             padding.put(keylist.get(i), (Integer) padding.get(keylist.get(i)) > splitLine[i].length() + ValFactory.PAD
                     ? (Integer) padding.get(keylist.get(i)) : splitLine[i].length() + ValFactory.PAD);
         }
@@ -358,19 +367,22 @@ public class NodetoolInfoAnalyzer extends Analyzer{
             JSONArray nodesarrary = (JSONArray) tmpdcvar.get(ValFactory.NODES);
             String dc_name1 = tmpdcvar.get(ValFactory.DATACENTER).toString();
             if (dc_name.equals(dc_name1)) {
-                boolean foundnode = false;
+
                 for (Object node : nodesarrary) {
+                    boolean foundnode = false;
                     JSONObject tempnodevar = (JSONObject) node;
                     String file_id = tempnodevar.get(ValFactory.ADDRESS).toString();
                     for (Object info_obj_tmp : info_obj_list) {
                         JSONObject info_obj_tmp1 = (JSONObject) info_obj_tmp;
                         if (file_id.equals(info_obj_tmp1.get(ValFactory.FILE_ID))) {
                             foundnode = true;
+                            //logger.info(dc_name+ " nodetool stats <-> nodetool info: " + file_id);
                         }
                     }
                     if(!foundnode)
                     {
                         missing_node_ip_list.add(file_id);
+                        //logger.info("missing node from nodetool info is: "+ file_id);
                     }
                 }
             }

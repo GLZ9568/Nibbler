@@ -53,7 +53,7 @@ public class FileFactory {
     private ArrayList<JSONObject> machineInfoJSONList;
     private ArrayList<JSONObject> cpuJSONList;
     private ArrayList<JSONObject> memoryJSONList;
-    private ArrayList<JSONObject> diskSpaceJSONList;
+    //private ArrayList<JSONObject> diskSpaceJSONList;
     private ArrayList<JSONObject> javaSystemPropertiesJSONList;
     private ArrayList<Properties> nodetoolInfoPropertiesList;
     private JSONObject nodetoolStatusJSON;
@@ -70,6 +70,7 @@ public class FileFactory {
     private ArrayList<JSONObject> ntpstat_obj_list;
     private ArrayList<JSONObject> os_info_obj_list;
     private ArrayList<JSONObject> disk_space_obj_list;
+    private ArrayList<JSONObject> disk_io_obj_list;
 
     private ArrayList<String> clusterName;
     private ArrayList<String> snitch_list;
@@ -114,7 +115,7 @@ public class FileFactory {
         this.machineInfoJSONList = jsonFileParser.getMachineInfoJSONList();
         this.cpuJSONList = jsonFileParser.getCPUJSONList();
         this.memoryJSONList = jsonFileParser.getMemoryJSONList();
-        this.diskSpaceJSONList = jsonFileParser.getDiskSpaceJSONList();
+       // this.diskSpaceJSONList = jsonFileParser.getDiskSpaceJSONList();
         this.javaSystemPropertiesJSONList = jsonFileParser.getJavaSystemPropertiesJSONList();
         this.nodetoolInfoPropertiesList = new NodetoolInfoFileParser(allFiles).getNodetoolInfoPropertiesList();
         this.nodetoolStatusJSON = new NodetoolStatusFileParser(allFiles).getNodetoolStatusJSON();
@@ -136,6 +137,7 @@ public class FileFactory {
         this.ntptime_obj_list = cip.getNtptime_list();
         this.os_info_obj_list = cip.getOs_info_obj_list();
         this.ntpstat_obj_list = cip.getNtpstat_obj_list();
+        this.disk_io_obj_list = new DiskIOParser(allFiles).getDisk_io_obj_list();
 
     }
 
@@ -204,9 +206,9 @@ public class FileFactory {
         return memoryJSONList;
     }
 
-    public ArrayList<JSONObject> getDiskSpaceJSONList() {
+    /*public ArrayList<JSONObject> getDiskSpaceJSONList() {
         return diskSpaceJSONList;
-    }
+    }*/
 
     public ArrayList<JSONObject> getJavaSystemPropertiesJSONList() {
         return javaSystemPropertiesJSONList;
@@ -302,5 +304,9 @@ public class FileFactory {
 
     public ArrayList<String> getSnitch_list() {
         return snitch_list;
+    }
+
+    public ArrayList<JSONObject> getDisk_io_obj_list() {
+        return disk_io_obj_list;
     }
 }
