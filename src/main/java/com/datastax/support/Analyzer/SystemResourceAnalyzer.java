@@ -98,8 +98,8 @@ public class SystemResourceAnalyzer extends Analyzer {
                 if (nodetoolInfoProperties.getProperty(ValFactory.FILE_ID).equals(cpuJSON.get(ValFactory.FILE_ID))) {
                     for (String key : ValFactory.CPUKEYLIST) {
                         if (cpuJSON.get(key) != null) {
-                            cpuInfoJSON.put(key, cpuJSON.get(key));
-                            cpuValueList.add(cpuJSON.get(key).toString());
+                            cpuInfoJSON.put(key, String.format("%.2f", Double.parseDouble((String)cpuJSON.get(key))));
+                            cpuValueList.add(String.format("%.2f", Double.parseDouble((String)cpuJSON.get(key))));
                         } else {
                             cpuInfoJSON.put(key, "--");
                             cpuValueList.add("--");
@@ -172,13 +172,13 @@ public class SystemResourceAnalyzer extends Analyzer {
             }
 
             if(nodetoolInfoProperties.getProperty(ValFactory.HEAPVALUE) != null) {
-                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
-                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
-                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(0), String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE))));
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(1), String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE))));
+                memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(2), String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE))));
 
-                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE));
-                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE));
-                memoryValueList.add(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE));
+                memoryValueList.add(String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.USEDHEAPVALUE))));
+                memoryValueList.add(String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.MAXHEAPVALUE))));
+                memoryValueList.add(String.format("%.2f", Double.parseDouble(nodetoolInfoProperties.getProperty(ValFactory.OFFHEAPVALUE))));
             } else {
                 for (int i=0; i<ValFactory.HEAPKEYLIST.size(); i++) {
                     memoryInfoJSON.put(ValFactory.HEAPKEYLIST.get(i), "--");

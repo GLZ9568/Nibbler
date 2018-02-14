@@ -55,17 +55,6 @@ public class CfstatsAnalyzer extends Analyzer {
     public CfstatsAnalyzer (FileFactory fileFactory) {
         super(fileFactory);
         try {
-            largePartitionKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
-                    ValFactory.LARGE_PARTITION, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
-            largePartitionPadding = initiatePadding(largePartitionKeys);
-
-            maxTombstoneKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
-                    ValFactory.MAX_TOMBSTONE, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
-            maxTombstonePadding = initiatePadding(maxTombstoneKeys);
-            maxLiveCellKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
-                    ValFactory.MAX_LIVE_CELL, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
-            maxLiveCellPadding = initiatePadding(maxLiveCellKeys);
-
             analyze();
         } catch (Exception e) {
             output = "Encoutntered Unchecked Exception";
@@ -74,6 +63,17 @@ public class CfstatsAnalyzer extends Analyzer {
     }
 
     private void analyze() {
+        largePartitionKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
+                ValFactory.LARGE_PARTITION, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
+        largePartitionPadding = initiatePadding(largePartitionKeys);
+
+        maxTombstoneKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
+                ValFactory.MAX_TOMBSTONE, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
+        maxTombstonePadding = initiatePadding(maxTombstoneKeys);
+        maxLiveCellKeys = new ArrayList<String>(Arrays.asList(ValFactory.NODEC, ValFactory.KEYSPACE, ValFactory.TABLE,
+                ValFactory.MAX_LIVE_CELL, ValFactory.NUMBER_OF_KEYS, ValFactory.TABLE_SPACE_USED));
+        maxLiveCellPadding = initiatePadding(maxLiveCellKeys);
+
         cfstatsList = fileFactory.getCfstatsList();
         String largePartitionTitle = "Compacted Large Partition (Partition Size > " + calByte(largePartitionQualifier) + ")";
         String maxTombstoneTitle = "Maximum Tombstones Per Slice (Last 5 Minutes)";

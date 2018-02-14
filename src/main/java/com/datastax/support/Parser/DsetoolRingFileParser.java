@@ -62,6 +62,8 @@ public class DsetoolRingFileParser extends FileParser {
             if (file.getAbsolutePath().contains(ValFactory.DSETOOL) && file.getName().equals(ValFactory.RING) && !valid) {
                 dsetoolRingJSONArray = new JSONArray();
 
+                logger.debug("File Name: " + Inspector.getFileID(file));
+
                 dsetoolRingJSON.put(ValFactory.FILE_PATH, file.getAbsolutePath());
                 dsetoolRingJSON.put(ValFactory.FILE_NAME, file.getName());
                 dsetoolRingJSON.put(ValFactory.FILE_ID, Inspector.getFileID(file));
@@ -73,51 +75,53 @@ public class DsetoolRingFileParser extends FileParser {
 
                     while (scanner.hasNextLine()) {
                         ArrayList<String> splitLine = new ArrayList<String>(Arrays.asList(Inspector.splitBySpace(scanner.nextLine())));
-                        if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 9 && !valid) {
-                            valid = true;
-                            keys = splitLine;
-                        } else if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 12 && !valid) {
-                            valid = true;
-                            for (int i=0; i<splitLine.size() - 1; i++) {
-                                keys.add(splitLine.get(i));
-                            }
-                        } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 10) {
-                            values = new ArrayList<String>();
-                            for (int i=0; i<keys.size(); i++) {
-                                if(i<6) {
-                                    values.add(splitLine.get(i));
-                                } else if (i==6) {
-                                    values.add(splitLine.get(i) + " " + splitLine.get(i+1));
-                                } else {
-                                    values.add(splitLine.get(i+1));
+                        if (splitLine.size()>0) {
+                            if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 9 && !valid) {
+                                valid = true;
+                                keys = splitLine;
+                            } else if (splitLine.get(0).toLowerCase().equals(ValFactory.ADDRESS.toLowerCase()) && splitLine.size() == 12 && !valid) {
+                                valid = true;
+                                for (int i=0; i<splitLine.size() - 1; i++) {
+                                    keys.add(splitLine.get(i));
                                 }
-                            }
+                            } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 10) {
+                                values = new ArrayList<String>();
+                                for (int i=0; i<keys.size(); i++) {
+                                    if(i<6) {
+                                        values.add(splitLine.get(i));
+                                    } else if (i==6) {
+                                        values.add(splitLine.get(i) + " " + splitLine.get(i+1));
+                                    } else {
+                                        values.add(splitLine.get(i+1));
+                                    }
+                                }
 
-                            if(keys.size() == 9) {
-                                nodeJSON = new JSONObject();
-                                for (int i = 0; i < keys.size(); i++) {
-                                    nodeJSON.put(keys.get(i), values.get(i));
+                                if(keys.size() == 9) {
+                                    nodeJSON = new JSONObject();
+                                    for (int i = 0; i < keys.size(); i++) {
+                                        nodeJSON.put(keys.get(i), values.get(i));
+                                    }
+                                    dsetoolRingJSONArray.add(nodeJSON);
                                 }
-                                dsetoolRingJSONArray.add(nodeJSON);
-                            }
-                        } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 12) {
-                            values = new ArrayList<String>();
-                            for (int i=0; i<keys.size(); i++) {
-                                if(i<6) {
-                                    values.add(splitLine.get(i));
-                                } else if (i==7) {
-                                    values.add(splitLine.get(i) + " " + splitLine.get(i+1));
-                                } else {
-                                    values.add(splitLine.get(i+1));
+                            } else if (Inspector.foundIPAddress(splitLine.get(0)) && splitLine.size() == 12) {
+                                values = new ArrayList<String>();
+                                for (int i=0; i<keys.size(); i++) {
+                                    if(i<6) {
+                                        values.add(splitLine.get(i));
+                                    } else if (i==7) {
+                                        values.add(splitLine.get(i) + " " + splitLine.get(i+1));
+                                    } else {
+                                        values.add(splitLine.get(i+1));
+                                    }
                                 }
-                            }
 
-                            if(keys.size() == 11) {
-                                nodeJSON = new JSONObject();
-                                for (int i = 0; i < keys.size(); i++) {
-                                    nodeJSON.put(keys.get(i), values.get(i));
+                                if(keys.size() == 11) {
+                                    nodeJSON = new JSONObject();
+                                    for (int i = 0; i < keys.size(); i++) {
+                                        nodeJSON.put(keys.get(i), values.get(i));
+                                    }
+                                    dsetoolRingJSONArray.add(nodeJSON);
                                 }
-                                dsetoolRingJSONArray.add(nodeJSON);
                             }
                         }
                     }

@@ -186,11 +186,26 @@ public class ValFactory {
     public static final String COMPLETED = "Completed";
     public static final String BLOCKED = "Blocked";
     public static final String ALL_TIME_BLOCKED = "All time blocked";
-    public static final ArrayList<String> TPSTATS_POOL = new ArrayList<String>(Arrays.asList(POOL_NAME, ACTIVE, PENDING, COMPLETED, BLOCKED, ALL_TIME_BLOCKED));
     public static final String MESSAGE_TYPE = "Message type";
     public static final String DROPPED = "Dropped";
+    public static final String READ = "READ";
+    public static final String RANGE_SLICE = "RANGE_SLICE";
+    public static final String TRACE = "_TRACE";
+    public static final String HINT = "HINT";
+    public static final String MUTATION = "MUTATION";
+    public static final String COUNTER_MUTATION = "COUNTER_MUTATION";
+    public static final String BATCH_STORE = "BATCH_STORE";
+    public static final String BATCH_REMOVE = "BATCH_REMOVE";
+    public static final String REQUEST_RESPONSE = "REQUEST_RESPONSE";
+    public static final String PAGED_RANGE = "PAGED_RANGE";
+    public static final String READ_REPAIR = "READ_REPAIR";
+    public static final ArrayList<String> TPSTATS_POOL = new ArrayList<String>(Arrays.asList(POOL_NAME, ACTIVE, PENDING, COMPLETED,
+            BLOCKED, ALL_TIME_BLOCKED));
+    public static final ArrayList<String> TPSTATS_BLOCK_TABLE = new ArrayList<String>(Arrays.asList(ADDRESS, POOL_NAME, ACTIVE,
+            PENDING, COMPLETED, BLOCKED, ALL_TIME_BLOCKED));
+    public static final ArrayList<String> TPSTATS_DROP_TABLE = new ArrayList<String>(Arrays.asList(ADDRESS, READ, RANGE_SLICE,
+            TRACE, HINT, MUTATION, COUNTER_MUTATION, BATCH_STORE, BATCH_REMOVE, REQUEST_RESPONSE, PAGED_RANGE, READ_REPAIR));
     public static final ArrayList<String> TPSTATS_MSG = new ArrayList<String>(Arrays.asList(MESSAGE_TYPE, DROPPED));
-
     public static final String DESCRIBECLUSTER = "describecluster";
     public static final String CLUSTER_INFORMATION = "Cluster Inforamtion";
     public static final String SCHEMA_VERSIONS = "Schema versions";

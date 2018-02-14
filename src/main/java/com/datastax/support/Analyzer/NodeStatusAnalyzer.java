@@ -74,34 +74,37 @@ public class NodeStatusAnalyzer extends Analyzer {
             HashMap<String, Integer> nodetoolInfoPadding = new HashMap<String, Integer>();
             nodetoolInfoPadding.put(ValFactory.UPTIME, ValFactory.UPTIME.length() + ValFactory.PAD);
 
-            for (Object ringNd : ringJSONArray) {
-                JSONObject ringNode = (JSONObject) ringNd;
-                if (ringNode.get(ValFactory.DC).toString().equals(datacenterJSON.get(ValFactory.DATACENTER).toString())) {
-                    ringNodes.add(ringNode);
-                    ringPadding.put(ValFactory.DC, ringPadding.get(ValFactory.DC) > ringNode.get(ValFactory.DC).toString().length() + ValFactory.PAD
-                            ? ringPadding.get(ValFactory.DC) : ringNode.get(ValFactory.DC).toString().length() + ValFactory.PAD);
-                    ringPadding.put(ValFactory.WORKLOAD, ringPadding.get(ValFactory.WORKLOAD) > ringNode.get(ValFactory.WORKLOAD).toString().length() + ValFactory.PAD
-                            ? ringPadding.get(ValFactory.WORKLOAD) : ringNode.get(ValFactory.WORKLOAD).toString().length() + ValFactory.PAD);
-                    ringPadding.put(ValFactory.OWNS, ringPadding.get(ValFactory.OWNS) > ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD
-                            ? ringPadding.get(ValFactory.OWNS) : ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD);
 
-                    if (ringNode.entrySet().toString().contains(ValFactory.GRAPH)) {
-                        if (!foundGraph) {
-                            foundGraph = true;
-                            ringPadding.put(ValFactory.GRAPH, ValFactory.GRAPH.length() + ValFactory.PAD);
-                        } else {
-                            ringPadding.put(ValFactory.GRAPH, ringPadding.get(ValFactory.GRAPH) > ringNode.get(ValFactory.GRAPH).toString().length() + ValFactory.PAD
-                                    ? ringPadding.get(ValFactory.GRAPH) : ringNode.get(ValFactory.GRAPH).toString().length() + ValFactory.PAD);
+            if (ringJSONArray.size() > 0) {
+                for (Object ringNd : ringJSONArray) {
+                    JSONObject ringNode = (JSONObject) ringNd;
+                    if (ringNode.get(ValFactory.DC).toString().equals(datacenterJSON.get(ValFactory.DATACENTER).toString())) {
+                        ringNodes.add(ringNode);
+                        ringPadding.put(ValFactory.DC, ringPadding.get(ValFactory.DC) > ringNode.get(ValFactory.DC).toString().length() + ValFactory.PAD
+                                ? ringPadding.get(ValFactory.DC) : ringNode.get(ValFactory.DC).toString().length() + ValFactory.PAD);
+                        ringPadding.put(ValFactory.WORKLOAD, ringPadding.get(ValFactory.WORKLOAD) > ringNode.get(ValFactory.WORKLOAD).toString().length() + ValFactory.PAD
+                                ? ringPadding.get(ValFactory.WORKLOAD) : ringNode.get(ValFactory.WORKLOAD).toString().length() + ValFactory.PAD);
+                        ringPadding.put(ValFactory.OWNS, ringPadding.get(ValFactory.OWNS) > ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD
+                                ? ringPadding.get(ValFactory.OWNS) : ringNode.get(ValFactory.OWNS).toString().length() + ValFactory.PAD);
+
+                        if (ringNode.entrySet().toString().contains(ValFactory.GRAPH)) {
+                            if (!foundGraph) {
+                                foundGraph = true;
+                                ringPadding.put(ValFactory.GRAPH, ValFactory.GRAPH.length() + ValFactory.PAD);
+                            } else {
+                                ringPadding.put(ValFactory.GRAPH, ringPadding.get(ValFactory.GRAPH) > ringNode.get(ValFactory.GRAPH).toString().length() + ValFactory.PAD
+                                        ? ringPadding.get(ValFactory.GRAPH) : ringNode.get(ValFactory.GRAPH).toString().length() + ValFactory.PAD);
+                            }
                         }
-                    }
 
-                    if (ringNode.entrySet().toString().contains(ValFactory.HEALTH)) {
-                        if (!foundHealth) {
-                            foundHealth = true;
-                            ringPadding.put(ValFactory.HEALTH, ValFactory.HEALTH.length() + ValFactory.PAD);
-                        } else {
-                            ringPadding.put(ValFactory.HEALTH, ringPadding.get(ValFactory.HEALTH) > ringNode.get(ValFactory.HEALTH).toString().length() + ValFactory.PAD
-                                    ? ringPadding.get(ValFactory.HEALTH) : ringNode.get(ValFactory.HEALTH).toString().length() + ValFactory.PAD);
+                        if (ringNode.entrySet().toString().contains(ValFactory.HEALTH)) {
+                            if (!foundHealth) {
+                                foundHealth = true;
+                                ringPadding.put(ValFactory.HEALTH, ValFactory.HEALTH.length() + ValFactory.PAD);
+                            } else {
+                                ringPadding.put(ValFactory.HEALTH, ringPadding.get(ValFactory.HEALTH) > ringNode.get(ValFactory.HEALTH).toString().length() + ValFactory.PAD
+                                        ? ringPadding.get(ValFactory.HEALTH) : ringNode.get(ValFactory.HEALTH).toString().length() + ValFactory.PAD);
+                            }
                         }
                     }
                 }
