@@ -245,8 +245,6 @@ public class TpstatsAnalyzer extends Analyzer {
                 }
                 if (foundDroppedValue) {
                     droppedArray.add(droppedValues);
-                    logger.debug("Drop Table Padding: " + dropTablePadding);
-                    logger.debug("Dropped Values: " + droppedValues);
                     dropTablePadding = getPadding(dropTablePadding, ValFactory.TPSTATS_DROP_TABLE, droppedValues);
                 }
             }
@@ -432,7 +430,7 @@ public class TpstatsAnalyzer extends Analyzer {
             }
             output += "\n";
         } else {
-            output += "There has values to display\n\n";
+            output += "There has no dropped/blocked values to display\n\n";
         }
     }
 
