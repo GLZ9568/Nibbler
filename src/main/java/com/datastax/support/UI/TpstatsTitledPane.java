@@ -23,7 +23,7 @@ public class TpstatsTitledPane extends ComponentTitledPane {
     private static final Logger logger = LogManager.getLogger(TpstatsTitledPane.class);
 
     private TpstatsAnalyzer tpstatsAnalyzer;
-    private static final String title = "Tpstats";
+    private static final String title = "Thread Pool Statistics";
     private String output;
 
     public TpstatsTitledPane (FileFactory fileFactory) {

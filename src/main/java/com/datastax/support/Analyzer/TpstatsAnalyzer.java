@@ -83,8 +83,12 @@ public class TpstatsAnalyzer extends Analyzer {
 
     public TpstatsAnalyzer (FileFactory fileFactory) {
         super(fileFactory);
-        tpstatsJSONList = fileFactory.getTpstatsJSONList();
-        analyze();
+        try {
+            tpstatsJSONList = fileFactory.getTpstatsJSONList();
+            analyze();
+        } catch (Exception e) {
+            logUncheckedException(logger, e);
+        }
     }
 
     private void analyze() {
@@ -253,123 +257,125 @@ public class TpstatsAnalyzer extends Analyzer {
         if (!droppedArray.isEmpty()) {
             droppedArray = sortJSONArray(droppedArray, ValFactory.MUTATION, true, "Long");
         }
-        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
+        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", "No Dropped Messages Detected", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
 
         logger.debug("\n" + output);
 
+        String noThreadPoolFound = "No Thread Pools in Active/Pending/Blocked Status";
+
         if(!blockTableNTRArray.isEmpty()) {
-            blockTableNTRArray = sortJSONArray(blockTableNTRArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("Native-Transport-Requests (Ordered by \"All time blocked\")", blockTableNTRArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableNTRPadding);
+            blockTableNTRArray = sortJSONArray(blockTableNTRArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("Native-Transport-Requests (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableNTRArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableNTRPadding);
         }
 
         if(!blockTableMutationStageArray.isEmpty()) {
-            blockTableMutationStageArray = sortJSONArray(blockTableMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MutationStage (Ordered by \"All time blocked\")", blockTableMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMutationStagePadding);
+            blockTableMutationStageArray = sortJSONArray(blockTableMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MutationStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMutationStagePadding);
         }
 
         if(!blockTableCompactionExecutorArray.isEmpty()) {
-            blockTableCompactionExecutorArray = sortJSONArray(blockTableCompactionExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("CompactionExecutor (Ordered by \"All time blocked\")", blockTableCompactionExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCompactionExecutorPadding);
+            blockTableCompactionExecutorArray = sortJSONArray(blockTableCompactionExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("CompactionExecutor (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableCompactionExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCompactionExecutorPadding);
         }
 
         if(!blockTableMemtableFlushWriterArray.isEmpty()) {
-            blockTableMemtableFlushWriterArray = sortJSONArray(blockTableMemtableFlushWriterArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MemtableFlushWriter (Ordered by \"All time blocked\")", blockTableMemtableFlushWriterArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtableFlushWriterPadding);
+            blockTableMemtableFlushWriterArray = sortJSONArray(blockTableMemtableFlushWriterArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MemtableFlushWriter (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMemtableFlushWriterArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtableFlushWriterPadding);
         }
 
         if(!blockTableMemtablePostFlushArray.isEmpty()) {
-            blockTableMemtablePostFlushArray = sortJSONArray(blockTableMemtablePostFlushArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MemtablePostFlush (Ordered by \"All time blocked\")", blockTableMemtablePostFlushArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtablePostFlushPadding);
+            blockTableMemtablePostFlushArray = sortJSONArray(blockTableMemtablePostFlushArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MemtablePostFlush (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMemtablePostFlushArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtablePostFlushPadding);
         }
 
         if(!blockTableGossipStageArray.isEmpty()) {
-            blockTableGossipStageArray = sortJSONArray(blockTableGossipStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("GossipStage (Ordered by \"All time blocked\")", blockTableGossipStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableGossipStagePadding);
+            blockTableGossipStageArray = sortJSONArray(blockTableGossipStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("GossipStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableGossipStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableGossipStagePadding);
         }
 
         if(!blockTableViewMutationStageArray.isEmpty()) {
-            blockTableViewMutationStageArray = sortJSONArray(blockTableViewMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("ViewMutationStage (Ordered by \"All time blocked\")", blockTableViewMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableViewMutationStagePadding);
+            blockTableViewMutationStageArray = sortJSONArray(blockTableViewMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("ViewMutationStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableViewMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableViewMutationStagePadding);
         }
 
         if(!blockTableReadStageArray.isEmpty()) {
-            blockTableReadStageArray = sortJSONArray(blockTableReadStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("ReadStage (Ordered by \"All time blocked\")", blockTableReadStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableReadStagePadding);
+            blockTableReadStageArray = sortJSONArray(blockTableReadStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("ReadStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableReadStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableReadStagePadding);
         }
 
         if(!blockTableRequestResponseStageArray.isEmpty()) {
-            blockTableRequestResponseStageArray = sortJSONArray(blockTableRequestResponseStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("RequestResponseStage (Ordered by \"All time blocked\")", blockTableRequestResponseStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableRequestResponseStagePadding);
+            blockTableRequestResponseStageArray = sortJSONArray(blockTableRequestResponseStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("RequestResponseStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableRequestResponseStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableRequestResponseStagePadding);
         }
 
         if(!blockTableReadRepairStageArray.isEmpty()) {
-            blockTableReadRepairStageArray = sortJSONArray(blockTableReadRepairStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("ReadRepairStage (Ordered by \"All time blocked\")", blockTableReadRepairStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableReadRepairStagePadding);
+            blockTableReadRepairStageArray = sortJSONArray(blockTableReadRepairStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("ReadRepairStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableReadRepairStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableReadRepairStagePadding);
         }
 
         if(!blockTableCounterMutationStageArray.isEmpty()) {
-            blockTableCounterMutationStageArray = sortJSONArray(blockTableCounterMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("CounterMutationStage (Ordered by \"All time blocked\")", blockTableCounterMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCounterMutationStagePadding);
+            blockTableCounterMutationStageArray = sortJSONArray(blockTableCounterMutationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("CounterMutationStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableCounterMutationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCounterMutationStagePadding);
         }
 
         if(!blockTableMiscStageArray.isEmpty()) {
-            blockTableMiscStageArray = sortJSONArray(blockTableMiscStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MiscStage (Ordered by \"All time blocked\")", blockTableMiscStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMiscStagePadding);
+            blockTableMiscStageArray = sortJSONArray(blockTableMiscStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MiscStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMiscStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMiscStagePadding);
         }
 
         if(!blockTableMemtableReclaimMemoryArray.isEmpty()) {
-            blockTableMemtableReclaimMemoryArray = sortJSONArray(blockTableMemtableReclaimMemoryArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MemtableReclaimMemory (Ordered by \"All time blocked\")", blockTableMemtableReclaimMemoryArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtableReclaimMemoryPadding);
+            blockTableMemtableReclaimMemoryArray = sortJSONArray(blockTableMemtableReclaimMemoryArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MemtableReclaimMemory (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMemtableReclaimMemoryArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMemtableReclaimMemoryPadding);
         }
 
         if(!blockTablePendingRangeCalculatorArray.isEmpty()) {
-            blockTablePendingRangeCalculatorArray = sortJSONArray(blockTablePendingRangeCalculatorArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("PendingRangeCalculator (Ordered by \"All time blocked\")", blockTablePendingRangeCalculatorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTablePendingRangeCalculatorPadding);
+            blockTablePendingRangeCalculatorArray = sortJSONArray(blockTablePendingRangeCalculatorArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("PendingRangeCalculator (Ordered by \"All time blocked\")", noThreadPoolFound, blockTablePendingRangeCalculatorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTablePendingRangeCalculatorPadding);
         }
 
         if(!blockTableAntiCompactionExecutorArray.isEmpty()) {
-            blockTableAntiCompactionExecutorArray = sortJSONArray(blockTableAntiCompactionExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("AntiCompactionExecutor (Ordered by \"All time blocked\")", blockTableAntiCompactionExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableAntiCompactionExecutorPadding);
+            blockTableAntiCompactionExecutorArray = sortJSONArray(blockTableAntiCompactionExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("AntiCompactionExecutor (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableAntiCompactionExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableAntiCompactionExecutorPadding);
         }
 
         if(!blockTableSecondaryIndexManagementArray.isEmpty()) {
-            blockTableSecondaryIndexManagementArray = sortJSONArray(blockTableSecondaryIndexManagementArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("SecondaryIndexManagement (Ordered by \"All time blocked\")", blockTableSecondaryIndexManagementArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableSecondaryIndexManagementPadding);
+            blockTableSecondaryIndexManagementArray = sortJSONArray(blockTableSecondaryIndexManagementArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("SecondaryIndexManagement (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableSecondaryIndexManagementArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableSecondaryIndexManagementPadding);
         }
 
         if(!blockTableHintsDispatcherArray.isEmpty()) {
-            blockTableHintsDispatcherArray = sortJSONArray(blockTableHintsDispatcherArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("HintsDispatcher (Ordered by \"All time blocked\")", blockTableHintsDispatcherArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableHintsDispatcherPadding);
+            blockTableHintsDispatcherArray = sortJSONArray(blockTableHintsDispatcherArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("HintsDispatcher (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableHintsDispatcherArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableHintsDispatcherPadding);
         }
 
         if(!blockTableMigrationStageArray.isEmpty()) {
-            blockTableMigrationStageArray = sortJSONArray(blockTableMigrationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("MigrationStage (Ordered by \"All time blocked\")", blockTableMigrationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMigrationStagePadding);
+            blockTableMigrationStageArray = sortJSONArray(blockTableMigrationStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("MigrationStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableMigrationStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableMigrationStagePadding);
         }
 
         if(!blockTableValidationExecutorArray.isEmpty()) {
-            blockTableValidationExecutorArray = sortJSONArray(blockTableValidationExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("ValidationExecutor (Ordered by \"All time blocked\")", blockTableValidationExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableValidationExecutorPadding);
+            blockTableValidationExecutorArray = sortJSONArray(blockTableValidationExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("ValidationExecutor (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableValidationExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableValidationExecutorPadding);
         }
 
         if(!blockTableSamplerArray.isEmpty()) {
-            blockTableSamplerArray = sortJSONArray(blockTableSamplerArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("Sampler (Ordered by \"All time blocked\")", blockTableSamplerArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableSamplerPadding);
+            blockTableSamplerArray = sortJSONArray(blockTableSamplerArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("Sampler (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableSamplerArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableSamplerPadding);
         }
 
         if(!blockTableInternalResponseStageArray.isEmpty()) {
-            blockTableInternalResponseStageArray = sortJSONArray(blockTableInternalResponseStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("InternalResponseStage (Ordered by \"All time blocked\")", blockTableInternalResponseStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableInternalResponseStagePadding);
+            blockTableInternalResponseStageArray = sortJSONArray(blockTableInternalResponseStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("InternalResponseStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableInternalResponseStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableInternalResponseStagePadding);
         }
 
         if(!blockTableAntiEntropyStageArray.isEmpty()) {
-            blockTableAntiEntropyStageArray = sortJSONArray(blockTableAntiEntropyStageArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("AntiEntropyStage (Ordered by \"All time blocked\")", blockTableAntiEntropyStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableAntiEntropyStagePadding);
+            blockTableAntiEntropyStageArray = sortJSONArray(blockTableAntiEntropyStageArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("AntiEntropyStage (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableAntiEntropyStageArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableAntiEntropyStagePadding);
         }
 
         if(!blockTableCacheCleanupExecutorArray.isEmpty()) {
-            blockTableCacheCleanupExecutorArray = sortJSONArray(blockTableCacheCleanupExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "String");
-            printArrayContent("CacheCleanupExecutor (Ordered by \"All time blocked\")", blockTableCacheCleanupExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCacheCleanupExecutorPadding);
+            blockTableCacheCleanupExecutorArray = sortJSONArray(blockTableCacheCleanupExecutorArray, ValFactory.ALL_TIME_BLOCKED, true, "Long");
+            printArrayContent("CacheCleanupExecutor (Ordered by \"All time blocked\")", noThreadPoolFound, blockTableCacheCleanupExecutorArray, ValFactory.TPSTATS_BLOCK_TABLE, blockTableCacheCleanupExecutorPadding);
         }
 
         logger.debug("\n" + output);
@@ -409,7 +415,7 @@ public class TpstatsAnalyzer extends Analyzer {
         return calculatePadding(padding, keyList, values);
     }
 
-    private void printArrayContent(String title, JSONArray blockArray, ArrayList<String> keyList, HashMap<String, Integer> padding) {
+    private void printArrayContent(String title, String msg, JSONArray blockArray, ArrayList<String> keyList, HashMap<String, Integer> padding) {
         output += title + "\n" + printDividingLine(title.length()) + "\n";
 
         if (!blockArray.isEmpty()) {
@@ -430,7 +436,7 @@ public class TpstatsAnalyzer extends Analyzer {
             }
             output += "\n";
         } else {
-            output += "There has no dropped/blocked values to display\n\n";
+            output += msg + "\n\n";
         }
     }
 
