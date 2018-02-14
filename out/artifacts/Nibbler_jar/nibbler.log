@@ -1,2 +1,619 @@
-INFO  | 2018-02-09 13:30:36 | [JavaFX Application Thread] UI.DiagParserGUI (DiagParserGUI.java:78) - screen height is: 1629.0
-INFO  | 2018-02-09 13:30:36 | [JavaFX Application Thread] UI.DiagParserGUI (DiagParserGUI.java:79) - screen width is: 3008.0
+2018-02-14 11:35:31,826 INFO c.d.s.U.ComponentTitledPane [JavaFX Application Thread] Node Configuration Files Info Textarea actual height is: 4865.691796874999  Pref height is: 403.2000000000001
+2018-02-14 11:35:32,249 DEBUG c.d.s.A.CfstatsAnalyzer [JavaFX Application Thread] Sorted Large Partition JSON Array: 
+Compacted Large Partition (Partition Size > 100 MB)
+===================================================
+Node        Keyspace                Table                                         Compacted large partition  Number of keys (estimate)  Current space used (total)  
+10.6.12.30  telematics_stg          stgaws_diagnostic                             17797419593 (16.58 GB)     5698                       23192441558 (21.6 GB)       
+10.6.12.19  telematics_stg          stgaws_diagnostic                             14831182994 (13.81 GB)     2606                       12951372801 (12.06 GB)      
+10.6.12.14  txn_telematics          cs_txn_tm_asset_diagnostic                    12359319162 (11.51 GB)     3748                       14787487492 (13.77 GB)      
+10.6.12.16  telematics_stg          stgaws_diagnostic                             10299432635 (9.59 GB)      5458                       22314619886 (20.78 GB)      
+10.1.12.31  txn_bill                bill_chrg                                     8582860529 (7.99 GB)       53548                      114589401052 (106.72 GB)    
+10.6.12.12  txn_telematics          cs_txn_tm_asset_diagnostic                    7152383774 (6.66 GB)       4273                       16594288108 (15.45 GB)      
+10.6.12.14  telematics_stg          stgaws_diagnostic                             7152383774 (6.66 GB)       3994                       16969438478 (15.8 GB)       
+10.1.12.34  core                    service_card                                  5960319812 (5.55 GB)       628                        2427640403 (2.26 GB)        
+10.6.12.12  telematics_stg          stgaws_diagnostic                             5960319812 (5.55 GB)       4683                       21105445350 (19.66 GB)      
+10.1.12.33  core                    asset_features                                4139110981 (3.85 GB)       268                        1439411657 (1.34 GB)        
+10.6.12.14  telematics_stg          stgaws_gpsstops                               4139110981 (3.85 GB)       1191                       48281362388 (44.97 GB)      
+10.1.12.27  txn_bill                bill_chrg                                     3449259151 (3.21 GB)       41371                      152987151098 (142.48 GB)    
+10.1.12.33  core_txn_stg            veh_odom_stg                                  3449259151 (3.21 GB)       365                        1417498144 (1.32 GB)        
+10.1.12.33  txn_bill                veh_odom                                      3449259151 (3.21 GB)       365                        1391387285 (1.3 GB)         
+10.6.12.12  telematics_stg          stgaws_gpsstops                               3449259151 (3.21 GB)       1295                       52071836364 (48.5 GB)       
+10.6.12.41  core_fdb                incident_detail_info_chunks                   3449259151 (3.21 GB)       134                        5823262488 (5.42 GB)        
+10.1.12.89  txn_telematics_fdb      fdb_txn_tm_asset_diagnostic_chunks            2874382626 (2.68 GB)       4101                       3913991532 (3.65 GB)        
+10.6.12.14  telematics_stg          stgaws_diagnostic_tmp                         2874382626 (2.68 GB)       79                         1006041862 (959.44 MB)      
+10.1.12.43  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        2395318855 (2.23 GB)       154                        290612179 (277.15 MB)       
+10.1.12.54  core_fdb                asset_fee_enroll_hist_new_chunks              2395318855 (2.23 GB)       643                        1200563125 (1.12 GB)        
+10.1.12.67  txn_telematics_fdb      fdb_txn_tm_asset_diagnostic_chunks            2395318855 (2.23 GB)       2392                       2665053529 (2.48 GB)        
+10.6.12.15  txn_telematics          cs_txn_tm_asset_gps_reading                   2395318855 (2.23 GB)       98206                      148416425912 (138.22 GB)    
+10.1.12.31  core_fdb                asset_fee_enroll_hist_new_chunks              1996099046 (1.86 GB)       958                        1382624543 (1.29 GB)        
+10.1.12.45  txn_telematics_fdb      fdb_txn_tm_asset_diagnostic_chunks            1996099046 (1.86 GB)       1614                       2556630727 (2.38 GB)        
+10.1.12.74  core                    asset_fee_enroll_hist                         1996099046 (1.86 GB)       1620                       1583783935 (1.48 GB)        
+10.6.12.19  telematics_stg          stgaws_gps                                    1996099046 (1.86 GB)       72409                      69272693773 (64.52 GB)      
+10.1.12.43  core_fdb                incident_detail_info_chunks                   1663415872 (1.55 GB)       79                         2174779710 (2.03 GB)        
+10.6.12.12  advanced_analytics      readings                                      1663415872 (1.55 GB)       3477                       2051754687 (1.91 GB)        
+10.1.12.27  core_txn_stg            filo_delete                                   1386179893 (1.29 GB)       17                         314513520 (299.94 MB)       
+10.1.12.27  advanced_analytics      readings                                      1386179893 (1.29 GB)       2020                       2033530110 (1.89 GB)        
+10.1.12.33  core                    asset_info                                    1386179893 (1.29 GB)       3831                       4210828439 (3.92 GB)        
+10.1.12.34  core_txn_stg            billing_charge_others_bill_stg                1386179893 (1.29 GB)       76                         446131438 (425.46 MB)       
+10.1.12.36  core                    asset_info_arch                               1386179893 (1.29 GB)       55038                      24354271757 (22.68 GB)      
+10.1.12.39  txn_inv                 vehicle_order_mfg_event_info                  1386179893 (1.29 GB)       129                        1301485396 (1.21 GB)        
+10.1.12.39  txn_maintenance         vma_transaction_log                           1386179893 (1.29 GB)       260                        751600686 (716.78 MB)       
+10.1.12.40  core_txn_stg            asset_info_arch_stg                           1386179893 (1.29 GB)       2787                       2190419256 (2.04 GB)        
+10.1.12.59  txn_maintenance         pm_notice_activity_info                       1386179893 (1.29 GB)       375                        869924522 (829.62 MB)       
+10.6.12.12  txn_telematics          cs_txn_tm_asset_gps_reading                   1386179893 (1.29 GB)       101034                     157654743266 (146.83 GB)    
+10.6.12.12  telematics_stg          stgaws_gps                                    1386179893 (1.29 GB)       90974                      108488597504 (101.04 GB)    
+10.6.12.30  telematics_stg          stgaws_diagnosticdtc                          1386179893 (1.29 GB)       4273                       806217735 (768.87 MB)       
+10.1.12.27  core                    asset_info_arch                               1155149911 (1.08 GB)       36123                      26491784824 (24.67 GB)      
+10.1.12.31  core                    asset_features                                1155149911 (1.08 GB)       232                        753895864 (718.97 MB)       
+10.1.12.33  loadtest                asset_info                                    1155149911 (1.08 GB)       843                        990062240 (944.2 MB)        
+10.1.12.36  txn_maintenance         pm_notice_activity_info                       1155149911 (1.08 GB)       404                        871840133 (831.45 MB)       
+10.1.12.38  core                    arm_address_phone                             1155149911 (1.08 GB)       2                          295976294 (282.26 MB)       
+10.1.12.46  core                    asset_fee_enroll_hist                         1155149911 (1.08 GB)       794                        1015008242 (967.99 MB)      
+10.6.12.19  txn_mvr                 mvr_driver_request_info                       1155149911 (1.08 GB)       57                         1229228319 (1.14 GB)        
+10.1.12.27  core_txn_stg            billing_charge_others_bill_stg                962624926 (918.03 MB)      216                        805923490 (768.59 MB)       
+10.1.12.27  txn_maintenance         pm_notice_activity_info                       962624926 (918.03 MB)      332                        819316098 (781.36 MB)       
+10.1.12.29  txn_inv                 vehicle_order_mfg_event_info                  962624926 (918.03 MB)      95                         874584728 (834.07 MB)       
+10.1.12.31  core_txn_stg            asset_info_arch_stg                           962624926 (918.03 MB)      2417                       1510136575 (1.41 GB)        
+10.1.12.31  txn_personaluse         mileage_report                                962624926 (918.03 MB)      53                         548476276 (523.07 MB)       
+10.1.12.33  txn_mvr                 mvr_driver_request_info                       962624926 (918.03 MB)      84                         676120779 (644.8 MB)        
+10.1.12.33  core                    incident_detail_info                          962624926 (918.03 MB)      132                        1323482968 (1.23 GB)        
+10.1.12.41  core                    asset_fee_enroll_hist                         962624926 (918.03 MB)      1239                       993126630 (947.12 MB)       
+10.1.12.49  core_txn_stg            fuel_transaction_stg_iq                       962624926 (918.03 MB)      16243                      40090210398 (37.34 GB)      
+10.1.12.49  txn_fuel                fuel_transaction                              962624926 (918.03 MB)      17350                      41414720630 (38.57 GB)      
+10.1.12.73  core                    asset_option                                  962624926 (918.03 MB)      2242                       2160904321 (2.01 GB)        
+10.1.12.90  telematics_solr         cs_txn_tm_poi_structure                       962624926 (918.03 MB)      743                        4122645219 (3.84 GB)        
+10.1.12.27  core_txn_stg            fuel_transaction_stg_iq                       802187438 (765.03 MB)      11020                      28367070861 (26.42 GB)      
+10.1.12.27  txn_fuel                fuel_transaction                              802187438 (765.03 MB)      11913                      30171723554 (28.1 GB)       
+10.1.12.32  txn_fuel                fuel_transaction_psn                          802187438 (765.03 MB)      529                        1448915219 (1.35 GB)        
+10.1.12.33  core                    asset_info_ext1                               802187438 (765.03 MB)      3831                       2460008594 (2.29 GB)        
+10.1.12.35  core                    client_breakdown                              802187438 (765.03 MB)      2746                       580112702 (553.24 MB)       
+10.1.12.37  txn_maintenance         vma_transaction_log                           802187438 (765.03 MB)      224                        691491643 (659.46 MB)       
+10.1.12.39  core                    asset_fee_enroll_hist                         802187438 (765.03 MB)      726                        994163107 (948.11 MB)       
+10.1.12.44  core                    asset_option                                  802187438 (765.03 MB)      2252                       1526196391 (1.42 GB)        
+10.6.12.12  core_fdb                asset_info_ext1_chunks                        802187438 (765.03 MB)      4598                       828081110 (789.72 MB)       
+10.6.12.20  txn_telematics          cs_txn_tm_asset_alert                         802187438 (765.03 MB)      4386                       566791455 (540.53 MB)       
+10.6.12.40  txn_fuel                vehicle_fuel_economy                          802187438 (765.03 MB)      203                        1166262431 (1.09 GB)        
+10.1.12.27  txn_titleandreg         other_charge_arch                             668489532 (637.52 MB)      7873                       8696472257 (8.1 GB)         
+10.1.12.28  core                    asset_info                                    668489532 (637.52 MB)      2425                       3235439789 (3.01 GB)        
+10.1.12.28  core                    asset_option                                  668489532 (637.52 MB)      1770                       1270115075 (1.18 GB)        
+10.1.12.31  core_fdb                asset_info_chunks                             668489532 (637.52 MB)      3524                       744341676 (709.86 MB)       
+10.1.12.31  core_fdb                asset_info_ext1_chunks                        668489532 (637.52 MB)      3673                       1046362473 (997.89 MB)      
+10.1.12.33  core                    asset_fee_enroll_hist                         668489532 (637.52 MB)      1135                       867380331 (827.2 MB)        
+10.1.12.36  txn_fuel                fuel_transaction_xcelerate                    668489532 (637.52 MB)      2747                       4636649455 (4.32 GB)        
+10.1.12.37  core_fdb                incident_detail_info_chunks                   668489532 (637.52 MB)      66                         747084823 (712.48 MB)       
+10.1.12.37  txn_maintenance         pm_prediction_activity_info                   668489532 (637.52 MB)      146                        309610573 (295.27 MB)       
+10.1.12.58  txn_mvr_fdb             mvr_driver_request_info_chunks                668489532 (637.52 MB)      89                         818759840 (780.83 MB)       
+10.1.12.79  core_fdb                service_card_chunks                           668489532 (637.52 MB)      2896                       798286719 (761.31 MB)       
+10.6.12.22  txn_fuel                vehicle_fuel_economy                          668489532 (637.52 MB)      215                        993646058 (947.61 MB)       
+10.1.12.27  core_txn_stg            asset_info_arch_stg                           557074610 (531.27 MB)      1980                       1109537595 (1.03 GB)        
+10.1.12.27  txn_inv                 vehicle_order_mfg_event_info                  557074610 (531.27 MB)      120                        920879316 (878.22 MB)       
+10.1.12.27  txn_fuel                fuel_transaction_psn                          557074610 (531.27 MB)      579                        1004986117 (958.43 MB)      
+10.1.12.27  txn_fuel                fuel_transaction_xcelerate                    557074610 (531.27 MB)      1979                       3153588282 (2.94 GB)        
+10.1.12.28  txn_maintenance         maintenance_order_detail_info                 557074610 (531.27 MB)      13028                      11487034483 (10.7 GB)       
+10.1.12.31  core_txn_stg            veh_odom_stg                                  557074610 (531.27 MB)      340                        779394017 (743.29 MB)       
+10.1.12.31  txn_maintenance         maintenance_order_dtl_info                    557074610 (531.27 MB)      16039                      13121089189 (12.22 GB)      
+10.1.12.33  core                    asset_info_ext2                               557074610 (531.27 MB)      3831                       1196322359 (1.11 GB)        
+10.1.12.34  txn_maintenance         vma_transaction_log                           557074610 (531.27 MB)      87                         634566322 (605.17 MB)       
+10.1.12.35  core_txn_stg            asset_fee_enroll_hist_stg                     557074610 (531.27 MB)      515                        507109724 (483.62 MB)       
+10.1.12.36  core                    asset_info_ext_arch                           557074610 (531.27 MB)      51637                      9694022367 (9.03 GB)        
+10.1.12.37  txn_mvr_fdb             mvr_driver_request_info_chunks                557074610 (531.27 MB)      47                         820985637 (782.95 MB)       
+10.1.12.37  txn_telematics_fdb      fdb_txn_tm_asset_diagnostic_chunks            557074610 (531.27 MB)      1942                       1281646080 (1.19 GB)        
+10.1.12.39  txn_personaluse         mileage_report_person                         557074610 (531.27 MB)      325                        3550435727 (3.31 GB)        
+10.1.12.40  txn_bill                new_unit_notice_aquisition_info               557074610 (531.27 MB)      288                        352309494 (335.99 MB)       
+10.1.12.42  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        557074610 (531.27 MB)      244                        101793508 (97.08 MB)        
+10.1.12.47  core_txn_stg            asset_info_ext_arch_stg                       557074610 (531.27 MB)      2598                       633852745 (604.49 MB)       
+10.1.12.53  core_txn_stg            billing_charge_lease_bill_stg                 557074610 (531.27 MB)      290                        552647446 (527.05 MB)       
+10.6.12.12  txn_telematics          cs_txn_tm_asset_gps_reading_trips             557074610 (531.27 MB)      4826                       8928520588 (8.32 GB)        
+10.6.12.16  txn_fuel                vehicle_fuel_economy                          557074610 (531.27 MB)      246                        894182271 (852.76 MB)       
+10.6.12.24  telematics_stg          stgaws_odometer                               557074610 (531.27 MB)      4493                       377533091 (360.04 MB)       
+10.6.12.30  telematics_stg          cs_telematics_stg_location_lkp                557074610 (531.27 MB)      844                        9351197607 (8.71 GB)        
+10.1.12.27  core                    asset_features                                464228842 (442.72 MB)      181                        390574838 (372.48 MB)       
+10.1.12.27  core                    asset_info_ext_arch                           464228842 (442.72 MB)      32316                      11649994695 (10.85 GB)      
+10.1.12.27  txn_maintenance         maintenance_order_detail_info                 464228842 (442.72 MB)      14569                      13763834308 (12.82 GB)      
+10.1.12.28  core_txn_stg            billing_charge_lease_bill_stg                 464228842 (442.72 MB)      190                        691387867 (659.36 MB)       
+10.1.12.28  core                    asset_info_ext1                               464228842 (442.72 MB)      2425                       1992753889 (1.86 GB)        
+10.1.12.28  txn_maintenance         maintenance_order_dtl_info                    464228842 (442.72 MB)      11590                      8777111937 (8.17 GB)        
+10.1.12.30  txn_personaluse         mileage_report                                464228842 (442.72 MB)      36                         639704796 (610.07 MB)       
+10.1.12.31  loadtest                asset_info                                    464228842 (442.72 MB)      727                        757589103 (722.49 MB)       
+10.1.12.31  txn_bill                veh_odom                                      464228842 (442.72 MB)      340                        764874605 (729.44 MB)       
+10.1.12.32  txn_maintenance         pm_prediction_activity_info                   464228842 (442.72 MB)      157                        254883343 (243.08 MB)       
+10.1.12.35  core                    arm_address_phone                             464228842 (442.72 MB)      1                          133352531 (127.17 MB)       
+10.1.12.36  txn_personaluse         mileage_report_person                         464228842 (442.72 MB)      483                        2244415033 (2.09 GB)        
+10.1.12.36  txn_fuel                vehicle_fuel_economy                          464228842 (442.72 MB)      193                        818121513 (780.22 MB)       
+10.1.12.37  core_fdb                service_card_chunks                           464228842 (442.72 MB)      1648                       562992308 (536.91 MB)       
+10.1.12.40  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        464228842 (442.72 MB)      315                        199082643 (189.86 MB)       
+10.1.12.49  core_txn_stg            maintenance_order_detail_info_stg_datafix     464228842 (442.72 MB)      242                        482304540 (459.96 MB)       
+10.1.12.50  txn_telematics_fdb      fdb_nwf_master_file_chunks                    464228842 (442.72 MB)      5                          319700271 (304.89 MB)       
+10.1.12.52  core                    asset_cap_detail                              464228842 (442.72 MB)      1908                       455784164 (434.67 MB)       
+10.6.12.12  telematics_stg          cs_telematics_stg_location_lkp                464228842 (442.72 MB)      678                        7483257376 (6.97 GB)        
+10.6.12.19  core                    sold_unit_notice_instr_info                   464228842 (442.72 MB)      173                        251381488 (239.74 MB)       
+10.6.12.31  telematics_stg          cs_tm_stg_asset_gps_reading                   464228842 (442.72 MB)      969                        934549627 (891.26 MB)       
+10.6.12.37  txn_telematics          reverse_geocode                               464228842 (442.72 MB)      79                         495648053 (472.69 MB)       
+10.6.12.39  txn_inv_fdb             vehicle_order_info_chunks                     464228842 (442.72 MB)      281                        526761726 (502.36 MB)       
+10.6.12.40  telematics_stg          cs_tm_stg_asset_diagnostic                    464228842 (442.72 MB)      14                         134522268 (128.29 MB)       
+10.1.12.27  core_txn_stg            billing_charge_lease_bill_stg                 386857368 (368.94 MB)      205                        495855046 (472.88 MB)       
+10.1.12.27  core_fdb                asset_fee_enroll_hist_new_chunks              386857368 (368.94 MB)      775                        317602680 (302.89 MB)       
+10.1.12.27  txn_telematics_fdb      fdb_txn_tm_asset_diagnostic_chunks            386857368 (368.94 MB)      2485                       1765458125 (1.64 GB)        
+10.1.12.27  txn_maintenance         maintenance_order_dtl_info                    386857368 (368.94 MB)      12431                      11535142974 (10.74 GB)      
+10.1.12.28  advanced_analytics      miles_driven_summary_fact_stg                 386857368 (368.94 MB)      182212                     12459887709 (11.6 GB)       
+10.1.12.28  txn_bill                veh_odom                                      386857368 (368.94 MB)      262                        503464658 (480.14 MB)       
+10.1.12.28  core                    asset_info_ext2                               386857368 (368.94 MB)      2425                       735780532 (701.69 MB)       
+10.1.12.29  core_txn_stg            asset_info_ext_arch_stg                       386857368 (368.94 MB)      1333                       296393364 (282.66 MB)       
+10.1.12.29  txn_personaluse         mileage_report                                386857368 (368.94 MB)      28                         736134958 (702.03 MB)       
+10.1.12.29  txn_maintenance         pm_prediction_activity_info                   386857368 (368.94 MB)      130                        176813501 (168.62 MB)       
+10.1.12.31  txn_bill                billing_charge                                386857368 (368.94 MB)      1                          94861760 (90.47 MB)         
+10.1.12.31  core                    client_breakdown                              386857368 (368.94 MB)      3335                       682486677 (650.87 MB)       
+10.1.12.31  txn_telematics_fdb      fdb_nwf_master_file_chunks                    386857368 (368.94 MB)      7                          322935475 (307.98 MB)       
+10.1.12.33  txn_maintenance         vma_transaction_log                           386857368 (368.94 MB)      383                        714295453 (681.21 MB)       
+10.1.12.35  txn_fuel                vehicle_fuel_economy                          386857368 (368.94 MB)      115                        470241971 (448.46 MB)       
+10.1.12.36  advanced_analytics_fdb  readings_chunks                               386857368 (368.94 MB)      3123                       587909510 (560.67 MB)       
+10.1.12.36  txn_fuel                asset_exceptions                              386857368 (368.94 MB)      162                        291168866 (277.68 MB)       
+10.1.12.38  core_txn_stg            billing_charge_others_nonbill_stg             386857368 (368.94 MB)      1                          80346046 (76.62 MB)         
+10.1.12.39  core_fdb                supplier_chunks                               386857368 (368.94 MB)      2                          668053332 (637.11 MB)       
+10.1.12.42  core                    asset_cap_detail                              386857368 (368.94 MB)      2087                       415949760 (396.68 MB)       
+10.1.12.47  core_txn_stg            maintenance_order_detail_info_stg_datafix     386857368 (368.94 MB)      203                        281775481 (268.72 MB)       
+10.1.12.50  txn_bill_fdb            billing_charge_chunks                         386857368 (368.94 MB)      29153                      6841989084 (6.37 GB)        
+10.1.12.59  loadtest                fuel_transaction                              386857368 (368.94 MB)      299                        772497034 (736.71 MB)       
+10.6.12.14  telematics_stg          stgaws_diagnosticdtc                          386857368 (368.94 MB)      2954                       574081931 (547.49 MB)       
+10.6.12.14  telematics_stg          stgaws_odometer                               386857368 (368.94 MB)      4005                       381459295 (363.79 MB)       
+10.6.12.18  telematics_stg          cs_tm_stg_asset_gps_reading                   386857368 (368.94 MB)      1185                       1144952777 (1.07 GB)        
+10.6.12.20  txn_bill_fdb            sold_unit_notice_info_chunks                  386857368 (368.94 MB)      390                        263767242 (251.55 MB)       
+10.6.12.27  telematics_stg          cs_tm_stg_asset_diagnostic                    386857368 (368.94 MB)      7                          84196508 (80.3 MB)          
+10.6.12.36  txn_remarketing         asset_sold_event                              386857368 (368.94 MB)      319                        174379816 (166.3 MB)        
+10.6.12.37  core                    supplier                                      386857368 (368.94 MB)      2                          123010050 (117.31 MB)       
+10.1.12.27  advanced_analytics      miles_driven_summary_fact_stg                 322381140 (307.45 MB)      193359                     12799832378 (11.92 GB)      
+10.1.12.27  txn_personaluse         mileage_report_person                         322381140 (307.45 MB)      311                        2925858324 (2.72 GB)        
+10.1.12.27  core_fdb                asset_info_ext1_chunks                        322381140 (307.45 MB)      2702                       375698320 (358.29 MB)       
+10.1.12.28  txn_bill_fdb            billing_charge_chunks                         322381140 (307.45 MB)      34289                      7204295293 (6.71 GB)        
+10.1.12.29  txn_fuel                vehicle_fuel_economy                          322381140 (307.45 MB)      79                         239120913 (228.04 MB)       
+10.1.12.30  core_fdb                asset_info_arch_chunks                        322381140 (307.45 MB)      29628                      3837112520 (3.57 GB)        
+10.1.12.30  core_fdb                client_breakdown_chunks                       322381140 (307.45 MB)      2853                       181370608 (172.97 MB)       
+10.1.12.31  txn_inv_fdb             agg_person_asset_chunks                       322381140 (307.45 MB)      3609                       473491847 (451.56 MB)       
+10.1.12.31  core                    arm_address_phone                             322381140 (307.45 MB)      1                          81563064 (77.78 MB)         
+10.1.12.31  txn_maintenance         vma_transaction_log                           322381140 (307.45 MB)      342                        667990319 (637.05 MB)       
+10.1.12.32  core_txn_stg            maintenance_order_detail_info_stg_datafix     322381140 (307.45 MB)      153                        180467432 (172.11 MB)       
+10.1.12.33  core                    asset_info_ext3                               322381140 (307.45 MB)      3832                       600915674 (573.08 MB)       
+10.1.12.33  txn_acdt                incident_estimate                             322381140 (307.45 MB)      131                        148274398 (141.41 MB)       
+10.1.12.34  txn_telematics_fdb      fdb_txn_tm_asset_gps_reading_chunks           322381140 (307.45 MB)      19808                      8781864785 (8.18 GB)        
+10.1.12.37  txn_bill_fdb            sold_unit_notice_info_chunks                  322381140 (307.45 MB)      169                        163246244 (155.68 MB)       
+10.1.12.39  core                    asset_cap_detail                              322381140 (307.45 MB)      1874                       545619155 (520.34 MB)       
+10.1.12.40  txn_bill                new_unit_notice_info                          322381140 (307.45 MB)      366                        207440389 (197.83 MB)       
+10.1.12.41  core                    sold_unit_notice_instr_info                   322381140 (307.45 MB)      201                        158860156 (151.5 MB)        
+10.1.12.54  txn_inv_fdb             vehicle_order_info_chunks                     322381140 (307.45 MB)      108                        354461933 (338.04 MB)       
+10.1.12.64  core                    asset_odom_rdng                               322381140 (307.45 MB)      21596                      1780119861 (1.66 GB)        
+10.1.12.73  txn_remarketing         asset_sold_event                              322381140 (307.45 MB)      267                        190573279 (181.74 MB)       
+10.1.12.86  core                    incident_option_info                          322381140 (307.45 MB)      57                         51191695 (48.82 MB)         
+10.6.12.18  txn_bill                new_unit_notice_payment_info                  322381140 (307.45 MB)      392                        479341861 (457.14 MB)       
+10.6.12.23  core_fdb                asset_option_chunks                           322381140 (307.45 MB)      3157                       215776768 (205.78 MB)       
+10.6.12.25  telematics_stg          cs_tm_stg_asset_diagnostic                    322381140 (307.45 MB)      15                         127396613 (121.49 MB)       
+10.6.12.36  txn_telematics          reverse_geocode                               322381140 (307.45 MB)      74                         316254879 (301.6 MB)        
+10.1.12.27  txn_bill_fdb            billing_charge_chunks                         268650950 (256.21 MB)      37473                      7903035891 (7.36 GB)        
+10.1.12.27  core                    asset_fee_enroll_hist                         268650950 (256.21 MB)      743                        651651172 (621.46 MB)       
+10.1.12.28  core_txn_stg            veh_odom_stg                                  268650950 (256.21 MB)      262                        512980156 (489.22 MB)       
+10.1.12.28  txn_mvr_fdb             mvr_driver_request_info_chunks                268650950 (256.21 MB)      46                         258271429 (246.31 MB)       
+10.1.12.28  txn_personaluse         mileage_report                                268650950 (256.21 MB)      34                         586326304 (559.16 MB)       
+10.1.12.29  core                    arm_address_phone                             268650950 (256.21 MB)      2                          129547399 (123.55 MB)       
+10.1.12.30  txn_bill_fdb            billing_charge_backup_chunks                  268650950 (256.21 MB)      16675                      3653907540 (3.4 GB)         
+10.1.12.30  core_fdb                incident_detail_info_chunks                   268650950 (256.21 MB)      75                         679901005 (648.4 MB)        
+10.1.12.30  txn_acdt                incident_event                                268650950 (256.21 MB)      560                        651589007 (621.4 MB)        
+10.1.12.31  txn_inv_fdb             vehicle_order_info_chunks                     268650950 (256.21 MB)      158                        446294318 (425.62 MB)       
+10.1.12.31  txn_fuel                asset_exceptions                              268650950 (256.21 MB)      122                        231761725 (221.03 MB)       
+10.1.12.32  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        268650950 (256.21 MB)      179                        86559577 (82.55 MB)         
+10.1.12.33  core                    incident_option_info                          268650950 (256.21 MB)      132                        89665625 (85.51 MB)         
+10.1.12.33  core                    person_asset_history                          268650950 (256.21 MB)      906                        197687237 (188.53 MB)       
+10.1.12.34  txn_bill                new_unit_notice_aquisition_info               268650950 (256.21 MB)      39                         80526933 (76.8 MB)          
+10.1.12.34  core                    asset_cap_detail                              268650950 (256.21 MB)      624                        196211081 (187.12 MB)       
+10.1.12.37  core                    asset_odom_rdng                               268650950 (256.21 MB)      17431                      1259436922 (1.17 GB)        
+10.1.12.40  txn_inv                 agg_person_asset                              268650950 (256.21 MB)      4959                       1384941669 (1.29 GB)        
+10.1.12.40  core                    person                                        268650950 (256.21 MB)      4747                       667208523 (636.3 MB)        
+10.1.12.42  txn_remarketing         asset_sold_event                              268650950 (256.21 MB)      248                        130033969 (124.01 MB)       
+10.1.12.45  txn_bill                new_unit_notice_payment_info                  268650950 (256.21 MB)      114                        83461257 (79.59 MB)         
+10.1.12.53  core_fdb                asset_option_chunks                           268650950 (256.21 MB)      2817                       211740324 (201.93 MB)       
+10.1.12.62  txn_telematics_fdb      fdb_txn_tm_asset_alert_chunks                 268650950 (256.21 MB)      1406                       229540617 (218.91 MB)       
+10.6.12.12  telematics_stg          cs_tm_stg_asset_gps_reading                   268650950 (256.21 MB)      898                        728960835 (695.19 MB)       
+10.6.12.12  telematics_stg          stgaws_diagnostic_tmp                         268650950 (256.21 MB)      95                         203808162 (194.37 MB)       
+10.6.12.16  txn_telematics          cs_txn_tm_asset_alert                         268650950 (256.21 MB)      4218                       513328385 (489.55 MB)       
+10.6.12.25  txn_telematics_fdb      fdb_txn_tm_poi_structure_chunks               268650950 (256.21 MB)      109                        250078333 (238.49 MB)       
+10.1.12.27  core_txn_stg            veh_odom_stg                                  223875792 (213.5 MB)       258                        347648487 (331.54 MB)       
+10.1.12.27  txn_mvr                 mvr_driver_request_info                       223875792 (213.5 MB)       62                         276903599 (264.08 MB)       
+10.1.12.27  txn_bill_fdb            bill_chrg_chunks                              223875792 (213.5 MB)       41816                      15642210544 (14.57 GB)      
+10.1.12.27  txn_bill                veh_odom                                      223875792 (213.5 MB)       258                        341421100 (325.6 MB)        
+10.1.12.28  core                    arm_address_phone                             223875792 (213.5 MB)       1                          75594249 (72.09 MB)         
+10.1.12.28  core                    asset_cap_detail                              223875792 (213.5 MB)       1770                       399754031 (381.24 MB)       
+10.1.12.28  core                    incident_detail_info                          223875792 (213.5 MB)       77                         436907566 (416.67 MB)       
+10.1.12.28  txn_fuel                asset_exceptions                              223875792 (213.5 MB)       107                        209821237 (200.1 MB)        
+10.1.12.29  txn_personaluse         mileage_report_asset                          223875792 (213.5 MB)       133                        834869243 (796.19 MB)       
+10.1.12.29  txn_telematics_fdb      fdb_txn_tm_asset_gps_reading_chunks           223875792 (213.5 MB)       40713                      16178162459 (15.07 GB)      
+10.1.12.30  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        223875792 (213.5 MB)       200                        57412488 (54.75 MB)         
+10.1.12.30  core_fdb                arm_address_phone_chunks                      223875792 (213.5 MB)       1                          112198175 (107 MB)          
+10.1.12.30  txn_maintenance         vma_transaction_log                           223875792 (213.5 MB)       254                        387719601 (369.76 MB)       
+10.1.12.31  core                    asset_odom_rdng                               223875792 (213.5 MB)       28137                      2106046133 (1.96 GB)        
+10.1.12.32  core_fdb                asset_option_chunks                           223875792 (213.5 MB)       1633                       201302238 (191.98 MB)       
+10.1.12.33  txn_inv                 agg_person_asset                              223875792 (213.5 MB)       3819                       822383160 (784.29 MB)       
+10.1.12.33  loadtest                fuel_transaction                              223875792 (213.5 MB)       83                         246691074 (235.26 MB)       
+10.1.12.33  txn_acdt                agg_incident_detail_info                      223875792 (213.5 MB)       132                        117817697 (112.36 MB)       
+10.1.12.34  txn_remarketing         asset_sold_event                              223875792 (213.5 MB)       70                         79102478 (75.44 MB)         
+10.1.12.39  core                    supplier_edb_info                             223875792 (213.5 MB)       1                          89629995 (85.48 MB)         
+10.1.12.40  txn_bill                new_unit_notice_payment_info                  223875792 (213.5 MB)       387                        193061260 (184.12 MB)       
+10.1.12.40  core                    supplier                                      223875792 (213.5 MB)       2                          116717884 (111.31 MB)       
+10.1.12.45  core_fdb                asset_features_chunks                         223875792 (213.5 MB)       121                        41965381 (40.02 MB)         
+10.1.12.49  txn_telematics_fdb      fdb_txn_tm_poi_structure_chunks               223875792 (213.5 MB)       182                        295538536 (281.85 MB)       
+10.1.12.52  system_traces           events                                        223875792 (213.5 MB)       761                        159755655 (152.35 MB)       
+10.1.12.60  txn_personaluse_fdb     mileage_report_asset_chunks                   223875792 (213.5 MB)       110                        417883321 (398.52 MB)       
+10.1.12.89  core_fdb                asset_info_ext3_chunks                        223875792 (213.5 MB)       4243                       427578775 (407.77 MB)       
+10.6.12.19  telematics_stg          cs_txn_tm_asset_gps_reading_stg_storage_calc  223875792 (213.5 MB)       3                          39415634 (37.59 MB)         
+10.6.12.21  txn_telematics          reverse_geocode                               223875792 (213.5 MB)       118                        521678572 (497.51 MB)       
+10.1.12.27  txn_personaluse         mileage_report_asset                          186563160 (177.92 MB)      196                        685741938 (653.97 MB)       
+10.1.12.27  core_fdb                asset_info_chunks                             186563160 (177.92 MB)      2702                       524341475 (500.05 MB)       
+10.1.12.27  core                    asset_option                                  186563160 (177.92 MB)      1941                       403347159 (384.66 MB)       
+10.1.12.27  txn_telematics_fdb      fdb_txn_tm_asset_gps_reading_chunks           186563160 (177.92 MB)      56578                      24826244883 (23.12 GB)      
+10.1.12.28  core_txn_stg            asset_fee_enroll_hist_stg                     186563160 (177.92 MB)      417                        186070274 (177.45 MB)       
+10.1.12.28  txn_maintenance         vma_transaction_log                           186563160 (177.92 MB)      256                        422852054 (403.26 MB)       
+10.1.12.29  txn_bill                new_unit_notice_aquisition_info               186563160 (177.92 MB)      90                         78709620 (75.06 MB)         
+10.1.12.29  txn_acdt                asset_odometer_estimate                       186563160 (177.92 MB)      5216                       667495330 (636.57 MB)       
+10.1.12.30  txn_personaluse_fdb     mileage_report_asset_chunks                   186563160 (177.92 MB)      239                        863770579 (823.76 MB)       
+10.1.12.30  txn_telematics_fdb      fdb_txn_tm_poi_structure_chunks               186563160 (177.92 MB)      82                         436618978 (416.39 MB)       
+10.1.12.31  txn_remarketing         asset_sold_event                              186563160 (177.92 MB)      303                        161615034 (154.13 MB)       
+10.1.12.32  txn_inv                 vehicle_order_spec_option_info                186563160 (177.92 MB)      85                         98126369 (93.58 MB)         
+10.1.12.33  core                    person                                        186563160 (177.92 MB)      3814                       453685420 (432.67 MB)       
+10.1.12.33  core                    supplier                                      186563160 (177.92 MB)      2                          93763655 (89.42 MB)         
+10.1.12.36  txn_bill_fdb            sold_unit_notice_info_chunks                  186563160 (177.92 MB)      326                        162813824 (155.27 MB)       
+10.1.12.37  core_fdb                asset_features_chunks                         186563160 (177.92 MB)      160                        46243547 (44.1 MB)          
+10.1.12.39  txn_bill                new_unit_notice_payment_info                  186563160 (177.92 MB)      163                        109173301 (104.12 MB)       
+10.1.12.39  txn_acdt                accident_dtl_fact                             186563160 (177.92 MB)      41                         149098378 (142.19 MB)       
+10.1.12.40  core                    supplier_status_edb_info                      186563160 (177.92 MB)      1                          42935376 (40.95 MB)         
+10.1.12.43  core_fdb                asset_info_ext3_chunks                        186563160 (177.92 MB)      2117                       242100784 (230.89 MB)       
+10.1.12.45  txn_personaluse_fdb     mileage_report_chunks                         186563160 (177.92 MB)      24                         113023011 (107.79 MB)       
+10.1.12.45  txn_bill                new_unit_notice_adjustment_info               186563160 (177.92 MB)      97                         34509744 (32.91 MB)         
+10.1.12.50  txn_fuel_fdb            fuel_transaction_chunks                       186563160 (177.92 MB)      8983                       6051572148 (5.64 GB)        
+10.1.12.52  core                    asset_reg_renewal_letter_info                 186563160 (177.92 MB)      132                        103469160 (98.68 MB)        
+10.1.12.72  txn_acdt_fdb            incident_event_chunks                         186563160 (177.92 MB)      565                        209357608 (199.66 MB)       
+10.6.12.29  telematics_stg          cs_tm_stg_asset_gps_reading_trips             186563160 (177.92 MB)      42                         100849088 (96.18 MB)        
+10.1.12.27  core_txn_stg            billing_charge_ppg_nonbill_stg_deflate        155469300 (148.27 MB)      191                        86603489 (82.59 MB)         
+10.1.12.27  core_txn_stg            maintenance_order_detail_info_stg_datafix     155469300 (148.27 MB)      161                        136645572 (130.32 MB)       
+10.1.12.27  txn_bill_fdb            billing_charge_backup_chunks                  155469300 (148.27 MB)      15505                      3882865072 (3.62 GB)        
+10.1.12.27  txn_inv_fdb             vehicle_order_info_chunks                     155469300 (148.27 MB)      134                        187361961 (178.68 MB)       
+10.1.12.27  txn_personaluse_fdb     mileage_report_asset_chunks                   155469300 (148.27 MB)      213                        463978560 (442.48 MB)       
+10.1.12.27  core                    asset_cap_detail                              155469300 (148.27 MB)      1941                       339019842 (323.31 MB)       
+10.1.12.28  core_txn_stg            asset_info_ext_arch_stg                       155469300 (148.27 MB)      1720                       324450342 (309.42 MB)       
+10.1.12.28  txn_bill_fdb            sold_unit_notice_info_chunks                  155469300 (148.27 MB)      186                        106024758 (101.11 MB)       
+10.1.12.28  core_fdb                asset_features_chunks                         155469300 (148.27 MB)      170                        42174296 (40.22 MB)         
+10.1.12.28  core_fdb                asset_info_arch_chunks                        155469300 (148.27 MB)      24990                      2985201383 (2.78 GB)        
+10.1.12.28  core                    asset_info_ext3                               155469300 (148.27 MB)      2425                       567090742 (540.82 MB)       
+10.1.12.28  txn_fuel                vehicle_fuel_economy                          155469300 (148.27 MB)      133                        640645422 (610.97 MB)       
+10.1.12.29  system_traces           events                                        155469300 (148.27 MB)      518                        80878522 (77.13 MB)         
+10.1.12.29  core                    asset_odom_rdng                               155469300 (148.27 MB)      15913                      1286525424 (1.2 GB)         
+10.1.12.29  txn_remarketing         asset_sold_event                              155469300 (148.27 MB)      162                        108149452 (103.14 MB)       
+10.1.12.30  core                    client_breakdown                              155469300 (148.27 MB)      2862                       393672730 (375.44 MB)       
+10.1.12.31  txn_inv_fdb             vehicle_order_mfg_event_info_chunks           155469300 (148.27 MB)      158                        128124620 (122.19 MB)       
+10.1.12.31  txn_personaluse_fdb     mileage_report_person_chunks                  155469300 (148.27 MB)      376                        538720494 (513.76 MB)       
+10.1.12.31  core_fdb                asset_option_chunks                           155469300 (148.27 MB)      2535                       230790901 (220.1 MB)        
+10.1.12.32  txn_personaluse_fdb     mileage_report_chunks                         155469300 (148.27 MB)      29                         140366900 (133.86 MB)       
+10.1.12.33  core                    asset_custom_field                            155469300 (148.27 MB)      3165                       171655061 (163.7 MB)        
+10.1.12.33  txn_acdt                incident_invoice_detail                       155469300 (148.27 MB)      131                        49366485 (47.08 MB)         
+10.1.12.36  core_fdb                service_card_chunks                           155469300 (148.27 MB)      2589                       108400850 (103.38 MB)       
+10.1.12.41  core_txn_stg            billing_charge_maint_nonbill_stg              155469300 (148.27 MB)      29                         33323477 (31.78 MB)         
+10.1.12.41  txn_fuel_fdb            fuel_transaction_chunks                       155469300 (148.27 MB)      17157                      12314099971 (11.47 GB)      
+10.1.12.41  txn_acdt_fdb            incident_event_chunks                         155469300 (148.27 MB)      839                        331013363 (315.68 MB)       
+10.1.12.44  core                    mvr_driver_profile_activity                   155469300 (148.27 MB)      13                         47322710 (45.13 MB)         
+10.1.12.54  txn_mvr                 mvr_doc_header_info                           155469300 (148.27 MB)      49                         52742533 (50.3 MB)          
+10.6.12.16  telematics_stg          cs_tm_stg_asset_gps_reading_trips             155469300 (148.27 MB)      52                         91393679 (87.16 MB)         
+10.6.12.18  telematics_stg          ztestgps01                                    155469300 (148.27 MB)      508                        248505273 (236.99 MB)       
+10.6.12.36  core_fdb                asset_custom_field_chunks                     155469300 (148.27 MB)      3267                       110096482 (105 MB)          
+10.1.12.27  txn_maintenance_fdb     pm_prediction_activity_info_chunks            129557750 (123.56 MB)      198                        100153340 (95.51 MB)        
+10.1.12.27  txn_inv_fdb             agg_person_asset_chunks                       129557750 (123.56 MB)      2696                       256616168 (244.73 MB)       
+10.1.12.27  core_fdb                asset_info_arch_chunks                        129557750 (123.56 MB)      28702                      3395367384 (3.16 GB)        
+10.1.12.27  core                    asset_info                                    129557750 (123.56 MB)      3270                       1600862236 (1.49 GB)        
+10.1.12.27  txn_maintenance         pm_prediction_activity_info                   129557750 (123.56 MB)      177                        152912057 (145.83 MB)       
+10.1.12.27  txn_maintenance         vma_transaction_log                           129557750 (123.56 MB)      260                        248688003 (237.17 MB)       
+10.1.12.27  txn_fuel                vehicle_fuel_economy                          129557750 (123.56 MB)      124                        358735472 (342.12 MB)       
+10.1.12.28  core_txn_stg            billing_charge_maint_nonbill_stg              129557750 (123.56 MB)      17                         34243115 (32.66 MB)         
+10.1.12.28  loadtest                asset_info                                    129557750 (123.56 MB)      556                        517921706 (493.93 MB)       
+10.1.12.28  core                    asset_odom_rdng                               129557750 (123.56 MB)      19722                      1454443651 (1.35 GB)        
+10.1.12.28  core                    client_breakdown                              129557750 (123.56 MB)      2425                       459222495 (437.95 MB)       
+10.1.12.28  core                    service_card                                  129557750 (123.56 MB)      1779                       396289113 (377.93 MB)       
+10.1.12.31  txn_personaluse_fdb     mileage_report_chunks                         129557750 (123.56 MB)      42                         95070130 (90.67 MB)         
+10.1.12.31  core                    sold_unit_notice_instr_info                   129557750 (123.56 MB)      216                        70157121 (66.91 MB)         
+10.1.12.31  txn_telematics_fdb      fdb_txn_tm_asset_gps_reading_trips_chunks     129557750 (123.56 MB)      4191                       2698523891 (2.51 GB)        
+10.1.12.32  advanced_analytics_fdb  readings_chunks                               129557750 (123.56 MB)      1703                       373472403 (356.17 MB)       
+10.1.12.33  core                    incident_comment                              129557750 (123.56 MB)      131                        65008808 (62 MB)            
+10.1.12.33  txn_acdt                incident_invoice                              129557750 (123.56 MB)      131                        49860038 (47.55 MB)         
+10.1.12.34  core                    asset_reg_renewal_letter_info                 129557750 (123.56 MB)      44                         72635473 (69.27 MB)         
+10.1.12.34  core                    mvr_driver_profile_activity                   129557750 (123.56 MB)      4                          49353189 (47.07 MB)         
+10.1.12.35  txn_remarketing         asset_sold_expense                            129557750 (123.56 MB)      701                        42523748 (40.55 MB)         
+10.1.12.37  core_fdb                asset_info_ext3_chunks                        129557750 (123.56 MB)      2251                       326693210 (311.56 MB)       
+10.1.12.37  core_fdb                asset_info_ext_arch_chunks                    129557750 (123.56 MB)      21567                      1184468179 (1.1 GB)         
+10.1.12.37  txn_bill                agg_new_unit_notice_acq_adj                   129557750 (123.56 MB)      103                        74917133 (71.45 MB)         
+10.1.12.37  txn_maintenance         agg_average_odometer                          129557750 (123.56 MB)      1580                       136083849 (129.78 MB)       
+10.1.12.39  txn_inv                 vehicle_order_info                            129557750 (123.56 MB)      129                        265305017 (253.01 MB)       
+10.1.12.39  txn_fuel_fdb            fuel_transaction_chunks                       129557750 (123.56 MB)      11573                      8011268125 (7.46 GB)        
+10.1.12.40  txn_mvr                 mvr_doc_header_info                           129557750 (123.56 MB)      69                         82581027 (78.76 MB)         
+10.1.12.40  core_fdb                mvr_driver_profile_activity_chunks            129557750 (123.56 MB)      23                         68258107 (65.1 MB)          
+10.1.12.40  txn_bill                new_unit_notice_adjustment_info               129557750 (123.56 MB)      302                        77936006 (74.33 MB)         
+10.1.12.40  txn_bill                new_unit_notice_service_info                  129557750 (123.56 MB)      229                        52419473 (49.99 MB)         
+10.1.12.43  txn_acdt_fdb            agg_incident_detail_info_chunks               129557750 (123.56 MB)      78                         64166107 (61.19 MB)         
+10.1.12.44  txn_bill_fdb            new_unit_notice_service_info_chunks           129557750 (123.56 MB)      147                        56694103 (54.07 MB)         
+10.1.12.47  core                    asset_policy_attribute_info                   129557750 (123.56 MB)      80                         35501419 (33.86 MB)         
+10.6.12.12  txn_telematics          reverse_geocode                               129557750 (123.56 MB)      189                        362627138 (345.83 MB)       
+10.6.12.17  telematics_stg          ztestgps01                                    129557750 (123.56 MB)      328                        89518834 (85.37 MB)         
+10.6.12.19  telematics_stg          cs_tm_stg_asset_diagnostic                    129557750 (123.56 MB)      10                         23536712 (22.45 MB)         
+10.6.12.20  txn_telematics          cs_txn_tm_poi_structure_asset_gps_stops       129557750 (123.56 MB)      2085                       888321949 (847.17 MB)       
+10.6.12.39  core_fdb                asset_cap_detail_chunks                       129557750 (123.56 MB)      3786                       137702505 (131.32 MB)       
+10.6.12.39  core_fdb                asset_reg_renewal_info_chunks                 129557750 (123.56 MB)      3786                       139991500 (133.51 MB)       
+10.1.12.27  core_txn_stg            asset_fee_enroll_hist_stg                     107964792 (102.96 MB)      474                        169461563 (161.61 MB)       
+10.1.12.27  core_fdb                asset_custom_field_chunks                     107964792 (102.96 MB)      2225                       93014720 (88.71 MB)         
+10.1.12.27  core                    sold_unit_notice_instr_info                   107964792 (102.96 MB)      127                        52681699 (50.24 MB)         
+10.1.12.27  txn_telematics_fdb      fdb_txn_tm_asset_gps_reading_trips_chunks     107964792 (102.96 MB)      3008                       2003772725 (1.87 GB)        
+10.1.12.27  txn_fuel                asset_exceptions                              107964792 (102.96 MB)      100                        98021740 (93.48 MB)         
+10.1.12.28  txn_personaluse_fdb     mileage_report_chunks                         107964792 (102.96 MB)      44                         108890347 (103.85 MB)       
+10.1.12.28  core_fdb                incident_detail_info_chunks                   107964792 (102.96 MB)      75                         327349281 (312.18 MB)       
+10.1.12.28  advanced_analytics_fdb  readings_chunks                               107964792 (102.96 MB)      1849                       489768996 (467.08 MB)       
+10.1.12.29  txn_inv                 vehicle_order_spec_option_info                107964792 (102.96 MB)      86                         41712233 (39.78 MB)         
+10.1.12.29  txn_inv_fdb             vehicle_order_mfg_event_info_chunks           107964792 (102.96 MB)      96                         72592193 (69.23 MB)         
+10.1.12.29  core_fdb                asset_option_chunks                           107964792 (102.96 MB)      1369                       122181255 (116.52 MB)       
+10.1.12.30  core_fdb                mvr_driver_profile_activity_chunks            107964792 (102.96 MB)      11                         136012358 (129.71 MB)       
+10.1.12.31  txn_fuel_fdb            fuel_transaction_chunks                       107964792 (102.96 MB)      14871                      11570512044 (10.78 GB)      
+10.1.12.31  core_fdb                asset_cap_detail_chunks                       107964792 (102.96 MB)      2797                       112401714 (107.19 MB)       
+10.1.12.31  core                    person                                        107964792 (102.96 MB)      3312                       288040751 (274.7 MB)        
+10.1.12.31  core                    person_asset_history                          107964792 (102.96 MB)      807                        169859124 (161.99 MB)       
+10.1.12.33  txn_bill                agg_new_unit_notice_acq_adj                   107964792 (102.96 MB)      198                        160933137 (153.48 MB)       
+10.1.12.33  txn_bill                new_unit_notice_payment_info                  107964792 (102.96 MB)      237                        87356933 (83.31 MB)         
+10.1.12.33  core                    asset_lifetime_maintenance                    107964792 (102.96 MB)      2781                       100698594 (96.03 MB)        
+10.1.12.33  core                    incident_third_party_info                     107964792 (102.96 MB)      132                        65062420 (62.05 MB)         
+10.1.12.33  txn_maintenance         agg_average_odometer                          107964792 (102.96 MB)      2636                       405882374 (387.08 MB)       
+10.1.12.34  txn_bill                new_unit_notice_info                          107964792 (102.96 MB)      52                         47874424 (45.66 MB)         
+10.1.12.34  core                    asset_reg_renewal_info                        107964792 (102.96 MB)      625                        87684741 (83.62 MB)         
+10.1.12.36  txn_titleandreg_fdb     other_charge_arch_chunks                      107964792 (102.96 MB)      10086                      1981089537 (1.85 GB)        
+10.1.12.37  core_txn_stg            billing_charge_others_nonbill_stg             107964792 (102.96 MB)      1                          21613851 (20.61 MB)         
+10.1.12.38  txn_acdt                accident_dtl_fact                             107964792 (102.96 MB)      57                         114946027 (109.62 MB)       
+10.1.12.41  core_txn_stg            asset_features_stg                            107964792 (102.96 MB)      64                         43163996 (41.16 MB)         
+10.1.12.46  core                    asset_policy_attribute_info                   107964792 (102.96 MB)      46                         42776445 (40.79 MB)         
+10.1.12.54  core_fdb                asset_reg_renewal_info_chunks                 107964792 (102.96 MB)      1641                       71501308 (68.19 MB)         
+10.6.12.14  telematics_stg          ztestgps01                                    107964792 (102.96 MB)      339                        128728810 (122.77 MB)       
+10.6.12.16  txn_telematics          cs_txn_tm_poi_structure_asset_gps_stops       107964792 (102.96 MB)      2023                       715630048 (682.48 MB)       
+
+Maximum Tombstones Per Slice (Last 5 Minutes)
+=============================================
+Node        Keyspace            Table                              Max tombstone per slice (last 5 minutes)  Number of keys (estimate)  Current space used (total)  
+10.1.12.27  txn_mvr             mvr_driver_request_info            37002.0                                   62                         276903599 (264.08 MB)       
+10.1.12.27  geotab_integration  vehicle_errors                     3537.0                                    7                          543149 (530.42 KB)          
+10.1.12.27  geotab_integration  user_errors                        2412.0                                    5                          612022 (597.68 KB)          
+10.6.12.20  ref_core            ref_client                         817.0                                     1                          18806589 (17.94 MB)         
+10.1.12.27  system              schema_columns                     302.0                                     47                         1524420 (1.45 MB)           
+10.1.12.27  core                asset_info                         210.0                                     3270                       1600862236 (1.49 GB)        
+10.1.12.27  core                incident_option_info               40.0                                      70                         8279994 (7.9 MB)            
+10.1.12.27  txn_maintenance     maintenance_order_dtl_info         29.0                                      12431                      11535142974 (10.74 GB)      
+10.1.12.27  txn_inv             vehicle_order_info                 18.0                                      120                        95926114 (91.48 MB)         
+10.1.12.27  core                person_custom_field                14.0                                      1076                       11655157 (11.12 MB)         
+
+Maximum Live Cells Per Slice (Last 5 Minutes)
+=============================================
+Node        Keyspace                Table                                           Max live cells per slice (last 5 minutes)  Number of keys (estimate)  Current space used (total)  
+10.1.12.90  telematics_solr         cs_txn_tm_poi_structure                         4247572.0                                  743                        4247572.0 (4.05 MB)         
+10.1.12.27  system                  schema_columns                                  9786.0                                     47                         9786.0 (9.56 KB)            
+10.1.12.29  ref_core                ref_date_dimension                              5002.0                                     1                          5002.0 (4.88 KB)            
+10.1.12.34  core                    person_communication_info                       5002.0                                     149                        5002.0 (4.88 KB)            
+10.1.12.42  txn_maintenance         agg_average_odometer                            5002.0                                     1979                       5002.0 (4.88 KB)            
+10.1.12.89  ref_core                ref_client                                      5002.0                                     1                          5002.0 (4.88 KB)            
+10.6.12.12  txn_telematics          cs_txn_tm_asset_diagnostic                      5002.0                                     4273                       5002.0 (4.88 KB)            
+10.6.12.12  telematics_stg          stgaws_gps                                      5002.0                                     90974                      5002.0 (4.88 KB)            
+10.6.12.17  txn_telematics          cs_txn_tm_cei_driverscorecard_input             5002.0                                     1                          5002.0 (4.88 KB)            
+10.1.12.27  txn_bill                bill_chrg                                       5001.0                                     41371                      5001.0 (4.88 KB)            
+
+2018-02-14 11:35:32,259 INFO c.d.s.U.ComponentTitledPane [JavaFX Application Thread] Table Statistics Textarea actual height is: 8573.90625  Pref height is: 403.2000000000001
+2018-02-14 11:35:32,289 DEBUG c.d.s.A.SystemResourceAnalyzer [JavaFX Application Thread] 
+CPU Usage (Highest to Lowest)
+=============================
+Node        DC           %user  %system  %iowait  %steal  %nice  %idle  
+10.1.12.58  Analytics    46.30  29.19    0.00     0.00    1.86   22.65  
+10.1.12.59  Analytics    46.61  28.89    0.00     0.00    1.84   22.66  
+10.1.12.64  Analytics    25.66  10.96    0.00     0.00    6.25   57.12  
+10.1.12.88  Analytics    30.43  4.62     0.00     0.00    6.23   58.72  
+10.1.12.89  Analytics    30.43  4.62     0.00     0.00    6.23   58.73  
+10.1.12.62  Analytics    35.45  4.53     0.02     0.00    0.96   59.03  
+10.1.12.60  Analytics    35.17  4.74     0.02     0.00    0.90   59.17  
+10.1.12.61  Analytics    35.17  4.74     0.02     0.00    0.90   59.17  
+10.1.12.63  Analytics    17.62  7.32     0.00     0.00    6.38   68.69  
+10.1.12.65  Analytics    17.58  7.30     0.00     0.00    6.36   68.75  
+10.1.12.53  Analytics    12.95  2.66     0.00     0.00    4.16   80.23  
+10.1.12.51  Analytics    12.93  2.66     0.00     0.00    4.16   80.26  
+10.1.12.52  Analytics    12.93  2.66     0.00     0.00    4.16   80.26  
+10.1.12.55  Analytics    13.42  3.70     0.00     0.00    0.59   82.29  
+10.1.12.54  Analytics    13.25  3.64     0.00     0.00    0.59   82.53  
+10.1.12.56  Analytics    13.22  3.64     0.00     0.00    0.59   82.55  
+10.1.12.93  Solr         14.41  2.03     0.04     0.00    0.02   83.50  
+10.1.12.94  Solr         14.41  2.03     0.04     0.00    0.02   83.50  
+10.1.12.95  Solr         14.37  2.05     0.04     0.00    0.02   83.52  
+10.6.12.22  AnalyticsDR  10.16  2.86     0.00     0.00    2.69   84.28  
+10.6.12.23  AnalyticsDR  10.16  2.86     0.00     0.00    2.69   84.28  
+10.6.12.21  AnalyticsDR  10.17  2.84     0.00     0.00    2.69   84.30  
+10.6.12.33  SolrDR       13.44  2.11     0.00     0.00    0.00   84.45  
+10.6.12.34  SolrDR       13.44  2.11     0.00     0.00    0.00   84.45  
+10.6.12.35  SolrDR       13.44  2.11     0.00     0.00    0.00   84.45  
+10.6.12.25  AnalyticsDR  6.08   3.13     0.00     0.00    6.16   84.62  
+10.6.12.24  AnalyticsDR  6.08   3.11     0.00     0.00    6.15   84.66  
+10.6.12.42  SolrDR       13.11  1.86     0.00     0.00    0.00   85.03  
+10.6.12.43  SolrDR       13.10  1.86     0.00     0.00    0.00   85.04  
+10.6.12.44  SolrDR       13.10  1.86     0.00     0.00    0.00   85.04  
+10.6.12.12  AnalyticsDR  4.18   1.55     0.02     0.00    8.04   86.22  
+10.6.12.14  AnalyticsDR  4.18   1.55     0.02     0.00    8.04   86.22  
+10.1.12.97  Solr         11.49  2.11     0.00     0.00    0.00   86.40  
+10.1.12.96  Solr         11.47  2.11     0.00     0.00    0.00   86.42  
+10.1.12.98  Solr         11.47  2.09     0.00     0.00    0.00   86.44  
+10.1.12.91  Solr         10.33  2.44     0.00     0.00    0.00   87.23  
+10.1.12.90  Solr         10.31  2.44     0.00     0.00    0.00   87.25  
+10.1.12.92  Solr         10.31  2.44     0.00     0.00    0.00   87.25  
+10.6.12.20  AnalyticsDR  4.91   3.22     0.00     0.00    4.26   87.62  
+10.6.12.18  AnalyticsDR  4.82   3.15     0.00     0.00    4.26   87.77  
+10.6.12.30  AnalyticsDR  4.97   3.03     0.00     0.00    4.18   87.83  
+10.6.12.32  AnalyticsDR  4.95   3.05     0.00     0.00    4.18   87.83  
+10.6.12.31  AnalyticsDR  4.97   3.01     0.00     0.00    4.16   87.86  
+10.6.12.19  AnalyticsDR  4.74   3.11     0.00     0.00    4.26   87.90  
+10.1.12.66  Analytics    8.53   3.25     0.00     0.00    0.29   87.93  
+10.1.12.67  Analytics    8.53   3.25     0.00     0.00    0.29   87.93  
+10.1.12.68  Analytics    8.53   3.25     0.00     0.00    0.29   87.93  
+10.1.12.31  Analytics    5.87   3.68     0.00     0.00    2.09   88.36  
+10.1.12.32  Analytics    5.87   3.68     0.00     0.00    2.09   88.36  
+10.1.12.30  Analytics    5.87   3.68     0.00     0.00    2.07   88.38  
+10.6.12.45  SolrDR       9.43   2.19     0.00     0.00    0.00   88.38  
+10.6.12.46  SolrDR       9.43   2.19     0.00     0.00    0.00   88.38  
+10.6.12.47  SolrDR       9.43   2.17     0.00     0.00    0.00   88.40  
+10.1.12.50  Analytics    8.19   3.25     0.00     0.00    0.00   88.56  
+10.1.12.49  Analytics    8.17   3.26     0.00     0.00    0.00   88.57  
+10.1.12.37  Analytics    9.64   1.46     0.00     0.00    0.02   88.87  
+10.1.12.36  Analytics    9.62   1.44     0.00     0.00    0.02   88.91  
+10.1.12.38  Analytics    9.62   1.44     0.00     0.00    0.02   88.91  
+10.1.12.82  Analytics    7.30   1.51     0.00     0.00    2.09   89.10  
+10.1.12.83  Analytics    7.30   1.51     0.00     0.00    2.09   89.10  
+10.1.12.81  Analytics    7.30   1.51     0.00     0.00    2.09   89.11  
+10.1.12.47  Analytics    6.90   3.45     0.00     0.00    0.00   89.65  
+10.1.12.45  Analytics    6.88   3.43     0.00     0.00    0.00   89.69  
+10.1.12.46  Analytics    6.90   3.41     0.00     0.00    0.00   89.69  
+10.6.12.27  AnalyticsDR  6.53   2.82     0.00     0.00    0.00   90.65  
+10.6.12.28  AnalyticsDR  6.53   2.82     0.00     0.00    0.00   90.66  
+10.6.12.29  AnalyticsDR  6.51   2.80     0.00     0.00    0.00   90.70  
+10.6.12.15  AnalyticsDR  3.76   1.06     0.00     0.00    4.01   91.17  
+10.6.12.16  AnalyticsDR  3.74   1.06     0.00     0.00    4.03   91.17  
+10.6.12.17  AnalyticsDR  3.76   1.06     0.00     0.00    4.01   91.17  
+10.1.12.35  Analytics    5.19   3.09     0.00     0.00    0.38   91.34  
+10.6.12.37  AnalyticsDR  4.41   2.49     0.00     0.00    1.71   91.39  
+10.6.12.38  AnalyticsDR  4.41   2.49     0.00     0.00    1.71   91.39  
+10.1.12.34  Analytics    5.08   3.12     0.00     0.00    0.40   91.41  
+10.1.12.33  Analytics    5.06   3.12     0.00     0.00    0.40   91.43  
+10.6.12.39  AnalyticsDR  3.30   0.96     0.02     0.00    4.13   91.59  
+10.6.12.40  AnalyticsDR  3.30   0.96     0.02     0.00    4.13   91.59  
+10.6.12.41  AnalyticsDR  3.30   0.96     0.02     0.00    4.13   91.59  
+10.1.12.72  Analytics    4.85   1.38     0.00     0.00    2.13   91.63  
+10.1.12.73  Analytics    4.86   1.38     0.00     0.00    2.11   91.65  
+10.1.12.74  Analytics    4.86   1.38     0.00     0.00    2.11   91.65  
+10.6.12.36  AnalyticsDR  4.66   2.07     0.00     0.00    1.38   91.89  
+10.1.12.78  Analytics    4.17   1.19     0.00     0.00    2.36   92.28  
+10.1.12.79  Analytics    4.17   1.19     0.00     0.00    2.36   92.28  
+10.1.12.80  Analytics    4.17   1.19     0.00     0.00    2.36   92.28  
+10.1.12.39  Analytics    3.40   1.21     0.00     0.00    3.02   92.38  
+10.1.12.40  Analytics    3.40   1.06     0.00     0.00    3.01   92.53  
+10.1.12.41  Analytics    3.40   1.06     0.00     0.00    3.01   92.53  
+10.1.12.42  Analytics    3.57   1.57     0.00     0.00    2.05   92.82  
+10.1.12.43  Analytics    3.57   1.57     0.00     0.00    2.05   92.82  
+10.1.12.44  Analytics    3.57   1.57     0.00     0.00    2.05   92.82  
+10.1.12.27  Analytics    3.63   1.40     0.00     0.00    2.07   92.90  
+10.1.12.28  Analytics    3.63   1.40     0.00     0.00    2.07   92.90  
+10.1.12.29  Analytics    3.63   1.38     0.00     0.00    2.07   92.92  
+10.1.12.86  Analytics    2.80   2.62     0.00     0.00    0.00   94.58  
+10.1.12.84  Analytics    2.80   2.59     0.00     0.00    0.00   94.60  
+10.1.12.85  Analytics    2.80   2.59     0.00     0.00    0.00   94.60  
+10.1.12.69  Analytics    2.21   1.59     0.00     0.00    1.44   94.76  
+10.1.12.70  Analytics    2.21   1.59     0.00     0.00    1.44   94.76  
+10.1.12.71  Analytics    2.21   1.59     0.00     0.00    1.44   94.76  
+
+OS and Heap Memory Usage (Used OS Memory Highest to Lowest)
+===========================================================
+Node        DC           total   used    free   cache   buffers  shared  Used Heap (MB)  Max Heap (MB)  Off Heap (MB)  
+10.1.12.55  Analytics    390938  259655  4470   122568  0        4245    13985.08        32768.00       202.44         
+10.1.12.54  Analytics    390938  259654  4471   122568  0        4245    24874.99        32768.00       189.71         
+10.1.12.56  Analytics    390938  259654  4471   122568  0        4245    12699.04        32768.00       259.63         
+10.1.12.30  Analytics    390955  246671  11426  128596  0        4262    18271.99        32768.00       240.22         
+10.1.12.31  Analytics    390955  246671  11426  128596  0        4262    20345.61        32768.00       287.18         
+10.1.12.32  Analytics    390955  246671  11426  128596  0        4262    19759.36        32768.00       196.56         
+10.1.12.72  Analytics    390809  240865  1222   144605  0        4117    9786.39         32768.00       223.67         
+10.1.12.73  Analytics    390809  240865  1222   144605  0        4117    25544.24        32768.00       258.09         
+10.1.12.74  Analytics    390809  240865  1222   144605  0        4117    15365.96        32768.00       366.90         
+10.6.12.35  SolrDR       390171  233235  83398  70056   3        3479    43087.31        65536.00       1.54           
+10.6.12.33  SolrDR       390171  233234  83399  70056   3        3479    40735.41        65536.00       1.37           
+10.6.12.34  SolrDR       390171  233220  83413  70056   3        3479    27501.96        65536.00       2.19           
+10.6.12.46  SolrDR       388075  231484  88974  66231   3        1383    47250.13        65536.00       1.78           
+10.6.12.45  SolrDR       388075  231482  88976  66231   3        1383    43858.62        65536.00       1.75           
+10.6.12.47  SolrDR       388075  231482  88976  66231   3        1383    40740.25        65536.00       1.73           
+10.6.12.42  SolrDR       388203  231061  90085  65543   3        1511    13567.77        65536.00       2.10           
+10.6.12.43  SolrDR       388203  231061  90085  65543   3        1511    31990.20        65536.00       1.42           
+10.6.12.44  SolrDR       388203  231061  90085  65543   3        1511    33121.17        65536.00       1.94           
+10.1.12.97  Solr         389320  224406  84004  78280   2        2628    39348.80        65536.00       1.60           
+10.1.12.96  Solr         389319  224405  84004  78280   2        2628    24366.37        65536.00       1.71           
+10.1.12.98  Solr         389319  224405  84004  78280   2        2628    42868.73        65536.00       1.80           
+10.1.12.93  Solr         389200  224089  83198  79403   2        2508    47049.38        65536.00       1.85           
+10.1.12.94  Solr         389200  224089  83198  79403   2        2508    31303.11        65536.00       1.55           
+10.1.12.95  Solr         389199  224088  83198  79403   2        2508    27421.03        65536.00       1.88           
+10.1.12.91  Solr         381144  223884  75011  79731   2        2516    55109.21        65536.00       1.53           
+10.1.12.92  Solr         381144  223884  75011  79731   2        2516    35049.79        65536.00       2.18           
+10.1.12.90  Solr         381143  223883  75011  79731   2        2516    29715.08        65536.00       1.67           
+10.1.12.81  Analytics    390841  203873  1235   181585  0        4148    12857.07        32768.00       167.94         
+10.1.12.82  Analytics    390841  203873  1235   181585  0        4148    29150.80        32768.00       260.80         
+10.1.12.83  Analytics    390841  203873  1235   181585  0        4148    16031.41        32768.00       276.02         
+10.1.12.51  Analytics    390778  202854  1191   182648  0        4085    13453.76        32768.00       216.60         
+10.1.12.53  Analytics    390778  202854  1192   182647  0        4085    21849.14        32768.00       332.21         
+10.1.12.52  Analytics    390778  202853  1193   182647  0        4085    5046.86         32768.00       218.56         
+10.1.12.42  Analytics    390793  201633  1549   183510  0        4101    24914.68        32768.00       234.86         
+10.1.12.43  Analytics    390793  201633  1549   183510  0        4101    18321.99        32768.00       192.56         
+10.1.12.44  Analytics    390793  201633  1549   183510  0        4101    5238.51         32768.00       275.81         
+10.1.12.78  Analytics    390777  200983  1061   184649  0        4084    21787.65        32768.00       190.90         
+10.1.12.79  Analytics    390777  200983  1061   184649  0        4084    24019.46        32768.00       284.33         
+10.1.12.80  Analytics    390777  200983  1061   184649  0        4084    26830.51        32768.00       357.66         
+10.1.12.49  Analytics    390785  199498  2478   184716  0        4093    15664.77        32768.00       325.23         
+10.1.12.50  Analytics    390785  199498  2478   184716  0        4093    10639.28        32768.00       170.85         
+10.1.12.84  Analytics    390768  199123  1437   186132  0        4076    22477.74        32768.00       159.54         
+10.1.12.85  Analytics    390768  199123  1437   186132  0        4076    22507.36        32768.00       170.69         
+10.1.12.86  Analytics    390768  199123  1437   186132  0        4076    22384.18        32768.00       136.65         
+10.1.12.45  Analytics    390785  198009  4169   184514  0        4093    13658.09        32768.00       135.56         
+10.1.12.46  Analytics    390785  197983  4197   184512  0        4093    27808.21        32768.00       188.50         
+10.1.12.47  Analytics    390785  197983  4196   184513  0        4093    18063.88        32768.00       296.47         
+10.1.12.27  Analytics    390803  196325  9569   180799  0        4110    24835.08        32768.00       224.08         
+10.1.12.28  Analytics    390802  196323  9571   180798  0        4110    18715.79        32768.00       202.73         
+10.1.12.29  Analytics    390802  196323  9570   180799  0        4110    17401.14        32768.00       156.65         
+10.1.12.35  Analytics    390786  195456  1817   189419  0        4094    15621.09        32768.00       239.03         
+10.1.12.33  Analytics    390786  195455  1819   189418  0        4094    16804.31        32768.00       335.05         
+10.1.12.34  Analytics    390786  195455  1820   189417  0        4094    12808.64        32768.00       76.88          
+10.1.12.65  Analytics    390801  195058  1240   190394  0        4109    23393.14        32768.00       115.44         
+10.1.12.64  Analytics    390801  195050  1253   190389  0        4109    25986.83        32768.00       229.58         
+10.1.12.63  Analytics    390801  195034  1270   190388  0        4109    20566.17        32768.00       165.83         
+10.1.12.67  Analytics    390794  194785  1560   190348  0        4101    17085.78        32768.00       215.20         
+10.1.12.66  Analytics    390794  194784  1561   190348  0        4101    17002.61        32768.00       238.66         
+10.1.12.68  Analytics    390794  194784  1561   190348  0        4101    17825.68        32768.00       224.94         
+10.1.12.39  Analytics    390816  194643  1257   190791  0        4125    11761.74        32768.00       234.26         
+10.1.12.40  Analytics    390816  194643  1257   190791  0        4125    24923.42        32768.00       345.08         
+10.1.12.41  Analytics    390816  194643  1257   190791  0        4125    20085.35        32768.00       328.06         
+10.1.12.89  Analytics    390857  194577  1244   190872  0        4164    15411.67        32768.00       355.72         
+10.1.12.88  Analytics    390857  194576  1246   190871  0        4164    15879.12        32768.00       144.38         
+10.1.12.36  Analytics    386821  190607  8038   188047  0        129     10822.94        32768.00       306.35         
+10.1.12.37  Analytics    386821  190607  8038   188047  0        129     25063.49        32768.00       173.08         
+10.1.12.38  Analytics    386821  190607  8038   188047  0        129     18410.34        32768.00       290.73         
+10.1.12.69  Analytics    390769  189904  1171   195617  0        4077    17014.78        32768.00       240.12         
+10.1.12.70  Analytics    390769  189904  1171   195617  0        4077    22158.78        32768.00       210.62         
+10.1.12.71  Analytics    390769  189904  1171   195617  0        4077    10190.03        32768.00       214.83         
+10.1.12.62  Analytics    390881  189637  4037   193018  0        4189    19888.08        32768.00       156.10         
+10.1.12.60  Analytics    390882  189633  4041   193019  0        4189    23491.65        32768.00       106.29         
+10.1.12.61  Analytics    390882  189633  4041   193019  0        4189    15526.94        32768.00       174.88         
+10.6.12.24  AnalyticsDR  389372  186304  1383   199005  0        2680    21455.92        32768.00       578.27         
+10.6.12.25  AnalyticsDR  389372  186304  1383   199005  0        2680    23919.04        32768.00       495.46         
+10.1.12.59  Analytics    390850  183710  5066   197917  0        4157    16756.58        32768.00       264.36         
+10.1.12.58  Analytics    390850  183708  5068   197917  0        4157    15493.56        32768.00       280.20         
+10.6.12.27  AnalyticsDR  389084  159928  1426   225339  0        2391    21285.34        32768.00       442.51         
+10.6.12.28  AnalyticsDR  389084  159928  1426   225339  0        2391    19792.52        32768.00       531.31         
+10.6.12.29  AnalyticsDR  389083  159927  1426   225339  0        2391    26542.52        32768.00       504.79         
+10.6.12.36  AnalyticsDR  389124  158951  2147   225595  0        2431    11517.13        32768.00       530.14         
+10.6.12.37  AnalyticsDR  389123  158938  2160   225594  0        2431    21061.21        32768.00       457.19         
+10.6.12.38  AnalyticsDR  389123  158938  2160   225594  0        2431    23515.10        32768.00       349.22         
+10.6.12.22  AnalyticsDR  389173  158892  1983   225818  0        2480    18156.32        32768.00       568.40         
+10.6.12.23  AnalyticsDR  389172  158859  2015   225818  0        2480    20526.77        32768.00       581.54         
+10.6.12.21  AnalyticsDR  389172  158843  2031   225818  0        2480    10928.93        32768.00       699.00         
+10.6.12.31  AnalyticsDR  381035  158466  1485   218677  0        2407    12844.29        32768.00       686.20         
+10.6.12.30  AnalyticsDR  381035  158465  1486   218677  0        2407    20474.04        32768.00       807.68         
+10.6.12.32  AnalyticsDR  381035  158464  1488   218676  0        2407    7163.82         32768.00       553.00         
+10.6.12.12  AnalyticsDR  389341  158020  1715   226958  0        2648    15183.08        32768.00       634.72         
+10.6.12.14  AnalyticsDR  389340  158019  1716   226957  0        2648    20285.61        32768.00       553.03         
+10.6.12.19  AnalyticsDR  389092  157923  1798   226971  0        2400    14423.57        32768.00       363.32         
+10.6.12.18  AnalyticsDR  389093  157905  1818   226970  0        2400    21403.54        32768.00       884.79         
+10.6.12.20  AnalyticsDR  389093  157905  1820   226968  0        2400    13296.04        32768.00       751.99         
+10.6.12.39  AnalyticsDR  389043  156902  7282   222508  0        2351    14764.73        32768.00       702.83         
+10.6.12.41  AnalyticsDR  389043  156902  7282   222508  0        2351    19204.82        32768.00       839.20         
+10.6.12.40  AnalyticsDR  389043  156901  7283   222508  0        2351    20234.98        32768.00       650.31         
+10.6.12.15  AnalyticsDR  389116  155979  3584   227129  0        2424    22710.05        32768.00       614.43         
+10.6.12.17  AnalyticsDR  389116  155979  3584   227129  0        2424    18470.13        32768.00       530.17         
+10.6.12.16  AnalyticsDR  389117  155978  3586   227129  0        2424    25859.94        32768.00       704.20         
+
+2018-02-14 11:35:32,295 INFO c.d.s.U.ComponentTitledPane [JavaFX Application Thread] Node Resource Usage Info Textarea actual height is: 4458.43125  Pref height is: 403.2000000000001
+2018-02-14 11:35:32,321 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/cluster_info.out
+2018-02-14 11:35:32,323 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/nodetool_info.out
+2018-02-14 11:35:32,324 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/node_status_info.out
+2018-02-14 11:35:32,325 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/table_stats_info.out
+2018-02-14 11:35:32,327 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/node_conf_file_info.out
+2018-02-14 11:35:32,330 INFO c.d.s.U.Inspector [JavaFX Application Thread] save status file report to: /Users/tongjixianing/IdeaProjects/Nibbler/out/artifacts/Nibbler_jar/node_resource_usage_info.out
