@@ -257,7 +257,7 @@ public class TpstatsAnalyzer extends Analyzer {
         if (!droppedArray.isEmpty()) {
             droppedArray = sortJSONArray(droppedArray, ValFactory.MUTATION, true, "Long");
         }
-        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", "No Dropped Messages Detected", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
+        printArrayContent("Dropped Messages (Ordered by Dropped \"MUTATION\")", "No Dropped Messages Detected in the Cluster", droppedArray, ValFactory.TPSTATS_DROP_TABLE, dropTablePadding);
 
         logger.debug("\n" + output);
 
