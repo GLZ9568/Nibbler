@@ -243,8 +243,13 @@ public class TpstatsAnalyzer extends Analyzer {
 
                 boolean foundDroppedValue = false;
                 for(int i=1; i<ValFactory.TPSTATS_DROP_TABLE.size(); i++) {
-                    if (!droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)).equals("0")) {
-                        foundDroppedValue = true;
+                    logger.debug("Node: " + ValFactory.TPSTATS_DROP_TABLE.get(0) + " - Value: " + droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(0)));
+                    logger.debug("Key: " + ValFactory.TPSTATS_DROP_TABLE.get(i) + " - Value: " + droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)));
+
+                    if (droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)) != null) {
+                        if (!droppedValues.get(ValFactory.TPSTATS_DROP_TABLE.get(i)).equals("0")) {
+                            foundDroppedValue = true;
+                        }
                     }
                 }
                 if (foundDroppedValue) {
