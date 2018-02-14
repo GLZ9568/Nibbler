@@ -329,6 +329,7 @@ public class DiagParserGUI extends Application {
         alert.setHeaderText("");
         alert.getDialogPane().setContent(gridPane);
         alert.showAndWait();
+
     }
 
     private AnchorPane addAnchorPane() {
