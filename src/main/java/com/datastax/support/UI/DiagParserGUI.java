@@ -59,10 +59,12 @@ public class DiagParserGUI extends Application {
     private ConfInfoPane cfip;
     private NodeStatusTitledPane nsp;
     private CfstatsTitledPane cfsp;
+    private TpstatsTitledPane tptp;
     private SystemResourceTitledPane srtp;
     private TitledPane confInfoPane = new TitledPane();
     private TitledPane cfStatsPane = new TitledPane();
     private TitledPane nodeResourceTitledPane = new TitledPane();
+    private TitledPane tpstatsTitledPane = new TitledPane();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -121,6 +123,7 @@ public class DiagParserGUI extends Application {
                     confInfoPane.setExpanded(false);
                     cfStatsPane.setExpanded(false);
                     nodeResourceTitledPane.setExpanded(false);
+                    tpstatsTitledPane.setExpanded(false);
                     border.getChildren().remove(anchorpane);
 
                     //border.getChildren().remove(scrollpane);
@@ -194,6 +197,8 @@ public class DiagParserGUI extends Application {
             cfStatsPane = cfsp.getCfstatsTitledPane();
             srtp = new SystemResourceTitledPane(ff);
             nodeResourceTitledPane = srtp.getSystemResourceTitledPane();
+            tptp = new TpstatsTitledPane(ff);
+            tpstatsTitledPane = tptp.getTpstatsTitledPane();
 
         } else {
 
@@ -210,7 +215,10 @@ public class DiagParserGUI extends Application {
     private void displayAnalysisResult() {
 
         border.setCenter(addScrollPane());
-        grid.getChildren().removeAll(clusterinfopane, nodeStatusTitledPane, infopane, confInfoPane, cfStatsPane,nodeResourceTitledPane);
+        grid.getChildren().removeAll(clusterinfopane,
+                nodeStatusTitledPane, infopane,
+                confInfoPane, cfStatsPane,
+                nodeResourceTitledPane,tpstatsTitledPane);
 
 
         grid.add(clusterinfopane, 0, 0);
@@ -218,7 +226,9 @@ public class DiagParserGUI extends Application {
         grid.add(infopane, 0, 2);
         grid.add(nodeResourceTitledPane,0,3);
         grid.add(cfStatsPane, 0, 4);
-        grid.add(confInfoPane, 0, 5);
+        grid.add(tpstatsTitledPane, 0, 5);
+        grid.add(confInfoPane, 0, 6);
+
         anchorpane.getChildren().add(grid);
         scrollpane.widthProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
@@ -231,7 +241,7 @@ public class DiagParserGUI extends Application {
                 confInfoPane.setPrefWidth(arg2.doubleValue() - 15);
                 cfStatsPane.setPrefWidth(arg2.doubleValue() - 15);
                 nodeResourceTitledPane.setPrefWidth(arg2.doubleValue() - 15);
-
+                tpstatsTitledPane.setPrefWidth(arg2.doubleValue() - 15);
 
             }
         });
@@ -242,7 +252,9 @@ public class DiagParserGUI extends Application {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         String report_status_success_str = "";
         String report_status_fail_str = "";
+
         String cluster_info_report_path = cip.save_cluster_info_report();
+
         if (cluster_info_report_path.equals("")
                 || cluster_info_report_path.equals("error")) {
             report_status_fail_str += "Error saving report file: cluster_info.out !!\n";
@@ -290,9 +302,18 @@ public class DiagParserGUI extends Application {
 
         if (node_resource_usage_info_report_path.equals("")
                 || node_resource_usage_info_report_path.equals("error")) {
-            report_status_fail_str += "Error saving report file: node_conf_file_info.out !!\n";
+            report_status_fail_str += "Error saving report file: node_resource_usage_info.out !!\n";
         } else {
             report_status_success_str += node_resource_usage_info_report_path + "\n";
+        }
+
+        String thread_pool_stats_report_path = tptp.save_thread_pool_stats_report();
+
+        if (thread_pool_stats_report_path.equals("")
+                || thread_pool_stats_report_path.equals("error")) {
+            report_status_fail_str += "Error saving report file: thread_pool_stats.out !!\n";
+        } else {
+            report_status_success_str += thread_pool_stats_report_path + "\n";
         }
 
         TextArea textArea = new TextArea("Analysis Report Files saved to: \n" +
