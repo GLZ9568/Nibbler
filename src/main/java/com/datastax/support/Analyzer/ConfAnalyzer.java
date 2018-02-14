@@ -539,7 +539,7 @@ public class ConfAnalyzer extends Analyzer {
 
         }
 
-        if(cassandraYamlPropertiesList.size()==0||dseYamlPropertiesList.size()==0)
+        if(cassandraYamlPropertiesList.size()==0)
         {
             confinfotext +="Not found cassandra.yaml files!!";
             return confinfotext;
