@@ -32,6 +32,7 @@ public class NodeResourceAnalyzer extends Analyzer {
     private ArrayList<Properties> nodetoolInfoPropertiesList;
     HashMap<String, Integer> cpuPadding;
     HashMap<String, Integer> memoryPadding;
+    private String tmpOut;
 
     private String output = "";
 
