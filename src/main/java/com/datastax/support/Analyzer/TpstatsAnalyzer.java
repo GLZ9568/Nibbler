@@ -88,6 +88,7 @@ public class TpstatsAnalyzer extends Analyzer {
             analyze();
         } catch (Exception e) {
             logUncheckedException(logger, e);
+            output = "Unchecked Exception happened!!";
         }
     }
 

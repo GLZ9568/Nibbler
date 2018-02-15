@@ -72,7 +72,7 @@ public class DiagParserGUI extends Application {
         HBox hbox = addHBox(primaryStage);
         border.setTop(hbox);
         border.setCenter(addScrollPane());
-        primaryStage.setTitle("Nibbler - DS Diag Analyzer");
+        primaryStage.setTitle("Nibbler v1.0.0 - DS Diag Analyzer");
 
         Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double screen_height = visualBounds.getHeight();
@@ -102,7 +102,7 @@ public class DiagParserGUI extends Application {
         final Button buttonAnalyzed = new Button("Start Analyzing");
         buttonAnalyzed.setPrefSize(200, 20);
         labelSelectedDirectory.setPrefSize(700, 20);
-        labelSelectedDirectory.setStyle("-fx-background-color: #336699; -fx-text-inner-color: red;");
+        labelSelectedDirectory.setStyle("-fx-background-color: #336699; -fx-text-inner-color: white;");
         btnOpenDirectoryChooser.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 openDiagDirectory(primaryStage);
@@ -329,6 +329,7 @@ public class DiagParserGUI extends Application {
         alert.setHeaderText("");
         alert.getDialogPane().setContent(gridPane);
         alert.showAndWait();
+
     }
 
     private AnchorPane addAnchorPane() {
