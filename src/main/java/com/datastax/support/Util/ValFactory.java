@@ -28,7 +28,7 @@ public class ValFactory {
     // common
     public static final String NONE_EXIST = "none_exist";
     public static final String NODE = "node";
-    public static final String NODEC = "Node";
+    public static final String NODEC = "Address";
     public static final String NODES = "nodes";
     public static final String FILE_ID = "file_id";
     public static final String FILE_NAME = "file_name";
