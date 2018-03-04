@@ -83,6 +83,7 @@ public class TpstatsAnalyzer extends Analyzer {
 
     public TpstatsAnalyzer (FileFactory fileFactory) {
         super(fileFactory);
+        int a;
         try {
             tpstatsJSONList = fileFactory.getTpstatsJSONList();
             analyze();
